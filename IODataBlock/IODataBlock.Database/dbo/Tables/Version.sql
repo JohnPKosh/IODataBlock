@@ -1,6 +1,9 @@
-﻿CREATE TABLE [dbo].[Version]
+﻿CREATE TABLE [dbo].[version]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
-	[VersionCode] NVARCHAR(50) NULL, 
-	[LastUpdated] DATETIME NULL
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[majorVersion] INT NULL, 
+	[minorVersion] INT NULL,
+	[buildNumber] INT NULL,
+	[revision] INT NULL,
+	[lastUpdated] DATETIME NULL DEFAULT GETDATE()
 )
