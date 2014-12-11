@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMaperTests.cs" />
     <Compile Include="ClassExtensionBaseTests.cs" />
+    <Compile Include="ResponseMessageTests.cs" />
     <Compile Include="Utility\FakePerson.cs" />
     <Compile Include="Utility\FakePet.cs" />
   </ItemGroup>
