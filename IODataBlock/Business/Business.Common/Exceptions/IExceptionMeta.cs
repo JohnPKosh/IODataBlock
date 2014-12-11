@@ -11,6 +11,8 @@ namespace Business.Common.Exceptions
         DateTime DateCreatedUtc { get; set; }
         String HostAssemblyName { get; set; }
         String HostComputerName { get; set; }
+        String HostUserName { get; set; }
+        String HostUserDomain { get; set; }
         String MemberName { get; set; }
         String MessageDetail { get; set; }
         String ParentName { get; set; }
