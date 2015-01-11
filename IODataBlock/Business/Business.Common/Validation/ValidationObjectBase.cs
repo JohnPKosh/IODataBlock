@@ -6,7 +6,6 @@ namespace Business.Common.Validation
 {
     public abstract class ValidationObjectBase
     {
-
         /* http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.validator(v=vs.110).aspx */
 
         /*
@@ -43,6 +42,5 @@ namespace Business.Common.Validation
             }
             return rv;
         }
-
     }
 }

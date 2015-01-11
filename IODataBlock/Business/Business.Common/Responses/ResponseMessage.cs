@@ -1,7 +1,7 @@
-﻿using Business.Common.Exceptions;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Business.Exceptions.Base;
+using Newtonsoft.Json;
 
 namespace Business.Common.Responses
 {
@@ -30,10 +30,10 @@ namespace Business.Common.Responses
 
         public int ExceptionCount
         {
-            get { return ExceptionList == null ? 0: ExceptionList.Exceptions.Count; }
+            get { return ExceptionList == null ? 0 : ExceptionList.Exceptions.Count; }
         }
 
-        public ExceptionListBase ExceptionList { get; set; }
+        public ExceptionObjectListBase ExceptionList { get; set; }
 
         #endregion Fields and Properties
 
@@ -47,7 +47,7 @@ namespace Business.Common.Responses
             }
             if (ExceptionList == null)
             {
-                ExceptionList = new ExceptionListBase();
+                ExceptionList = new ExceptionObjectListBase();
             }
             //add error
             ExceptionList.Add(exception);
@@ -61,7 +61,7 @@ namespace Business.Common.Responses
             }
             if (ExceptionList == null)
             {
-                ExceptionList = new ExceptionListBase();
+                ExceptionList = new ExceptionObjectListBase();
             }
             //add error
             ExceptionList.AddRange(exceptions);

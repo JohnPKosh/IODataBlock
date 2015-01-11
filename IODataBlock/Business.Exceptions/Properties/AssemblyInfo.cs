@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IODataBlock.Model")]
+[assembly: AssemblyTitle("Business.Exceptions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Windows User")]
-[assembly: AssemblyProduct("IODataBlock.Model")]
-[assembly: AssemblyCopyright("Copyright © Windows User 2014")]
+[assembly: AssemblyCompany("Cypress")]
+[assembly: AssemblyProduct("Business.Exceptions")]
+[assembly: AssemblyCopyright("Copyright © Cypress 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("89da3ae5-8d0a-467b-8260-6bfa6dd491b3")]
+[assembly: Guid("802f580f-1290-4cdd-8564-919f316d72b9")]
 
 // Version information for an assembly consists of the following four values:
 //
