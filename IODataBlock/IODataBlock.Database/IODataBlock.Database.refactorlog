@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="5c0686ea-c780-4690-94b6-5455ff9410ab" ChangeDateTime="01/31/2015 14:27:34">
+    <Property Name="ElementName" Value="[dbo].[DataBlocks].[KeyName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataBlocks]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Key" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d9bfcf16-e7e5-40f0-ab96-db67b17d0d46" ChangeDateTime="01/31/2015 14:27:48">
+    <Property Name="ElementName" Value="[dbo].[DataBlocks].[KeyValue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataBlocks]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Value" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="94de9afe-9d42-4af2-9078-d3e1e48994f7" ChangeDateTime="01/31/2015 15:12:54">
+    <Property Name="ElementName" Value="[dbo].[DataBlocks].[BlockName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataBlocks]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BlockKey" />
+  </Operation>
+</Operations>

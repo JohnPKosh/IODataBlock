@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[DataBlocks]
+(
+	[Id] BIGINT IDENTITY(1,1) NOT NULL,
+	[BlockKey] NVARCHAR(36) NOT NULL, 
+    [Key] NVARCHAR(36) NOT NULL, 
+    [Value] NVARCHAR(36) NOT NULL, 
+    [BlockData] VARBINARY(MAX) NULL,		
+    CONSTRAINT [PK_DataBlocks_Id] PRIMARY KEY NONCLUSTERED 
+	(
+		[Id] ASC
+	)
+)

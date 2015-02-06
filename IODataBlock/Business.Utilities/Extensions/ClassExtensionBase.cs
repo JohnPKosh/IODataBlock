@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Permissions;
 using Fasterflect;
 
 namespace Business.Utilities.Extensions
@@ -656,96 +657,5 @@ namespace Business.Utilities.Extensions
         }
 
         #endregion Dynamic Extension Methods
-
-        public static IEnumerable<dynamic> Filter(this IEnumerable<dynamic> values, string member,
-            FilterOption filterOption, params object[] paramList)
-        {
-            if (filterOption == FilterOption.None) return values;
-            var rv = new List<dynamic>();
-            foreach (var value in values)
-            {
-                var m = value as IDictionary<String, Object>;
-                if (m == null || !m.ContainsKey(member)) continue;
-                switch (filterOption)
-                {
-                    case FilterOption.Equals:
-                        break;
-
-                    case FilterOption.StartsWith:
-                        break;
-
-                    case FilterOption.Contains:
-                        break;
-
-                    case FilterOption.EndsWith:
-                        break;
-
-                    case FilterOption.NotEquals:
-                        break;
-
-                    case FilterOption.GreaterThan:
-                        if (_isGreaterThan(m[member], paramList[0])) rv.Add(value);
-                        break;
-
-                    case FilterOption.LessThan:
-                        break;
-
-                    case FilterOption.GreaterThanOrEqualTo:
-                        break;
-
-                    case FilterOption.LessThanOrEqualTo:
-                        break;
-
-                    case FilterOption.Between:
-                        if (_isBetween(m[member], paramList[0], paramList[1])) rv.Add(value);
-                        break;
-
-                    case FilterOption.Null:
-                        break;
-
-                    case FilterOption.NotNull:
-                        break;
-
-                    case FilterOption.NullOrWhiteSpace:
-                        break;
-
-                    case FilterOption.NotNullOrWhiteSpace:
-                        break;
-
-                    case FilterOption.None:
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException("searchOption");
-                }
-            }
-            return rv;
-        }
-
-        private static bool _isGreaterThan(dynamic value, dynamic compareTo)
-        {
-            return value > compareTo;
-        }
-
-        public static bool IsGreaterThan<T>(this T value, dynamic compareTo)
-        {
-            return _isGreaterThan(value, To<T>(compareTo));
-        }
-
-        private static bool _isBetween(dynamic value, dynamic lower, dynamic upper)
-        {
-            return value >= lower && value <= upper;
-        }
-
-        public static bool IsBetween<T>(this T value, T lower, T upper)
-        {
-            return _isBetween(value, lower, upper);
-        }
-
-        public static bool IsStringGtString(this String value, string compareTo)
-        {
-            if (System.String.Compare(value, compareTo, System.StringComparison.Ordinal) > 0) return true;
-            else return false;
-        }
     }
 }

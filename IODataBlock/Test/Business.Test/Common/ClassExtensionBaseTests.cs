@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using Business.Test.TestUtility;
 using Business.Utilities.Extensions;
@@ -22,6 +23,29 @@ namespace Business.Test.Common
 
             Assert.IsNotNull(newd);
             Assert.IsNotNull(dJsonString);
+        }
+
+        [TestMethod]
+        public void WriteAndReadBsonDynamic()
+        {
+            var kirk = FakePerson.CreateKirk();
+            var ms = new MemoryStream(kirk.ToBsonByteArray());
+            var obj = ms.ConvertBson();
+            dynamic expando = obj.ToExpando();
+            var name = expando.FirstName;
+            Assert.IsNotNull(obj);
+        }
+
+        [TestMethod]
+        public void WriteAndReadBson()
+        {
+            var kirk = FakePerson.CreateKirk();
+            var ms = new MemoryStream(kirk.ToBsonByteArray());
+            var obj = ms.ConvertBson();
+            var person = obj.ToObject<FakePerson>();
+            var name = person.FirstName;
+            Assert.IsNotNull(person.Pets);
+            Assert.IsNotNull(obj);
         }
 
         [TestMethod]
@@ -107,7 +131,7 @@ namespace Business.Test.Common
                 valueList.Add(d);
             }
             //var results = valueList.Search("count", DynamicSearchOption.Between, Convert.ToDecimal(2), Convert.ToDecimal(8));
-            var results = valueList.Filter("count", FilterOption.GreaterThan, Convert.ToDecimal(2));
+            var results = valueList.Filter("count", StringFilterOption.GreaterThan, Convert.ToDecimal(2));
 
             Console.WriteLine(results.Count());
 
@@ -181,6 +205,21 @@ namespace Business.Test.Common
         public void StringGreaterThanShorterString()
         {
             var yn = "hello".IsStringGtString("hell");
+            Assert.IsTrue(yn);
+        }
+
+        [TestMethod]
+        public void IsStringFilterMatchGreaterThan()
+        {
+            var yn = "hel".IsStringFilterMatch(StringFilterOption.GreaterThan, new[] { "Hell" });
+            Assert.IsTrue(yn);
+        }
+
+
+        [TestMethod]
+        public void IsStringFilterMatchLessThan()
+        {
+            var yn = "Hell".IsStringFilterMatch(StringFilterOption.LessThan, new[] { "hel" });
             Assert.IsTrue(yn);
         }
 

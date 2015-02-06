@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
@@ -459,5 +460,35 @@ namespace Business.Utilities.Extensions
         }
 
         #endregion Json.net Utilities
+
+
+        #region BSON Serialization
+
+        public static Byte[] ToBsonByteArray(this object value)
+        {
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
+            {
+                var serializer = new JsonSerializer();
+                serializer.Serialize(writer,value);
+                return ms.ToArray();
+            }
+        }
+
+        #endregion
+
+        #region BSON Deserialization
+
+        public static JObject ConvertBson(this Stream value)
+        {
+            using (var reader = new BsonReader(value))
+            {
+                var serializer = new JsonSerializer();
+                return serializer.Deserialize<JObject>(reader);
+            }
+            //return JsonConvert.DeserializeObject(value, null, (JsonSerializerSettings)null) as JObject;
+        }
+
+        #endregion
     }
 }
