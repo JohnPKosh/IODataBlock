@@ -69,22 +69,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationManagerWrapper.cs" />
-    <Compile Include="ConnectionConfiguration.cs" />
-    <Compile Include="ConnectionEventArgs.cs" />
+    <Compile Include="Configuration\ConfigurationManagerWrapper.cs" />
+    <Compile Include="Configuration\ConnectionConfiguration.cs" />
+    <Compile Include="Configuration\ConnectionEventArgs.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Database.Events.cs" />
     <Compile Include="DatabaseUtilityMethods.cs" />
-    <Compile Include="DbProviderFactoryWrapper.cs" />
+    <Compile Include="Configuration\DbProviderFactoryWrapper.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />
     <Compile Include="Interfaces\IDbFileHandler.cs" />
     <Compile Include="Interfaces\IDbProviderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlCeDbFileHandler.cs" />
-    <Compile Include="SqlServerDbFileHandler.cs" />
+    <Compile Include="Configuration\SqlCeDbFileHandler.cs" />
+    <Compile Include="Configuration\SqlServerDbFileHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="Database.Constants.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -53,6 +53,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +67,7 @@
     <Compile Include="Extensions\ClassExtensionBase.cs" />
     <Compile Include="Extensions\ClassExtensions.cs" />
     <Compile Include="Extensions\FilterOption.cs" />
+    <Compile Include="Extensions\IEnumerableExtensionBase.cs" />
     <Compile Include="Extensions\IObjectBaseExtensions.cs" />
     <Compile Include="Extensions\StringFilterExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

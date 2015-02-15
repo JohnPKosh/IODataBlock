@@ -1,6 +1,4 @@
-using ExBaseData;
-
-namespace Data.DbClient
+namespace Data.DbClient.Configuration
 {
     internal class ConnectionConfiguration : IConnectionConfiguration
     {

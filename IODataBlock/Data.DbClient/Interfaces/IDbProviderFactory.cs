@@ -1,7 +1,7 @@
 using System.Data.Common;
 
 // ReSharper disable once CheckNamespace
-namespace ExBaseData
+namespace Data.DbClient
 {
     internal interface IDbProviderFactory
     {

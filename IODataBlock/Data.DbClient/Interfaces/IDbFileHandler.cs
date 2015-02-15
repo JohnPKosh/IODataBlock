@@ -1,5 +1,5 @@
 // ReSharper disable once CheckNamespace
-namespace ExBaseData
+namespace Data.DbClient
 {
     internal interface IDbFileHandler
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Data.Common;
 
-namespace Data.DbClient
+namespace Data.DbClient.Configuration
 {
     public class ConnectionEventArgs : EventArgs
     {

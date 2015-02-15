@@ -7,12 +7,39 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using ExBaseData;
+using Data.DbClient.Configuration;
 
 namespace Data.DbClient
 {
-    public partial class Database:IDisposable
+    public partial class Database : IDisposable
     {
+        #region Class Initialization
+
+        static Database()
+        {
+            var data = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+            var currentDirectory = data;
+            if (data == null)
+            {
+                currentDirectory = Directory.GetCurrentDirectory();
+            }
+
+            DataDirectory = currentDirectory;
+            var strs = new Dictionary<string, IDbFileHandler>(StringComparer.OrdinalIgnoreCase)
+            {
+                {".sdf", new SqlCeDbFileHandler()},
+                {".mdf", new SqlServerDbFileHandler()}
+            };
+            ConfigurationManager = new ConfigurationManagerWrapper(strs);
+        }
+
+        internal Database(Func<DbConnection> connectionFactory)
+        {
+            _connectionFactory = connectionFactory;
+        }
+
+        #endregion Class Initialization
+
         #region Fields and Props
 
         private readonly static IConfigurationManager ConfigurationManager;
@@ -46,43 +73,6 @@ namespace Data.DbClient
         }
 
         #endregion Fields and Props
-
-        #region Constants
-
-        //private const string DefaultDataProviderAppSetting = "systemData:defaultProvider";
-
-        //internal const string SqlCeProviderName = "System.Data.SqlServerCe.4.0";
-
-        //internal const string SqlServerProviderName = "System.Data.SqlClient";
-
-        internal const string ConnectionStringNotFound = @"Connection string ""{0}"" was not found.";
-
-        internal const string UnableToDetermineDatabase = @"Unable to determine the provider for the database file ""{0}"".";
-
-        #endregion Constants
-
-        static Database()
-        {
-            var data = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
-            var currentDirectory = data;
-            if (data == null)
-            {
-                currentDirectory = Directory.GetCurrentDirectory();
-            }
-
-            DataDirectory = currentDirectory;
-            var strs = new Dictionary<string, IDbFileHandler>(StringComparer.OrdinalIgnoreCase)
-            {
-                {".sdf", new SqlCeDbFileHandler()},
-                {".mdf", new SqlServerDbFileHandler()}
-            };
-            ConfigurationManager = new ConfigurationManagerWrapper(strs);
-        }
-
-        internal Database(Func<DbConnection> connectionFactory)
-        {
-            _connectionFactory = connectionFactory;
-        }
 
         #region Helper Methods
 
@@ -355,34 +345,6 @@ namespace Data.DbClient
         #endregion Private Query Methods
 
         #endregion Query Methods
-
-        #region Connection Opened Event Region
-
-        private void OnConnectionOpened()
-        {
-            if (ConnectionOpenedEvent != null)
-            {
-                ConnectionOpenedEvent(this, new ConnectionEventArgs(Connection));
-            }
-        }
-
-        private static event EventHandler<ConnectionEventArgs> ConnectionOpenedEvent;
-
-        public static event EventHandler<ConnectionEventArgs> ConnectionOpened
-        {
-            add
-            {
-                //Database.add__connectionOpened(value);
-                ConnectionOpenedEvent += value;
-            }
-            remove
-            {
-                //Database.remove__connectionOpened(value);
-                ConnectionOpenedEvent -= value;
-            }
-        }
-
-        #endregion Connection Opened Event Region
 
         #region IDisposable Region
 

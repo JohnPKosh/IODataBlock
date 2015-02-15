@@ -8,6 +8,7 @@ using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Converters;
 
+
 namespace Business.Test.Common
 {
     [TestClass]
@@ -224,5 +225,32 @@ namespace Business.Test.Common
         }
 
         #endregion Comparison Extension Tests
+
+        #region Dictionary Ideas
+
+        [TestMethod]
+        public void NestedDictionaryReadSample()
+        {
+            var dictionary = new Dictionary<string, Dictionary<Int32, string>>
+            {
+                {"A", new Dictionary<Int32, string>() {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
+                {"B", new Dictionary<Int32, string>() {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
+                {"C", new Dictionary<Int32, string>() {{1, "Value 3"}, {2, "Value 4"}, {3, "Value 5"}}}
+            };
+            var dictionaryToString = dictionary.SelectMany(n => n.Value.Select(o => n.Key + "." + o.Key + "," + o.Value)).ToList(); // transform here with LINQ
+            foreach (var d in dictionaryToString)
+            {
+                var str = d;
+                Assert.IsNotNull(str);
+            }
+        }
+
+
+
+
+
+
+
+        #endregion Dictionary Ideas
     }
 }

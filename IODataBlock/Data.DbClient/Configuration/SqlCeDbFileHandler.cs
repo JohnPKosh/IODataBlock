@@ -1,8 +1,7 @@
 using System.Globalization;
 using System.IO;
-using ExBaseData;
 
-namespace Data.DbClient
+namespace Data.DbClient.Configuration
 {
     internal class SqlCeDbFileHandler : IDbFileHandler
     {

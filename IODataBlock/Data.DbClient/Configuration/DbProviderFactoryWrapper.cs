@@ -1,8 +1,7 @@
 using System.Data.Common;
-using ExBaseData;
 using MySql.Data.MySqlClient;
 
-namespace Data.DbClient
+namespace Data.DbClient.Configuration
 {
     internal class DbProviderFactoryWrapper : IDbProviderFactory
     {
@@ -23,7 +22,7 @@ namespace Data.DbClient
             }
             if (_providerFactory == null)
             {
-                /* TODO add DbProviderFactories for Oracle and PostreSql */
+                /* TODO add DbProviderFactories for Oracle, SQLite and PostreSql */
                 // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (_providerName == "MySql.Data.MySqlClient")
                 {

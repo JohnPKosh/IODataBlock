@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
-namespace ExBaseData
+namespace Data.DbClient
 {
     internal interface IConfigurationManager
     {

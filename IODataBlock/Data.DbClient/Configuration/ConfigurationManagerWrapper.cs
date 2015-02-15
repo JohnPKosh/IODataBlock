@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using ExBaseData;
 
-namespace Data.DbClient
+namespace Data.DbClient.Configuration
 {
     internal class ConfigurationManagerWrapper : IConfigurationManager
     {
