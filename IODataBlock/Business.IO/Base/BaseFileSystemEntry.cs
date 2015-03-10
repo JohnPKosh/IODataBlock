@@ -349,9 +349,9 @@ namespace Business.IO.Base
 
         private void InitExceptionList()
         {
-            var meta = ExceptionMetaBase.CreateDefaultMeta();
+            var meta = ExceptionMetaBase.CreateExceptionMeta();
             meta.MemberName = "BaseFileSystemEntry";
-            meta.MessageDetail = "BaseFileSystemEntry error reading file system entry.";
+            meta.Description = "BaseFileSystemEntry error reading file system entry.";
             EntryReadErrors = new ExceptionObjectListBase(meta);
         }
 

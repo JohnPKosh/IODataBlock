@@ -475,6 +475,21 @@ namespace Business.Utilities.Extensions
             }
         }
 
+        public static Byte[] ToBsonByteArray(this object value, params JsonConverter[] converters)
+        {
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
+            {
+                var serializer = new JsonSerializer();
+                foreach (var c in converters)
+                {
+                    serializer.Converters.Add(c);
+                }
+                serializer.Serialize(writer, value);
+                return ms.ToArray();
+            }
+        }
+
         #endregion
 
         #region BSON Deserialization

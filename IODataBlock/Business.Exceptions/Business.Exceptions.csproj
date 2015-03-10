@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,24 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\ExceptionBase.cs" />
+    <Compile Include="ExceptionLogLevelType.cs" />
     <Compile Include="Base\ExceptionMetaBase.cs" />
     <Compile Include="Base\ExceptionObjectBase.cs" />
     <Compile Include="Base\ExceptionObjectListBase.cs" />
-    <Compile Include="Interfaces\IException.cs" />
     <Compile Include="Interfaces\IExceptionMeta.cs" />
     <Compile Include="Interfaces\IExceptionObject.cs" />
     <Compile Include="Interfaces\IExceptionObjectList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Business.Utilities\Business.Utilities.csproj">
       <Project>{0292c450-1f34-466e-b815-d0094fe738b3}</Project>
       <Name>Business.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExceptionsDiagram.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

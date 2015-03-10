@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Business.Exceptions.Base.ExceptionObjectListBase">
+    <Position X="0.5" Y="3.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAMAAIAAAAAAEAAQ=</HashCode>
+      <FileName>Base\ExceptionObjectListBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Business.Exceptions.Base.ExceptionObjectBase">
+    <Position X="3.25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAAFAAAAAAIEAAAAA=</HashCode>
+      <FileName>Base\ExceptionObjectBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Business.Exceptions.Base.ExceptionMetaBase">
+    <Position X="5.75" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIBFAJAAAABAAAAAABAgAAAA=</HashCode>
+      <FileName>Base\ExceptionMetaBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Business.Exceptions.Interfaces.IExceptionObject">
+    <Position X="3.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAABAAAAAAIEAAAAA=</HashCode>
+      <FileName>Interfaces\IExceptionObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Business.Exceptions.Interfaces.IExceptionObjectList">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAEAAA=</HashCode>
+      <FileName>Interfaces\IExceptionObjectList.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Business.Exceptions.Interfaces.IExceptionMeta">
+    <Position X="5.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABFAJAAAABAAAAAABAgAAAA=</HashCode>
+      <FileName>Interfaces\IExceptionMeta.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Business.Exceptions.Interfaces
 {
     public interface IExceptionObjectList
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         IExceptionMeta Meta { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         IList<IExceptionObject> Exceptions { get; set; }
 
         String ToJson(Boolean indented = false);

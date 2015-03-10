@@ -6,10 +6,11 @@ namespace Business.Exceptions.Base
 {
     public class ExceptionObjectBase : IExceptionObject
     {
-        public ExceptionObjectBase(Exception exception)
+        public ExceptionObjectBase(Exception exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
         {
             #region System.Exception properties
 
+            LogLevel = logLevel;
             Data = exception.Data as IDictionary<String, Object>;
             HelpLink = exception.HelpLink;
             HResult = exception.HResult;
@@ -21,16 +22,78 @@ namespace Business.Exceptions.Base
             #endregion System.Exception properties
         }
 
+        public ExceptionObjectBase(IExceptionObject exception)
+        {
+            #region System.Exception properties
+
+            LogLevel = exception.LogLevel;
+            Data = exception.Data;
+            HelpLink = exception.HelpLink;
+            HResult = exception.HResult;
+            InnerExceptionDetail = exception.InnerExceptionDetail;
+            Message = exception.Message;
+            Source = exception.Source;
+            StackTrace = exception.StackTrace;
+
+            #endregion System.Exception properties
+        }
+
+        public ExceptionObjectBase(
+            String message
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            , IDictionary<String, Object> data = null
+            , String helpLink = null
+            , int hResult = 0
+            , IExceptionObject innerExceptionDetail = null
+            , String source = null
+            , String stackTrace = null
+            )
+        {
+            #region System.Exception properties
+
+            LogLevel = logLevel;
+            Data = data;
+            HelpLink = helpLink;
+            HResult = hResult;
+            InnerExceptionDetail = innerExceptionDetail;
+            Message = message;
+            Source = source;
+            StackTrace = stackTrace;
+
+            #endregion System.Exception properties
+        }
+
         #region Factory Method
 
-        public static ExceptionObjectBase Create(Exception exception)
+        public static ExceptionObjectBase Create(Exception exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
         {
             return new ExceptionObjectBase(exception);
+        }
+
+        public static ExceptionObjectBase Create(IExceptionObject exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
+        {
+            return new ExceptionObjectBase(exception);
+        }
+
+        public static ExceptionObjectBase Create(
+            String message
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            , IDictionary<String, Object> data = null
+            , String helpLink = null
+            , int hResult = 0
+            , IExceptionObject innerExceptionDetail = null
+            , String source = null
+            , String stackTrace = null
+            )
+        {
+            return new ExceptionObjectBase(message, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace);
         }
 
         #endregion Factory Method
 
         #region System.Exception properties
+
+        public ExceptionLogLevelType LogLevel { get; set; }
 
         public IDictionary<String, Object> Data { get; set; }
 
