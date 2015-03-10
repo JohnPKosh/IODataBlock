@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Business.Exceptions.Base;
+using Business.Exceptions.Interfaces;
 using Newtonsoft.Json;
 
 namespace Business.Common.Responses
@@ -40,7 +41,7 @@ namespace Business.Common.Responses
         }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public ExceptionObjectListBase ExceptionList { get; set; }
+        public IExceptionObjectList ExceptionList { get; set; }
 
         #endregion Fields and Properties
 
