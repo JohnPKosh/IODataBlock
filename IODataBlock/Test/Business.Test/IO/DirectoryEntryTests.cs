@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Business.IO;
+using Business.Common.IO;
 using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

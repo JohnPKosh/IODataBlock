@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Business.Exceptions.Interfaces
+namespace Business.Common.Exceptions
 {
     public interface IExceptionMeta
     {

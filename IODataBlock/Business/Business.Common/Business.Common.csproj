@@ -68,6 +68,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ExceptionLogLevelType.cs" />
+    <Compile Include="Exceptions\ExceptionMetaBase.cs" />
+    <Compile Include="Exceptions\ExceptionObjectBase.cs" />
+    <Compile Include="Exceptions\ExceptionObjectListBase.cs" />
+    <Compile Include="Exceptions\IExceptionMeta.cs" />
+    <Compile Include="Exceptions\IExceptionObject.cs" />
+    <Compile Include="Exceptions\IExceptionObjectList.cs" />
+    <Compile Include="IO\BaseFileSystemEntry.cs" />
+    <Compile Include="IO\DirectoryEntry.cs" />
+    <Compile Include="IO\FileEntry.cs" />
+    <Compile Include="IO\IBaseFileSystemEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\ResponseObject.cs" />
     <Compile Include="System\IObjectBase.cs" />
@@ -79,14 +90,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Business.Exceptions\Business.Exceptions.csproj">
-      <Project>{b40f98b0-dca3-4c07-84d9-f4bffbacc0c7}</Project>
-      <Name>Business.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business.IO\Business.IO.csproj">
-      <Project>{cb7112d4-ec60-4eb3-8e55-9bfd909a5731}</Project>
-      <Name>Business.IO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business.Utilities\Business.Utilities.csproj">
       <Project>{0292c450-1f34-466e-b815-d0094fe738b3}</Project>
       <Name>Business.Utilities</Name>

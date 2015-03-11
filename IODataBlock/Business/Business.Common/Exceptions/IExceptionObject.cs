@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Business.Exceptions.Interfaces
+namespace Business.Common.Exceptions
 {
     public interface IExceptionObject
     {

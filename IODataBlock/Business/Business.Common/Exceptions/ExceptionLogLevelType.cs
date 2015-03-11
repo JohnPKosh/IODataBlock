@@ -1,4 +1,4 @@
-namespace Business.Exceptions
+namespace Business.Common.Exceptions
 {
     public enum ExceptionLogLevelType
     {

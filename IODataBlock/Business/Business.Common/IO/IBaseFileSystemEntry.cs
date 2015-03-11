@@ -1,7 +1,7 @@
 ﻿using System;
-using Business.Exceptions.Interfaces;
+using Business.Common.Exceptions;
 
-namespace Business.IO.Base
+namespace Business.Common.IO
 {
     public interface IBaseFileSystemEntry
     {

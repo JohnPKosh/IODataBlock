@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Business.Exceptions.Interfaces;
 using Newtonsoft.Json;
 
-namespace Business.Exceptions.Base
+namespace Business.Common.Exceptions
 {
     public class ExceptionObjectListBase : IExceptionObjectList
     {

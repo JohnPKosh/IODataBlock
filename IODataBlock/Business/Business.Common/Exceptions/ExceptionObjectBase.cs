@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Business.Exceptions.Interfaces;
 
-namespace Business.Exceptions.Base
+namespace Business.Common.Exceptions
 {
     public class ExceptionObjectBase : IExceptionObject
     {

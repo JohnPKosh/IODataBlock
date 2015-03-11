@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Business.Exceptions.Base;
-using Business.Exceptions.Interfaces;
+using Business.Common.Exceptions;
 
-namespace Business.IO.Base
+namespace Business.Common.IO
 {
     public class BaseFileSystemEntry : IBaseFileSystemEntry
     {

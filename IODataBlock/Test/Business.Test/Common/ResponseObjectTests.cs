@@ -1,6 +1,6 @@
 ﻿using System;
+using Business.Common.Exceptions;
 using Business.Common.Responses;
-using Business.Exceptions.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Common

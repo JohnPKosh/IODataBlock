@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using Business.IO.Base;
 
-namespace Business.IO
+namespace Business.Common.IO
 {
     public class FileEntry : BaseFileSystemEntry
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.HttpClient;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.HttpClient
 {

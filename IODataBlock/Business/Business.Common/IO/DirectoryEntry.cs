@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Business.IO.Base;
 
-namespace Business.IO
+namespace Business.Common.IO
 {
     public class DirectoryEntry : BaseFileSystemEntry
     {

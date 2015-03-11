@@ -96,17 +96,9 @@
     <Compile Include="Utilities\EnvironmentTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Business.Exceptions\Business.Exceptions.csproj">
-      <Project>{B40F98B0-DCA3-4C07-84D9-F4BFFBACC0C7}</Project>
-      <Name>Business.Exceptions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business.HttpClient\Business.HttpClient.csproj">
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business.IO\Business.IO.csproj">
-      <Project>{cb7112d4-ec60-4eb3-8e55-9bfd909a5731}</Project>
-      <Name>Business.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Business.Utilities\Business.Utilities.csproj">
       <Project>{0292c450-1f34-466e-b815-d0094fe738b3}</Project>

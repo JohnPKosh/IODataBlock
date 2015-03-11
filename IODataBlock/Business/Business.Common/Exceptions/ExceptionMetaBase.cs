@@ -1,8 +1,7 @@
 ﻿using System;
-using Business.Exceptions.Interfaces;
 using Business.Utilities;
 
-namespace Business.Exceptions.Base
+namespace Business.Common.Exceptions
 {
     public class ExceptionMetaBase : IExceptionMeta
     {

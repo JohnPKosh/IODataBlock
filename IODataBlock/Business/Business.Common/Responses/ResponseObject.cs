@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using Business.Exceptions.Base;
-using Business.Exceptions.Interfaces;
 using Newtonsoft.Json;
+using Business.Common.Exceptions;
+
 
 namespace Business.Common.Responses
 {
