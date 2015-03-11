@@ -84,6 +84,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\ObjectBaseTests.cs" />
+    <Compile Include="Common\RequestObjectTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

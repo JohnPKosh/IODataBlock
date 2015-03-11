@@ -1,11 +1,10 @@
 ﻿using System;
-using Newtonsoft.Json;
 using Business.Common.Exceptions;
-
+using Newtonsoft.Json;
 
 namespace Business.Common.Responses
 {
-    public class ResponseObject
+    public class ResponseObject : IResponseObject
     {
         #region Class Inititalization
 
@@ -19,27 +18,24 @@ namespace Business.Common.Responses
 
         #region Fields and Properties
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object RequestData { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string CorrelationId { get; set; }
+
         public object ResponseData { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object ResponseCode { get; set; }
 
-        public bool Success
+        public bool HasExceptions
         {
-            get { return ExceptionCount == 0; }
+            get { return ExceptionCount != 0; }
         }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int ExceptionCount
         {
             get { return ExceptionList == null ? 0 : ExceptionList.Exceptions.Count; }
         }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public IExceptionObjectList ExceptionList { get; set; }
 
         #endregion Fields and Properties
@@ -54,7 +50,7 @@ namespace Business.Common.Responses
             }
             if (ExceptionList == null)
             {
-                ExceptionList = new ExceptionObjectListBase(includeDefaultMetaData ? ExceptionMetaBase.CreateExceptionMeta():null);
+                ExceptionList = new ExceptionObjectListBase(includeDefaultMetaData ? ExceptionMetaBase.CreateExceptionMeta() : null);
             }
             //add error
             ExceptionList.Add(exception);
