@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responses\ResponseMessage.cs" />
+    <Compile Include="Responses\ResponseObject.cs" />
     <Compile Include="System\IObjectBase.cs" />
     <Compile Include="System\ObjectBase.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />

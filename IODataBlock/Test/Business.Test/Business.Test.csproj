@@ -89,7 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
     <Compile Include="Common\ClassExtensionBaseTests.cs" />
-    <Compile Include="Common\ResponseMessageTests.cs" />
+    <Compile Include="Common\ResponseObjectTests.cs" />
     <Compile Include="IO\DirectoryEntryTests.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
     <Compile Include="TestUtility\FakePet.cs" />

@@ -6,14 +6,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Business.Test.Common
 {
     [TestClass]
-    public class ResponseMessageTests
+    public class ResponseObjectTests
     {
         [TestMethod]
-        public void CanGetJsonStringFromResponseMessageTest()
+        public void CanGetJsonStringFromResponseTest()
         {
-            var messageResponse = new ResponseMessage { ResponseData = "okay!" };
+            var responseObject = new ResponseObject { ResponseData = "okay!" };
 
-            var responseString = messageResponse.ToJson(true);
+            var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
 
             /*
@@ -29,7 +29,7 @@ namespace Business.Test.Common
         [TestMethod]
         public void CanHaveSystemExceptionTest()
         {
-            var messageResponse = new ResponseMessage { ResponseData = "okay!" };
+            var responseObject = new ResponseObject { ResponseData = "okay!" };
             try
             {
                 // ReSharper disable once ConvertToConstant.Local
@@ -39,10 +39,10 @@ namespace Business.Test.Common
             }
             catch (Exception exception)
             {
-                messageResponse.AddException(exception);
+                responseObject.AddException(exception);
             }
 
-            var responseString = messageResponse.ToJson(true);
+            var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
 
             /*
@@ -68,7 +68,7 @@ namespace Business.Test.Common
         [TestMethod]
         public void CanHaveSystemExceptionWithExceptionMetaTest()
         {
-            var messageResponse = new ResponseMessage { ResponseData = "okay!" };
+            var responseObject = new ResponseObject { ResponseData = "okay!" };
             try
             {
                 // ReSharper disable once ConvertToConstant.Local
@@ -78,10 +78,10 @@ namespace Business.Test.Common
             }
             catch (Exception exception)
             {
-                messageResponse.AddException(exception, true);
+                responseObject.AddException(exception, true);
             }
 
-            var responseString = messageResponse.ToJson(true);
+            var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
 
             /*
@@ -110,12 +110,10 @@ namespace Business.Test.Common
             */
         }
 
-
-
         [TestMethod]
         public void CanHaveSystemExceptionWithExplicitTest()
         {
-            var messageResponse = new ResponseMessage { ResponseData = "okay!" };
+            var responseObject = new ResponseObject { ResponseData = "okay!" };
             try
             {
                 // ReSharper disable once ConvertToConstant.Local
@@ -125,8 +123,8 @@ namespace Business.Test.Common
             }
             catch (Exception exception)
             {
-                messageResponse.ResponseData = "Your Screwed! You tried to divide by 0?";
-                messageResponse.ExceptionList = ExceptionObjectListBase.Create(
+                responseObject.ResponseData = "Your Screwed! You tried to divide by 0?";
+                responseObject.ExceptionList = ExceptionObjectListBase.Create(
                     exception
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
@@ -136,9 +134,10 @@ namespace Business.Test.Common
                     , parentName: "Business.Test"
                     );
             }
-
-            var responseString = messageResponse.ToJson(true);
+            var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
+
+            #region Json result
 
             /*
                 {
@@ -170,7 +169,8 @@ namespace Business.Test.Common
                   }
                 }
             */
-        }
 
+            #endregion Json result
+        }
     }
 }

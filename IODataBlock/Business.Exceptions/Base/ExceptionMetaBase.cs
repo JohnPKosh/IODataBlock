@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Business.Exceptions.Interfaces;
 using Business.Utilities;
 
@@ -23,7 +22,7 @@ namespace Business.Exceptions.Base
 
         public string ExecutingAssemblyFullName { get; set; }
 
-        public string CallingAssemblyFullName{ get; set; }
+        public string CallingAssemblyFullName { get; set; }
 
         public string EntryAssemblyFullName { get; set; }
 
@@ -32,6 +31,14 @@ namespace Business.Exceptions.Base
         public string MemberName { get; set; }
 
         public string ParentName { get; set; }
+
+        public string AppId { get; set; }
+
+        public string ClientName { get; set; }
+
+        public string ClientIp { get; set; }
+
+        public string CorrelationId { get; set; }
 
         public static IExceptionMeta CreateExceptionMeta(
             string title = null
@@ -46,6 +53,10 @@ namespace Business.Exceptions.Base
             , string typeName = null
             , string memberName = null
             , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null
             )
         {
             var meta = new ExceptionMetaBase
@@ -62,10 +73,13 @@ namespace Business.Exceptions.Base
                 EntryAssemblyFullName = entryAssemblyFullName,
                 TypeName = typeName,
                 MemberName = memberName,
-                ParentName = parentName
+                ParentName = parentName,
+                AppId = appId,
+                ClientName = clientName,
+                ClientIp = clientIp,
+                CorrelationId = correlationId
             };
             return meta;
         }
-
     }
 }

@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace Business.Common.Responses
 {
-    public class ResponseMessage
+    public class ResponseObject
     {
         #region Class Inititalization
 
-        public ResponseMessage()
+        public ResponseObject()
         {
             //ExceptionList = new ExceptionListBase();
             //Success = false;

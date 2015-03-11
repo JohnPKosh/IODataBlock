@@ -6,7 +6,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAMAAIAAAAAAEAAQ=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAMAAIAAAAAAEAAA=</HashCode>
       <FileName>Base\ExceptionObjectListBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -14,15 +14,15 @@
   <Class Name="Business.Exceptions.Base.ExceptionObjectBase">
     <Position X="3.25" Y="3.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAAFAAAAAAIEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAAFIAAAAAIEAAAAA=</HashCode>
       <FileName>Base\ExceptionObjectBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Business.Exceptions.Base.ExceptionMetaBase">
-    <Position X="5.75" Y="3.5" Width="2.25" />
+    <Position X="5.75" Y="5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIBFAJAAAABAAAAAABAgAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACgAEAABBAAIBFAIAAAARAARAAAAAwAAAA=</HashCode>
       <FileName>Base\ExceptionMetaBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -30,7 +30,7 @@
   <Interface Name="Business.Exceptions.Interfaces.IExceptionObject">
     <Position X="3.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAABAAAAAAIEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAEgAAAAAAAAAAQAAAABIAAAAAIEAAAAA=</HashCode>
       <FileName>Interfaces\IExceptionObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -44,7 +44,7 @@
   <Interface Name="Business.Exceptions.Interfaces.IExceptionMeta">
     <Position X="5.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAABFAJAAAABAAAAAABAgAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACgAEAABBAAIBFAIAAAARAARAAAAAwAAAA=</HashCode>
       <FileName>Interfaces\IExceptionMeta.cs</FileName>
     </TypeIdentifier>
   </Interface>

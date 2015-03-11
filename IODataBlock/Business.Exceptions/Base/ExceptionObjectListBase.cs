@@ -118,22 +118,30 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace)
                 , ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
+                    title
+                    , description
+                    , exceptionGroup
+                    , hostComputerName
+                    , hostUserName
+                    , hostUserDomain
+                    , executingAssemblyFullName
+                    , callingAssemblyFullName
+                    , entryAssemblyFullName
+                    , typeName
+                    , memberName
+                    , parentName
+                    , appId
+                    , clientName
+                    , clientIp
+                    , correlationId
                 ));
         }
 
@@ -154,7 +162,11 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(ExceptionMetaBase.CreateExceptionMeta(
                 title
@@ -169,8 +181,11 @@ namespace Business.Exceptions.Base
                 , typeName
                 , memberName
                 , parentName
-                )
-                );
+                , appId
+                , clientName
+                , clientIp
+                , correlationId
+                ));
         }
 
         public static ExceptionObjectListBase Create(
@@ -186,7 +201,11 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(exception, ExceptionMetaBase.CreateExceptionMeta(
                 title
@@ -201,8 +220,11 @@ namespace Business.Exceptions.Base
                 , typeName
                 , memberName
                 , parentName
-                )
-                );
+                , appId
+                , clientName
+                , clientIp
+                , correlationId
+                ));
         }
 
         public static ExceptionObjectListBase Create(
@@ -218,7 +240,11 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(exception, ExceptionMetaBase.CreateExceptionMeta(
                 title
@@ -233,8 +259,11 @@ namespace Business.Exceptions.Base
                 , typeName
                 , memberName
                 , parentName
-                )
-                );
+                , appId
+                , clientName
+                , clientIp
+                , correlationId
+                ));
         }
 
         public static ExceptionObjectListBase Create(
@@ -250,7 +279,11 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(exceptions, ExceptionMetaBase.CreateExceptionMeta(
                 title
@@ -265,6 +298,10 @@ namespace Business.Exceptions.Base
                 , typeName
                 , memberName
                 , parentName
+                , appId
+                , clientName
+                , clientIp
+                , correlationId
                 )
                 );
         }
@@ -282,7 +319,11 @@ namespace Business.Exceptions.Base
             , string entryAssemblyFullName = null
             , string typeName = null
             , string memberName = null
-            , string parentName = null)
+            , string parentName = null
+            , string appId = null
+            , string clientName = null
+            , string clientIp = null
+            , string correlationId = null)
         {
             return new ExceptionObjectListBase(exceptions, ExceptionMetaBase.CreateExceptionMeta(
                 title
@@ -297,6 +338,10 @@ namespace Business.Exceptions.Base
                 , typeName
                 , memberName
                 , parentName
+                , appId
+                , clientName
+                , clientIp
+                , correlationId
                 )
                 );
         }

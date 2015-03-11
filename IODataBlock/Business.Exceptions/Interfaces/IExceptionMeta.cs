@@ -43,5 +43,17 @@ namespace Business.Exceptions.Interfaces
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         String ParentName { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String AppId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String ClientName { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String ClientIp { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String CorrelationId { get; set; }
+
     }
 }
