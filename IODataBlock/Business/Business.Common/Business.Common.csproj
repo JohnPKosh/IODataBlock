@@ -85,6 +85,9 @@
     <Compile Include="Responses\IResponseObject.cs" />
     <Compile Include="Responses\ResponseExtensions.cs" />
     <Compile Include="Responses\ResponseObject.cs" />
+    <Compile Include="System\CommandParser.cs" />
+    <Compile Include="System\ICommand.cs" />
+    <Compile Include="System\ICommandFactory.cs" />
     <Compile Include="System\IObjectBase.cs" />
     <Compile Include="System\ObjectBase.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />

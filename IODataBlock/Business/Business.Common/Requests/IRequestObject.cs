@@ -9,6 +9,8 @@ namespace Business.Common.Requests
 {
     public interface IRequestObject
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        string CommandName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         object RequestData { get; set; }

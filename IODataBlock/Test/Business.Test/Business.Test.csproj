@@ -83,6 +83,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\CommandTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
     <Compile Include="Common\RequestObjectTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="IO\DirectoryEntryTests.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
     <Compile Include="TestUtility\FakePet.cs" />
+    <Compile Include="TestUtility\WriteToFileCommand.cs" />
     <Compile Include="Utilities\EnvironmentTests.cs" />
   </ItemGroup>
   <ItemGroup>
