@@ -348,10 +348,7 @@ namespace Business.Common.IO
 
         private void InitExceptionList()
         {
-            var meta = ExceptionMetaBase.CreateExceptionMeta();
-            meta.MemberName = "BaseFileSystemEntry";
-            meta.Description = "BaseFileSystemEntry error reading file system entry.";
-            EntryReadErrors = new ExceptionObjectListBase(meta);
+            EntryReadErrors = new ExceptionObjectListBase();
         }
 
         #endregion Methods

@@ -9,41 +9,46 @@ namespace Business.Common.Exceptions
     {
         #region Class Inititalization
 
-        public ExceptionObjectListBase(IExceptionMeta meta = null)
+        public ExceptionObjectListBase()
         {
-            Meta = meta;
             Exceptions = new List<IExceptionObject>();
         }
 
-        public ExceptionObjectListBase(IExceptionObject exception, IExceptionMeta meta = null)
+        public ExceptionObjectListBase(IExceptionObject exception)
         {
-            Meta = meta;
             Exceptions = new List<IExceptionObject>(new[] { exception });
         }
 
-        public ExceptionObjectListBase(Exception exception, IExceptionMeta meta = null)
+        public ExceptionObjectListBase(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            Meta = meta;
-            Exceptions = new List<IExceptionObject>(new[] { new ExceptionObjectBase(exception) as IExceptionObject });
+            Exceptions = new List<IExceptionObject>(new[] { new ExceptionObjectBase(exception, title, description, exceptionGroup, logLevel) as IExceptionObject });
         }
 
-        public ExceptionObjectListBase(IEnumerable<IExceptionObject> exceptions, IExceptionMeta meta = null)
+        public ExceptionObjectListBase(IEnumerable<IExceptionObject> exceptions)
         {
-            Meta = meta;
             Exceptions = exceptions.ToList();
         }
 
-        public ExceptionObjectListBase(IEnumerable<Exception> exceptions, IExceptionMeta meta = null)
+        public ExceptionObjectListBase(
+            IEnumerable<Exception> exceptions
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            Meta = meta;
-            Exceptions = exceptions.Select(x => new ExceptionObjectBase(x) as IExceptionObject) as IList<IExceptionObject>;
+            Exceptions = exceptions.Select(x => new ExceptionObjectBase(x, title, description, exceptionGroup, logLevel) as IExceptionObject) as IList<IExceptionObject>;
         }
 
         #endregion Class Inititalization
 
         #region Fields and Properties
-
-        public IExceptionMeta Meta { get; set; }
 
         public IList<IExceptionObject> Exceptions { get; set; }
 
@@ -53,29 +58,41 @@ namespace Business.Common.Exceptions
 
         #region Standard Factory Methods
 
-        public static ExceptionObjectListBase Create(IExceptionMeta meta = null)
+        public static ExceptionObjectListBase Create()
         {
-            return new ExceptionObjectListBase(meta);
+            return new ExceptionObjectListBase();
         }
 
-        public static ExceptionObjectListBase Create(IExceptionObject exception, IExceptionMeta meta = null)
+        public static ExceptionObjectListBase Create(IExceptionObject exception)
         {
-            return new ExceptionObjectListBase(exception, meta);
+            return new ExceptionObjectListBase(exception);
         }
 
-        public static ExceptionObjectListBase Create(Exception exception, IExceptionMeta meta = null)
+        public static ExceptionObjectListBase Create(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            return new ExceptionObjectListBase(exception, meta);
+            return new ExceptionObjectListBase(exception, title, description, exceptionGroup, logLevel);
         }
 
-        public static ExceptionObjectListBase Create(IEnumerable<IExceptionObject> exceptions, IExceptionMeta meta = null)
+        public static ExceptionObjectListBase Create(IEnumerable<IExceptionObject> exceptions)
         {
-            return new ExceptionObjectListBase(exceptions, meta);
+            return new ExceptionObjectListBase(exceptions);
         }
 
-        public static ExceptionObjectListBase Create(IEnumerable<Exception> exceptions, IExceptionMeta meta = null)
+        public static ExceptionObjectListBase Create(
+            IEnumerable<Exception> exceptions
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            return new ExceptionObjectListBase(exceptions, meta);
+            return new ExceptionObjectListBase(exceptions, title, description, exceptionGroup, logLevel);
         }
 
         #endregion Standard Factory Methods
@@ -84,276 +101,36 @@ namespace Business.Common.Exceptions
 
         public static ExceptionObjectListBase Create(
             String message
-            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
-            , IDictionary<String, Object> data = null
-            , String helpLink = null
-            , int hResult = 0
-            , IExceptionObject innerExceptionDetail = null
-            , String source = null
-            , String stackTrace = null
-            , IExceptionMeta meta = null)
-        {
-            return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, logLevel,data,helpLink,hResult,innerExceptionDetail,source,stackTrace), meta);
-        }
-
-
-        public static ExceptionObjectListBase Create(
-            String message
-            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
-            , IDictionary<String, Object> data = null
-            , String helpLink = null
-            , int hResult = 0
-            , IExceptionObject innerExceptionDetail = null
-            , String source = null
-            , String stackTrace = null
             , string title = null
             , string description = null
             , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            , IDictionary<String, Object> data = null
+            , String helpLink = null
+            , int hResult = 0
+            , IExceptionObject innerExceptionDetail = null
+            , String source = null
+            , String stackTrace = null
+            )
         {
-            return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace)
-                , ExceptionMetaBase.CreateExceptionMeta(
-                    title
-                    , description
-                    , exceptionGroup
-                    , hostComputerName
-                    , hostUserName
-                    , hostUserDomain
-                    , executingAssemblyFullName
-                    , callingAssemblyFullName
-                    , entryAssemblyFullName
-                    , typeName
-                    , memberName
-                    , parentName
-                    , appId
-                    , clientName
-                    , clientIp
-                    , correlationId
-                ));
+            return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, title, description, exceptionGroup, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace));
         }
-
 
         #endregion
-
-        #region Explicit Meta Factory Methods
-
-        public static ExceptionObjectListBase Create(
-            string title = null
-            , string description = null
-            , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
-        {
-            return new ExceptionObjectListBase(ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
-                , appId
-                , clientName
-                , clientIp
-                , correlationId
-                ));
-        }
-
-        public static ExceptionObjectListBase Create(
-            IExceptionObject exception
-            , string title = null
-            , string description = null
-            , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
-        {
-            return new ExceptionObjectListBase(exception, ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
-                , appId
-                , clientName
-                , clientIp
-                , correlationId
-                ));
-        }
-
-        public static ExceptionObjectListBase Create(
-            Exception exception
-            , string title = null
-            , string description = null
-            , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
-        {
-            return new ExceptionObjectListBase(exception, ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
-                , appId
-                , clientName
-                , clientIp
-                , correlationId
-                ));
-        }
-
-        public static ExceptionObjectListBase Create(
-            IEnumerable<IExceptionObject> exceptions
-            , string title = null
-            , string description = null
-            , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
-        {
-            return new ExceptionObjectListBase(exceptions, ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
-                , appId
-                , clientName
-                , clientIp
-                , correlationId
-                )
-                );
-        }
-
-        public static ExceptionObjectListBase Create(
-            IEnumerable<Exception> exceptions
-            , string title = null
-            , string description = null
-            , string exceptionGroup = null
-            , string hostComputerName = null
-            , string hostUserName = null
-            , string hostUserDomain = null
-            , string executingAssemblyFullName = null
-            , string callingAssemblyFullName = null
-            , string entryAssemblyFullName = null
-            , string typeName = null
-            , string memberName = null
-            , string parentName = null
-            , string appId = null
-            , string clientName = null
-            , string clientIp = null
-            , string correlationId = null)
-        {
-            return new ExceptionObjectListBase(exceptions, ExceptionMetaBase.CreateExceptionMeta(
-                title
-                , description
-                , exceptionGroup
-                , hostComputerName
-                , hostUserName
-                , hostUserDomain
-                , executingAssemblyFullName
-                , callingAssemblyFullName
-                , entryAssemblyFullName
-                , typeName
-                , memberName
-                , parentName
-                , appId
-                , clientName
-                , clientIp
-                , correlationId
-                )
-                );
-        }
-
-        #endregion Explicit Meta Factory Methods
 
         #endregion Factory Method
 
         #region Add Exception Methods
 
-        public void Add(Exception exception)
+        public void Add(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            Add(new ExceptionObjectBase(exception));
+            Add(new ExceptionObjectBase(exception, title, description, exceptionGroup, logLevel));
         }
 
         public void Add(IExceptionObject exception)
@@ -361,11 +138,17 @@ namespace Business.Common.Exceptions
             Exceptions.Add(exception);
         }
 
-        public void AddRange(IEnumerable<Exception> exceptions)
+        public void AddRange(
+            IEnumerable<Exception> exceptions
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
             foreach (var exception in exceptions)
             {
-                Add(exception);
+                Add(exception, title, description, exceptionGroup, logLevel);
             }
         }
 

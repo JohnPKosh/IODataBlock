@@ -35,7 +35,7 @@ namespace Business.Common.System
 
         public abstract Func<IRequestObject, object> CommandFunction { get; set; } 
 
-        public IResponseObject Execute(IExceptionMeta exceptionMeta = null)
+        public IResponseObject Execute()
         {
             // if we needed to short circuit here because of some condition we could do it here!
             //var rv = RequestObject.ToUncompletedResponse(null, RequestObject.CorrelationId);
@@ -48,7 +48,7 @@ namespace Business.Common.System
             }
             catch (Exception ex)
             {
-                return RequestObject.ToFailedResponse(exceptionMeta != null ? ExceptionObjectListBase.Create(ex, exceptionMeta) : ExceptionObjectListBase.Create(ex, null), ErrorResponseCode, RequestObject.CorrelationId);
+                return RequestObject.ToFailedResponse(ExceptionObjectListBase.Create(ex), ErrorResponseCode, RequestObject.CorrelationId);
             }
         }
 

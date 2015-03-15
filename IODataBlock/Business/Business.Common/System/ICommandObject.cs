@@ -10,6 +10,6 @@ namespace Business.Common.System
 
         string Description { get; }
 
-        IResponseObject Execute(IExceptionMeta exceptionMeta = null);
+        IResponseObject Execute();
     }
 }

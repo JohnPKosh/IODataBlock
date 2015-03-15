@@ -1,0 +1,39 @@
+﻿{
+    "RequestData": {
+        "CommandName": "ReadFromFile",
+        "RequestData": "Monkey?",
+        "CorrelationId": "754d62f2-c7b7-4156-bd4f-86ba5c34ab2b"
+    },
+    "CorrelationId": "754d62f2-c7b7-4156-bd4f-86ba5c34ab2b",
+    "ResponseCode": "500",
+    "HasExceptions": true,
+    "ExceptionCount": 1,
+    "ExceptionList": {
+        "Meta": {
+            "DateCreatedUtc": "2015-03-15T00:53:34.2381052Z", /* move to Request */
+            "Title": "ReadFromFile Test", /* move to Request or REMOVE */
+            "Description": "Executing ReallyBasicSuccessfullReadFromFileTest2", /* move to Request or REMOVE */
+            "ExceptionGroup": "Business.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",  /* move to Request and RENAME to CommandSetName */
+            "HostComputerName": "JKOSHLT1", /* move to Request */
+            "HostUserName": "jkosh", /* move to Request */
+            "HostUserDomain": "BROADVOX", /* move to Request */
+            "ExecutingAssemblyFullName": "Business.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", /* move to Request */
+            "TypeName": "CommandTests", /* move to Request */
+            "MemberName": "ReallyBasicSuccessfullReadFromFileTest2", /* move to Request */
+            "AppId": "Some GUID goes here", /* move to Request */
+            "ClientName": "Me", /* move to Request */
+            "ClientIp": "client IP goes here" /* move to Request */
+        },
+        "Exceptions": [
+            {
+                "LogLevel": 3,
+                "HResult": -2147352558,
+                "Message": "Attempted to divide by zero.",
+                "Source": "Business.Test",
+                "StackTrace": "   at Business.Test.TestUtility.ReadFromFileCommand.<Create>b__1(IRequestObject o) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\TestUtility\\ReadFromFileCommand.cs:line 48\r\n   at Business.Common.System.CommandObjectBase.Execute(IExceptionMeta exceptionMeta) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Business\\Business.Common\\System\\CommandObjectBase.cs:line 46"
+            }
+        ]
+    }
+}
+
+/* Do we need a DateCreatedUtc for the response object????? */

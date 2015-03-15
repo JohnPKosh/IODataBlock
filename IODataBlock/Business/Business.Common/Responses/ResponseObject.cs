@@ -42,7 +42,13 @@ namespace Business.Common.Responses
 
         #region Add Exception Methods
 
-        public void AddException(Exception exception, bool includeDefaultMetaData = false)
+        public void AddException(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
             if (exception == null)
             {
@@ -50,25 +56,13 @@ namespace Business.Common.Responses
             }
             if (ExceptionList == null)
             {
-                ExceptionList = new ExceptionObjectListBase(includeDefaultMetaData ? ExceptionMetaBase.CreateExceptionMeta() : null);
+                ExceptionList = new ExceptionObjectListBase(exception, title, description, exceptionGroup, logLevel);
             }
-            //add error
-            ExceptionList.Add(exception);
+            else
+            {
+                ExceptionList.Add(exception, title, description, exceptionGroup, logLevel);
+            }
         }
-
-        //public void AddExceptions(IEnumerable<Exception> exceptions)
-        //{
-        //    if (exceptions == null)
-        //    {
-        //        return;
-        //    }
-        //    if (ExceptionList == null)
-        //    {
-        //        ExceptionList = new ExceptionObjectListBase();
-        //    }
-        //    //add error
-        //    ExceptionList.AddRange(exceptions);
-        //}
 
         #endregion Add Exception Methods
 

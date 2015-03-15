@@ -24,7 +24,7 @@ namespace Business.Test.TestUtility
             get { return "WriteToFile"; }
         }
 
-        public IResponseObject Execute(IExceptionMeta exceptionMeta = null)
+        public IResponseObject Execute()
         {
             // if we needed to short circuit here because of some condition we could do it here!
             //var rv = RequestObject.ToUncompletedResponse(null, RequestObject.CorrelationId);
@@ -41,12 +41,11 @@ namespace Business.Test.TestUtility
             {
                 return RequestObject.ToFailedResponse(ExceptionObjectListBase.Create(
                     ex
-                    , "WriteToFileCommand failed!"
-                    , ex.Message
-                    , "Command Exceptions"
-                    , typeName: "WriteToFileCommand"
-                    , memberName: "Execute"
-                    , parentName: "Business.Test.TestUtility")
+                    ,"Some general Exception Title Goes HERE!"
+                    , "A broader description could go HERE!"
+                    , "If I had any Grouping I could specify HERE!"
+                    , ExceptionLogLevelType.Debug
+                    )
                     , "500"
                     , RequestObject.CorrelationId
                     );

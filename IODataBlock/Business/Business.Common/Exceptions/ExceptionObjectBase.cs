@@ -5,10 +5,19 @@ namespace Business.Common.Exceptions
 {
     public class ExceptionObjectBase : IExceptionObject
     {
-        public ExceptionObjectBase(Exception exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
+        public ExceptionObjectBase(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
             #region System.Exception properties
 
+            Title = title;
+            Description = description;
+            ExceptionGroup = exceptionGroup;
             LogLevel = logLevel;
             Data = exception.Data as IDictionary<String, Object>;
             HelpLink = exception.HelpLink;
@@ -21,24 +30,11 @@ namespace Business.Common.Exceptions
             #endregion System.Exception properties
         }
 
-        public ExceptionObjectBase(IExceptionObject exception)
-        {
-            #region System.Exception properties
-
-            LogLevel = exception.LogLevel;
-            Data = exception.Data;
-            HelpLink = exception.HelpLink;
-            HResult = exception.HResult;
-            InnerExceptionDetail = exception.InnerExceptionDetail;
-            Message = exception.Message;
-            Source = exception.Source;
-            StackTrace = exception.StackTrace;
-
-            #endregion System.Exception properties
-        }
-
         public ExceptionObjectBase(
             String message
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
             , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
             , IDictionary<String, Object> data = null
             , String helpLink = null
@@ -50,6 +46,9 @@ namespace Business.Common.Exceptions
         {
             #region System.Exception properties
 
+            Title = title;
+            Description = description;
+            ExceptionGroup = exceptionGroup;
             LogLevel = logLevel;
             Data = data;
             HelpLink = helpLink;
@@ -64,18 +63,22 @@ namespace Business.Common.Exceptions
 
         #region Factory Method
 
-        public static ExceptionObjectBase Create(Exception exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
+        public static ExceptionObjectBase Create(
+            Exception exception
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
+            , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
+            )
         {
-            return new ExceptionObjectBase(exception);
-        }
-
-        public static ExceptionObjectBase Create(IExceptionObject exception, ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error)
-        {
-            return new ExceptionObjectBase(exception);
+            return new ExceptionObjectBase(exception, title, description, exceptionGroup, logLevel);
         }
 
         public static ExceptionObjectBase Create(
             String message
+            , string title = null
+            , string description = null
+            , string exceptionGroup = null
             , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
             , IDictionary<String, Object> data = null
             , String helpLink = null
@@ -85,12 +88,18 @@ namespace Business.Common.Exceptions
             , String stackTrace = null
             )
         {
-            return new ExceptionObjectBase(message, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace);
+            return new ExceptionObjectBase(message, title, description, exceptionGroup, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace);
         }
 
         #endregion Factory Method
 
         #region System.Exception properties
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string ExceptionGroup { get; set; }
 
         public ExceptionLogLevelType LogLevel { get; set; }
 

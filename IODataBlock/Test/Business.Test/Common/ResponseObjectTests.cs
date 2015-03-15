@@ -19,8 +19,7 @@ namespace Business.Test.Common
             /*
                 {
                   "ResponseData": "okay!",
-                  "ResponseCode": null,
-                  "Success": true,
+                  "HasExceptions": false,
                   "ExceptionCount": 0
                 }
             */
@@ -39,7 +38,9 @@ namespace Business.Test.Common
             }
             catch (Exception exception)
             {
-                responseObject.AddException(exception);
+                responseObject.ResponseData = "An error has occured!";
+                responseObject.ResponseCode = "bad mojo";
+                responseObject.AddException(exception,"You can't divide by 0!","The description is pretty self explanatory!","Too dumb to explain group", ExceptionLogLevelType.Critical);
             }
 
             var responseString = responseObject.ToJson(true);
@@ -47,17 +48,21 @@ namespace Business.Test.Common
 
             /*
                 {
-                  "ResponseData": "okay!",
-                  "Success": false,
+                  "ResponseData": "An error has occured!",
+                  "ResponseCode": "bad mojo",
+                  "HasExceptions": true,
                   "ExceptionCount": 1,
                   "ExceptionList": {
                     "Exceptions": [
                       {
-                        "LogLevel": 3,
+                        "Title": "You can't divide by 0!",
+                        "Description": "The description is pretty self explanatory!",
+                        "ExceptionGroup": "Too dumb to explain group",
+                        "LogLevel": 4,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.ResponseMessageTests.CanHaveSystemExceptionTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseMessageTests.cs:line 37"
+                        "StackTrace": "   at Business.Test.Common.ResponseObjectTests.CanHaveSystemExceptionTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseObjectTests.cs:line 37"
                       }
                     ]
                   }
@@ -76,9 +81,15 @@ namespace Business.Test.Common
                 // ReSharper disable once UnusedVariable
                 var db0 = 1 / my0;
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                responseObject.AddException(exception, true);
+                responseObject.AddException(
+                    ex
+                    , "Divide by 0 Test"
+                    , "You cannot divide by 0! It is an unbreakable law."
+                    , "Test Exceptions"
+                    , ExceptionLogLevelType.Debug
+                    );
             }
 
             var responseString = responseObject.ToJson(true);
@@ -87,22 +98,19 @@ namespace Business.Test.Common
             /*
                 {
                   "ResponseData": "okay!",
-                  "Success": false,
+                  "HasExceptions": true,
                   "ExceptionCount": 1,
                   "ExceptionList": {
-                    "Meta": {
-                      "DateCreatedUtc": "2015-03-08T12:56:38.5596122Z",
-                      "HostComputerName": "JKOSHLT1",
-                      "HostUserName": "jkosh",
-                      "HostUserDomain": "BROADVOX"
-                    },
                     "Exceptions": [
                       {
-                        "LogLevel": 3,
+                        "Title": "Divide by 0 Test",
+                        "Description": "You cannot divide by 0! It is an unbreakable law.",
+                        "ExceptionGroup": "Test Exceptions",
+                        "LogLevel": 0,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.ResponseMessageTests.CanHaveSystemExceptionWithExceptionMetaTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseMessageTests.cs:line 76"
+                        "StackTrace": "   at Business.Test.Common.ResponseObjectTests.CanHaveSystemExceptionWithExceptionMetaTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseObjectTests.cs:line 82"
                       }
                     ]
                   }
@@ -129,9 +137,7 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "ResponseMessageTests"
-                    , memberName: "CanHaveSystemExceptionWithExplicitTest"
-                    , parentName: "Business.Test"
+                    , ExceptionLogLevelType.Debug
                     );
             }
             var responseString = responseObject.ToJson(true);
@@ -141,32 +147,23 @@ namespace Business.Test.Common
 
             /*
                 {
-                  "ResponseData": "Your Screwed! You tried to divide by 0?",
-                  "Success": false,
-                  "ExceptionCount": 1,
-                  "ExceptionList": {
-                    "Meta": {
-                      "DateCreatedUtc": "2015-03-10T21:45:26.2735836Z",
-                      "Title": "Divide by 0 Test",
-                      "Description": "You cannot divide by 0! It is an unbreakable law.",
-                      "ExceptionGroup": "Test Exceptions",
-                      "HostComputerName": "JKOSHLT1",
-                      "HostUserName": "jkosh",
-                      "HostUserDomain": "BROADVOX",
-                      "TypeName": "ResponseMessageTests",
-                      "MemberName": "CanHaveSystemExceptionWithExplicitTest",
-                      "ParentName": "Business.Test"
-                    },
+                    "ResponseData": "Your Screwed! You tried to divide by 0?",
+                    "HasExceptions": true,
+                    "ExceptionCount": 1,
+                    "ExceptionList": {
                     "Exceptions": [
-                      {
-                        "LogLevel": 3,
+                        {
+                        "Title": "Divide by 0 Test",
+                        "Description": "You cannot divide by 0! It is an unbreakable law.",
+                        "ExceptionGroup": "Test Exceptions",
+                        "LogLevel": 0,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.ResponseMessageTests.CanHaveSystemExceptionWithExplicitTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseMessageTests.cs:line 124"
-                      }
+                        "StackTrace": "   at Business.Test.Common.ResponseObjectTests.CanHaveSystemExceptionWithExplicitTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\ResponseObjectTests.cs:line 130"
+                        }
                     ]
-                  }
+                    }
                 }
             */
 

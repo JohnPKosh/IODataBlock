@@ -104,9 +104,10 @@ namespace Business.Test.Common
                   "RequestData": {
                     "CommandName": "WriteToFile",
                     "RequestData": "Sending Fake Monkey Data!",
-                    "CorrelationId": "c21277e3-467d-43e9-8839-d3a1419abb8c"
+                    "CorrelationId": "781850a0-5f58-405b-8671-792d1c809ad7",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
                   },
-                  "CorrelationId": "c21277e3-467d-43e9-8839-d3a1419abb8c",
+                  "CorrelationId": "781850a0-5f58-405b-8671-792d1c809ad7",
                   "ResponseData": "Did some fake work!",
                   "ResponseCode": "200",
                   "HasExceptions": false,
@@ -143,9 +144,10 @@ namespace Business.Test.Common
                   "RequestData": {
                     "CommandName": "WriteToFile",
                     "RequestData": "Sending Fake Monkey Data!",
-                    "CorrelationId": "c21277e3-467d-43e9-8839-d3a1419abb8c"
+                    "CorrelationId": "e846d170-2ba1-4be3-96d2-7b5152f21fbd",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
                   },
-                  "CorrelationId": "c21277e3-467d-43e9-8839-d3a1419abb8c",
+                  "CorrelationId": "e846d170-2ba1-4be3-96d2-7b5152f21fbd",
                   "ResponseData": "Did some fake work!",
                   "ResponseCode": "200",
                   "HasExceptions": false,
@@ -182,9 +184,10 @@ namespace Business.Test.Common
                   "RequestData": {
                     "CommandName": "ReadFromFile",
                     "RequestData": "Monkey?",
-                    "CorrelationId": "6c43d805-c4f2-4b26-b147-b9fa81a4ffd5"
+                    "CorrelationId": "07e38f1e-e25f-469a-94d5-2ada2d5ffde3",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
                   },
-                  "CorrelationId": "6c43d805-c4f2-4b26-b147-b9fa81a4ffd5",
+                  "CorrelationId": "07e38f1e-e25f-469a-94d5-2ada2d5ffde3",
                   "ResponseData": "hello Monkey? from ReadFromFileCommand!",
                   "ResponseCode": "200",
                   "HasExceptions": false,
@@ -199,27 +202,28 @@ namespace Business.Test.Common
         public void ReallyBasicSuccessfullReadFromFileTest2()
         {
             var correllationId = NewGuid();
-            var meta = ExceptionMetaBase.CreateExceptionMeta("ReadFromFile Test"
-                , "Executing ReallyBasicSuccessfullReadFromFileTest2"
-                , Assembly.GetExecutingAssembly().FullName
-                , Environment.MachineName
-                , Environment.UserName
-                , Environment.UserDomainName
-                , Assembly.GetExecutingAssembly().FullName
-                ,null
-                ,null
-                //, Assembly.GetCallingAssembly().FullName
-                //, Assembly.GetEntryAssembly().FullName
-                , "CommandTests"
-                , "ReallyBasicSuccessfullReadFromFileTest2"
-                , null
-                , "Some GUID goes here"
-                , "Me"
-                , "client IP goes here"
-                , correllationId);
+            //var meta = ExceptionMetaBase.CreateExceptionMeta("ReadFromFile Test"
+            //    , "Executing ReallyBasicSuccessfullReadFromFileTest2"
+            //    , Assembly.GetExecutingAssembly().FullName
+            //    , Environment.MachineName
+            //    , Environment.UserName
+            //    , Environment.UserDomainName
+            //    , Assembly.GetExecutingAssembly().FullName
+            //    ,null
+            //    ,null
+            //    //, Assembly.GetCallingAssembly().FullName
+            //    //, Assembly.GetEntryAssembly().FullName
+            //    , "CommandTests"
+            //    , "ReallyBasicSuccessfullReadFromFileTest2"
+            //    , null
+            //    , "Some GUID goes here"
+            //    , "Me"
+            //    , "client IP goes here"
+            //    //, correllationId
+            //    );
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = _parser.ParseAndExecute("ReadFromFile", "Monkey?", correllationId, meta);
+            var responseObject = _parser.ParseAndExecute("ReadFromFile", "Monkey?", correllationId);
 
             // TODO: Add some sort of TryParse logic for the command above!
 
@@ -233,36 +237,21 @@ namespace Business.Test.Common
                   "RequestData": {
                     "CommandName": "ReadFromFile",
                     "RequestData": "Monkey?",
-                    "CorrelationId": "a213bfc7-a45a-418f-b000-c3359601ef74"
+                    "CorrelationId": "4ca6003b-5f02-419e-bf6b-b8a37d28f4a9",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
                   },
-                  "CorrelationId": "a213bfc7-a45a-418f-b000-c3359601ef74",
+                  "CorrelationId": "4ca6003b-5f02-419e-bf6b-b8a37d28f4a9",
                   "ResponseCode": "500",
                   "HasExceptions": true,
                   "ExceptionCount": 1,
                   "ExceptionList": {
-                    "Meta": {
-                      "DateCreatedUtc": "2015-03-15T00:15:45.2982339Z",
-                      "Title": "ReadFromFile Test",
-                      "Description": "Executing ReallyBasicSuccessfullReadFromFileTest2",
-                      "ExceptionGroup": "Business.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                      "HostComputerName": "JKOSHLT1",
-                      "HostUserName": "jkosh",
-                      "HostUserDomain": "BROADVOX",
-                      "ExecutingAssemblyFullName": "Business.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                      "TypeName": "CommandTests",
-                      "MemberName": "ReallyBasicSuccessfullReadFromFileTest2",
-                      "AppId": "Some GUID goes here",
-                      "ClientName": "Me",
-                      "ClientIp": "client IP goes here",
-                      "CorrelationId": "a213bfc7-a45a-418f-b000-c3359601ef74"
-                    },
                     "Exceptions": [
                       {
                         "LogLevel": 3,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.TestUtility.ReadFromFileCommand.<Create>b__1(IRequestObject o) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\TestUtility\\ReadFromFileCommand.cs:line 48\r\n   at Business.Common.System.CommandObjectBase.Execute(IExceptionMeta exceptionMeta) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Business\\Business.Common\\System\\CommandObjectBase.cs:line 46"
+                        "StackTrace": "   at Business.Test.TestUtility.ReadFromFileCommand.<Create>b__1(IRequestObject o) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\TestUtility\\ReadFromFileCommand.cs:line 48\r\n   at Business.Common.System.CommandObjectBase.Execute() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Business\\Business.Common\\System\\CommandObjectBase.cs:line 46"
                       }
                     ]
                   }

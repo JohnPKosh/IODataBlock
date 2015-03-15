@@ -6,6 +6,15 @@ namespace Business.Common.Exceptions
 {
     public interface IExceptionObject
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String Title { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String Description { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        String ExceptionGroup { get; set; }
+
         ExceptionLogLevelType LogLevel { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

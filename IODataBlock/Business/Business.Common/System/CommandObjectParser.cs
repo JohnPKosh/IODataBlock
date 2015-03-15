@@ -28,13 +28,13 @@ namespace Business.Common.System
             return ((ICommandObjectFactory)command).Create(requestObject);
         }
 
-        public IResponseObject ParseAndExecute(IRequestObject requestObject, IExceptionMeta exceptionMeta = null)
+        public IResponseObject ParseAndExecute(IRequestObject requestObject)
         {
             var command = Find(requestObject.CommandName);
-            return ((ICommandObjectFactory)command).Create(requestObject).Execute(exceptionMeta);
+            return ((ICommandObjectFactory)command).Create(requestObject).Execute();
         }
 
-        public IResponseObject ParseAndExecute(string commandName, object requestData, string correlationId = null, IExceptionMeta exceptionMeta = null)
+        public IResponseObject ParseAndExecute(string commandName, object requestData, string correlationId = null)
         {
             var requestObject = new RequestObject
             {
@@ -42,7 +42,7 @@ namespace Business.Common.System
                 RequestData = requestData,
                 CorrelationId = correlationId ?? Guid.NewGuid().ToString()
             };
-            return ParseAndExecute(requestObject, exceptionMeta);
+            return ParseAndExecute(requestObject);
         }
 
         private ICommandObject Find(string commandName)

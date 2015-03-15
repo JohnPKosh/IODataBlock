@@ -34,9 +34,7 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "RequestObjectTests"
-                    , memberName: "HowToWorkTogetherSimpleSuccessfullTest"
-                    , parentName: "Business.Test"
+                    , ExceptionLogLevelType.Debug
                     );
             }
             var responseString = responseObject.ToJson(true);
@@ -85,9 +83,7 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "RequestObjectTests"
-                    , memberName: "HowToWorkTogetherSimpleFailureTest"
-                    , parentName: "Business.Test"
+                    , ExceptionLogLevelType.Debug
                     );
             }
             var responseString = responseObject.ToJson(true);
@@ -97,34 +93,25 @@ namespace Business.Test.Common
 
             /*
                 {
-                    "RequestData": "This is my request :-)",
-                    "CorrelationId": "111111",
-                    "ResponseData": "Your Screwed! You tried to divide by 0?",
-                    "HasExceptions": true,
-                    "ExceptionCount": 1,
-                    "ExceptionList": {
-                    "Meta": {
-                        "DateCreatedUtc": "2015-03-11T17:23:35.6365387Z",
+                  "RequestData": "This is my request :-)",
+                  "CorrelationId": "111111",
+                  "ResponseData": "Your Screwed! You tried to divide by 0?",
+                  "HasExceptions": true,
+                  "ExceptionCount": 1,
+                  "ExceptionList": {
+                    "Exceptions": [
+                      {
                         "Title": "Divide by 0 Test",
                         "Description": "You cannot divide by 0! It is an unbreakable law.",
                         "ExceptionGroup": "Test Exceptions",
-                        "HostComputerName": "JKOSHLT1",
-                        "HostUserName": "jkosh",
-                        "HostUserDomain": "BROADVOX",
-                        "TypeName": "RequestObjectTests",
-                        "MemberName": "HowToWorkTogetherSimpleFailureTest",
-                        "ParentName": "Business.Test"
-                    },
-                    "Exceptions": [
-                        {
-                        "LogLevel": 3,
+                        "LogLevel": 0,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.HowToWorkTogetherSimpleFailureTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 76"
-                        }
+                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.HowToWorkTogetherSimpleFailureTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 74"
+                      }
                     ]
-                    }
+                  }
                 }
             */
 
@@ -150,9 +137,7 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "RequestObjectTests"
-                    , memberName: "HowToWorkTogetherReallySimpleSuccessfullTest"
-                    , parentName: "Business.Test"
+                    , ExceptionLogLevelType.Debug
                     );
             }
             var responseString = responseObject.ToJson(true);
@@ -197,9 +182,7 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "RequestObjectTests"
-                    , memberName: "HowToWorkTogetherReallySimpleFailureTest"
-                    , parentName: "Business.Test"
+                    , ExceptionLogLevelType.Debug
                     );
             }
             var responseString = responseObject.ToJson(true);
@@ -216,25 +199,16 @@ namespace Business.Test.Common
                   "HasExceptions": true,
                   "ExceptionCount": 1,
                   "ExceptionList": {
-                    "Meta": {
-                      "DateCreatedUtc": "2015-03-11T17:39:31.3223489Z",
-                      "Title": "Divide by 0 Test",
-                      "Description": "You cannot divide by 0! It is an unbreakable law.",
-                      "ExceptionGroup": "Test Exceptions",
-                      "HostComputerName": "JKOSHLT1",
-                      "HostUserName": "jkosh",
-                      "HostUserDomain": "BROADVOX",
-                      "TypeName": "RequestObjectTests",
-                      "MemberName": "HowToWorkTogetherReallySimpleFailureTest",
-                      "ParentName": "Business.Test"
-                    },
                     "Exceptions": [
                       {
-                        "LogLevel": 3,
+                        "Title": "Divide by 0 Test",
+                        "Description": "You cannot divide by 0! It is an unbreakable law.",
+                        "ExceptionGroup": "Test Exceptions",
+                        "LogLevel": 0,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.HowToWorkTogetherReallySimpleFailureTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 187"
+                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.HowToWorkTogetherReallySimpleFailureTest() in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 171"
                       }
                     ]
                   }
@@ -303,25 +277,16 @@ namespace Business.Test.Common
                   "HasExceptions": true,
                   "ExceptionCount": 1,
                   "ExceptionList": {
-                    "Meta": {
-                      "DateCreatedUtc": "2015-03-12T11:54:43.7258471Z",
-                      "Title": "Divide by 0 Test",
-                      "Description": "You cannot divide by 0! It is an unbreakable law.",
-                      "ExceptionGroup": "Test Exceptions",
-                      "HostComputerName": "JKOSHLT1",
-                      "HostUserName": "jkosh",
-                      "HostUserDomain": "BROADVOX",
-                      "TypeName": "RequestObjectTests",
-                      "MemberName": "ExecuteFailedResponse",
-                      "ParentName": "Business.Test"
-                    },
                     "Exceptions": [
                       {
-                        "LogLevel": 3,
+                        "Title": "Divide by 0 Test",
+                        "Description": "You cannot divide by 0! It is an unbreakable law.",
+                        "ExceptionGroup": "Test Exceptions",
+                        "LogLevel": 0,
                         "HResult": -2147352558,
                         "Message": "Attempted to divide by zero.",
                         "Source": "Business.Test",
-                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.ExecuteFailedResponse(Object requestData, String correlationId) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 359"
+                        "StackTrace": "   at Business.Test.Common.RequestObjectTests.ExecuteFailedResponse(Object requestData, String correlationId) in c:\\Users\\jkosh\\Documents\\GitHub\\IODataBlock\\IODataBlock\\Test\\Business.Test\\Common\\RequestObjectTests.cs:line 333"
                       }
                     ]
                   }
@@ -368,9 +333,8 @@ namespace Business.Test.Common
                     , "Divide by 0 Test"
                     , "You cannot divide by 0! It is an unbreakable law."
                     , "Test Exceptions"
-                    , typeName: "RequestObjectTests"
-                    , memberName: "ExecuteFailedResponse"
-                    , parentName: "Business.Test")
+                    , ExceptionLogLevelType.Debug
+                    )
                     , "Failed Response Code"
                     , correlationId
                     );
