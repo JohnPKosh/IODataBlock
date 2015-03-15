@@ -10,7 +10,7 @@ using Business.Common.System;
 
 namespace Business.Test.TestUtility
 {
-    public class WriteToFileCommand : ICommand, ICommandFactory
+    public class WriteToFileCommand : ICommandObject, ICommandObjectFactory
     {
         public IRequestObject RequestObject { get; set; }
 
@@ -24,7 +24,7 @@ namespace Business.Test.TestUtility
             get { return "WriteToFile"; }
         }
 
-        public IResponseObject Execute()
+        public IResponseObject Execute(IExceptionMeta exceptionMeta = null)
         {
             // if we needed to short circuit here because of some condition we could do it here!
             //var rv = RequestObject.ToUncompletedResponse(null, RequestObject.CorrelationId);
@@ -53,7 +53,7 @@ namespace Business.Test.TestUtility
             }
         }
 
-        public ICommand Create(IRequestObject requestObject)
+        public ICommandObject Create(IRequestObject requestObject)
         {
             return new WriteToFileCommand() { RequestObject = requestObject };
         }

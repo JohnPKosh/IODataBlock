@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Common.Exceptions;
 using Newtonsoft.Json;
 
 namespace Business.Common.Requests
@@ -17,6 +18,5 @@ namespace Business.Common.Requests
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         String CorrelationId { get; set; }
-
     }
 }
