@@ -83,6 +83,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\CommandCollectionTests.cs" />
     <Compile Include="Common\CommandObjectTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
     <Compile Include="Common\RequestObjectTests.cs" />
@@ -94,6 +95,8 @@
     <Compile Include="Common\ClassExtensionBaseTests.cs" />
     <Compile Include="Common\ResponseObjectTests.cs" />
     <Compile Include="IO\DirectoryEntryTests.cs" />
+    <Compile Include="TestUtility\WriteToJsonFileCommand.cs" />
+    <Compile Include="TestUtility\ReadFromJsonFileCommand.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
     <Compile Include="TestUtility\FakePet.cs" />
     <Compile Include="TestUtility\ReadFromFileCommand.cs" />

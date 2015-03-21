@@ -6,34 +6,34 @@ using Business.Common.Responses;
 
 namespace Business.Common.System
 {
-    public class CommandObjectParser : ICommandObjectParser
+    public class CommandCollectionParser : ICommandCollectionParser
     {
         #region Class Initialization
 
-        public CommandObjectParser(IEnumerable<ICommandObject> commands)
+        public CommandCollectionParser(Dictionary<string, IEnumerable<ICommandObject>> commandObjectDictionary)
         {
-            _commands = commands;
+            _commandObjectDictionary = commandObjectDictionary;
         }
 
         #endregion Class Initialization
 
         #region Fields and Properties
 
-        private readonly IEnumerable<ICommandObject> _commands;
+        private readonly Dictionary<string, IEnumerable<ICommandObject>> _commandObjectDictionary;
 
         #endregion Fields and Properties
 
         #region Parse Methods
 
-        public ICommandObject Parse(IRequestObject requestObject)
+        public ICommandObject Parse(string collectionName, IRequestObject requestObject)
         {
-            var command = Find(requestObject.CommandName);
+            var command = Find(collectionName, requestObject.CommandName);
             return ((ICommandObjectFactory)command).Create(requestObject);
         }
 
-        public ICommandObject Parse(string commandName, IRequestObject requestObject)
+        public ICommandObject Parse(string collectionName, string commandName, IRequestObject requestObject)
         {
-            var command = Find(commandName);
+            var command = Find(collectionName, commandName);
             return ((ICommandObjectFactory)command).Create(requestObject);
         }
 
@@ -41,14 +41,14 @@ namespace Business.Common.System
 
         #region Execute Methods
 
-        public IResponseObject Execute(IRequestObject requestObject)
+        public IResponseObject Execute(string collectionName, IRequestObject requestObject)
         {
-            var command = Find(requestObject.CommandName);
+            var command = Find(collectionName, requestObject.CommandName);
             return ((ICommandObjectFactory)command).Create(requestObject).Execute();
             // TODO: decide if logger functionality should be injected here!
         }
 
-        public IResponseObject Execute(string commandName, object requestData, string correlationId = null)
+        public IResponseObject Execute(string collectionName, string commandName, object requestData, string correlationId = null)
         {
             var requestObject = new RequestObject
             {
@@ -56,7 +56,7 @@ namespace Business.Common.System
                 RequestData = requestData,
                 CorrelationId = correlationId ?? Guid.NewGuid().ToString()
             };
-            return Execute(requestObject);
+            return Execute(collectionName, requestObject);
             // TODO: decide if logger functionality should be injected here!
         }
 
@@ -64,9 +64,10 @@ namespace Business.Common.System
 
         #region private Utility methods
 
-        private ICommandObject Find(string commandName)
+        private ICommandObject Find(string collectionName, string commandName)
         {
-            return _commands.FirstOrDefault(c => c.CommandName == commandName);
+            var commands = _commandObjectDictionary[collectionName];
+            return commands.FirstOrDefault(c => c.CommandName == commandName);
         }
 
         #endregion private Utility methods

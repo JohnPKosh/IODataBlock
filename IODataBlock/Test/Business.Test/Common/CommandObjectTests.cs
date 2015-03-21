@@ -130,7 +130,7 @@ namespace Business.Test.Common
             };
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = _parser.ParseAndExecute(ro);
+            var responseObject = _parser.Execute(ro);
 
             // TODO: Add some sort of TryParse logic for the command above!
 
@@ -170,7 +170,7 @@ namespace Business.Test.Common
             };
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = _parser.ParseAndExecute(ro);
+            var responseObject = _parser.Execute(ro);
 
             // TODO: Add some sort of TryParse logic for the command above!
 
@@ -223,7 +223,7 @@ namespace Business.Test.Common
             //    );
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = _parser.ParseAndExecute("ReadFromFile", "Monkey?", correllationId);
+            var responseObject = _parser.Execute("ReadFromFile", "Monkey?", correllationId);
 
             // TODO: Add some sort of TryParse logic for the command above!
 
