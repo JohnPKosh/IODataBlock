@@ -92,6 +92,7 @@
     <Compile Include="System\CommandObjectBase.cs" />
     <Compile Include="System\CommandCollectionParser.cs" />
     <Compile Include="System\CommandObjectParser.cs" />
+    <Compile Include="System\Commands\DynamicAppStateSaveCommand.cs" />
     <Compile Include="System\ICommandCollectionParser.cs" />
     <Compile Include="System\ICommandObject.cs" />
     <Compile Include="System\ICommandObjectFactory.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="System\IObjectBase.cs" />
     <Compile Include="System\ObjectBase.cs" />
     <Compile Include="System\States\DynamicJsonFileLoader.cs" />
+    <Compile Include="System\SystemCommandParser.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />
   </ItemGroup>
   <ItemGroup>

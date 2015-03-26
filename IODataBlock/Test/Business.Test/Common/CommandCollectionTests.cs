@@ -11,11 +11,11 @@ namespace Business.Test.Common
     {
         public CommandCollectionTests()
         {
-            var commandObjectDictionary = new Dictionary<string, IEnumerable<ICommandObject>>
-            {
-                {"FileCommands", new List<ICommandObject> {new WriteToFileCommand(), new ReadFromFileCommand()}},
-                {"JsonFileCommands",new List<ICommandObject> {new WriteToJsonFileCommand(), new ReadFromJsonFileCommand()}}
-            };
+            //var commandObjectDictionary = new Dictionary<string, IEnumerable<ICommandObject>>
+            //{
+            //    {"FileCommands", new List<ICommandObject> {new WriteToFileCommand(), new ReadFromFileCommand()}},
+            //    {"JsonFileCommands",new List<ICommandObject> {new WriteToJsonFileCommand(), new ReadFromJsonFileCommand()}}
+            //};
             //_parser = new CommandCollectionParser(commandObjectDictionary);
             _parser = new CommandCollectionParser(FileCommandDictionary.Instance.CommandDictionary);
         }

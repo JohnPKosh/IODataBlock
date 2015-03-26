@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.IO;
 using Business.Common.System;
 using Business.Common.System.App;
@@ -12,7 +13,7 @@ namespace Business.Test.Common.System.App
     {
         public DynamicAppStateTests()
         {
-            _appStateLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState.json"));
+            _appStateLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState2.json"));
             _appState = new ExpandoObject();
         }
 
@@ -53,5 +54,92 @@ namespace Business.Test.Common.System.App
             /* Save the config */
             Assert.IsTrue(DynamicAppState.Instance.Value.hello == @"hello world!");
         }
+
+        [TestMethod]
+        public void CanSaveWithSystemCommand()
+        {
+            /* Set a property on the config */
+            //DynamicAppState.Instance.Load(_appStateLoader);
+
+            DynamicAppState.Instance.Value.hello = @"hello world from system command!";
+
+            /* Save the config */
+            //Assert.IsTrue(DynamicAppState.Instance.Value.hello == @"hello world!");
+
+            var correllationId = NewGuid();
+
+            // Execute the command that does the work ALL IN ONE STEP :-).
+            var responseObject = SystemCommandParser.Instance.Execute("System.App.AppState", "Save", _appStateLoader, correllationId);
+
+            var responseString = responseObject.ToJson(true);
+            Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
+
+            #region Json result
+
+            /*
+                {
+                  "RequestData": {
+                    "CommandName": "Save",
+                    "RequestData": {},
+                    "CorrelationId": "52e1e641-3ffa-422b-8017-31061e5cd839",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
+                  },
+                  "CorrelationId": "52e1e641-3ffa-422b-8017-31061e5cd839",
+                  "ResponseData": true,
+                  "ResponseCode": "200",
+                  "HasExceptions": false,
+                  "ExceptionCount": 0
+                }
+            */
+
+            #endregion Json result
+        }
+
+        [TestMethod]
+        public void CanSaveWithSystemCommandWithoutLoader()
+        {
+            /* Set a property on the config */
+            //DynamicAppState.Instance.Load(_appStateLoader);
+
+            DynamicAppState.Instance.Value.hello = @"hello world from system command!";
+
+            /* Save the config */
+            //Assert.IsTrue(DynamicAppState.Instance.Value.hello == @"hello world!");
+
+            var correllationId = NewGuid();
+
+            // Execute the command that does the work ALL IN ONE STEP :-).
+            var responseObject = SystemCommandParser.Instance.Execute("System.App.AppState", "Save", null, correllationId);
+
+            var responseString = responseObject.ToJson(true);
+            Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
+
+            #region Json result
+
+            /*
+                {
+                  "RequestData": {
+                    "CommandName": "Save",
+                    "RequestData": {},
+                    "CorrelationId": "52e1e641-3ffa-422b-8017-31061e5cd839",
+                    "DateCreatedUtc": "0001-01-01T00:00:00"
+                  },
+                  "CorrelationId": "52e1e641-3ffa-422b-8017-31061e5cd839",
+                  "ResponseData": true,
+                  "ResponseCode": "200",
+                  "HasExceptions": false,
+                  "ExceptionCount": 0
+                }
+            */
+
+            #endregion Json result
+        }
+
+        private string NewGuid()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+
     }
 }
