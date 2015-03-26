@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfiguredValues.cs" />
+    <Compile Include="Configuration\IConfigLoader.cs" />
+    <Compile Include="Configuration\JsonConfigLoader.cs" />
     <Compile Include="Exceptions\ExceptionLogLevelType.cs" />
     <Compile Include="Exceptions\ExceptionObjectBase.cs" />
     <Compile Include="Exceptions\ExceptionObjectListBase.cs" />
@@ -84,6 +87,8 @@
     <Compile Include="Responses\IResponseObject.cs" />
     <Compile Include="Responses\ResponseExtensions.cs" />
     <Compile Include="Responses\ResponseObject.cs" />
+    <Compile Include="System\App\DynamicAppState.cs" />
+    <Compile Include="System\App\AppState.cs" />
     <Compile Include="System\CommandObjectBase.cs" />
     <Compile Include="System\CommandCollectionParser.cs" />
     <Compile Include="System\CommandObjectParser.cs" />
@@ -91,8 +96,12 @@
     <Compile Include="System\ICommandObject.cs" />
     <Compile Include="System\ICommandObjectFactory.cs" />
     <Compile Include="System\ICommandObjectParser.cs" />
+    <Compile Include="System\States\JsonFileLoader.cs" />
+    <Compile Include="System\States\IDynamicStateLoader.cs" />
+    <Compile Include="System\States\IStateLoader.cs" />
     <Compile Include="System\IObjectBase.cs" />
     <Compile Include="System\ObjectBase.cs" />
+    <Compile Include="System\States\DynamicJsonFileLoader.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />
   </ItemGroup>
   <ItemGroup>

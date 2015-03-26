@@ -16,7 +16,8 @@ namespace Business.Test.Common
                 {"FileCommands", new List<ICommandObject> {new WriteToFileCommand(), new ReadFromFileCommand()}},
                 {"JsonFileCommands",new List<ICommandObject> {new WriteToJsonFileCommand(), new ReadFromJsonFileCommand()}}
             };
-            _parser = new CommandCollectionParser(commandObjectDictionary);
+            //_parser = new CommandCollectionParser(commandObjectDictionary);
+            _parser = new CommandCollectionParser(FileCommandDictionary.Instance.CommandDictionary);
         }
 
         private readonly ICommandCollectionParser _parser;

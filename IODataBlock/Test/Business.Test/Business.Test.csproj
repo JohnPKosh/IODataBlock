@@ -87,7 +87,10 @@
     <Compile Include="Common\CommandObjectTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
     <Compile Include="Common\RequestObjectTests.cs" />
+    <Compile Include="Common\System\App\DynamicAppStateTests.cs" />
+    <Compile Include="Common\System\App\AppStateTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
+    <Compile Include="Configuration\ConfiguredValuesTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="Common\ClassExtensionBaseTests.cs" />
     <Compile Include="Common\ResponseObjectTests.cs" />
     <Compile Include="IO\DirectoryEntryTests.cs" />
+    <Compile Include="TestUtility\FileCommandDictionary.cs" />
     <Compile Include="TestUtility\WriteToJsonFileCommand.cs" />
     <Compile Include="TestUtility\ReadFromJsonFileCommand.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
@@ -124,6 +128,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Junk\Response.json" />
+    <None Include="Junk\test.appState.json" />
+    <None Include="Junk\test.config.json" />
+    <None Include="Junk\test.state.json" />
     <None Include="packages.config" />
     <None Include="sqliteTest.sl3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

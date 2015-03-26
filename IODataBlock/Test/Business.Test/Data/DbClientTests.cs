@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Data.DbClient;
+using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Data
@@ -121,5 +122,60 @@ ORDER BY [ORDINAL_POSITION]
         }
 
         #endregion SQLite
+
+        #region DbExtensions.SqlBuilder Tests
+
+        [TestMethod]
+        public void SqlBuilderCanCreateSimpleQueryTest()
+        {
+            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+//                var sql = @"
+//SELECT [TABLE_CATALOG]
+//    ,[TABLE_SCHEMA]
+//    ,[TABLE_NAME]
+//    ,[COLUMN_NAME]
+//    ,[ORDINAL_POSITION]
+//    ,[COLUMN_DEFAULT]
+//    ,[IS_NULLABLE]
+//    ,[DATA_TYPE]
+//    ,[CHARACTER_MAXIMUM_LENGTH]
+//    ,[CHARACTER_OCTET_LENGTH]
+//    ,[NUMERIC_PRECISION]
+//    ,[NUMERIC_PRECISION_RADIX]
+//    ,[NUMERIC_SCALE]
+//    ,[DATETIME_PRECISION]
+//    ,[CHARACTER_SET_CATALOG]
+//    ,[CHARACTER_SET_SCHEMA]
+//    ,[CHARACTER_SET_NAME]
+//    ,[COLLATION_CATALOG]
+//    ,[COLLATION_SCHEMA]
+//    ,[COLLATION_NAME]
+//    ,[DOMAIN_CATALOG]
+//    ,[DOMAIN_SCHEMA]
+//    ,[DOMAIN_NAME]
+//FROM [INFORMATION_SCHEMA].[COLUMNS]
+//WHERE [TABLE_NAME] LIKE @0
+//ORDER BY [ORDINAL_POSITION]
+//";
+
+                #endregion sql
+
+                var query = SQL.SELECT("*")
+                    .FROM("[INFORMATION_SCHEMA].[COLUMNS]")
+                    .WHERE("[TABLE_NAME] LIKE @0");
+                var sql = query.ToString();
+
+                var data = db.Query(sql, 120, "Data%");
+                if (!data.Any())
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -430,6 +430,33 @@ namespace Business.Utilities.Extensions
             }
         }
 
+        /* TODO add test methods for all 3 below */
+        public static ExpandoObject ReadJsonFile(this FileInfo file)
+        {
+            using (var sr = file.OpenText())
+            {
+                return sr.ReadToEnd().ConvertJsonExpando();
+            }
+        }
+
+        public static ExpandoObject ReadJsonFile(this FileInfo file, JsonSerializerSettings settings)
+        {
+            using (var sr = file.OpenText())
+            {
+                return sr.ReadToEnd().ConvertJsonExpando(settings);
+            }
+        }
+
+        public static ExpandoObject ReadJsonFile(this FileInfo file, params JsonConverter[] converters)
+        {
+            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            using (var sr = file.OpenText())
+            {
+                return sr.ReadToEnd().ConvertJsonExpando(settings);
+            }
+        }
+
+
         #endregion Json.net File Deserialization
 
         #endregion Json.net Deserialization
