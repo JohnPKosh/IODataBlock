@@ -1,24 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Business.Common.Extensions.IObjectBaseExtensions">
-    <Position X="8" Y="0.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Extensions\IObjectBaseExtensions.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Business.Common.Extensions.ClassExtensions">
-    <Position X="4.25" Y="0.75" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAIAABgIAAAAgABBAAAAAAAAEEAAAAAAAAAAAAAACI=</HashCode>
-      <FileName>Extensions\ClassExtensions.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Business.Common.Extensions.ClassExtensionBase">
+  <Class Name="Business.Utilities.Extensions.ClassExtensionBase">
     <Position X="0.75" Y="0.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>QEAAIGBEABAQAAgAAAAAIAAAAQGIACEIgEIgQAAIkAA=</HashCode>
       <FileName>Extensions\ClassExtensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Utilities.Extensions.ClassExtensions">
+    <Position X="4" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAABgAQQAAgABBAAAAAAAAAEAAAAAAAAgAAAAACI=</HashCode>
+      <FileName>Extensions\ClassExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Utilities.Extensions.JsonFileStreamDeserialization">
+    <Position X="7" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonFileStreamDeserialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Utilities.Extensions.JsonObjectFilePathSerialization">
+    <Position X="10.25" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonObjectFilePathSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Utilities.Extensions.JsonObjectStringSerialization">
+    <Position X="10.25" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonObjectStringSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Utilities.Extensions.JsonExpandoStringSerialization">
+    <Position X="7" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonExpandoStringSerialization.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

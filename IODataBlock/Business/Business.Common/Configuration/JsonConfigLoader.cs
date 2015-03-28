@@ -39,14 +39,14 @@ namespace Business.Common.Configuration
 
         public void SaveConfiguration(dynamic config)
         {
-            ClassExtensions.WriteJsonToFile(config,_file);
+            JsonObjectFileInfoSerialization.WriteJsonToFile(config, _file);
         }
 
         public bool TrySaveConfiguration(dynamic config)
         {
             try
             {
-                ClassExtensions.WriteJsonToFile(config, _file);
+                JsonObjectFileInfoSerialization.WriteJsonToFile(config, _file);
                 return true;
             }
             catch (Exception)

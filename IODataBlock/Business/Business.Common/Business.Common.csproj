@@ -92,11 +92,15 @@
     <Compile Include="System\CommandObjectBase.cs" />
     <Compile Include="System\CommandCollectionParser.cs" />
     <Compile Include="System\CommandObjectParser.cs" />
+    <Compile Include="System\Commands\DynamicAppStateSetCommand.cs" />
+    <Compile Include="System\Commands\DynamicAppStateGetCommand.cs" />
     <Compile Include="System\Commands\DynamicAppStateSaveCommand.cs" />
+    <Compile Include="System\Commands\DynamicAppStateLoadCommand.cs" />
     <Compile Include="System\ICommandCollectionParser.cs" />
     <Compile Include="System\ICommandObject.cs" />
     <Compile Include="System\ICommandObjectFactory.cs" />
     <Compile Include="System\ICommandObjectParser.cs" />
+    <Compile Include="System\States\DynamicBsonFileLoader.cs" />
     <Compile Include="System\States\JsonFileLoader.cs" />
     <Compile Include="System\States\IDynamicStateLoader.cs" />
     <Compile Include="System\States\IStateLoader.cs" />

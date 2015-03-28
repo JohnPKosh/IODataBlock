@@ -421,7 +421,7 @@ namespace Business.Test.Common
             var personJson = person.ToJsonString(new ExpandoObjectConverter());
             dynamic tempperson = personJson.ConvertJsonExpando();
 
-            var tempstring = ClassExtensions.ToJsonString(tempperson);
+            var tempstring = JsonObjectStringSerialization.ToJsonString(tempperson);
             var newperson = FakePerson.CreateFromJson(tempstring);
 
             Assert.IsNotNull(newperson);

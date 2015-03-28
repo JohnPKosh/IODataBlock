@@ -4,10 +4,10 @@ using Business.Utilities.Extensions;
 
 namespace Business.Common.System.States
 {
-    public class DynamicJsonFileLoader : IDynamicStateLoader
+    public class DynamicBsonFileLoader : IDynamicStateLoader
     {
 
-        public DynamicJsonFileLoader(FileInfo file)
+        public DynamicBsonFileLoader(FileInfo file)
         {
             _file = file;
         }
@@ -35,14 +35,14 @@ namespace Business.Common.System.States
 
         public void SaveState(dynamic stateValue)
         {
-            JsonObjectFileInfoSerialization.WriteJsonToFile(stateValue, _file);
+            //ClassExtensions.WriteJsonToFile(stateValue, _file);
         }
 
         public bool TrySaveState(dynamic stateValue)
         {
             try
             {
-                JsonObjectFileInfoSerialization.WriteJsonToFile(stateValue, _file);
+                //ClassExtensions.WriteJsonToFile(stateValue, _file);
                 return true;
             }
             catch (Exception)

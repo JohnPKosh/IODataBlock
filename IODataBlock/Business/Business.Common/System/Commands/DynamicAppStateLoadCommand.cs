@@ -6,16 +6,16 @@ using Business.Common.System.States;
 
 namespace Business.Common.System.Commands
 {
-    public class DynamicAppStateSaveCommand : CommandObjectBase
+    public class DynamicAppStateLoadCommand : CommandObjectBase
     {
         public override string CommandName
         {
-            get { return "Save"; }
+            get { return "Load"; }
         }
 
         public override string Description
         {
-            get { return "DynamicAppStateSave - saves the current app state."; }
+            get { return "DynamicAppStateLoad - Loads the current app state."; }
         }
 
         public override object SuccessResponseCode
@@ -41,13 +41,13 @@ namespace Business.Common.System.Commands
                     // add a command here!
                     if (o.RequestData is IDynamicStateLoader)
                     {
-                        DynamicAppState.Instance.Save(o.RequestData as IDynamicStateLoader);
+                        DynamicAppState.Instance.Load(o.RequestData as IDynamicStateLoader);
                     }
                     else if (o.RequestData == null)
                     {
                         /* TODO may want to actually check configuration file for specified directory settings and some kind of enum for system IDynamicStateLoader type etc. */
                         /* TODO create DynamicBsonFileLoader */
-                        DynamicAppState.Instance.Save(
+                        DynamicAppState.Instance.Load(
                             new DynamicJsonFileLoader(
                                 new FileInfo(Path.Combine(Environment.CurrentDirectory, @"DynamicAppState.json"))));
                     }

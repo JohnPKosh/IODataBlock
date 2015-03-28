@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Business.Common.Responses;
 using Business.Common.System.Commands;
 
 namespace Business.Common.System
@@ -11,20 +8,33 @@ namespace Business.Common.System
     {
         private static SystemCommandParser _instance = new SystemCommandParser(SystemCommandDictionary.Commands);
 
-        private SystemCommandParser(Dictionary<string, IEnumerable<ICommandObject>> commandObjectDictionary) : base(commandObjectDictionary){}
+        private SystemCommandParser(Dictionary<string, IEnumerable<ICommandObject>> commandObjectDictionary)
+            : base(commandObjectDictionary)
+        {
+        }
 
         public static SystemCommandParser Instance
         {
             get { return SystemCommandParser._instance ?? (SystemCommandParser._instance = new SystemCommandParser(SystemCommandDictionary.Commands)); }
         }
-    }
 
+        public static IResponseObject ExecuteCommand(string collectionName, string commandName, object requestData, string correlationId = null)
+        {
+            return Instance.Execute(collectionName, commandName, requestData, correlationId);
+        }
+    }
 
     internal static class SystemCommandDictionary
     {
         public static Dictionary<string, IEnumerable<ICommandObject>> Commands = new Dictionary<string, IEnumerable<ICommandObject>>
         {
-            {"System.App.AppState", new List<ICommandObject> {new DynamicAppStateSaveCommand()}}
+            {"System.App.AppState", new List<ICommandObject>
+            {
+                new DynamicAppStateSaveCommand()
+                , new DynamicAppStateLoadCommand()
+                , new DynamicAppStateGetCommand()
+                , new DynamicAppStateSetCommand()
+            }}
         };
     }
 }

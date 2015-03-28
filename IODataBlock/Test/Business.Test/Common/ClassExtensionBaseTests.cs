@@ -252,5 +252,26 @@ namespace Business.Test.Common
 
 
         #endregion Dictionary Ideas
+
+
+        [TestMethod]
+        public void DeserializeFromStream()
+        {
+
+            //WriteJsonToFilePath
+            var kirk = FakePerson.CreateKirk();
+
+            kirk.WriteJsonToFilePath(@"c:\junk\kirk.json");
+            FakePerson newKirk;
+
+            using (var fs = File.Open(@"c:\junk\kirk.json", FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                newKirk = fs.JsonDeserialize<FakePerson>();
+            }
+
+            Assert.IsNotNull(newKirk);
+            Assert.IsNotNull(newKirk.Pets);
+        }
+
     }
 }

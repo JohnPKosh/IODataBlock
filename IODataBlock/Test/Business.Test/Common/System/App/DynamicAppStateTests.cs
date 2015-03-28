@@ -100,8 +100,10 @@ namespace Business.Test.Common.System.App
         {
             /* Set a property on the config */
             //DynamicAppState.Instance.Load(_appStateLoader);
+            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.AppState", "Load", null, NewGuid());
+            Assert.IsFalse(loadResponse.HasExceptions);
 
-            DynamicAppState.Instance.Value.hello = @"hello world from system command!";
+            //DynamicAppState.Instance.Value.hello = @"hello world from system command!";
 
             /* Save the config */
             //Assert.IsTrue(DynamicAppState.Instance.Value.hello == @"hello world!");
@@ -109,7 +111,7 @@ namespace Business.Test.Common.System.App
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = SystemCommandParser.Instance.Execute("System.App.AppState", "Save", null, correllationId);
+            var responseObject = SystemCommandParser.ExecuteCommand("System.App.AppState", "Save", null, correllationId);
 
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
@@ -134,6 +136,30 @@ namespace Business.Test.Common.System.App
 
             #endregion Json result
         }
+
+        [TestMethod]
+        public void CanGetSetLoadSave()
+        {
+            // Can we load what is persisted?
+            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.AppState", "Load", null, NewGuid());
+            Assert.IsFalse(loadResponse.HasExceptions);
+
+            // Can we get the app state data?
+            var getResponse = SystemCommandParser.ExecuteCommand("System.App.AppState", "Get", null, NewGuid());
+            var workingdata = getResponse.ResponseData as dynamic;
+            Assert.IsFalse(getResponse.HasExceptions);
+            Assert.IsNotNull(workingdata);
+
+            // Can we set the app state data?
+            workingdata.LastUpdated = DateTime.Now;
+            var setResponse = SystemCommandParser.ExecuteCommand("System.App.AppState", "Set", workingdata, NewGuid());
+            Assert.IsFalse(setResponse.HasExceptions);
+
+            // Can we save what should be persisted?
+            var saveResponse = SystemCommandParser.ExecuteCommand("System.App.AppState", "Save", null, NewGuid());
+            Assert.IsFalse(saveResponse.HasExceptions);
+        }
+
 
         private string NewGuid()
         {

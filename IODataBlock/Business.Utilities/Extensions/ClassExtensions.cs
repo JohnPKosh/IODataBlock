@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
@@ -10,277 +11,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Business.Utilities.Extensions
 {
-    public static class ClassExtensions
+    public static partial class ClassExtensions
     {
-        #region Json.net Serialization
-
-        #region Json.net object Serialization
-
-        public static string ToJsonString(this object value)
-        {
-            return JsonConvert.SerializeObject(value);
-        }
-
-        public static string ToJsonString(this object value, bool indented)
-        {
-            return JsonConvert.SerializeObject(value, indented ? Formatting.Indented : Formatting.None);
-        }
-
-        public static string ToJsonString(this object value, params JsonConverter[] converters)
-        {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
-            return JsonConvert.SerializeObject(value, null, settings);
-        }
-
-        public static string ToJsonString(this object value, bool indented, params JsonConverter[] converters)
-        {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
-            return JsonConvert.SerializeObject(value, null, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        public static string ToJsonString(this object value, JsonSerializerSettings settings)
-        {
-            return JsonConvert.SerializeObject(value, null, settings);
-        }
-
-        public static string ToJsonString(this object value, Type type, JsonSerializerSettings settings)
-        {
-            return JsonConvert.SerializeObject(value, type, settings);
-        }
-
-        public static string ToJsonString(this object value, bool indented, JsonSerializerSettings settings)
-        {
-            return JsonConvert.SerializeObject(value, null, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        public static string ToJsonString(this object value, Type type, bool indented, JsonSerializerSettings settings)
-        {
-            return JsonConvert.SerializeObject(value, type, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        #endregion Json.net object Serialization
-
-        #region Json.net ExpandoObject Serialization
-
-        public static string ToJsonString(this ExpandoObject value)
-        {
-            return JsonConvert.SerializeObject(value, new ExpandoObjectConverter(), new StringEnumConverter());
-        }
-
-        public static string ToJsonString(this ExpandoObject value, bool indented)
-        {
-            return JsonConvert.SerializeObject(value, indented ? Formatting.Indented : Formatting.None, new ExpandoObjectConverter(), new StringEnumConverter());
-        }
-
-        public static string ToJsonString(this ExpandoObject value, params JsonConverter[] converters)
-        {
-            var converterList = new List<JsonConverter>(converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            var settings = new JsonSerializerSettings { Converters = converterList.ToArray() };
-            return JsonConvert.SerializeObject(value, null, settings);
-        }
-
-        public static string ToJsonString(this ExpandoObject value, bool indented, params JsonConverter[] converters)
-        {
-            var converterList = new List<JsonConverter>(converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            var settings = new JsonSerializerSettings { Converters = converterList.ToArray() };
-            return JsonConvert.SerializeObject(value, null, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        public static string ToJsonString(this ExpandoObject value, JsonSerializerSettings settings)
-        {
-            var converterList = new List<JsonConverter>(settings.Converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            settings.Converters = converterList.ToArray();
-            return JsonConvert.SerializeObject(value, null, settings);
-        }
-
-        public static string ToJsonString(this ExpandoObject value, Type type, JsonSerializerSettings settings)
-        {
-            var converterList = new List<JsonConverter>(settings.Converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            settings.Converters = converterList.ToArray();
-            return JsonConvert.SerializeObject(value, type, settings);
-        }
-
-        public static string ToJsonString(this ExpandoObject value, bool indented, JsonSerializerSettings settings)
-        {
-            var converterList = new List<JsonConverter>(settings.Converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            settings.Converters = converterList.ToArray();
-            return JsonConvert.SerializeObject(value, null, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        public static string ToJsonString(this ExpandoObject value, Type type, bool indented, JsonSerializerSettings settings)
-        {
-            var converterList = new List<JsonConverter>(settings.Converters)
-            {
-                new ExpandoObjectConverter(),
-                new StringEnumConverter()
-            };
-            settings.Converters = converterList.ToArray();
-            return JsonConvert.SerializeObject(value, type, indented ? Formatting.Indented : Formatting.None, settings);
-        }
-
-        #endregion Json.net ExpandoObject Serialization
-
-        #region Json.net File Serialization
-
-        #region WriteJsonToFilePath
-
-        public static void WriteJsonToFilePath(this object value, String filePath)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString());
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, bool indented)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(indented));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, params JsonConverter[] converters)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(converters));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, bool indented, params JsonConverter[] converters)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(indented, converters));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, JsonSerializerSettings settings)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(settings));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, Type type, JsonSerializerSettings settings)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(type, settings));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, bool indented, JsonSerializerSettings settings)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(indented, settings));
-            }
-        }
-
-        public static void WriteJsonToFilePath(this object value, String filePath, Type type, bool indented, JsonSerializerSettings settings)
-        {
-            using (var sw = new FileInfo(filePath).CreateText())
-            {
-                sw.Write(value.ToJsonString(type, indented, settings));
-            }
-        }
-
-        #endregion WriteJsonToFilePath
-
-        #region WriteJsonToFile
-
-        public static void WriteJsonToFile(this object value, FileInfo file)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString());
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, bool indented)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(indented));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, params JsonConverter[] converters)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(converters));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, bool indented, params JsonConverter[] converters)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(indented, converters));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, JsonSerializerSettings settings)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(settings));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, Type type, JsonSerializerSettings settings)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(type, settings));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, bool indented, JsonSerializerSettings settings)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(indented, settings));
-            }
-        }
-
-        public static void WriteJsonToFile(this object value, FileInfo file, Type type, bool indented, JsonSerializerSettings settings)
-        {
-            using (var sw = file.CreateText())
-            {
-                sw.Write(value.ToJsonString(type, indented, settings));
-            }
-        }
-
-        #endregion WriteJsonToFile
-
-        #endregion Json.net File Serialization
-
-        #endregion Json.net Serialization
 
         #region Json.net Deserialization
 
@@ -517,6 +249,9 @@ namespace Business.Utilities.Extensions
             }
         }
 
+
+
+
         #endregion
 
         #region BSON Deserialization
@@ -530,6 +265,42 @@ namespace Business.Utilities.Extensions
             }
             //return JsonConvert.DeserializeObject(value, null, (JsonSerializerSettings)null) as JObject;
         }
+
+        public static ExpandoObject ConvertBsonExpando(this Stream value)
+        {
+            using (var reader = new BsonReader(value))
+            {
+                var serializer = new JsonSerializer();
+                return serializer.Deserialize<JObject>(reader).ToExpando();
+            }
+        }
+
+
+        /* TODO add test methods for all 3 below */
+        public static ExpandoObject ReadBsonFile(this FileInfo file)
+        {
+            using (var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return fs.ConvertBsonExpando();
+            }
+        }
+
+        //public static ExpandoObject ReadJsonFile(this FileInfo file, JsonSerializerSettings settings)
+        //{
+        //    using (var sr = file.OpenText())
+        //    {
+        //        return sr.ReadToEnd().ConvertJsonExpando(settings);
+        //    }
+        //}
+
+        //public static ExpandoObject ReadJsonFile(this FileInfo file, params JsonConverter[] converters)
+        //{
+        //    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+        //    using (var sr = file.OpenText())
+        //    {
+        //        return sr.ReadToEnd().ConvertJsonExpando(settings);
+        //    }
+        //}
 
         #endregion
     }
