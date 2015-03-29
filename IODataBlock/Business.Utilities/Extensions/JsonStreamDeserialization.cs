@@ -45,6 +45,16 @@ namespace Business.Utilities.Extensions
             return ((Stream)stream).JsonDeserialize<T>(converters);
         }
 
+        public static T JsonDeserialize<T>(this FileStream stream, JsonSerializerSettings settings = null) where T : class
+        {
+            return ((Stream)stream).JsonDeserialize<T>(settings);
+        }
+
+        public static T JsonDeserialize<T>(this FileStream stream, params JsonConverter[] converters) where T : class
+        {
+            return ((Stream)stream).JsonDeserialize<T>(converters);
+        }
+
         public static T JsonDeserializeBytes<T>(this Byte[] data, JsonSerializerSettings settings = null) where T : class
         {
             using (var ms = new MemoryStream(data))
@@ -60,6 +70,8 @@ namespace Business.Utilities.Extensions
                 return ms.JsonDeserialize<T>(converters);
             }
         }
+
+        /* Not exactly sure the usefulness of below methods but we will just leave for now. */
 
         public static T JsonDeserializeBase64String<T>(this String value, JsonSerializerSettings settings = null) where T : class
         {

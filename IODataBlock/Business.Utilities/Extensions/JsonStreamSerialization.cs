@@ -59,6 +59,20 @@ namespace Business.Utilities.Extensions
             return ms;
         }
 
+        public static FileStream JsonSerializeToFileStream<T>(this T value, String filePath, JsonSerializerSettings settings = null) where T : class
+        {
+            var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            fs.JsonSerialize(value, settings);
+            return fs;
+        }
+
+        public static FileStream JsonSerializeToFileStream<T>(this T value, String filePath, params JsonConverter[] converters) where T : class
+        {
+            var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            fs.JsonSerialize(value, converters);
+            return fs;
+        }
+
         public static Byte[] JsonSerializeToBytes<T>(this T value, JsonSerializerSettings settings = null) where T : class
         {
             var ms = new MemoryStream();
@@ -72,6 +86,8 @@ namespace Business.Utilities.Extensions
             ms.JsonSerialize(value, converters);
             return ms.ToArray();
         }
+
+        /* Not exactly sure the usefulness of below methods but we will just leave for now. */
 
         public static String JsonSerializeToBase64<T>(this T value, JsonSerializerSettings settings = null) where T : class
         {

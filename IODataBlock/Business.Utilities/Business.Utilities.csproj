@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="EnvironmentUtilities.cs" />
     <Compile Include="Extensions\ClassExtensionBase.cs" />
-    <Compile Include="Extensions\JsonFileStreamDeserialization.cs" />
     <Compile Include="Extensions\JsonStreamSerialization.cs" />
     <Compile Include="Extensions\JsonStreamDeserialization.cs" />
     <Compile Include="Extensions\JsonObjectFileInfoSerialization.cs" />
