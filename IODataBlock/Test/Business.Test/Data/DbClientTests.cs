@@ -1,8 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using Business.Test.TestUtility;
+using Business.Utilities.Extensions;
 using Data.DbClient;
 using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Business.Test.Data
 {
@@ -76,6 +81,200 @@ ORDER BY [ORDINAL_POSITION]
                     Assert.Fail();
                 }
             }
+        }
+
+        [TestMethod]
+        public void QuerySqlServerJObjectSchemaTest()
+        {
+            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+                var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+                #endregion sql
+
+                var data = db.QueryToJObjects(sql, 120, "Data%").ToList();
+                if (!data.Any())
+                {
+                    Assert.Fail();
+                }
+
+                foreach (var d in data)
+                {
+                    var str = d.ToString(Formatting.Indented);
+                    if(String.IsNullOrWhiteSpace(str)) Assert.Fail("no json????");
+                }
+
+                var jarr = new JArray(data);
+                var jarrstr = jarr.ToString();
+                if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+            }
+        }
+
+        [TestMethod]
+        public void QuerySqlServerJObjectSchemaTest2()
+        {
+            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+                var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+                #endregion sql
+
+                var jarr = new JArray(db.QueryToJObjects(sql, 120, "Data%"));
+                var jarrstr = jarr.ToString();
+                if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+            }
+        }
+
+        [TestMethod]
+        public void QuerySqlServerToJsonFile()
+        {
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            using (var fs = File.Open(@"c:\junk\query.json", FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+            {
+                fs.JsonDbQuery(sql, SqlServerConnectionString, null, 60, converters: null, parameters: "Data%");
+            }
+        }
+
+
+        [TestMethod]
+        public void DeserializeFromStream()
+        {
+
+            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+                var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+                #endregion sql
+
+                db.QueryToJObjects(sql, 120, "Data%").WriteJsonToFilePath(@"c:\junk\data.json");
+
+                using (var fs = File.Open(@"c:\junk\data.json", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var jarr = fs.JsonDeserialize<JArray>();
+                    var jarrstr = jarr.ToString();
+                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                }
+            }
+
         }
 
         #endregion SQL Server Tests

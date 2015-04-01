@@ -42,11 +42,11 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Fasterflect">
       <HintPath>..\..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
@@ -126,6 +126,10 @@
     <ProjectReference Include="..\..\Business.Utilities\Business.Utilities.csproj">
       <Project>{0292c450-1f34-466e-b815-d0094fe738b3}</Project>
       <Name>Business.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data.DbClient\Data.DbClient.csproj">
+      <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
+      <Name>Data.DbClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

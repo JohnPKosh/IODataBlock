@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="EnvironmentUtilities.cs" />
     <Compile Include="Extensions\ClassExtensionBase.cs" />
+    <Compile Include="Extensions\DbClientJsonExtensions.cs" />
     <Compile Include="Extensions\JsonStreamSerialization.cs" />
     <Compile Include="Extensions\JsonStreamDeserialization.cs" />
     <Compile Include="Extensions\JsonObjectFileInfoSerialization.cs" />
@@ -86,6 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Indexing\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data.DbClient\Data.DbClient.csproj">
+      <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
+      <Name>Data.DbClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

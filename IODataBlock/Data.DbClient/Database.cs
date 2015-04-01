@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Data.DbClient.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace Data.DbClient
 {
@@ -196,7 +197,17 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
+                //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
+                return QueryInternal(commandText, commandTimeout, parameters);
+            }
+            throw new ArgumentNullException("commandText");
+        }
+
+        public IEnumerable<JObject> QueryToJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            if (!string.IsNullOrEmpty(commandText))
+            {
+                return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
         }
@@ -295,6 +306,40 @@ namespace Data.DbClient
                         var d = e as IDictionary<string, object>;
                         for (var i = 0; i < fcnt; i++)
                             d.Add(columnNames[i], dbDataRecord[i]);
+                        yield return e;
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<JObject> QueryInternalJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            EnsureConnectionOpen();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0 && Connection.GetType().Name != "SqlCeConnection")
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                List<string> columnNames = null;
+                var fcnt = 0;
+                var dbDataReaders = dbCommand.ExecuteReader();
+                using (dbDataReaders)
+                {
+                    foreach (DbDataRecord dbDataRecord in dbDataReaders)
+                    {
+                        if (columnNames == null)
+                        {
+                            fcnt = dbDataRecord.FieldCount;
+                            columnNames = GetColumnNames(dbDataRecord).ToList();
+                        }
+                        dynamic e = new JObject();
+                        var d = e as IDictionary<string, JToken>;
+                        for (var i = 0; i < fcnt; i++)
+                            d.Add(columnNames[i], JToken.FromObject(dbDataRecord[i]));
                         yield return e;
                     }
                 }
