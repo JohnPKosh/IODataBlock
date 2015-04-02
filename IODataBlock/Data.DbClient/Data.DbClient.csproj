@@ -88,6 +88,7 @@
     <Compile Include="Database.Events.cs" />
     <Compile Include="DatabaseUtilityMethods.cs" />
     <Compile Include="Configuration\DbProviderFactoryWrapper.cs" />
+    <Compile Include="Extensions\DbClientJsonExtensions.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />
     <Compile Include="Interfaces\IDbFileHandler.cs" />

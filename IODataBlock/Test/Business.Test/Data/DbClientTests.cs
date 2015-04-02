@@ -4,6 +4,7 @@ using System.Linq;
 using Business.Test.TestUtility;
 using Business.Utilities.Extensions;
 using Data.DbClient;
+using Data.DbClient.Extensions;
 using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;

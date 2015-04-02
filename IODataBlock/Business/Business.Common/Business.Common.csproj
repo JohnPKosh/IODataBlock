@@ -68,9 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfiguredValues.cs" />
-    <Compile Include="Configuration\IConfigLoader.cs" />
-    <Compile Include="Configuration\JsonConfigLoader.cs" />
     <Compile Include="Exceptions\ExceptionLogLevelType.cs" />
     <Compile Include="Exceptions\ExceptionObjectBase.cs" />
     <Compile Include="Exceptions\ExceptionObjectListBase.cs" />

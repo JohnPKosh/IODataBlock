@@ -95,7 +95,6 @@
     <Compile Include="Common\System\App\DynamicAppStateTests.cs" />
     <Compile Include="Common\System\App\AppStateTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
-    <Compile Include="Configuration\ConfiguredValuesTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

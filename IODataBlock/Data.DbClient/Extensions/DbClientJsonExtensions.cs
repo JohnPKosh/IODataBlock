@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using Data.DbClient;
 
-namespace Business.Utilities.Extensions
+namespace Data.DbClient.Extensions
 {
     public static class DbClientJsonExtensions
     {
