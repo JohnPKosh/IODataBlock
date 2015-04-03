@@ -16,7 +16,7 @@ namespace Data.DbClient.Extensions
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     var serializer = JsonSerializer.CreateDefault(settings);
-                    serializer.Serialize(writer, db.QueryToJObjects(commandText, 120, parameters));
+                    serializer.Serialize(writer, db.QueryToJObjects(commandText, commandTimeout, parameters));
                 }
                 if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin);  // reset Stream to beginning.
             }
@@ -33,7 +33,7 @@ namespace Data.DbClient.Extensions
                 {
                     var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
-                    serializer.Serialize(writer, db.QueryToJObjects(commandText, 120, parameters));
+                    serializer.Serialize(writer, db.QueryToJObjects(commandText, commandTimeout, parameters));
                 }
                 if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin);  // reset Stream to beginning.
             }
@@ -51,6 +51,48 @@ namespace Data.DbClient.Extensions
             Stream ms = new MemoryStream();
             ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
             return ms;
+        }
+
+        public static MemoryStream JsonDbQueryToMemoryStream(string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
+        {
+            var ms = new MemoryStream();
+            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, settings: settings, parameters: parameters);
+            return ms;
+        }
+
+        public static MemoryStream JsonDbQueryToMemoryStream(string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonConverter[] converters = null, params object[] parameters)
+        {
+            var ms = new MemoryStream();
+            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
+            return ms;
+        }
+        
+        public static FileStream JsonDbQueryToFileStream(string filePath, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
+        {
+            var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            fs.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, settings: settings, parameters: parameters);
+            return fs;
+        }
+
+        public static FileStream JsonDbQueryToFileStream(string filePath, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonConverter[] converters = null, params object[] parameters)
+        {
+            var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            fs.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
+            return fs;
+        }
+
+        public static Byte[] JsonDbQueryToToBytes(string filePath, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
+        {
+            var ms = new MemoryStream();
+            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, settings: settings, parameters: parameters);
+            return ms.ToArray();
+        }
+
+        public static Byte[] JsonDbQueryToToBytes(string filePath, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonConverter[] converters = null, params object[] parameters)
+        {
+            var ms = new MemoryStream();
+            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
+            return ms.ToArray();
         }
 
     }
