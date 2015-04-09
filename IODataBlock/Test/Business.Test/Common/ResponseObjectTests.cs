@@ -40,7 +40,7 @@ namespace Business.Test.Common
             {
                 responseObject.ResponseData = "An error has occured!";
                 responseObject.ResponseCode = "bad mojo";
-                responseObject.AddException(exception,"You can't divide by 0!","The description is pretty self explanatory!","Too dumb to explain group", ExceptionLogLevelType.Critical);
+                responseObject.AddException(exception, "You can't divide by 0!", "The description is pretty self explanatory!", "Too dumb to explain group", ExceptionLogLevelType.Critical);
             }
 
             var responseString = responseObject.ToJson(true);

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
@@ -41,7 +37,7 @@ namespace Business.Test.TestUtility
             {
                 return RequestObject.ToFailedResponse(ExceptionObjectListBase.Create(
                     ex
-                    ,"Some general Exception Title Goes HERE!"
+                    , "Some general Exception Title Goes HERE!"
                     , "A broader description could go HERE!"
                     , "If I had any Grouping I could specify HERE!"
                     , ExceptionLogLevelType.Debug
@@ -54,7 +50,7 @@ namespace Business.Test.TestUtility
 
         public ICommandObject Create(IRequestObject requestObject)
         {
-            return new WriteToFileCommand() { RequestObject = requestObject };
+            return new WriteToFileCommand { RequestObject = requestObject };
         }
     }
 }

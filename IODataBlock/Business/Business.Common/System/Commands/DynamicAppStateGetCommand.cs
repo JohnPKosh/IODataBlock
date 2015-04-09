@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using Business.Common.Requests;
 using Business.Common.System.App;
-using Business.Common.System.States;
 
 namespace Business.Common.System.Commands
 {
@@ -32,7 +30,7 @@ namespace Business.Common.System.Commands
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new DynamicAppStateSaveCommand()
+            return new DynamicAppStateSaveCommand
             {
                 RequestObject = requestObject
                 ,

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.Requests;
 using Business.Common.System;
 
 namespace Business.Test.TestUtility
 {
-    public class ReadFromFileCommand: CommandObjectBase
+    public class ReadFromFileCommand : CommandObjectBase
     {
         public override string CommandName
         {
@@ -35,7 +30,7 @@ namespace Business.Test.TestUtility
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new ReadFromFileCommand()
+            return new ReadFromFileCommand
             {
                 RequestObject = requestObject
                 ,
@@ -47,7 +42,6 @@ namespace Business.Test.TestUtility
                     // ReSharper disable once UnusedVariable
                     var db0 = 1 / my0;
 
-
                     // add a command here!
                     if (o.RequestData is string)
                     {
@@ -55,7 +49,6 @@ namespace Business.Test.TestUtility
                     }
                     return "hello from ReadFromFileCommand!";
                 }
-            
             };
         }
     }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace Business.Common.IO
+﻿namespace Business.Common.IO
 {
     public static class ZipExtensionBase
     {
-
         //public static MemoryStream ReadZipEntryToStream(this FileInfo file, Int32 index)
         //{
         //    MemoryStream ms = new MemoryStream();
@@ -88,9 +83,9 @@ namespace Business.Common.IO
         //                                zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
         //                                zip.UpdateEntry(InputFileInfo.Name, inputfs);
         //                                zip.Save(fs);
-        //                            }                                   
+        //                            }
 
-        //                            //zip.AddFile(InputFileInfo.FullName).FileName = InputFileInfo.Name;                                    
+        //                            //zip.AddFile(InputFileInfo.FullName).FileName = InputFileInfo.Name;
         //                        }
         //                        else zip.AddFile(InputFileInfo.FullName).FileName = InputFileInfo.Name;
         //                        //zip.Save(file.FullName);
@@ -168,8 +163,5 @@ namespace Business.Common.IO
         //        return file;
         //    }
         //}
-
-
-
     }
 }

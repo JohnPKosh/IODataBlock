@@ -6,7 +6,6 @@ namespace Business.Common.System.States
 {
     public class JsonFileLoader : IStateLoader
     {
-
         public JsonFileLoader(FileInfo file)
         {
             _file = file;
@@ -37,7 +36,6 @@ namespace Business.Common.System.States
         {
             stateValue.WriteJsonToFile(_file);
         }
-
 
         public bool TrySaveState<T>(T stateValue)
         {

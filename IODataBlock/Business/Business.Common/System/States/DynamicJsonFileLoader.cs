@@ -6,7 +6,6 @@ namespace Business.Common.System.States
 {
     public class DynamicJsonFileLoader : IDynamicStateLoader
     {
-
         public DynamicJsonFileLoader(FileInfo file)
         {
             _file = file;

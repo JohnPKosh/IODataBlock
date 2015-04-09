@@ -42,10 +42,10 @@ namespace Data.DbClient.Extensions
         public static Stream JsonDbQueryToStream(string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
         {
             Stream ms = new MemoryStream();
-            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, settings: settings, parameters:parameters);
+            ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, settings: settings, parameters: parameters);
             return ms;
         }
-        
+
         public static Stream JsonDbQueryToStream(string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonConverter[] converters = null, params object[] parameters)
         {
             Stream ms = new MemoryStream();
@@ -66,7 +66,7 @@ namespace Data.DbClient.Extensions
             ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
             return ms;
         }
-        
+
         public static FileStream JsonDbQueryToFileStream(string filePath, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
         {
             var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -94,6 +94,5 @@ namespace Data.DbClient.Extensions
             ms.JsonDbQuery(commandText, connectionString, providerName, commandTimeout, converters: converters, parameters: parameters);
             return ms.ToArray();
         }
-
     }
 }

@@ -15,7 +15,7 @@ namespace Business.Common.System
 
         public static SystemCommandParser Instance
         {
-            get { return SystemCommandParser._instance ?? (SystemCommandParser._instance = new SystemCommandParser(SystemCommandDictionary.Commands)); }
+            get { return _instance ?? (_instance = new SystemCommandParser(SystemCommandDictionary.Commands)); }
         }
 
         public static IResponseObject ExecuteCommand(string collectionName, string commandName, object requestData, string correlationId = null)

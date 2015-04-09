@@ -19,8 +19,8 @@ namespace Business.Common.IO
     {
         public IEnumerable<FileInfo> GetMatchedItems(DirectoryInfo sourceDirectory, DirectoryInfo destinationDirectory)
         {
-            if (!sourceDirectory.Exists)throw new DirectoryNotFoundException();
-            if(!destinationDirectory.Exists) throw new DirectoryNotFoundException();
+            if (!sourceDirectory.Exists) throw new DirectoryNotFoundException();
+            if (!destinationDirectory.Exists) throw new DirectoryNotFoundException();
 
             var srcfiles = sourceDirectory.GetFiles();
             return destinationDirectory.GetFiles()
@@ -46,7 +46,6 @@ namespace Business.Common.IO
             return sourceDirectory.GetFiles()
                     .Where(f => destfiles.All(x => !String.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
         }
-
 
         //public List<String> GetMatchedItems(String sourceDirectory, String destinationDirectory)
         //{
@@ -92,7 +91,6 @@ namespace Business.Common.IO
         //            .Select(f => f.Name));
         //    return rv;
         //}
-
     }
 
     public static class FileNameComparer

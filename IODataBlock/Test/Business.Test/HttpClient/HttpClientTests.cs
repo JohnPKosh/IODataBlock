@@ -5,6 +5,5 @@ namespace Business.Test.HttpClient
     [TestClass]
     public class HttpClientTests
     {
-
     }
 }

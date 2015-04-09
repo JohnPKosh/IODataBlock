@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Utilities.Extensions
 {
@@ -104,32 +101,42 @@ namespace Business.Utilities.Extensions
             {
                 case StringFilterOption.Equals:
                     return value.Equals(paramList[0], comparison);
+
                 case StringFilterOption.StartsWith:
                     return value.StartsWith(paramList[0], comparison);
+
                 case StringFilterOption.Contains:
                     switch (comparison)
                     {
                         case StringComparison.OrdinalIgnoreCase:
                             return value.ToUpperInvariant().Contains(paramList[0].ToUpperInvariant());
+
                         case StringComparison.CurrentCultureIgnoreCase:
                             return value.ToUpperInvariant().Contains(paramList[0].ToUpperInvariant());
+
                         case StringComparison.InvariantCultureIgnoreCase:
                             return value.ToUpperInvariant().Contains(paramList[0].ToUpperInvariant());
-                        default: return value.Contains(paramList[0]);
 
+                        default: return value.Contains(paramList[0]);
                     }
                 case StringFilterOption.EndsWith:
                     return value.EndsWith(paramList[0], comparison);
+
                 case StringFilterOption.NotEquals:
                     return !value.Equals(paramList[0], comparison);
+
                 case StringFilterOption.GreaterThan:
                     return value.IsStringGtString(paramList[0], comparison);
+
                 case StringFilterOption.LessThan:
                     return value.IsStringLtString(paramList[0], comparison);
+
                 case StringFilterOption.GreaterThanOrEqualTo:
                     return value.Equals(paramList[0], comparison) || value.IsStringGtString(paramList[0], comparison);
+
                 case StringFilterOption.LessThanOrEqualTo:
                     return value.Equals(paramList[0], comparison) || value.IsStringLtString(paramList[0], comparison);
+
                 case StringFilterOption.Between:
                     //if (_isBetween(m[member], paramList[0], paramList[1])) rv.Add(value);
                     break;

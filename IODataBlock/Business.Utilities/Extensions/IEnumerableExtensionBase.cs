@@ -33,8 +33,12 @@ namespace Business.Utilities.Extensions
             return values.Select(function);
         }
 
-        public delegate Tout Action<Tin, Tout>(Tin element); 
-        public static IEnumerable<Tout> Transform<Tin, Tout>(IEnumerable<Tin> list, Action<Tin, Tout> method) { foreach (Tin entry in list) yield return method(entry); }
+        public delegate TOut Action<in TIn, out TOut>(TIn element);
+
+        public static IEnumerable<TOut> Transform<TIn, TOut>(IEnumerable<TIn> list, Action<TIn, TOut> method)
+        {
+            return list.Select(entry => method(entry));
+        }
 
         public static ObservableCollection<T> IEnumerableToObservableCollection<T>(this IEnumerable<T> values)
         {

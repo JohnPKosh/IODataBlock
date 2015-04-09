@@ -116,7 +116,7 @@ namespace Business.Common.Exceptions
             return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, title, description, exceptionGroup, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace));
         }
 
-        #endregion
+        #endregion Explicit Exception Factory Methods
 
         #endregion Factory Method
 

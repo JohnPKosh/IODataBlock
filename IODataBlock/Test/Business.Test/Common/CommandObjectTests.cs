@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.System;
 using Business.Test.TestUtility;
@@ -19,7 +17,7 @@ namespace Business.Test.Common
         {
             // Set up some commands to call!
             _commands = new List<ICommandObject> { new WriteToFileCommand(), new ReadFromFileCommand() };
-            
+
             // create the parser that will do the work!
             _parser = new CommandObjectParser(_commands);
         }
@@ -265,6 +263,5 @@ namespace Business.Test.Common
         {
             return Guid.NewGuid().ToString();
         }
-
     }
 }

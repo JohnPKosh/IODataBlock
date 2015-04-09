@@ -1,7 +1,7 @@
 ﻿using System;
 using Business.Common.Exceptions;
-using Business.Common.Responses;
 using Business.Common.Requests;
+using Business.Common.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Common
@@ -9,17 +9,18 @@ namespace Business.Test.Common
     [TestClass]
     public class RequestObjectTests
     {
-
         [TestMethod]
         public void HowToWorkTogetherSimpleSuccessfullTest()
         {
             // create a request here
-            var requestObject = new RequestObject() { CorrelationId = "111111", RequestData = "This is my request :-)" };
+            var requestObject = new RequestObject { CorrelationId = "111111", RequestData = "This is my request :-)" };
             // create a response object to hold the data.
-            var responseObject = new ResponseObject();
-            // add in the request data to the response since this will not change even on error.
-            responseObject.RequestData = requestObject.RequestData;
-            responseObject.CorrelationId = requestObject.CorrelationId;
+            var responseObject = new ResponseObject
+            {
+                // add in the request data to the response since this will not change even on error.
+                RequestData = requestObject.RequestData,
+                CorrelationId = requestObject.CorrelationId
+            };
 
             try
             {
@@ -59,12 +60,14 @@ namespace Business.Test.Common
         public void HowToWorkTogetherSimpleFailureTest()
         {
             // create a request here
-            var requestObject = new RequestObject() {CorrelationId = "111111", RequestData = "This is my request :-)"};
+            var requestObject = new RequestObject { CorrelationId = "111111", RequestData = "This is my request :-)" };
             // create a response object to hold the data.
-            var responseObject = new ResponseObject();
-            // add in the request data to the response since this will not change even on error.
-            responseObject.RequestData = requestObject.RequestData;
-            responseObject.CorrelationId = requestObject.CorrelationId;
+            var responseObject = new ResponseObject
+            {
+                // add in the request data to the response since this will not change even on error.
+                RequestData = requestObject.RequestData,
+                CorrelationId = requestObject.CorrelationId
+            };
 
             try
             {
@@ -158,7 +161,7 @@ namespace Business.Test.Common
 
             #endregion Json result
         }
-        
+
         [TestMethod]
         public void HowToWorkTogetherReallySimpleFailureTest()
         {
@@ -218,7 +221,6 @@ namespace Business.Test.Common
             #endregion Json result
         }
 
-
         [TestMethod]
         public void CallAReallySimpleSuccessfullTest()
         {
@@ -227,10 +229,9 @@ namespace Business.Test.Common
             // fake resonse data here
             var responseData = "Some ResponseData goes HERE!";
 
-
             // simulate a good response
             var responseObject = ExecuteSuccessfullResponse(requestData, responseData, "Success Response Code", "1000000");
-            
+
             // review the results
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
@@ -256,9 +257,6 @@ namespace Business.Test.Common
         {
             // fake request data here
             var requestData = "Hello World!";
-            // fake resonse data here
-            var responseData = "Some ResponseData goes HERE!";
-
 
             // simulate a failed response
             var responseObject = ExecuteFailedResponse(requestData, "1000000");
@@ -296,12 +294,11 @@ namespace Business.Test.Common
             #endregion Json result
         }
 
-
         #region private methods
 
         private IResponseObject ExecuteSuccessfullResponse(object requestData, object responseData, object responseCode = null, string correlationId = null)
         {
-            var rv = requestData.ToUncompletedResponse(null, correlationId);
+            //var rv = requestData.ToUncompletedResponse(null, correlationId);
             try
             {
                 return requestData.ToSuccessfullResponse(responseData, responseCode, correlationId);
@@ -312,10 +309,9 @@ namespace Business.Test.Common
             }
         }
 
-
         private IResponseObject ExecuteFailedResponse(object requestData, string correlationId = null)
         {
-            var rv = requestData.ToUncompletedResponse(null, correlationId);
+            //var rv = requestData.ToUncompletedResponse(null, correlationId);
             try
             {
                 // ReSharper disable once ConvertToConstant.Local
@@ -341,8 +337,6 @@ namespace Business.Test.Common
             }
         }
 
-        #endregion
-
-
+        #endregion private methods
     }
 }

@@ -3,12 +3,13 @@ using Business.Common.System.States;
 
 namespace Business.Common.System.App
 {
-
     public class DynamicAppState
     {
         private static DynamicAppState _instance = new DynamicAppState();
 
-        private DynamicAppState() { }
+        private DynamicAppState()
+        {
+        }
 
         public static DynamicAppState Instance
         {

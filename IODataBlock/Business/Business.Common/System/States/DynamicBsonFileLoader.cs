@@ -6,7 +6,6 @@ namespace Business.Common.System.States
 {
     public class DynamicBsonFileLoader : IDynamicStateLoader
     {
-
         public DynamicBsonFileLoader(FileInfo file)
         {
             _file = file;

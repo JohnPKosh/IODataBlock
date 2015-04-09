@@ -168,7 +168,7 @@ namespace Business.Common.IO
                         if (!ex.Message.Contains(@"The process cannot access the file") || DateTime.Now >= lockWaitUntil) throw;
                         Thread.Sleep(500);
                     }
-                        // ReSharper disable once EmptyGeneralCatchClause
+                    // ReSharper disable once EmptyGeneralCatchClause
                     catch (Exception)
                     {
                         // since this is a read lock do not throw error.
@@ -404,7 +404,7 @@ namespace Business.Common.IO
                     }
                     finally
                     {
-// ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         if (hasMutex && mutex != null)
                         {
                             mutex.ReleaseMutex();

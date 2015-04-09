@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.System;
 using Fasterflect;
 
@@ -11,7 +9,6 @@ namespace Business.Common.Reflection
 {
     public class TypeSearch
     {
-
         public IList<Type> GetTypesInAssembly(Assembly assembly)
         {
             return assembly.Types();

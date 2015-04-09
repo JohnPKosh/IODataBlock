@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Business.Test.TestUtility;
 using Business.Utilities.Extensions;
 using Data.DbClient.Extensions;
 using DbExtensions;
@@ -17,6 +16,10 @@ namespace Business.Test.Data
     {
         private const string SqlServer = @"(localdb)\ProjectsV12";
         private const string SqlServerDatabase = @"IODataBlock.Database";
+
+        private string MySqlConnectionString = @"Server=jkoshlt1;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+        //2n6Kr6dQoY8#
+        //MySql.Data
 
         private string SqlServerConnectionString
         {
@@ -36,12 +39,32 @@ namespace Business.Test.Data
             }
         }
 
+
+        [TestMethod]
+        public void QueryMySqlTest()
+        {
+            using (var db = Database.OpenConnectionString(MySqlConnectionString, "MySql.Data.MySqlClient"))
+            {
+                #region sql
+
+                var sql = @"SELECT * FROM test.notes;";
+
+                #endregion sql
+
+                var data = db.Query(sql, 120);
+                if (!data.Any())
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
         #region SQL Server Tests
 
         [TestMethod]
         public void QuerySqlServerSchemaTest()
         {
-            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
             {
                 #region sql
 
@@ -87,7 +110,7 @@ ORDER BY [ORDINAL_POSITION]
         [TestMethod]
         public void QuerySqlServerJObjectSchemaTest()
         {
-            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
             {
                 #region sql
 
@@ -131,7 +154,7 @@ ORDER BY [ORDINAL_POSITION]
                 foreach (var d in data)
                 {
                     var str = d.ToString(Formatting.Indented);
-                    if(String.IsNullOrWhiteSpace(str)) Assert.Fail("no json????");
+                    if (String.IsNullOrWhiteSpace(str)) Assert.Fail("no json????");
                 }
 
                 var jarr = new JArray(data);
@@ -143,7 +166,7 @@ ORDER BY [ORDINAL_POSITION]
         [TestMethod]
         public void QuerySqlServerJObjectSchemaTest2()
         {
-            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
             {
                 #region sql
 
@@ -226,12 +249,10 @@ ORDER BY [ORDINAL_POSITION]
             }
         }
 
-
         [TestMethod]
         public void DeserializeFromStream()
         {
-
-            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
             {
                 #region sql
 
@@ -275,7 +296,6 @@ ORDER BY [ORDINAL_POSITION]
                     if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
-
         }
 
         #endregion SQL Server Tests
@@ -288,7 +308,7 @@ ORDER BY [ORDINAL_POSITION]
             using (var db = Database.OpenConnectionString(SqliteConnectionString, "System.Data.SQLite"))
             {
                 // Execute query
-                foreach (var a in db.Query("SELECT * FROM `ImportLog`  ORDER BY `rowid` ASC LIMIT 0, 50000;"))
+                foreach (var a in db.Query(@"SELECT [LogData]FROM [ImportLog]"))
                 {
                     if (a.LogData != null)
                     {
@@ -328,38 +348,38 @@ ORDER BY [ORDINAL_POSITION]
         [TestMethod]
         public void SqlBuilderCanCreateSimpleQueryTest()
         {
-            using (Database db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
             {
                 #region sql
 
-//                var sql = @"
-//SELECT [TABLE_CATALOG]
-//    ,[TABLE_SCHEMA]
-//    ,[TABLE_NAME]
-//    ,[COLUMN_NAME]
-//    ,[ORDINAL_POSITION]
-//    ,[COLUMN_DEFAULT]
-//    ,[IS_NULLABLE]
-//    ,[DATA_TYPE]
-//    ,[CHARACTER_MAXIMUM_LENGTH]
-//    ,[CHARACTER_OCTET_LENGTH]
-//    ,[NUMERIC_PRECISION]
-//    ,[NUMERIC_PRECISION_RADIX]
-//    ,[NUMERIC_SCALE]
-//    ,[DATETIME_PRECISION]
-//    ,[CHARACTER_SET_CATALOG]
-//    ,[CHARACTER_SET_SCHEMA]
-//    ,[CHARACTER_SET_NAME]
-//    ,[COLLATION_CATALOG]
-//    ,[COLLATION_SCHEMA]
-//    ,[COLLATION_NAME]
-//    ,[DOMAIN_CATALOG]
-//    ,[DOMAIN_SCHEMA]
-//    ,[DOMAIN_NAME]
-//FROM [INFORMATION_SCHEMA].[COLUMNS]
-//WHERE [TABLE_NAME] LIKE @0
-//ORDER BY [ORDINAL_POSITION]
-//";
+                //                var sql = @"
+                //SELECT [TABLE_CATALOG]
+                //    ,[TABLE_SCHEMA]
+                //    ,[TABLE_NAME]
+                //    ,[COLUMN_NAME]
+                //    ,[ORDINAL_POSITION]
+                //    ,[COLUMN_DEFAULT]
+                //    ,[IS_NULLABLE]
+                //    ,[DATA_TYPE]
+                //    ,[CHARACTER_MAXIMUM_LENGTH]
+                //    ,[CHARACTER_OCTET_LENGTH]
+                //    ,[NUMERIC_PRECISION]
+                //    ,[NUMERIC_PRECISION_RADIX]
+                //    ,[NUMERIC_SCALE]
+                //    ,[DATETIME_PRECISION]
+                //    ,[CHARACTER_SET_CATALOG]
+                //    ,[CHARACTER_SET_SCHEMA]
+                //    ,[CHARACTER_SET_NAME]
+                //    ,[COLLATION_CATALOG]
+                //    ,[COLLATION_SCHEMA]
+                //    ,[COLLATION_NAME]
+                //    ,[DOMAIN_CATALOG]
+                //    ,[DOMAIN_SCHEMA]
+                //    ,[DOMAIN_NAME]
+                //FROM [INFORMATION_SCHEMA].[COLUMNS]
+                //WHERE [TABLE_NAME] LIKE @0
+                //ORDER BY [ORDINAL_POSITION]
+                //";
 
                 #endregion sql
 
@@ -376,6 +396,6 @@ ORDER BY [ORDINAL_POSITION]
             }
         }
 
-        #endregion
+        #endregion DbExtensions.SqlBuilder Tests
     }
 }

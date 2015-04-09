@@ -197,8 +197,8 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
-                return QueryInternal(commandText, commandTimeout, parameters);
+                return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
+                //return QueryInternal(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
         }

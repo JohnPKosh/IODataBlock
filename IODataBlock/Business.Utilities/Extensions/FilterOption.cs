@@ -33,7 +33,6 @@
         None
     }
 
-
     public enum DateTimeFilterOption
     {
         Equals,

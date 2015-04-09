@@ -10,7 +10,7 @@ using Microsoft.Win32;
 
 namespace Business.Common.IO
 {
-// ReSharper disable once InconsistentNaming
+    // ReSharper disable once InconsistentNaming
     public static class IOExtensionBase
     {
         // move to helper class
@@ -1502,7 +1502,7 @@ namespace Business.Common.IO
                     {
                         while (true) // Loops Rule!!!!!!!!
                         {
-                            Int32 bytecount = fs.Read(bytes, 0, bytes.Length);
+                            var bytecount = fs.Read(bytes, 0, bytes.Length);
                             if (bytecount > 0)
                             {
                                 ms.Write(bytes, 0, bytecount);
@@ -1619,7 +1619,7 @@ namespace Business.Common.IO
             {
                 if (fileNameRestrictions != null)
                 {
-// ReSharper disable once PossibleMultipleEnumeration
+                    // ReSharper disable once PossibleMultipleEnumeration
                     if (fileNameRestrictions.Contains(gzfi.Extension.ToLower())) continue;
                     rv.Add(gzfi.GZip(360000));
                     if (deleteOriginal) gzfi.Delete();
@@ -1674,7 +1674,7 @@ namespace Business.Common.IO
 
                             while (true) // Loops Rule!!!!!!!!
                             {
-                                Int32 bytecount = inputfs.Read(bytes, 0, bytes.Length);
+                                var bytecount = inputfs.Read(bytes, 0, bytes.Length);
                                 if (bytecount > 0)
                                 {
                                     stream.Write(bytes, 0, bytecount);
@@ -1753,7 +1753,7 @@ namespace Business.Common.IO
             return ms;
         }
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static Stream GUnZipToStream(this Stream stream, Int32 bufferSize = 0)
         {
             var ms = new MemoryStream();

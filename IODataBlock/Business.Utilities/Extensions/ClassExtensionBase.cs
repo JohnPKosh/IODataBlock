@@ -6,7 +6,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Security.Permissions;
 using Fasterflect;
 
 namespace Business.Utilities.Extensions

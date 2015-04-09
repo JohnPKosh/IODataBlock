@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Business.Common.IO
 {
-// ReSharper disable once InconsistentNaming
+    // ReSharper disable once InconsistentNaming
     public static class IOUtility
     {
         #region "Properties"

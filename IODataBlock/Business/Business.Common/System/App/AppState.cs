@@ -2,12 +2,13 @@
 
 namespace Business.Common.System.App
 {
-
     public class AppState
     {
         private static AppState _instance = new AppState();
 
-        private AppState() { }
+        private AppState()
+        {
+        }
 
         public static AppState Instance
         {

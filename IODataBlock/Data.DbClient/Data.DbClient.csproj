@@ -93,6 +93,9 @@
     <Compile Include="DatabaseUtilityMethods.cs" />
     <Compile Include="Configuration\DbProviderFactoryWrapper.cs" />
     <Compile Include="Extensions\DbClientJsonExtensions.cs" />
+    <Compile Include="Extensions\SqlBuilderExtensions.cs" />
+    <Compile Include="Fluent\DbQuery.cs" />
+    <Compile Include="Fluent\DbQueryBuilder.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />
     <Compile Include="Interfaces\IDbFileHandler.cs" />

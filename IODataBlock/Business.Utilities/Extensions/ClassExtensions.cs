@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
@@ -13,7 +12,6 @@ namespace Business.Utilities.Extensions
 {
     public static partial class ClassExtensions
     {
-
         #region Json.net Deserialization
 
         #region Json.net Populate
@@ -163,6 +161,7 @@ namespace Business.Utilities.Extensions
         }
 
         /* TODO add test methods for all 3 below */
+
         public static ExpandoObject ReadJsonFile(this FileInfo file)
         {
             using (var sr = file.OpenText())
@@ -187,7 +186,6 @@ namespace Business.Utilities.Extensions
                 return sr.ReadToEnd().ConvertJsonExpando(settings);
             }
         }
-
 
         #endregion Json.net File Deserialization
 
@@ -220,7 +218,6 @@ namespace Business.Utilities.Extensions
 
         #endregion Json.net Utilities
 
-
         #region BSON Serialization
 
         public static Byte[] ToBsonByteArray(this object value)
@@ -229,7 +226,7 @@ namespace Business.Utilities.Extensions
             using (var writer = new BsonWriter(ms))
             {
                 var serializer = new JsonSerializer();
-                serializer.Serialize(writer,value);
+                serializer.Serialize(writer, value);
                 return ms.ToArray();
             }
         }
@@ -249,10 +246,7 @@ namespace Business.Utilities.Extensions
             }
         }
 
-
-
-
-        #endregion
+        #endregion BSON Serialization
 
         #region BSON Deserialization
 
@@ -275,8 +269,8 @@ namespace Business.Utilities.Extensions
             }
         }
 
-
         /* TODO add test methods for all 3 below */
+
         public static ExpandoObject ReadBsonFile(this FileInfo file)
         {
             using (var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -302,6 +296,6 @@ namespace Business.Utilities.Extensions
         //    }
         //}
 
-        #endregion
+        #endregion BSON Deserialization
     }
 }

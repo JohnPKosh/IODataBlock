@@ -8,7 +8,6 @@ using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Converters;
 
-
 namespace Business.Test.Common
 {
     [TestClass]
@@ -124,8 +123,8 @@ namespace Business.Test.Common
         [TestMethod]
         public void DynamicSearchTest1()
         {
-            List<dynamic> valueList = new List<dynamic>();
-            for (int i = 0; i < 10; i++)
+            var valueList = new List<dynamic>();
+            for (var i = 0; i < 10; i++)
             {
                 dynamic d = new ExpandoObject();
                 d.count = i;
@@ -216,7 +215,6 @@ namespace Business.Test.Common
             Assert.IsTrue(yn);
         }
 
-
         [TestMethod]
         public void IsStringFilterMatchLessThan()
         {
@@ -233,9 +231,9 @@ namespace Business.Test.Common
         {
             var dictionary = new Dictionary<string, Dictionary<Int32, string>>
             {
-                {"A", new Dictionary<Int32, string>() {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
-                {"B", new Dictionary<Int32, string>() {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
-                {"C", new Dictionary<Int32, string>() {{1, "Value 3"}, {2, "Value 4"}, {3, "Value 5"}}}
+                {"A", new Dictionary<Int32, string> {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
+                {"B", new Dictionary<Int32, string> {{1, "Value 1"}, {2, "Value 2"}, {3, "Value 3"}}},
+                {"C", new Dictionary<Int32, string> {{1, "Value 3"}, {2, "Value 4"}, {3, "Value 5"}}}
             };
             var dictionaryToString = dictionary.SelectMany(n => n.Value.Select(o => n.Key + "." + o.Key + "," + o.Value)).ToList(); // transform here with LINQ
             foreach (var d in dictionaryToString)
@@ -245,19 +243,11 @@ namespace Business.Test.Common
             }
         }
 
-
-
-
-
-
-
         #endregion Dictionary Ideas
-
 
         [TestMethod]
         public void DeserializeFromStream()
         {
-
             //WriteJsonToFilePath
             var kirk = FakePerson.CreateKirk();
 
@@ -272,6 +262,5 @@ namespace Business.Test.Common
             Assert.IsNotNull(newKirk);
             Assert.IsNotNull(newKirk.Pets);
         }
-
     }
 }

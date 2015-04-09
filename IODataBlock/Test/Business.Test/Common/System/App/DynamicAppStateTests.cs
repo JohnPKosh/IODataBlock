@@ -160,12 +160,9 @@ namespace Business.Test.Common.System.App
             Assert.IsFalse(saveResponse.HasExceptions);
         }
 
-
         private string NewGuid()
         {
             return Guid.NewGuid().ToString();
         }
-
-
     }
 }

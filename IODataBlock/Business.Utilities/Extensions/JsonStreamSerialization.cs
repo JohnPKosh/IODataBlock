@@ -13,7 +13,7 @@ namespace Business.Utilities.Extensions
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 var serializer = JsonSerializer.CreateDefault(settings);
-                serializer.Serialize(writer,value,typeof(T));
+                serializer.Serialize(writer, value, typeof(T));
             }
             if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin);  // reset Stream to beginning.
         }

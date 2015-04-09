@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-using System.IO;
-using Business.Common.System;
+﻿using System.IO;
 using Business.Common.System.App;
 using Business.Common.System.States;
 using Business.Test.TestUtility;
@@ -57,6 +55,5 @@ namespace Business.Test.Common.System.App
             var fakePet = AppState.Instance.Value as FakePet;
             Assert.IsTrue(fakePet != null && fakePet.Name == _appState.Name);
         }
-
     }
 }
