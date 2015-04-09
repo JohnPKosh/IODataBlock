@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="EnvironmentUtilities.cs" />
     <Compile Include="Extensions\ClassExtensionBase.cs" />
+    <Compile Include="Extensions\IParameterTransformers\IParameterTransformerByCollection.cs" />
+    <Compile Include="Extensions\IParameterTransformers\SqlSelectParameterTransformer.cs" />
     <Compile Include="Extensions\JsonStreamSerialization.cs" />
     <Compile Include="Extensions\JsonStreamDeserialization.cs" />
     <Compile Include="Extensions\JsonObjectFileInfoSerialization.cs" />
@@ -77,6 +79,9 @@
     <Compile Include="Extensions\FilterOption.cs" />
     <Compile Include="Extensions\IEnumerableExtensionBase.cs" />
     <Compile Include="Extensions\IObjectBaseExtensions.cs" />
+    <Compile Include="Extensions\ParameterExtensionBase.cs" />
+    <Compile Include="Extensions\SeperatedFileUtil.cs" />
+    <Compile Include="Extensions\StringExtensionBase.cs" />
     <Compile Include="Extensions\StringFilterExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

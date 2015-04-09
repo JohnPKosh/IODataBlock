@@ -15,13 +15,10 @@ namespace Business.Test.Data
     public class DbClientTests
     {
         private const string SqlServer = @"(localdb)\ProjectsV12";
+
         private const string SqlServerDatabase = @"IODataBlock.Database";
 
-        private string MySqlConnectionString = @"Server=jkoshlt1;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
-        //2n6Kr6dQoY8#
-        //MySql.Data
-
-        private string SqlServerConnectionString
+        private static string SqlServerConnectionString
         {
             get
             {
@@ -29,9 +26,11 @@ namespace Business.Test.Data
             }
         }
 
+        private const string MySqlConnectionString = @"Server=jkoshlt1;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+
         private const string SqliteFile = "sqliteTest.sl3";
 
-        private string SqliteConnectionString
+        private static string SqliteConnectionString
         {
             get
             {
@@ -39,6 +38,7 @@ namespace Business.Test.Data
             }
         }
 
+        #region MySql Tests
 
         [TestMethod]
         public void QueryMySqlTest()
@@ -58,6 +58,8 @@ namespace Business.Test.Data
                 }
             }
         }
+
+        #endregion MySql Tests
 
         #region SQL Server Tests
 
