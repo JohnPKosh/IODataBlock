@@ -310,11 +310,11 @@ ORDER BY [ORDINAL_POSITION]
             using (var db = Database.OpenConnectionString(SqliteConnectionString, "System.Data.SQLite"))
             {
                 // Execute query
-                foreach (var a in db.Query(@"SELECT [LogData]FROM [ImportLog]"))
+                foreach (var a in db.Query(@"SELECT * FROM [ImportLog]"))
                 {
-                    if (a.LogData != null)
+                    if (a.LogData == null)
                     {
-                        // do somethin
+                        Assert.Fail();
                     }
                 }
             }

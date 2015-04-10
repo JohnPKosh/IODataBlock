@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Data.DbClient.Configuration;
 using Newtonsoft.Json.Linq;
 
@@ -81,6 +82,13 @@ namespace Data.DbClient
         {
             if (Connection.State == ConnectionState.Open) return;
             Connection.Open();
+            OnConnectionOpened();
+        }
+
+        private async Task EnsureConnectionOpenAsync()
+        {
+            if (Connection.State == ConnectionState.Open) return;
+            await Connection.OpenAsync();
             OnConnectionOpened();
         }
 
@@ -197,7 +205,8 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
+                return QueryInternalAsync(commandText, commandTimeout, parameters).Result;
+                //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
                 //return QueryInternal(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
@@ -312,6 +321,44 @@ namespace Data.DbClient
             }
         }
 
+
+        private async Task<List<dynamic>> QueryInternalAsync(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new List<dynamic>();
+            await EnsureConnectionOpenAsync();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                List<string> columnNames = null;
+                var fcnt = 0;
+                using (var dr = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+                {
+                    while (await dr.ReadAsync())
+                    {
+                        if (columnNames == null)
+                        {
+                            fcnt = dr.FieldCount;
+                            columnNames = GetColumnNames(dr).ToList();
+                        }
+                        dynamic e = new ExpandoObject();
+                        var d = e as IDictionary<string, object>;
+                        for (var i = 0; i < fcnt; i++)
+                        {
+                            d.Add(columnNames[i], await dr.GetFieldValueAsync<object>(i));
+                        }
+                        rv.Add(e);
+                    }
+                }
+            }
+            return rv;
+        }
+
         private IEnumerable<JObject> QueryInternalJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             EnsureConnectionOpen();
@@ -384,6 +431,14 @@ namespace Data.DbClient
             for (var i = 0; i < record.FieldCount; i++)
             {
                 yield return record.GetName(i);
+            }
+        }
+
+        public static IEnumerable<string> GetColumnNames(DbDataReader reader)
+        {
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                yield return reader.GetName(i);
             }
         }
 
