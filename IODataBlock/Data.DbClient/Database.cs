@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Data.DbClient.Configuration;
 using Newtonsoft.Json.Linq;
@@ -205,7 +206,7 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternalAsync(commandText, commandTimeout, parameters).Result;
+                return QueryInternalAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
                 //return QueryInternal(commandText, commandTimeout, parameters);
             }
@@ -216,7 +217,8 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternalJObjects(commandText, commandTimeout, parameters);
+                return QueryInternalJObjectsAsync(commandText, commandTimeout, parameters).Result;
+                //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
         }
@@ -255,6 +257,23 @@ namespace Data.DbClient
             using (dbCommand)
             {
                 return dbCommand.ExecuteReader();
+            }
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            await EnsureConnectionOpenAsync();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                return await dbCommand.ExecuteReaderAsync(commandBehavior, cancellationToken);
             }
         }
 
@@ -321,7 +340,6 @@ namespace Data.DbClient
             }
         }
 
-
         private async Task<List<dynamic>> QueryInternalAsync(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             var rv = new List<dynamic>();
@@ -359,6 +377,32 @@ namespace Data.DbClient
             return rv;
         }
 
+        private async Task<List<dynamic>> QueryInternalAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new List<dynamic>();
+            List<string> columnNames = null;
+            var fcnt = 0;
+            using (var dr = await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters))
+            {
+                while (await dr.ReadAsync(cancellationToken))
+                {
+                    if (columnNames == null)
+                    {
+                        fcnt = dr.FieldCount;
+                        columnNames = GetColumnNames(dr).ToList();
+                    }
+                    dynamic e = new ExpandoObject();
+                    var d = e as IDictionary<string, object>;
+                    for (var i = 0; i < fcnt; i++)
+                    {
+                        d.Add(columnNames[i], await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                    }
+                    rv.Add(e);
+                }
+            }
+            return rv;
+        }
+
         private IEnumerable<JObject> QueryInternalJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             EnsureConnectionOpen();
@@ -391,6 +435,43 @@ namespace Data.DbClient
                     }
                 }
             }
+        }
+
+        private async Task<List<JObject>> QueryInternalJObjectsAsync(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new List<JObject>();
+            await EnsureConnectionOpenAsync();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                List<string> columnNames = null;
+                var fcnt = 0;
+                using (var dr = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+                {
+                    while (await dr.ReadAsync())
+                    {
+                        if (columnNames == null)
+                        {
+                            fcnt = dr.FieldCount;
+                            columnNames = GetColumnNames(dr).ToList();
+                        }
+                        dynamic e = new JObject();
+                        var d = e as IDictionary<string, JToken>;
+                        for (var i = 0; i < fcnt; i++)
+                        {
+                            d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i)));
+                        }
+                        rv.Add(e);
+                    }
+                }
+            }
+            return rv;
         }
 
         private static void AddParameters(DbCommand command, IEnumerable<object> args)
