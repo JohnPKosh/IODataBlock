@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
+using Business.Common.Extensions;
 using Business.Test.TestUtility;
-using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;

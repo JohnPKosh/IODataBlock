@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using Business.Common.Extensions;
 using Business.Test.TestUtility;
-using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Converters;
 
@@ -261,6 +261,14 @@ namespace Business.Test.Common
 
             Assert.IsNotNull(newKirk);
             Assert.IsNotNull(newKirk.Pets);
+        }
+
+        [TestMethod]
+        public void CanGetXmlDocument()
+        {
+            var kirk = FakePerson.CreateKirk();
+            var xml = kirk.ToJObjectXml();
+            Assert.IsNotNull(xml);
         }
     }
 }

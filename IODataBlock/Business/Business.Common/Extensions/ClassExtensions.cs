@@ -9,7 +9,7 @@ using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace Business.Utilities.Extensions
+namespace Business.Common.Extensions
 {
     public static partial class ClassExtensions
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Business.Common.Extensions;
 using Business.Test.TestUtility;
-using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test

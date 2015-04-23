@@ -124,6 +124,48 @@ namespace Data.DbClient
             return dbFileHandler != null ? dbFileHandler.GetConnectionConfiguration(fileName) : null;
         }
 
+        public dynamic GetLastInsertId()
+        {
+            return QueryValue("SELECT @@Identity", args: new object[0]);
+        }
+
+        private static void AddParameters(DbCommand command, IEnumerable<object> args)
+        {
+            if (args == null) return;
+            var dbParameters = args.Select((o, index) =>
+            {
+                var dbParameter = command.CreateParameter();
+                dbParameter.ParameterName = index.ToString(CultureInfo.InvariantCulture);
+                var value = o;
+                if (o == null)
+                {
+                    value = DBNull.Value;
+                }
+                dbParameter.Value = value;
+                return dbParameter;
+            });
+            foreach (var dbParameter1 in dbParameters)
+            {
+                command.Parameters.Add(dbParameter1);
+            }
+        }
+
+        public static IEnumerable<string> GetColumnNames(DbDataRecord record)
+        {
+            for (var i = 0; i < record.FieldCount; i++)
+            {
+                yield return record.GetName(i);
+            }
+        }
+
+        public static IEnumerable<string> GetColumnNames(DbDataReader reader)
+        {
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                yield return reader.GetName(i);
+            }
+        }
+
         #endregion Helper Methods
 
         #region Open Methods
@@ -179,7 +221,9 @@ namespace Data.DbClient
 
         #region Query Methods
 
-        #region Public Query Methods
+        #region Public Command Methods
+
+        #region Execute Methods
 
         public int Execute(string commandText, int commandTimeout = 0, params object[] args)
         {
@@ -197,10 +241,9 @@ namespace Data.DbClient
             return num;
         }
 
-        public dynamic GetLastInsertId()
-        {
-            return QueryValue("SELECT @@Identity", args: new object[0]);
-        }
+        #endregion Execute Methods
+
+        #region Query Methods
 
         public IEnumerable<dynamic> Query(string commandText, int commandTimeout = 60, params object[] parameters)
         {
@@ -217,7 +260,7 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternalJObjectsAsync(commandText, commandTimeout, parameters).Result;
+                return QueryInternalJObjectsAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
@@ -229,7 +272,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
-            if (commandTimeout > 0 && Connection.GetType().Name != "SqlCeConnection")
+            if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
             }
@@ -243,13 +286,62 @@ namespace Data.DbClient
             return dt;
         }
 
+        /*
+        public static async Task<DataTable> GetDataAsync(string connectionString, string query)
+        {
+            DataTable resultTable = new DataTable();
+            try
+            {
+                ConnectionStringSettings connectionStringSettings = System.Configuration.ConfigurationManager.ConnectionStrings[connectionString];
+                DbProviderFactory factory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
+                using (DbConnection connection = factory.CreateConnection())
+                {
+                    connection.ConnectionString = connectionStringSettings.ConnectionString;
+                    connection.Open();
+                    DbCommand command = connection.CreateCommand();
+                    command.CommandText = query;
+                    DbDataReader readers = command.ExecuteReader();
+                    DataTable schemaTable = readers.GetSchemaTable();
+                    foreach (DataRow dataRow in schemaTable.Rows)
+                    {
+                        DataColumn dataColumn = new DataColumn();
+                        dataColumn.ColumnName = dataRow[0].ToString();
+                        dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
+                        resultTable.Columns.Add(dataColumn);
+                    }
+                    readers.Close();
+                    command.CommandTimeout = 30000;
+                    using (DbDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            DataRow dataRow = resultTable.NewRow();
+                            for (int i = 0; i < resultTable.Columns.Count; i++)
+                            {
+                                dataRow[i] = reader[i];
+                            }
+                            Console.WriteLine(string.Format("From thread {0}-and data-{1}", System.Threading.Thread.CurrentThread.ManagedThreadId, dataRow[0]));
+                            resultTable.Rows.Add(dataRow);
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return resultTable;
+        }
+        */
+
         public DbDataReader QueryToDataReader(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
-            if (commandTimeout > 0 && Connection.GetType().Name != "SqlCeConnection")
+            if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
             }
@@ -258,6 +350,16 @@ namespace Data.DbClient
             {
                 return dbCommand.ExecuteReader();
             }
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            return await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, CancellationToken.None, commandTimeout, parameters);
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            return await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters);
         }
 
         public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
@@ -276,6 +378,10 @@ namespace Data.DbClient
                 return await dbCommand.ExecuteReaderAsync(commandBehavior, cancellationToken);
             }
         }
+
+        #endregion Query Methods
+
+        #region Single / Scalar Methods
 
         public dynamic QuerySingle(string commandText, int commandTimeout = 0, params object[] args)
         {
@@ -302,7 +408,9 @@ namespace Data.DbClient
             return obj;
         }
 
-        #endregion Public Query Methods
+        #endregion Single / Scalar Methods
+
+        #endregion Public Command Methods
 
         #region Private Query Methods
 
@@ -311,7 +419,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
-            if (commandTimeout > 0 && Connection.GetType().Name != "SqlCeConnection")
+            if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
             }
@@ -338,43 +446,6 @@ namespace Data.DbClient
                     }
                 }
             }
-        }
-
-        private async Task<List<dynamic>> QueryInternalAsync(string commandText, int commandTimeout = 60, params object[] parameters)
-        {
-            var rv = new List<dynamic>();
-            await EnsureConnectionOpenAsync();
-            var dbCommand = Connection.CreateCommand();
-            dbCommand.CommandText = commandText;
-            if (commandTimeout > 0)
-            {
-                dbCommand.CommandTimeout = commandTimeout;
-            }
-            AddParameters(dbCommand, parameters);
-            using (dbCommand)
-            {
-                List<string> columnNames = null;
-                var fcnt = 0;
-                using (var dr = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                {
-                    while (await dr.ReadAsync())
-                    {
-                        if (columnNames == null)
-                        {
-                            fcnt = dr.FieldCount;
-                            columnNames = GetColumnNames(dr).ToList();
-                        }
-                        dynamic e = new ExpandoObject();
-                        var d = e as IDictionary<string, object>;
-                        for (var i = 0; i < fcnt; i++)
-                        {
-                            d.Add(columnNames[i], await dr.GetFieldValueAsync<object>(i));
-                        }
-                        rv.Add(e);
-                    }
-                }
-            }
-            return rv;
         }
 
         private async Task<List<dynamic>> QueryInternalAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
@@ -408,7 +479,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
-            if (commandTimeout > 0 && Connection.GetType().Name != "SqlCeConnection")
+            if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
             }
@@ -437,90 +508,30 @@ namespace Data.DbClient
             }
         }
 
-        private async Task<List<JObject>> QueryInternalJObjectsAsync(string commandText, int commandTimeout = 60, params object[] parameters)
+        private async Task<List<JObject>> QueryInternalJObjectsAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
         {
             var rv = new List<JObject>();
-            await EnsureConnectionOpenAsync();
-            var dbCommand = Connection.CreateCommand();
-            dbCommand.CommandText = commandText;
-            if (commandTimeout > 0)
+            List<string> columnNames = null;
+            var fcnt = 0;
+            using (var dr = await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters))
             {
-                dbCommand.CommandTimeout = commandTimeout;
-            }
-            AddParameters(dbCommand, parameters);
-            using (dbCommand)
-            {
-                List<string> columnNames = null;
-                var fcnt = 0;
-                using (var dr = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+                while (await dr.ReadAsync(cancellationToken))
                 {
-                    while (await dr.ReadAsync())
+                    if (columnNames == null)
                     {
-                        if (columnNames == null)
-                        {
-                            fcnt = dr.FieldCount;
-                            columnNames = GetColumnNames(dr).ToList();
-                        }
-                        dynamic e = new JObject();
-                        var d = e as IDictionary<string, JToken>;
-                        for (var i = 0; i < fcnt; i++)
-                        {
-                            d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i)));
-                        }
-                        rv.Add(e);
+                        fcnt = dr.FieldCount;
+                        columnNames = GetColumnNames(dr).ToList();
                     }
+                    dynamic e = new JObject();
+                    var d = e as IDictionary<string, JToken>;
+                    for (var i = 0; i < fcnt; i++)
+                    {
+                        d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
+                    }
+                    rv.Add(e);
                 }
             }
             return rv;
-        }
-
-        private static void AddParameters(DbCommand command, IEnumerable<object> args)
-        {
-            if (args == null) return;
-            var dbParameters = args.Select((o, index) =>
-            {
-                var dbParameter = command.CreateParameter();
-                dbParameter.ParameterName = index.ToString(CultureInfo.InvariantCulture);
-                var value = o;
-                if (o == null)
-                {
-                    value = DBNull.Value;
-                }
-                dbParameter.Value = value;
-                return dbParameter;
-
-                //var str = command.CreateParameter();
-                //str.ParameterName = index.ToString(CultureInfo.InvariantCulture);
-                //var dbParameter = str;
-                //var obj = o;
-                //var @value = obj;
-                //if (obj == null)
-                //{
-                //    @value = DBNull.Value;
-                //}
-                //dbParameter.Value = @value;
-                //return str;
-            });
-            foreach (var dbParameter1 in dbParameters)
-            {
-                command.Parameters.Add(dbParameter1);
-            }
-        }
-
-        public static IEnumerable<string> GetColumnNames(DbDataRecord record)
-        {
-            for (var i = 0; i < record.FieldCount; i++)
-            {
-                yield return record.GetName(i);
-            }
-        }
-
-        public static IEnumerable<string> GetColumnNames(DbDataReader reader)
-        {
-            for (var i = 0; i < reader.FieldCount; i++)
-            {
-                yield return reader.GetName(i);
-            }
         }
 
         #endregion Private Query Methods

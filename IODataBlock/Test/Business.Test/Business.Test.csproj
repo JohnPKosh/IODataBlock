@@ -78,6 +78,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\System.Data.SQLite.Linq.1.0.96.0\lib\net451\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -121,10 +122,6 @@
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business.Utilities\Business.Utilities.csproj">
-      <Project>{0292c450-1f34-466e-b815-d0094fe738b3}</Project>
-      <Name>Business.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business\Business.Common\Business.Common.csproj">
       <Project>{af1c182a-f249-40d4-83c5-915d83ff9b5c}</Project>
       <Name>Business.Common</Name>
@@ -149,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\System\Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Junk\kirk.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

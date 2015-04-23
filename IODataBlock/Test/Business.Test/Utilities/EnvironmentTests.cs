@@ -1,4 +1,4 @@
-﻿using Business.Utilities;
+﻿using Business.Common.System.App;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Utilities

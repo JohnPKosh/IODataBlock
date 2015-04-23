@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Business.Utilities.Extensions;
+using Business.Common.Extensions;
 using Data.DbClient.Extensions;
 using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
