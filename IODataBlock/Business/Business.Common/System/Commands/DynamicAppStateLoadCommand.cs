@@ -32,7 +32,7 @@ namespace Business.Common.System.Commands
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new DynamicAppStateSaveCommand
+            return new DynamicAppStateLoadCommand
             {
                 RequestObject = requestObject
                 ,

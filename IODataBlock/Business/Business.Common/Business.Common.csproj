@@ -121,6 +121,7 @@
     <Compile Include="Responses\IResponseObject.cs" />
     <Compile Include="Responses\ResponseExtensions.cs" />
     <Compile Include="Responses\ResponseObject.cs" />
+    <Compile Include="System\App\AppBag.cs" />
     <Compile Include="System\App\DynamicAppState.cs" />
     <Compile Include="System\App\AppState.cs" />
     <Compile Include="System\App\EnvironmentUtilities.cs" />

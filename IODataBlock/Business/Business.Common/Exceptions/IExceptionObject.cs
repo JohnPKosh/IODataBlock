@@ -36,5 +36,7 @@ namespace Business.Common.Exceptions
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         String StackTrace { get; set; }
+
+        //Exception AsException();
     }
 }
