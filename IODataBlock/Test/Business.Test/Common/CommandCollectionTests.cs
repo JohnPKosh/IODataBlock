@@ -27,7 +27,7 @@ namespace Business.Test.Common
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = _parser.Execute("JsonFileCommands", "ReadFromJsonFile", "Monkey?", correllationId);
+            var responseObject = _parser.Execute("JsonFileCommands", "ReadFromJsonFileCommand", "Monkey?", correllationId);
 
             // TODO: Add some sort of TryParse logic for the command above!
 

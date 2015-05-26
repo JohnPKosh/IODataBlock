@@ -6,10 +6,12 @@ namespace Business.Test.TestUtility
 {
     public class ReadFromJsonFileCommand : CommandObjectBase
     {
-        public override string CommandName
-        {
-            get { return "ReadFromJsonFile"; }
-        }
+        // TDDO: Clean up all Command class implementations and make them simpler to work with.
+
+        //public override string CommandName
+        //{
+        //    get { return "ReadFromJsonFile"; }
+        //}
 
         public override string Description
         {

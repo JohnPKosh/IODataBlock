@@ -441,7 +441,7 @@ namespace Data.DbClient
                         dynamic e = new ExpandoObject();
                         var d = e as IDictionary<string, object>;
                         for (var i = 0; i < fcnt; i++)
-                            d.Add(columnNames[i], dbDataRecord[i]);
+                            d.Add(columnNames[i], DbNullToNull(dbDataRecord[i]));
                         yield return e;
                     }
                 }
@@ -466,7 +466,7 @@ namespace Data.DbClient
                     var d = e as IDictionary<string, object>;
                     for (var i = 0; i < fcnt; i++)
                     {
-                        d.Add(columnNames[i], await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                        d.Add(columnNames[i], DbNullToNull(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
                     }
                     rv.Add(e);
                 }
@@ -537,6 +537,11 @@ namespace Data.DbClient
         #endregion Private Query Methods
 
         #endregion Query Methods
+
+        public object DbNullToNull(object input)
+        {
+            return Convert.DBNull.Equals(input) ? null : input;
+        }
 
         #region IDisposable Region
 

@@ -2,6 +2,7 @@
 using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
+using Fasterflect;
 
 namespace Business.Common.System
 {
@@ -11,7 +12,15 @@ namespace Business.Common.System
 
         public IRequestObject RequestObject { get; set; }
 
-        public abstract string CommandName { get; }
+        private string _commandName;
+        public virtual string CommandName
+        {
+            get
+            {
+                return String.IsNullOrWhiteSpace(_commandName)? this.GetType().Name(): _commandName;
+            }
+            set { _commandName = value; }
+        }
 
         public abstract string Description { get; }
 

@@ -50,6 +50,7 @@ namespace Business.Common.System
 
         public IResponseObject Execute(string collectionName, string commandName, object requestData, string correlationId = null)
         {
+            // TODO: Suffix commandName with "Command" to move to convention based naming of classes. Add TryExecute and/or Exception for Command not found scenario.
             var requestObject = new RequestObject
             {
                 CommandName = commandName,

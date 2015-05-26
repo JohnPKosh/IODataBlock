@@ -14,9 +14,13 @@ namespace Business.Test.Data
     [TestClass]
     public class DbClientTests
     {
-        private const string SqlServer = @"(localdb)\ProjectsV12";
+        //private const string SqlServer = @"(localdb)\ProjectsV12";
 
-        private const string SqlServerDatabase = @"IODataBlock.Database";
+        //private const string SqlServerDatabase = @"IODataBlock.Database";
+
+        private const string SqlServer = @".\EXP14";
+
+        private const string SqlServerDatabase = @"LERG";
 
         private static string SqlServerConnectionString
         {
@@ -94,6 +98,7 @@ SELECT [TABLE_CATALOG]
     ,[DOMAIN_CATALOG]
     ,[DOMAIN_SCHEMA]
     ,[DOMAIN_NAME]
+,NULL as testnull
 FROM [INFORMATION_SCHEMA].[COLUMNS]
 WHERE [TABLE_NAME] LIKE @0
 ORDER BY [ORDINAL_POSITION]
@@ -101,7 +106,8 @@ ORDER BY [ORDINAL_POSITION]
 
                 #endregion sql
 
-                var data = db.Query(sql, 120, "Data%");
+                //var data = db.Query(sql, 120, "Data%");
+                var data = db.Query(sql, 120, "LERG%");
                 if (!data.Any())
                 {
                     Assert.Fail();
@@ -147,7 +153,8 @@ ORDER BY [ORDINAL_POSITION]
 
                 #endregion sql
 
-                var data = db.QueryToJObjects(sql, 120, "Data%").ToList();
+                //var data = db.QueryToJObjects(sql, 120, "Data%").ToList();
+                var data = db.QueryToJObjects(sql, 120, "LERG%").ToList();
                 if (!data.Any())
                 {
                     Assert.Fail();
@@ -203,7 +210,8 @@ ORDER BY [ORDINAL_POSITION]
 
                 #endregion sql
 
-                var jarr = new JArray(db.QueryToJObjects(sql, 120, "Data%"));
+                //var jarr = new JArray(db.QueryToJObjects(sql, 120, "Data%"));
+                var jarr = new JArray(db.QueryToJObjects(sql, 120, "LERG%"));
                 var jarrstr = jarr.ToString();
                 if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
             }

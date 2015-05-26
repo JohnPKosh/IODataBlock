@@ -28,7 +28,7 @@ namespace Business.Common.System
     {
         public static Dictionary<string, IEnumerable<ICommandObject>> Commands = new Dictionary<string, IEnumerable<ICommandObject>>
         {
-            {"System.App.AppState", new List<ICommandObject>
+            {"System.App.DynamicAppState", new List<ICommandObject>
             {
                 new DynamicAppStateSaveCommand()
                 , new DynamicAppStateLoadCommand()

@@ -99,6 +99,7 @@
     <Compile Include="Common\RequestObjectTests.cs" />
     <Compile Include="Common\System\App\DynamicAppStateTests.cs" />
     <Compile Include="Common\System\App\AppStateTests.cs" />
+    <Compile Include="Common\System\Commands\SystemCommandTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
@@ -116,6 +117,9 @@
     <Compile Include="TestUtility\ReadFromFileCommand.cs" />
     <Compile Include="TestUtility\WriteToFileCommand.cs" />
     <Compile Include="Utilities\EnvironmentTests.cs" />
+    <Compile Include="Validation\TnString.cs" />
+    <Compile Include="Validation\TnStringSet.cs" />
+    <Compile Include="Validation\ValidateTn.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business.HttpClient\Business.HttpClient.csproj">
@@ -144,9 +148,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\System\Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Junk\kirk.xml" />
   </ItemGroup>

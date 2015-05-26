@@ -1,0 +1,129 @@
+﻿<Controls:MetroWindow
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+xmlns:local="clr-namespace:SocialImage"
+xmlns:myControls="clr-namespace:SocialImage.Controls"
+x:Class="SocialImage.MainWindow"
+Title="SocialImage - Home"
+Height="495.522"
+Width="1024"
+BorderBrush="{DynamicResource AccentColorBrush}"
+BorderThickness="1"
+WindowStartupLocation="CenterScreen"
+GlowBrush="{DynamicResource AccentColorBrush}"
+TitleCaps="False"
+ResizeMode="CanResizeWithGrip"
+WindowState="Normal">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <myControls:BrowseDirectoryPanel x:Name="SourceBrowser" LabelText="Source Directory" ButtonText="Browse" />
+            <myControls:BrowseDirectoryPanel x:Name="TargetBrowser" LabelText="Target Directory" ButtonText="Browse" />
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="2" Margin="8">
+                <WrapPanel Margin="8">
+                    <Button x:Name="btnAutoNameDirectory" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnAutoNameDirectory_Click">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <Rectangle Height="16" Width="26">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_cell_insert_below}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Label VerticalContentAlignment="Center" Padding="4,0" VerticalAlignment="Center" Content="Auto Name Directory" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="BtnGeneratePhotos" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnGeneratePhotos_Click" Visibility="{Binding DirectoryExists, Converter={StaticResource boolToVis}, ElementName=TargetBrowser}">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <Rectangle Height="16" Width="16">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_image}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Label VerticalContentAlignment="Center" Padding="4,0" VerticalAlignment="Center" Content="Generate Photos" />
+                        </StackPanel>
+                    </Button>
+                    <CheckBox x:Name="ChkOpenWhenDone" Content="Open Directory When Done" Margin="8,0" IsChecked="True"/>
+                    <CheckBox x:Name="ChkRenameToDate" Content="Rename With Date Taken" Margin="8,0" IsChecked="True"/>
+                    <ComboBox x:Name="OpenSocialSiteCheckbox" MinWidth="150" Margin="8,0" SelectedIndex="0">
+                        <ComboBoxItem>Facebook</ComboBoxItem>
+                        <ComboBoxItem>Twitter</ComboBoxItem>
+                        <ComboBoxItem>Shutterfly</ComboBoxItem>
+                    </ComboBox>
+                    <Button x:Name="BtnOpenSocialSite" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="BtnOpenSocialSite_Click" Visibility="{Binding DirectoryExists, Converter={StaticResource boolToVis}, ElementName=TargetBrowser}">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <Rectangle Height="16" Width="16">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_browser}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Label VerticalContentAlignment="Center" Padding="4,0" VerticalAlignment="Center" Content="Open Site" />
+                        </StackPanel>
+                    </Button>
+                    <!--<Button x:Name="btnPreviewPhotos" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnPreviewPhotos_Click" Visibility="{Binding DirectoryExists, Converter={StaticResource boolToVis}, ElementName=TargetBrowser}">
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <Rectangle Height="16" Width="16">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_magnify_browse}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Label VerticalContentAlignment="Center" Padding="4,0" VerticalAlignment="Center" Content="Preview Photos" />
+                        </StackPanel>
+                    </Button>-->
+
+                </WrapPanel>
+            </Border>
+            <Grid Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="File Size" Margin="8">
+                    <StackPanel x:Name="StackFileSizes">
+                        <RadioButton x:Name="RadioSmallFileSize" Margin="8" GroupName="FileSize" Tag="504" Content="Small (504px wide)"/>
+                        <RadioButton x:Name="RadioMediumFileSize" Margin="8" GroupName="FileSize" Tag="1024" Content="Medium (1024px wide)"/>
+                        <RadioButton x:Name="RadioLargeFileSize" Margin="8" GroupName="FileSize" Tag="2048" Content="Large (2048px wide)" IsChecked="True"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Quality" Margin="8" Grid.Column="1">
+                    <StackPanel x:Name="ImageQualityStackPanel">
+                        <RadioButton Margin="8" GroupName="Quality" Tag="90" Content="90" IsChecked="True"/>
+                        <RadioButton Margin="8" GroupName="Quality" Tag="90" Content="95"/>
+                        <RadioButton Margin="8" GroupName="Quality" Tag="90" Content="100"/>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </StackPanel>
+        <!--  Interactive Feedback Section Start  -->
+        <Grid Name="grdStatusBarRunning"
+              Grid.Row="1"
+              Width="Auto"
+              MinHeight="28"
+              Margin="8"
+              HorizontalAlignment="Stretch"
+              Visibility="{Binding Path=IsProcessRunning,
+                                   Converter={StaticResource boolToVis},
+                                   RelativeSource={RelativeSource FindAncestor,
+                                                                  AncestorType=local:MainWindow,
+                                                                  AncestorLevel=1}}">
+            <StatusBar x:Name="sbRunning"
+                       Width="Auto"
+                       MinHeight="28"
+                       HorizontalAlignment="Right"
+                       Background="{x:Null}">
+                <Label Name="lblProgress" Content="{Binding ProgressLabel, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" FontSize="12" Margin="8"/>
+                <ProgressBar Name="progressBarRunning"
+                             Width="200"
+                             Height="20"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             IsIndeterminate="False"
+                             Value="{Binding PercentComplete, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                             />
+            </StatusBar>
+        </Grid>
+        <!--  Interactive Feedback Section End  -->
+    </Grid>
+</Controls:MetroWindow>

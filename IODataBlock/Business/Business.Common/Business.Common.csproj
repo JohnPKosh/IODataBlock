@@ -145,6 +145,8 @@
     <Compile Include="System\ICommandObject.cs" />
     <Compile Include="System\ICommandObjectFactory.cs" />
     <Compile Include="System\ICommandObjectParser.cs" />
+    <Compile Include="System\Processes\ProcessExt.cs" />
+    <Compile Include="System\Processes\ProcessHelper.cs" />
     <Compile Include="System\States\DynamicBsonFileLoader.cs" />
     <Compile Include="System\States\JsonFileLoader.cs" />
     <Compile Include="System\States\IDynamicStateLoader.cs" />
