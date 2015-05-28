@@ -6,24 +6,14 @@ namespace Business.Test.TestUtility
 {
     public class WriteToJsonFileCommand : CommandObjectBase
     {
-        public override string CommandName
-        {
-            get { return "WriteToJsonFile"; }
-        }
+        //public override string CommandName
+        //{
+        //    get { return "WriteToJsonFile"; }
+        //}
 
         public override string Description
         {
             get { return "WriteToJsonFile - reads object from json file."; }
-        }
-
-        public override object SuccessResponseCode
-        {
-            get { return "200"; }
-        }
-
-        public override object ErrorResponseCode
-        {
-            get { return "500"; }
         }
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }

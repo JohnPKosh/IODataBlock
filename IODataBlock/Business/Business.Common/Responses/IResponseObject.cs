@@ -16,7 +16,7 @@ namespace Business.Common.Responses
         object ResponseData { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        object ResponseCode { get; set; }
+        IResponseCode ResponseCode { get; set; }
 
         bool HasExceptions { get; }
 

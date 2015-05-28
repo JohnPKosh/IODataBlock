@@ -9,9 +9,12 @@ namespace Business.Common.System.States
         public DynamicBsonFileLoader(FileInfo file)
         {
             _file = file;
+            FileName = file.FullName;
         }
 
         private readonly FileInfo _file;
+
+        #region IDynamicStateLoader Members
 
         public dynamic LoadState()
         {
@@ -49,5 +52,9 @@ namespace Business.Common.System.States
                 return false;
             }
         }
+
+        public string FileName { get; private set; }
+
+        #endregion IDynamicStateLoader Members
     }
 }

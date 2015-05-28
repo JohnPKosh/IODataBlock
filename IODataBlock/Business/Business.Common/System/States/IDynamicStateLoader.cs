@@ -2,6 +2,8 @@
 {
     public interface IDynamicStateLoader
     {
+        string FileName { get; }
+
         dynamic LoadState();
 
         bool TryLoadState(out dynamic state);

@@ -18,15 +18,15 @@ namespace Business.Test.TestUtility
             get { return "ReadFromJsonFile - reads object from json file."; }
         }
 
-        public override object SuccessResponseCode
-        {
-            get { return "200"; }
-        }
+        //public override object SuccessResponseCode
+        //{
+        //    get { return "200"; }
+        //}
 
-        public override object ErrorResponseCode
-        {
-            get { return "500"; }
-        }
+        //public override object ErrorResponseCode
+        //{
+        //    get { return "500"; }
+        //}
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }
 

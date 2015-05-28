@@ -4,6 +4,16 @@ namespace Business.Common.Requests
 {
     public class RequestObject : IRequestObject
     {
+        public RequestObject()
+        {
+            DateCreatedUtc = DateTime.UtcNow;
+        }
+
+        public RequestObject(DateTime dateCreatedUtc)
+        {
+            DateCreatedUtc = dateCreatedUtc;
+        }
+
         public string CommandName { get; set; }
 
         public object RequestData { get; set; }

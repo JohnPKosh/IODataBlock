@@ -24,7 +24,7 @@ namespace Business.Common.Responses
 
         public object ResponseData { get; set; }
 
-        public object ResponseCode { get; set; }
+        public IResponseCode ResponseCode { get; set; }
 
         public bool HasExceptions
         {

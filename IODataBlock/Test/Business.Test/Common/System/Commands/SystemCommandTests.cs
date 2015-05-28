@@ -63,8 +63,8 @@ namespace Business.Test.Common.System.Commands
         [TestMethod]
         public void GetSetTest()
         {
-            var setResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Set", "hello");
-            var getResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Get", null).ResponseData;
+            var setResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SetDynamicAppState", "hello");
+            var getResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "GetDynamicAppState", null).ResponseData;
             Assert.IsNotNull(getResult);
         }
 
@@ -74,10 +74,10 @@ namespace Business.Test.Common.System.Commands
             dynamic d = new ExpandoObject();
             d.Text = "Hello";
 
-            var setResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Set", d);
-            var saveResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Save", null);
-            var loadResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Load", null);
-            dynamic getResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Get", null).ResponseData;
+            var setResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SetDynamicAppState", d);
+            var saveResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", null);
+            var loadResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "LoadDynamicAppState", null);
+            dynamic getResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "GetDynamicAppState", null).ResponseData;
             Assert.IsNotNull(getResult);
         }
 

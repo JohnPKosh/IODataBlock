@@ -26,10 +26,12 @@ namespace Business.Test.Common
             {
                 // There is not much room for error here so I should succeed!
                 responseObject.ResponseData = "okay!";
+                responseObject.ResponseCode = new ResponseCode(200, "200 OK");
             }
             catch (Exception exception)
             {
                 responseObject.ResponseData = "Your Screwed! You tried to divide by 0?";
+                responseObject.ResponseCode = ResponseCodeExtensions.CreateFailureCode();
                 responseObject.ExceptionList = ExceptionObjectListBase.Create(
                     exception
                     , "Divide by 0 Test"
@@ -77,10 +79,12 @@ namespace Business.Test.Common
                 var db0 = 1 / my0;
                 // if I would have gotten here the below would have been set
                 responseObject.ResponseData = "okay!";
+                responseObject.ResponseCode = new ResponseCode(200, "200 OK");
             }
             catch (Exception exception)
             {
                 responseObject.ResponseData = "Your Screwed! You tried to divide by 0?";
+                responseObject.ResponseCode = ResponseCodeExtensions.CreateFailureCode();
                 responseObject.ExceptionList = ExceptionObjectListBase.Create(
                     exception
                     , "Divide by 0 Test"
@@ -124,17 +128,17 @@ namespace Business.Test.Common
         [TestMethod]
         public void HowToWorkTogetherReallySimpleSuccessfullTest()
         {
-            var responseObject = "This is my request :-)".ToUncompletedResponse("Not Started!", "9999999");
+            var responseObject = "This is my request :-)".ToUncompletedResponse(400, "Not Started!", "9999999");
             try
             {
                 // There is not much room for error here so I should succeed!
                 responseObject.ResponseData = "Since there were no errors I am okay!";
-                responseObject.ResponseCode = "Completed!";
+                responseObject.ResponseCode = new ResponseCode(200,"200 OK");
             }
             catch (Exception exception)
             {
                 responseObject.ResponseData = "Your Screwed! You tried to divide by 0?";
-                responseObject.ResponseCode = "Failed!";
+                responseObject.ResponseCode = ResponseCodeExtensions.CreateFailureCode();
                 responseObject.ExceptionList = ExceptionObjectListBase.Create(
                     exception
                     , "Divide by 0 Test"
@@ -165,7 +169,7 @@ namespace Business.Test.Common
         [TestMethod]
         public void HowToWorkTogetherReallySimpleFailureTest()
         {
-            var responseObject = "This is my request :-)".ToUncompletedResponse("Not Started!", "9999999");
+            var responseObject = "This is my request :-)".ToUncompletedResponse(400, "Not Started!", "9999999");
             try
             {
                 // ReSharper disable once ConvertToConstant.Local
@@ -174,12 +178,12 @@ namespace Business.Test.Common
                 var db0 = 1 / my0;
                 // if I would have gotten here the below would have been set
                 responseObject.ResponseData = "Since there were no errors I am okay!";
-                responseObject.ResponseCode = "Completed!";
+                responseObject.ResponseCode = new ResponseCode(200, "200 OK"); ;
             }
             catch (Exception exception)
             {
                 responseObject.ResponseData = "Your Screwed! You tried to divide by 0?";
-                responseObject.ResponseCode = "Failed!";
+                responseObject.ResponseCode = ResponseCodeExtensions.CreateFailureCode();
                 responseObject.ExceptionList = ExceptionObjectListBase.Create(
                     exception
                     , "Divide by 0 Test"
@@ -230,7 +234,7 @@ namespace Business.Test.Common
             var responseData = "Some ResponseData goes HERE!";
 
             // simulate a good response
-            var responseObject = ExecuteSuccessfullResponse(requestData, responseData, "Success Response Code", "1000000");
+            var responseObject = ExecuteSuccessfullResponse(requestData, responseData, new ResponseCode(200, "200 OK"), "1000000");
 
             // review the results
             var responseString = responseObject.ToJson(true);
@@ -296,7 +300,7 @@ namespace Business.Test.Common
 
         #region private methods
 
-        private IResponseObject ExecuteSuccessfullResponse(object requestData, object responseData, object responseCode = null, string correlationId = null)
+        private IResponseObject ExecuteSuccessfullResponse(object requestData, object responseData, IResponseCode responseCode = null, string correlationId = null)
         {
             //var rv = requestData.ToUncompletedResponse(null, correlationId);
             try
@@ -331,7 +335,7 @@ namespace Business.Test.Common
                     , "Test Exceptions"
                     , ExceptionLogLevelType.Debug
                     )
-                    , "Failed Response Code"
+                    , ResponseCodeExtensions.CreateFailureCode()
                     , correlationId
                     );
             }

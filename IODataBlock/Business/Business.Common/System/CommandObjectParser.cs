@@ -66,7 +66,7 @@ namespace Business.Common.System
 
         private ICommandObject Find(string commandName)
         {
-            return _commands.FirstOrDefault(c => c.CommandName == commandName);
+            return _commands.FirstOrDefault(c => c.CommandName == String.Format(@"{0}Command", commandName));
         }
 
         #endregion private Utility methods

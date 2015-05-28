@@ -43,15 +43,15 @@ namespace Business.Common.System
 
         public IResponseObject Execute(string collectionName, IRequestObject requestObject)
         {
-            // TODO: Suffix commandName with "Command" to move to convention based naming of classes. Add TryExecute and/or Exception for Command not found scenario.
-            var command = Find(collectionName, String.Format(@"{0}Command", requestObject.CommandName));
+            // TODO: Add overload with logger and validation functionality. Add TryExecute and/or Exception for Command not found scenario.
+            var command = Find(collectionName, requestObject.CommandName);
             return ((ICommandObjectFactory)command).Create(requestObject).Execute();
             // TODO: decide if logger functionality should be injected here!
         }
 
         public IResponseObject Execute(string collectionName, string commandName, object requestData, string correlationId = null)
         {
-            // TODO: Suffix commandName with "Command" to move to convention based naming of classes. Add TryExecute and/or Exception for Command not found scenario.
+            // TODO: Add overload with logger and validation functionality. Add TryExecute and/or Exception for Command not found scenario.
             var requestObject = new RequestObject
             {
                 CommandName = commandName,
@@ -69,7 +69,7 @@ namespace Business.Common.System
         private ICommandObject Find(string collectionName, string commandName)
         {
             var commands = _commandObjectDictionary[collectionName];
-            return commands.FirstOrDefault(c => c.CommandName == commandName);
+            return commands.FirstOrDefault(c => c.CommandName == String.Format(@"{0}Command", commandName));
         }
 
         #endregion private Utility methods

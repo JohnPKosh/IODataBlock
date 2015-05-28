@@ -69,7 +69,7 @@ namespace Business.Test.Common.System.App
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = SystemCommandParser.Instance.Execute("System.App.DynamicAppState", "SaveDynamicAppState", _appStateLoader, correllationId);
+            var responseObject = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", _appStateLoader, correllationId);
 
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
@@ -152,6 +152,7 @@ namespace Business.Test.Common.System.App
 
             // Can we set the app state data?
             workingdata.LastUpdated = DateTime.Now;
+            workingdata.StringValues = new[] {"hello", "world"};
             var setResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SetDynamicAppState", workingdata, NewGuid());
             Assert.IsFalse(setResponse.HasExceptions);
 
