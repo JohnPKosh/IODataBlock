@@ -137,10 +137,10 @@
     <Compile Include="System\CommandObjectBase.cs" />
     <Compile Include="System\CommandCollectionParser.cs" />
     <Compile Include="System\CommandObjectParser.cs" />
-    <Compile Include="System\Commands\DynamicAppStateSetCommand.cs" />
-    <Compile Include="System\Commands\DynamicAppStateGetCommand.cs" />
-    <Compile Include="System\Commands\DynamicAppStateSaveCommand.cs" />
-    <Compile Include="System\Commands\DynamicAppStateLoadCommand.cs" />
+    <Compile Include="System\Commands\SetDynamicAppStateCommand.cs" />
+    <Compile Include="System\Commands\GetDynamicAppStateCommand.cs" />
+    <Compile Include="System\Commands\SaveDynamicAppStateCommand.cs" />
+    <Compile Include="System\Commands\LoadDynamicAppStateCommand.cs" />
     <Compile Include="System\ICommandCollectionParser.cs" />
     <Compile Include="System\ICommandObject.cs" />
     <Compile Include="System\ICommandObjectFactory.cs" />
