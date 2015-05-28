@@ -30,10 +30,10 @@ namespace Business.Common.System
         {
             {"System.App.DynamicAppState", new List<ICommandObject>
             {
-                new DynamicAppStateSaveCommand()
-                , new DynamicAppStateLoadCommand()
-                , new DynamicAppStateGetCommand()
-                , new DynamicAppStateSetCommand()
+                new SaveDynamicAppStateCommand()
+                , new LoadDynamicAppStateCommand()
+                , new GetDynamicAppStateCommand()
+                , new SetDynamicAppStateCommand()
             }}
         };
     }

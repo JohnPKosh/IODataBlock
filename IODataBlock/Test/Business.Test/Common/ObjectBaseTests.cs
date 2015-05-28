@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using Business.Common.Extensions;
+using Business.Common.System;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace Business.Test.Common
 {
@@ -39,7 +41,7 @@ namespace Business.Test.Common
         {
             var fido = FakePet.CreateBela();
             var fidoJson = fido.ToJson();
-            var newFido = FakePet.CreateFromJson(fidoJson);
+            var newFido = ClassExtensions.CreateFromJson<FakePet>(fidoJson);
 
             Assert.IsInstanceOfType(newFido, typeof(FakePet));
             Assert.AreEqual(fido.Age, newFido.Age);
@@ -90,7 +92,7 @@ namespace Business.Test.Common
         {
             var person = FakePerson.CreateKirk();
             var personJson = person.ToJson();
-            var newperson = FakePerson.CreateFromJson(personJson);
+            var newperson = ClassExtensions.CreateFromJson<FakePerson>(personJson);
 
             Assert.IsInstanceOfType(newperson, typeof(FakePerson));
             Assert.AreEqual(person.Age, newperson.Age);
@@ -422,7 +424,7 @@ namespace Business.Test.Common
             dynamic tempperson = personJson.ConvertJsonExpando();
 
             var tempstring = JsonObjectStringSerialization.ToJsonString(tempperson);
-            var newperson = FakePerson.CreateFromJson(tempstring);
+            var newperson = ClassExtensions.CreateFromJson<FakePerson>(tempstring);
 
             Assert.IsNotNull(newperson);
             Assert.IsInstanceOfType(newperson, typeof(FakePerson));
@@ -456,10 +458,10 @@ namespace Business.Test.Common
             fido.Name = "Fido";
             var fidoJson = ((object)fido).ToJsonString();
 
-            var newfido = FakePet.CreateFromJson(fidoJson);
+            var newfido = ClassExtensions.CreateFromJson<FakePet>(fidoJson);
             Assert.IsNotNull(newfido);
 
-            var newexpando = FakePet.CreateFromExpando(fido);
+            var newexpando = ClassExtensions.CreateFromExpando<FakePet>(fido);
             Assert.IsNotNull(newexpando);
 
             var newfido2 = ClassExtensions.ConvertExpandoTo<FakePet>(fido);
@@ -470,6 +472,19 @@ namespace Business.Test.Common
 
             //FakePet.CreateBela();
             //FakePet newperson = ClassExtensionBase.ConvertDynamicTo<FakePet>(tempperson);
+        }
+
+        [TestMethod]
+        public void JObjectConversionsWork()
+        {
+            var person = FakePerson.CreateKirk();
+            JObject jperson = person;
+            string newpersonObject = jperson.ToString();
+            
+            Assert.IsNotNull(newpersonObject);
+
+            FakePerson secondPerson = jperson.ToObject<FakePerson>();
+            Assert.IsNotNull(secondPerson);
         }
     }
 }

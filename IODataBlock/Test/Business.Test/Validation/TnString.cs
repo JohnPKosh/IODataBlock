@@ -43,7 +43,7 @@ namespace Business.Test.Validation
         {
             // TODO: Find best way to inject custom validation below.  Perhaps method overload of this method with additional function param.
             // If I meet my custom validations then TryValidate with base.
-            if (1==1)
+            if (Value == "2165132288")
             {
                 return base.TryValidate(validationResults, validateAllProperties);
             }

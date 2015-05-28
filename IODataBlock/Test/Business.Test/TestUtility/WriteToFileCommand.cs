@@ -3,6 +3,7 @@ using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
 using Business.Common.System;
+using Fasterflect;
 
 namespace Business.Test.TestUtility
 {
@@ -10,9 +11,14 @@ namespace Business.Test.TestUtility
     {
         public IRequestObject RequestObject { get; set; }
 
-        public string CommandName
+        private string _commandName;
+        public virtual string CommandName
         {
-            get { return "WriteToFile"; }
+            get
+            {
+                return String.IsNullOrWhiteSpace(_commandName) ? this.GetType().Name() : _commandName;
+            }
+            set { _commandName = value; }
         }
 
         public string Description

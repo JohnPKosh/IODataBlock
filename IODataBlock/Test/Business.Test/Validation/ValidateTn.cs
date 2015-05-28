@@ -126,5 +126,37 @@ namespace Business.Test.Validation
             var erMessages = tnslist.GetValidationMessages();
             Assert.IsNotNull(erMessages);
         }
+
+
+
+        [TestMethod]
+        public void FailValidationWithFunc()
+        {
+            var tn = new TnString("0000000000");
+
+            // Create a list of additional validation functions
+            var validators = new List<Func<object, ValidationResult>>();
+            validators.Add(new Func<object, ValidationResult>(x =>
+            {
+                if (!(x.GetType() == typeof (TnString))) return new ValidationResult("Object is not a TnString!");
+                else
+                {
+                    var tnstring = (TnString) x;
+                    if (tnstring.Value == "0000000000")return new ValidationResult("You really just should not do this crazy stuff!", new[]{"Value"});
+                    return null;
+                }
+            }));
+
+            // or I can get full validation results...
+            var errors = new List<ValidationResult>();
+            if (!tn.TryValidate(errors, validators))
+            {
+                foreach (var v in errors)
+                {
+                    Assert.IsNotNull(v);
+                }
+            }
+        }
+
     }
 }

@@ -6,12 +6,12 @@ using Business.Common.System.States;
 
 namespace Business.Common.System.Commands
 {
-    public class DynamicAppStateSaveCommand : CommandObjectBase
+    public class SaveDynamicAppStateCommand : CommandObjectBase
     {
-        public override string CommandName
-        {
-            get { return "Save"; }
-        }
+        //public override string CommandName
+        //{
+        //    get { return "Save"; }
+        //}
 
         public override string Description
         {
@@ -32,7 +32,7 @@ namespace Business.Common.System.Commands
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new DynamicAppStateSaveCommand
+            return new SaveDynamicAppStateCommand
             {
                 RequestObject = requestObject
                 ,

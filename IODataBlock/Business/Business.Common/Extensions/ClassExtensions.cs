@@ -304,5 +304,63 @@ namespace Business.Common.Extensions
         //}
 
         #endregion BSON Deserialization
+
+        #region From IObjectBase
+
+        public static T CreateFromJson<T>(string value)
+        {
+            return value.ConvertJson<T>();
+        }
+
+        public static T CreateFromJson<T>(string value, params JsonConverter[] converters)
+        {
+            return value.ConvertJson<T>(converters);
+        }
+
+        public static T CreateFromJson<T>(string value, JsonSerializerSettings settings)
+        {
+            return value.ConvertJson<T>(settings);
+        }
+
+        public static T CreateFromExpando<T>(dynamic value)
+        {
+            return (value as ExpandoObject).ConvertExpandoTo<T>();
+        }
+
+        public static T CreateFromExpando<T>(ExpandoObject value)
+        {
+            return value.ConvertExpandoTo<T>();
+        }
+
+        /*
+        
+        public static T CreateFromJson(string value)
+        {
+            return value.ConvertJson<T>();
+        }
+
+        public static T CreateFromJson(string value, params JsonConverter[] converters)
+        {
+            return value.ConvertJson<T>(converters);
+        }
+
+        public static T CreateFromJson(string value, JsonSerializerSettings settings)
+        {
+            return value.ConvertJson<T>(settings);
+        }
+
+        public static T CreateFromExpando(dynamic value)
+        {
+            return (value as ExpandoObject).ConvertExpandoTo<T>();
+        }
+
+        public static T CreateFromExpando(ExpandoObject value)
+        {
+            return value.ConvertExpandoTo<T>();
+        }
+
+        */
+
+        #endregion
     }
 }

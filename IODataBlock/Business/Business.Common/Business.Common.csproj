@@ -155,6 +155,7 @@
     <Compile Include="System\ObjectBase.cs" />
     <Compile Include="System\States\DynamicJsonFileLoader.cs" />
     <Compile Include="System\SystemCommandParser.cs" />
+    <Compile Include="Validation\IValidationObjectBase.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />
   </ItemGroup>
   <ItemGroup>

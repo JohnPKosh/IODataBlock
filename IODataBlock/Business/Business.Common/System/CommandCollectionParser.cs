@@ -43,7 +43,8 @@ namespace Business.Common.System
 
         public IResponseObject Execute(string collectionName, IRequestObject requestObject)
         {
-            var command = Find(collectionName, requestObject.CommandName);
+            // TODO: Suffix commandName with "Command" to move to convention based naming of classes. Add TryExecute and/or Exception for Command not found scenario.
+            var command = Find(collectionName, String.Format(@"{0}Command", requestObject.CommandName));
             return ((ICommandObjectFactory)command).Create(requestObject).Execute();
             // TODO: decide if logger functionality should be injected here!
         }

@@ -1,36 +1,13 @@
 ﻿using System.Dynamic;
+using System.Runtime.CompilerServices;
 using Business.Common.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Business.Common.System
 {
-    public class ObjectBase<T> : IObjectBase
+    public class ObjectBase<T> : IObjectBase<T>
     {
-        public static T CreateFromJson(string value)
-        {
-            return value.ConvertJson<T>();
-        }
-
-        public static T CreateFromJson(string value, params JsonConverter[] converters)
-        {
-            return value.ConvertJson<T>(converters);
-        }
-
-        public static T CreateFromJson(string value, JsonSerializerSettings settings)
-        {
-            return value.ConvertJson<T>(settings);
-        }
-
-        public static T CreateFromExpando(dynamic value)
-        {
-            return (value as ExpandoObject).ConvertExpandoTo<T>();
-        }
-
-        public static T CreateFromExpando(ExpandoObject value)
-        {
-            return value.ConvertExpandoTo<T>();
-        }
-
         public string ToJson(bool indented = false)
         {
             return JsonConvert.SerializeObject(this, indented ? Formatting.Indented : Formatting.None);
@@ -41,9 +18,28 @@ namespace Business.Common.System
             this.PopulateObjectFromJson(value);
         }
 
-        public void PopulateFromJson(string value, object target, JsonSerializerSettings settings)
+        public void PopulateFromJson(string value, JsonSerializerSettings settings)
         {
             this.PopulateObjectFromJson(value, settings);
         }
+
+        public static T CreateFromJson(string value)
+        {
+            return ClassExtensions.CreateFromJson<T>(value);
+        }
+
+        #region Conversion Operators
+
+        //static public implicit operator ObjectBase<T>(JObject value)
+        //{
+        //    return value.ToObject<ObjectBase<T>>();
+        //}
+
+        static public implicit operator JObject(ObjectBase<T> value)
+        {
+            return value.ToJObject();
+        }
+
+        #endregion Conversion Operators
     }
 }

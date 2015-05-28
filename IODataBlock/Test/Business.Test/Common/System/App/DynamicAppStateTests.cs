@@ -69,7 +69,7 @@ namespace Business.Test.Common.System.App
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = SystemCommandParser.Instance.Execute("System.App.DynamicAppState", "Save", _appStateLoader, correllationId);
+            var responseObject = SystemCommandParser.Instance.Execute("System.App.DynamicAppState", "SaveDynamicAppState", _appStateLoader, correllationId);
 
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
@@ -100,7 +100,7 @@ namespace Business.Test.Common.System.App
         {
             /* Set a property on the config */
             //DynamicAppState.Instance.Load(_appStateLoader);
-            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Load", null, NewGuid());
+            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "LoadDynamicAppState", null, NewGuid());
             Assert.IsFalse(loadResponse.HasExceptions);
 
             //DynamicAppState.Instance.Value.hello = @"hello world from system command!";
@@ -111,7 +111,7 @@ namespace Business.Test.Common.System.App
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Save", null, correllationId);
+            var responseObject = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", null, correllationId);
 
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));
@@ -141,22 +141,22 @@ namespace Business.Test.Common.System.App
         public void CanGetSetLoadSave()
         {
             // Can we load what is persisted?
-            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Load", null, NewGuid());
+            var loadResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "LoadDynamicAppState", null, NewGuid());
             Assert.IsFalse(loadResponse.HasExceptions);
 
             // Can we get the app state data?
-            var getResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Get", null, NewGuid());
+            var getResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "GetDynamicAppState", null, NewGuid());
             var workingdata = getResponse.ResponseData as dynamic;
             Assert.IsFalse(getResponse.HasExceptions);
             Assert.IsNotNull(workingdata);
 
             // Can we set the app state data?
             workingdata.LastUpdated = DateTime.Now;
-            var setResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Set", workingdata, NewGuid());
+            var setResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SetDynamicAppState", workingdata, NewGuid());
             Assert.IsFalse(setResponse.HasExceptions);
 
             // Can we save what should be persisted?
-            var saveResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "Save", null, NewGuid());
+            var saveResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", null, NewGuid());
             Assert.IsFalse(saveResponse.HasExceptions);
         }
 

@@ -6,12 +6,12 @@ using Business.Common.System.States;
 
 namespace Business.Common.System.Commands
 {
-    public class DynamicAppStateLoadCommand : CommandObjectBase
+    public class LoadDynamicAppStateCommand : CommandObjectBase
     {
-        public override string CommandName
-        {
-            get { return "Load"; }
-        }
+        //public override string CommandName
+        //{
+        //    get { return "Load"; }
+        //}
 
         public override string Description
         {
@@ -32,7 +32,7 @@ namespace Business.Common.System.Commands
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new DynamicAppStateLoadCommand
+            return new LoadDynamicAppStateCommand
             {
                 RequestObject = requestObject
                 ,

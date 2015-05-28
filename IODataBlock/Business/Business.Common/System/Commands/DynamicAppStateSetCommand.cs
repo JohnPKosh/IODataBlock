@@ -4,12 +4,12 @@ using Business.Common.System.App;
 
 namespace Business.Common.System.Commands
 {
-    public class DynamicAppStateSetCommand : CommandObjectBase
+    public class SetDynamicAppStateCommand : CommandObjectBase
     {
-        public override string CommandName
-        {
-            get { return "Set"; }
-        }
+        //public override string CommandName
+        //{
+        //    get { return "Set"; }
+        //}
 
         public override string Description
         {
@@ -30,7 +30,7 @@ namespace Business.Common.System.Commands
 
         public override ICommandObject Create(IRequestObject requestObject)
         {
-            return new DynamicAppStateSetCommand
+            return new SetDynamicAppStateCommand
             {
                 RequestObject = requestObject
                 ,
