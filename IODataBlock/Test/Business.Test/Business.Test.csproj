@@ -108,6 +108,7 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
     <Compile Include="Common\ClassExtensionBaseTests.cs" />

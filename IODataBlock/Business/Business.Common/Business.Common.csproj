@@ -81,6 +81,13 @@
     <Compile Include="Exceptions\ExceptionObjectListBase.cs" />
     <Compile Include="Exceptions\IExceptionObject.cs" />
     <Compile Include="Exceptions\IExceptionObjectList.cs" />
+    <Compile Include="Extensions\BsonExpandoBytesSerialization.cs" />
+    <Compile Include="Extensions\BsonObjectBytesSerialization.cs" />
+    <Compile Include="Extensions\BsonObjectFileInfoDeserialization.cs" />
+    <Compile Include="Extensions\BsonObjectFileInfoSerialization.cs" />
+    <Compile Include="Extensions\BsonObjectFilePathSerialization.cs" />
+    <Compile Include="Extensions\BsonStreamDeserialization.cs" />
+    <Compile Include="Extensions\BsonStreamSerialization.cs" />
     <Compile Include="Extensions\ClassExtensionBase.cs" />
     <Compile Include="Extensions\ClassExtensions.cs" />
     <Compile Include="Extensions\FilterOption.cs" />
