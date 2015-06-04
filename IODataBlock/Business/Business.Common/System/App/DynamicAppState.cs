@@ -30,27 +30,27 @@ namespace Business.Common.System.App
 
         public bool IsLoaded { get; private set; }
 
-        public void Load(IDynamicStateLoader loader)
+        public void Load(IDynamicLoader loader)
         {
-            Value = loader.LoadState();
+            Value = loader.Load();
         }
 
-        public bool TryLoad(IDynamicStateLoader loader)
+        public bool TryLoad(IDynamicLoader loader)
         {
             dynamic newValue;
-            if (!loader.TryLoadState(out newValue)) return false;
+            if (!loader.TryLoad(out newValue)) return false;
             Value = newValue;
             return true;
         }
 
-        public void Save(IDynamicStateLoader loader)
+        public void Save(IDynamicLoader loader)
         {
-            loader.SaveState(_value);
+            loader.Save(_value);
         }
 
-        public bool TrySave(IDynamicStateLoader loader)
+        public bool TrySave(IDynamicLoader loader)
         {
-            return loader.TrySaveState(_value);
+            return loader.TrySave(_value);
         }
     }
 }

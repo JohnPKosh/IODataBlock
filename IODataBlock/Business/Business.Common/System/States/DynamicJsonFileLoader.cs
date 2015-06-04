@@ -1,50 +1,68 @@
 ﻿using System;
 using System.IO;
 using Business.Common.Extensions;
+using Business.Common.IO;
 
 namespace Business.Common.System.States
 {
-    public class DynamicJsonFileLoader : IDynamicStateLoader
+    public class DynamicJsonFileLoader : IDynamicLoader
     {
+        #region Class Initialization
+
+        public DynamicJsonFileLoader(string fileName)
+        {
+            _file = new FileInfo(fileName);
+        }
+
         public DynamicJsonFileLoader(FileInfo file)
         {
             _file = file;
-            FileName = file.FullName;
         }
+
+        public DynamicJsonFileLoader(FileEntry fileEntry)
+        {
+            _file = fileEntry.GetFileInfo();
+        }
+
+        #endregion Class Initialization
+
+        #region Fields and Properties
 
         private readonly FileInfo _file;
 
+        #endregion Fields and Properties
+
         #region IDynamicStateLoader Members
 
-        public dynamic LoadState()
+        public dynamic Load()
         {
             return _file.ReadJsonFile();
         }
 
-        public bool TryLoadState(out dynamic stateValue)
+        public bool TryLoad(out dynamic value)
         {
             try
             {
-                stateValue = _file.ReadJsonFile();
+                value = _file.ReadJsonFile();
                 return true;
             }
             catch (Exception)
             {
-                stateValue = null;
+                value = null;
                 return false;
             }
         }
 
-        public void SaveState(dynamic stateValue)
+        public void Save(dynamic value)
         {
-            JsonObjectFileInfoSerialization.WriteJsonToFile(stateValue, _file);
+            JsonObjectFileInfoSerialization.WriteJsonToFile(value, _file);
         }
 
-        public bool TrySaveState(dynamic stateValue)
+        public bool TrySave(dynamic value)
         {
             try
             {
-                JsonObjectFileInfoSerialization.WriteJsonToFile(stateValue, _file);
+                JsonObjectFileInfoSerialization.WriteJsonToFile(value, _file);
                 return true;
             }
             catch (Exception)
@@ -52,8 +70,6 @@ namespace Business.Common.System.States
                 return false;
             }
         }
-
-        public string FileName { get; private set; }
 
         #endregion IDynamicStateLoader Members
     }

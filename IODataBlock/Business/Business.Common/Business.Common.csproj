@@ -69,6 +69,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AppSettingsMgr.cs" />
+    <Compile Include="Configuration\ConfigMgr.cs" />
+    <Compile Include="Configuration\ConnectionStringsMgr.cs" />
+    <Compile Include="Configuration\CspDefault.cs" />
     <Compile Include="Exceptions\ExceptionLogLevelType.cs" />
     <Compile Include="Exceptions\ExceptionObjectBase.cs" />
     <Compile Include="Exceptions\ExceptionObjectListBase.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="Extensions\ClassExtensions.cs" />
     <Compile Include="Extensions\FilterOption.cs" />
     <Compile Include="Extensions\IEnumerableExtensionBase.cs" />
+    <Compile Include="Extensions\ExceptionObjectExtensions.cs" />
     <Compile Include="Extensions\IObjectBaseExtensions.cs" />
     <Compile Include="Extensions\IParameterTransformers\IParameterTransformerByCollection.cs" />
     <Compile Include="Extensions\IParameterTransformers\SqlSelectParameterTransformer.cs" />
@@ -115,6 +121,15 @@
     <Compile Include="IO\IOUtility.cs" />
     <Compile Include="IO\ReadFileAccess.cs" />
     <Compile Include="IO\Serialization\GzipSerializationExtensionBase.cs" />
+    <None Include="appSettings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="connectionStrings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="csp.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="IO\Serialization\JsonSerializationExtensionBase.cs" />
     <Compile Include="IO\Serialization\SerializationExtensionBase.cs" />
     <Compile Include="IO\Serialization\SerializationListHelpers.cs" />
@@ -129,6 +144,10 @@
     <Compile Include="Responses\ResponseCodeExtensions.cs" />
     <Compile Include="Responses\ResponseExtensions.cs" />
     <Compile Include="Responses\ResponseObject.cs" />
+    <Compile Include="Security\Aes\AesSimpleEncryption.cs" />
+    <Compile Include="Security\Aes\AesEncryption.cs" />
+    <None Include="Security\TripleDesEncryption.cs" />
+    <Compile Include="Security\RngCrypto.cs" />
     <Compile Include="System\App\AppBag.cs" />
     <Compile Include="System\App\DynamicAppState.cs" />
     <Compile Include="System\App\AppState.cs" />
@@ -159,7 +178,7 @@
     <Compile Include="Responses\ResponseCode.cs" />
     <Compile Include="System\States\DynamicBsonFileLoader.cs" />
     <Compile Include="System\States\JsonFileLoader.cs" />
-    <Compile Include="System\States\IDynamicStateLoader.cs" />
+    <Compile Include="System\States\IDynamicLoader.cs" />
     <Compile Include="System\States\IStateLoader.cs" />
     <Compile Include="System\IObjectBase.cs" />
     <Compile Include="System\ObjectBase.cs" />

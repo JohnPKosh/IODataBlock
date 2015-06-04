@@ -24,9 +24,9 @@ namespace Business.Common.System.Commands
                 CommandFunction = o =>
                 {
                     // add a command here!
-                    if (o.RequestData is IDynamicStateLoader)
+                    if (o.RequestData is IDynamicLoader)
                     {
-                        DynamicAppState.Instance.Save(o.RequestData as IDynamicStateLoader);
+                        DynamicAppState.Instance.Save(o.RequestData as IDynamicLoader);
                     }
                     else if (o.RequestData == null)
                     {

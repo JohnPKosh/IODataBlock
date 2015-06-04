@@ -1,50 +1,68 @@
 ﻿using System;
 using System.IO;
 using Business.Common.Extensions;
+using Business.Common.IO;
 
 namespace Business.Common.System.States
 {
-    public class DynamicBsonFileLoader : IDynamicStateLoader
+    public class DynamicBsonFileLoader : IDynamicLoader
     {
+        #region Class Initialization
+
+        public DynamicBsonFileLoader(string fileName)
+        {
+            _file = new FileInfo(fileName);
+        }
+
         public DynamicBsonFileLoader(FileInfo file)
         {
             _file = file;
-            FileName = file.FullName;
         }
+
+        public DynamicBsonFileLoader(FileEntry fileEntry)
+        {
+            _file = fileEntry.GetFileInfo();
+        }
+
+        #endregion Class Initialization
+
+        #region Fields and Properties
 
         private readonly FileInfo _file;
 
+        #endregion Fields and Properties
+
         #region IDynamicStateLoader Members
 
-        public dynamic LoadState()
+        public dynamic Load()
         {
-            return _file.ReadJsonFile();
+            return _file.ReadBsonFile();
         }
 
-        public bool TryLoadState(out dynamic stateValue)
+        public bool TryLoad(out dynamic value)
         {
             try
             {
-                stateValue = _file.ReadJsonFile();
+                value = Load();
                 return true;
             }
             catch (Exception)
             {
-                stateValue = null;
+                value = null;
                 return false;
             }
         }
 
-        public void SaveState(dynamic stateValue)
+        public void Save(dynamic value)
         {
-            //ClassExtensions.WriteJsonToFile(stateValue, _file);
+            BsonObjectFileInfoSerialization.WriteBsonToFile(value, _file);
         }
 
-        public bool TrySaveState(dynamic stateValue)
+        public bool TrySave(dynamic value)
         {
             try
             {
-                //ClassExtensions.WriteJsonToFile(stateValue, _file);
+                Save(value);
                 return true;
             }
             catch (Exception)
@@ -52,8 +70,6 @@ namespace Business.Common.System.States
                 return false;
             }
         }
-
-        public string FileName { get; private set; }
 
         #endregion IDynamicStateLoader Members
     }

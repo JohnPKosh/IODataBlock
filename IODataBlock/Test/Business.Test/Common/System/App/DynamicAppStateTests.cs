@@ -13,11 +13,13 @@ namespace Business.Test.Common.System.App
     {
         public DynamicAppStateTests()
         {
-            _appStateLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState2.json"));
+            _dynamicJsonLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState2.json"));
+            _dynamicBsonLoader = new DynamicBsonFileLoader(new FileInfo(@"c:\junk\test.appState2.bson"));
             _appState = new ExpandoObject();
         }
 
-        private readonly DynamicJsonFileLoader _appStateLoader;
+        private readonly IDynamicLoader _dynamicJsonLoader;
+        private readonly IDynamicLoader _dynamicBsonLoader;
         private dynamic _appState;
 
         [TestMethod]
@@ -26,16 +28,37 @@ namespace Business.Test.Common.System.App
             /* Set a property on the config */
             _appState.hello = @"hello world";
             /* Save the config */
-            _appStateLoader.SaveState(_appState);
+            _dynamicJsonLoader.Save(_appState);
         }
 
         [TestMethod]
         public void CanLoadStateWithJsonConfigLoader()
         {
             /* Load the config */
-            _appState = _appStateLoader.LoadState();
+            _appState = _dynamicJsonLoader.Load();
             Assert.IsTrue(_appState.hello == @"hello world");
         }
+
+
+        [TestMethod]
+        public void CanSaveStateWithBsonConfigLoader()
+        {
+            /* Set a property on the config */
+            _appState.hello = @"hello world";
+            /* Save the config */
+            _dynamicBsonLoader.Save(_appState);
+        }
+
+        [TestMethod]
+        public void CanLoadStateWithBsonConfigLoader()
+        {
+            /* Load the config */
+            _appState = _dynamicBsonLoader.Load();
+            Assert.IsTrue(_appState.hello == @"hello world");
+        }
+
+
+
 
         [TestMethod]
         public void CanSaveState()
@@ -43,14 +66,14 @@ namespace Business.Test.Common.System.App
             /* Set a property on the config */
             DynamicAppState.Instance.Value.hello = @"hello world!";
             /* Save the config */
-            DynamicAppState.Instance.Save(_appStateLoader);
+            DynamicAppState.Instance.Save(_dynamicJsonLoader);
         }
 
         [TestMethod]
         public void CanLoadState()
         {
             /* Set a property on the config */
-            DynamicAppState.Instance.Load(_appStateLoader);
+            DynamicAppState.Instance.Load(_dynamicJsonLoader);
             /* Save the config */
             Assert.IsTrue(DynamicAppState.Instance.Value.hello == @"hello world!");
         }
@@ -69,7 +92,7 @@ namespace Business.Test.Common.System.App
             var correllationId = NewGuid();
 
             // Execute the command that does the work ALL IN ONE STEP :-).
-            var responseObject = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", _appStateLoader, correllationId);
+            var responseObject = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SaveDynamicAppState", _dynamicJsonLoader, correllationId);
 
             var responseString = responseObject.ToJson(true);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(responseString));

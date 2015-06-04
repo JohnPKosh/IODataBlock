@@ -20,9 +20,7 @@ namespace Business.Common.System.Args
     [KnownType(typeof(Arg))]
     public class Arguments
     {
-
         #region Class Initialization
-        
 
         public Arguments(String id = null, IEqualityComparer<Arg> comparer = null)
         {
@@ -40,7 +38,6 @@ namespace Business.Common.System.Args
                 _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
             }
         }
-
 
         public Arguments(IEnumerable<String> items, String id = null, IEqualityComparer<Arg> comparer = null)
         {
@@ -60,7 +57,6 @@ namespace Business.Common.System.Args
             BuildArguments(items);
         }
 
-
         public Arguments(IEnumerable<Arg> items, String id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
@@ -79,7 +75,6 @@ namespace Business.Common.System.Args
             Items.UnionWith(items);
         }
 
-
         public Arguments(IDictionary<String, String> items, String id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
@@ -97,33 +92,28 @@ namespace Business.Common.System.Args
             }
             UnionWith(items);
         }
-        
 
-        #endregion
-        
+        #endregion Class Initialization
 
         #region Fields / Properties
 
+        #region Public Fields / Properties
 
-        #region Public Fields / Properties 
         /* Start DataMembers */
 
-
-        [DataMember(EmitDefaultValue=false,IsRequired=false, Order=1)]
+        [DataMember(EmitDefaultValue = false, IsRequired = false, Order = 1)]
         public String Id { get; set; }
-
 
         /// <summary>
         /// Gets or sets the HashSet items public property.
         /// </summary>
         /// <value>The items HashSet.</value>
-        [DataMember(Name = "I", Order=2)]
+        [DataMember(Name = "I", Order = 2)]
         public HashSet<Arg> Items { get; set; }
 
-
         /* End DataMembers */
-        #region Ignored Members
 
+        #region Ignored Members
 
         /// <summary>
         /// Gets the keys as IEnumerable.
@@ -138,7 +128,6 @@ namespace Business.Common.System.Args
             }
         }
 
-
         /// <summary>
         /// Gets the values as IEnumerable.
         /// </summary>
@@ -151,7 +140,6 @@ namespace Business.Common.System.Args
                 return Items.Select(x => x.K);
             }
         }
-
 
         /// <summary>
         /// Gets the count of Items.
@@ -166,42 +154,32 @@ namespace Business.Common.System.Args
             }
         }
 
-        
-        #endregion
+        #endregion Ignored Members
 
-
-        #endregion
-
+        #endregion Public Fields / Properties
 
         #region Private Fields  / Properties
-
 
         /// <summary>
         /// Private IEqualityComparer for the HashSet Items property.
         /// </summary>
         private readonly IEqualityComparer<Arg> _valueComparer;
 
-
         /// <summary>
         /// Private StringComparison enum field for the class.
         /// </summary>
         private readonly StringComparison _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
 
-
         /// <summary>
         /// Private Regex for locating argument Keys in the console's args String[].
         /// </summary>
-        private readonly Regex _r = new Regex(@"(?:\s|^)+(-x:<group>|[-/][a-z_?]{1}[0-9a-z_]*|[-/][a-z_]{1}[0-9a-z_]*[:=]{1})", RegexOptions.IgnoreCase); 
+        private readonly Regex _r = new Regex(@"(?:\s|^)+(-x:<group>|[-/][a-z_?]{1}[0-9a-z_]*|[-/][a-z_]{1}[0-9a-z_]*[:=]{1})", RegexOptions.IgnoreCase);
 
+        #endregion Private Fields  / Properties
 
-        #endregion
-
-
-        #endregion
-
+        #endregion Fields / Properties
 
         #region Factory Methods
-
 
         /// <summary>
         /// Factory method to create an instance of the Arguments class.
@@ -211,7 +189,7 @@ namespace Business.Common.System.Args
         /// <returns>Returns an instance of the Arguments class.</returns>
         public static Arguments CreateArguments(String args, String id = null)
         {
-            var argarr = args.Split(" ".ToArray(),StringSplitOptions.None);
+            var argarr = args.Split(" ".ToArray(), StringSplitOptions.None);
             return new Arguments(argarr, id);
         }
 
@@ -261,7 +239,7 @@ namespace Business.Common.System.Args
                 finally
                 {
                     if (fs != null) fs.Dispose();
-                }     
+                }
             }
             throw new FileNotFoundException("Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
         }
@@ -275,7 +253,7 @@ namespace Business.Common.System.Args
         {
             return ReadArgumentsFromFile(new FileInfo(argumentsFilePath));
         }
-        
+
         /// <summary>
         /// Reads the arguments from file.
         /// </summary>
@@ -285,7 +263,7 @@ namespace Business.Common.System.Args
         {
             return new Arguments().Deserialize(argumentsFileInfo);
         }
-        
+
         /// <summary>
         /// Expando to arguments.
         /// </summary>
@@ -304,7 +282,7 @@ namespace Business.Common.System.Args
             }
             return rv;
         }
-        
+
         /// <summary>
         /// Froms the name value collection.
         /// </summary>
@@ -320,19 +298,15 @@ namespace Business.Common.System.Args
             return rv;
         }
 
-
-        #endregion
-
+        #endregion Factory Methods
 
         #region Indexers
-
 
         public String this[String key]
         {
             get { return Items.FirstOrDefault(x => x.K.Equals(key, _stringComparisonType)).V; }
             set { Upsert(key, value); }
         }
-
 
         public String this[IEnumerable<String> i]
         {
@@ -344,14 +318,11 @@ namespace Business.Common.System.Args
                 }
                 throw new KeyNotFoundException();
             }
-        } 
+        }
 
+        #endregion Indexers
 
-        #endregion
-
-        
         #region Methods
-
 
         #region Helper Methods
 
@@ -412,7 +383,6 @@ namespace Business.Common.System.Args
             }
         }
 
-
         /// <summary>
         /// Gets the arguments as command line string.
         /// </summary>
@@ -426,9 +396,7 @@ namespace Business.Common.System.Args
             return String.Join(seperator, strlist);
         }
 
-
         #region HashSet Helper Methods
-
 
         /// <summary>
         /// Upserts the specified key.
@@ -445,7 +413,6 @@ namespace Business.Common.System.Args
             return false;
         }
 
-
         /// <summary>
         /// Upserts the specified arg.
         /// </summary>
@@ -459,17 +426,14 @@ namespace Business.Common.System.Args
             return false;
         }
 
-
         public Boolean ContainsOneOfTheseKeys(IEnumerable<String> values)
         {
             return values.Any(ContainsKey);
         }
 
-        #endregion
-
+        #endregion HashSet Helper Methods
 
         #region Dictionary Helper Methods
-
 
         /// <summary>
         /// Read Only Dictionary property for Boolean KeyValuePairs in Arguments Dictionary.
@@ -562,21 +526,17 @@ namespace Business.Common.System.Args
             return s.ToString();
         }
 
+        #endregion Dictionary Helper Methods
 
-        #endregion
-
-
-        #endregion
-
+        #endregion Helper Methods
 
         #region Inherited HashSet Helper Methods
 
-        
         public Boolean Add(String key, String value)
         {
             return Items.Add(new Arg { K = key.Trim(), V = value });
         }
-        
+
         public void Clear()
         {
             Items.Clear();
@@ -586,62 +546,62 @@ namespace Business.Common.System.Args
         {
             return Items.Contains(arg, Items.Comparer);
         }
-        
+
         public bool Contains(Arg arg, IEqualityComparer<Arg> comparer)
         {
             return Items.Contains(arg, comparer);
         }
-        
+
         public bool ContainsKey(String key)
         {
             return Items.Contains(new Arg { K = key }, Items.Comparer);
         }
-        
+
         public bool ContainsValue(String value)
         {
             return Items.Contains(new Arg { V = value }, _valueComparer);
         }
-        
+
         public bool ContainsKey(String key, IEqualityComparer<Arg> comparer)
         {
             return Items.Contains(new Arg { K = key }, comparer);
         }
-        
+
         public bool ContainsValue(String value, IEqualityComparer<Arg> comparer)
         {
             return Items.Contains(new Arg { V = value }, comparer);
         }
-        
+
         public void CopyTo(Arg[] array)
         {
             Items.CopyTo(array);
         }
-        
+
         public void CopyTo(Arg[] array, int arrayIndex)
         {
             Items.CopyTo(array, arrayIndex);
         }
-        
+
         public void CopyTo(Arg[] array, int arrayIndex, int count)
         {
             Items.CopyTo(array, arrayIndex, count);
         }
-        
+
         public void ExceptWith(Arguments other)
         {
             Items.ExceptWith(other.Items);
         }
-        
+
         public void ExceptWith(IEnumerable<Arg> other)
         {
             Items.ExceptWith(other);
         }
-        
+
         public void ExceptWith(IEnumerable<String> other)
         {
             Items.ExceptWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public HashSet<Arg>.Enumerator GetEnumerator()
         {
             return Items.GetEnumerator();
@@ -651,152 +611,152 @@ namespace Business.Common.System.Args
         {
             Items.IntersectWith(other.Items);
         }
-        
+
         public void IntersectWith(IEnumerable<Arg> other)
         {
             Items.IntersectWith(other);
         }
-        
+
         public void IntersectWith(IEnumerable<String> other)
         {
             Items.IntersectWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool IsProperSubsetOf(Arguments other)
         {
             return Items.IsProperSubsetOf(other.Items);
         }
-        
+
         public bool IsProperSubsetOf(IEnumerable<Arg> other)
         {
             return Items.IsProperSubsetOf(other);
         }
-        
+
         public bool IsProperSubsetOf(IEnumerable<String> other)
         {
             return Items.IsProperSubsetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool IsProperSupersetOf(Arguments other)
         {
             return Items.IsProperSupersetOf(other.Items);
         }
-        
+
         public bool IsProperSupersetOf(IEnumerable<Arg> other)
         {
             return Items.IsProperSupersetOf(other);
         }
-        
+
         public bool IsProperSupersetOf(IEnumerable<String> other)
         {
             return Items.IsProperSupersetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool IsSubsetOf(Arguments other)
         {
             return Items.IsSubsetOf(other.Items);
         }
-        
+
         public bool IsSubsetOf(IEnumerable<Arg> other)
         {
             return Items.IsSubsetOf(other);
         }
-        
+
         public bool IsSubsetOf(IEnumerable<String> other)
         {
             return Items.IsSubsetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool IsSupersetOf(Arguments other)
         {
             return Items.IsSupersetOf(other.Items);
         }
-        
+
         public bool IsSupersetOf(IEnumerable<Arg> other)
         {
             return Items.IsSupersetOf(other);
         }
-        
+
         public bool IsSupersetOf(IEnumerable<String> other)
         {
             return Items.IsSupersetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool Overlaps(Arguments other)
         {
             return Items.Overlaps(other.Items);
         }
-        
+
         public bool Overlaps(IEnumerable<Arg> other)
         {
             return Items.Overlaps(other);
         }
-        
+
         public bool Overlaps(IEnumerable<String> other)
         {
             return Items.Overlaps(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public bool Remove(Arg item)
         {
             return Items.Remove(item);
         }
-        
+
         public bool Remove(String item)
         {
             return Items.Remove(new Arg { K = item });
         }
-        
+
         public int RemoveWhere(Predicate<Arg> match)
         {
             return Items.RemoveWhere(match);
         }
-        
+
         public bool SetEquals(Arguments other)
         {
             return Items.SetEquals(other.Items);
         }
-        
+
         public bool SetEquals(IEnumerable<Arg> other)
         {
             return Items.SetEquals(other);
         }
-        
+
         public bool SetEquals(IEnumerable<String> other)
         {
             return Items.SetEquals(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public void SymmetricExceptWith(Arguments other)
         {
             Items.SymmetricExceptWith(other.Items);
         }
-        
+
         public void SymmetricExceptWith(IEnumerable<Arg> other)
         {
             Items.SymmetricExceptWith(other);
         }
-        
+
         public void SymmetricExceptWith(IEnumerable<String> other)
         {
             Items.SymmetricExceptWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
-        
+
         public void TrimExcess()
         {
             Items.TrimExcess();
         }
-        
+
         public void UnionWith(Arguments other)
         {
             Items.UnionWith(other.Items);
         }
-        
+
         public void UnionWith(IEnumerable<Arg> other)
         {
             Items.UnionWith(other);
         }
-        
+
         public void UnionWith(IDictionary<String, String> other)
         {
             foreach (KeyValuePair<String, String> kp in other)
@@ -804,7 +764,7 @@ namespace Business.Common.System.Args
                 Add(kp.Key, kp.Value);
             }
         }
-        
+
         public void UnionWith(Hashtable other, Func<Object, String> keyConverter = null, Func<Object, String> valueConverter = null)
         {
             if (keyConverter == null) keyConverter = x => x.ToString();
@@ -815,12 +775,9 @@ namespace Business.Common.System.Args
             }
         }
 
-
-        #endregion
-
+        #endregion Inherited HashSet Helper Methods
 
         #region Inherited System.Collections Helper Methods
-
 
         public bool All(Func<Arg, bool> predicate)
         {
@@ -947,10 +904,8 @@ namespace Business.Common.System.Args
             return Items.Where(predicate);
         }
 
+        #endregion Inherited System.Collections Helper Methods
 
-        #endregion
-
-
-        #endregion
-    }    
+        #endregion Methods
+    }
 }

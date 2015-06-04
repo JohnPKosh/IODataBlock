@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Data.DbClient.BulkCopy;
 
 namespace Data.DbClient
 {
@@ -80,6 +81,64 @@ namespace Data.DbClient
         public static String CreateSqlLiteMemoryConnectionString()
         {
             return "Data Source=:memory:;Version=3;New=True;";
+        }
+
+
+        public Boolean ImportSeperatedTxtToSql(
+            String tableName, 
+            Int32 timeOutSeconds,
+            String filePathStr, 
+            String schemaFilePath, 
+            Int32 batchRowSize, 
+            Boolean colHeaders, 
+            String fieldSeperator,
+            String textQualifier, 
+            String nullValue, 
+            //String filterExpression, 
+            Boolean enableIndentityInsert = false
+            )
+        {
+            var connectionString = Connection.ConnectionString;
+            var sqlBulkCopyUtility = new SqlBulkCopyUtility();
+            return sqlBulkCopyUtility.ImportSeperatedTxtToSql(
+                connectionString, 
+                tableName, 
+                timeOutSeconds, 
+                filePathStr,
+                schemaFilePath, 
+                batchRowSize, 
+                colHeaders, 
+                fieldSeperator, 
+                textQualifier, 
+                nullValue, 
+                //filterExpression,
+                enableIndentityInsert
+                );
+        }
+
+        public void QueryToSqlServerBulk(string commandText, String destConnStr,
+            String destTableName,
+            int commandTimeout = 60, 
+            Int32 batchSize = 0,
+            Int32 bulkCopyTimeout = 0,
+            Boolean enableIndentityInsert = false, params object[] parameters)
+        {
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            EnsureConnectionOpen();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                var sqlBulkCopyUtility = new SqlBulkCopyUtility();
+                var dataReader = dbCommand.ExecuteReader();
+                sqlBulkCopyUtility.SqlServerBulkCopy( ref dataReader, destConnStr,destTableName,batchSize, bulkCopyTimeout, enableIndentityInsert);
+                //return dbCommand.ExecuteReader();
+            }
         }
     }
 }

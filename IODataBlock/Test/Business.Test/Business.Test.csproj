@@ -68,6 +68,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SQLite, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -105,8 +106,10 @@
     <Compile Include="Common\System\App\AppStateTests.cs" />
     <Compile Include="Common\System\Commands\SystemCommandTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
+    <Compile Include="Configuration\ConfigMgrTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
+    <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +117,8 @@
     <Compile Include="Common\ClassExtensionBaseTests.cs" />
     <Compile Include="Common\ResponseObjectTests.cs" />
     <Compile Include="IO\DirectoryEntryTests.cs" />
+    <Compile Include="Security\AesCryptoTest.cs" />
+    <Compile Include="Security\RngCryptoTests.cs" />
     <Compile Include="TestUtility\FileCommandDictionary.cs" />
     <Compile Include="TestUtility\WriteToJsonFileCommand.cs" />
     <Compile Include="TestUtility\ReadFromJsonFileCommand.cs" />
@@ -142,6 +147,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="appSettings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="connectionStrings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Junk\data.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\Response.json" />
@@ -155,7 +166,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Junk\kirk.xml" />
+    <Content Include="Junk\kirk.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Junk\kirk_output.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
