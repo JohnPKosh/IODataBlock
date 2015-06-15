@@ -756,10 +756,19 @@ namespace Data.DbClient.BulkCopy
 
         private Regex SeperatedLineParser(String fieldSeperator, String textQualifier)
         {
+            //if (String.IsNullOrWhiteSpace(textQualifier))
+            //{
+                
+            //}
             var regexPattern = String.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", fieldSeperator, textQualifier);
-            return new Regex(regexPattern);
+            return new Regex(regexPattern, RegexOptions.IgnorePatternWhitespace);
+
+            // alternative http://www.schiffhauer.com/c-split-csv-values-with-a-regular-expression/
+            // ((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))
+            // ((?<=\")[^\"]*(?=\"(\t|$)+)|(?<=\t|^)[^\t\"]*(?=\t|$))
         }
 
         #endregion Helper Methods
     }
 }
+

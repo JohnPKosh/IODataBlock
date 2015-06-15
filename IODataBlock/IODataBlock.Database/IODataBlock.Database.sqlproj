@@ -65,6 +65,9 @@
     <Folder Include="Scripts\Post-Deployment" />
     <Folder Include="Scripts\Pre-Deployment" />
     <Folder Include="dbo\Tables\Indexes" />
+    <Folder Include="Scripts\UnderDev" />
+    <Folder Include="dbo\Tables\DefaultContstraints" />
+    <Folder Include="dbo\StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -72,12 +75,35 @@
     <None Include="IODataBlock.Database.publish.xml" />
     <None Include="Scripts\Post-Deployment\dbo.version.data.sql" />
     <None Include="Snapshots\IODataBlock.Database_20141005_00-21-17.dacpac" />
+    <None Include="Scripts\UnderDev\CREATE_Queue_Tables.sql" />
+    <None Include="Scripts\UnderDev\CREATE_Dequeue_StoredProc.sql" />
+    <None Include="Scripts\UnderDev\SELECT_Queue_Table_Data.sql" />
+    <None Include="Scripts\UnderDev\SEED_Queue_Data.sql" />
+    <None Include="Scripts\UnderDev\EXISTS_Any_Rows_In_QueueMeta.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\version.sql" />
     <Build Include="dbo\Tables\DataBlocks.sql" />
     <Build Include="dbo\Tables\Indexes\IX_DataBlocks.sql" />
     <Build Include="dbo\Tables\Indexes\IX_DataBlocks_Covering.sql" />
+    <Build Include="dbo\Tables\QueueBuffer.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueBuffer_CurrentQueueExpirationDate.sql" />
+    <Build Include="dbo\Tables\QueueMeta.sql" />
+    <Build Include="dbo\Tables\Indexes\IX_QueueMeta_QueueDateTime.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueMeta_Status.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueMetaDequeueItemExpiration.sql" />
+    <Build Include="dbo\Tables\QueueData.sql" />
+    <Build Include="dbo\Tables\Indexes\IX_QueueData_Id.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueMeta_QueueDateTime.sql" />
+    <Build Include="dbo\StoredProcedures\usp_Dequeue.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueData_Id.sql" />
+    <Build Include="dbo\StoredProcedures\usp_CompleteQueueItem.sql" />
+    <Build Include="dbo\StoredProcedures\usp_Enqueue.sql" />
+    <Build Include="dbo\StoredProcedures\usp_DequeueByDateTime.sql" />
+    <Build Include="dbo\Tables\DefaultContstraints\UC_QueueMeta_QueueExpiration.sql" />
+    <Build Include="dbo\StoredProcedures\usp_DeleteExpiredQueueData.sql" />
+    <Build Include="dbo\StoredProcedures\usp_DeleteExpiredQueueMeta.sql" />
+    <None Include="Scripts\UnderDev\SampleScripts.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment1.sql" />

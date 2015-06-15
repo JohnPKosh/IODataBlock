@@ -169,7 +169,7 @@ namespace Business.Common.Extensions
 
         public static bool IsGreaterThan<T>(this T value, dynamic compareTo)
         {
-            return _isGreaterThan(value, ClassExtensionBase.To<T>(compareTo));
+            return _isGreaterThan(value, ClassExtensions.To<T>(compareTo));
         }
 
         private static bool _isBetween(dynamic value, dynamic lower, dynamic upper)

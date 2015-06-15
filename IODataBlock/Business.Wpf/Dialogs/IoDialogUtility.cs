@@ -129,32 +129,12 @@ namespace Business.Wpf.Dialogs
 
         public static void OpenFileWithDefaultApplication(String TargeFilePath)
         {
-            new Thread(() =>
-            {
-                try
-                {
-                    System.Diagnostics.Process.Start(TargeFilePath);
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            }) { IsBackground = true }.Start();
+            new Thread(() => System.Diagnostics.Process.Start(TargeFilePath)) { IsBackground = true }.Start();
         }
 
         public static void OpenFileWithSpecificApplication(String AppString, String TargeFilePath)
         {
-            new Thread(() =>
-            {
-                try
-                {
-                    System.Diagnostics.Process.Start(AppString, TargeFilePath);
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            }) { IsBackground = true }.Start();
+            new Thread(() => System.Diagnostics.Process.Start(AppString, TargeFilePath)) { IsBackground = true }.Start();
         }
     }
 }

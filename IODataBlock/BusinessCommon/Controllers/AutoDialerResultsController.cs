@@ -29,11 +29,18 @@ namespace BusinessCommon.Controllers
         }
 
         // POST: api/AutoDialerResults
-        public void Post(string id, [FromBody]JObject value)
+        public void Post([FromUri] string id, JObject value)
         {
             if (value != null)
             {
-                value.Add("id", id);
+                try
+                {
+                    value.Add("id", new JValue(id));
+                }
+                catch (Exception ex)
+                {
+                    File.WriteAllText(Path.Combine(HttpContext.Current.Server.MapPath("~"), "App_Data", "AutoDialerResults", DateTime.Now.ToString("yyyy-MM-dd HHmmss") + "_err.json"), ex.Message);
+                }
                 var val = value.ToString();
                 //var vendorTrunk = value["vendorTrunk"].Value<String>();
                 File.WriteAllText(Path.Combine(HttpContext.Current.Server.MapPath("~"), "App_Data", "AutoDialerResults", DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".json"), val);

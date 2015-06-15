@@ -25,6 +25,8 @@ namespace Business.Test.Data
             }
         }
 
+        // TODO: implement CsvHelper library for all 
+
         [TestMethod]
         public void BAN_VENDOR_LISTING_ImportTest()
         {
@@ -39,6 +41,29 @@ namespace Business.Test.Data
                     1000,
                     true,
                     ",",
+                    @"""",
+                    "",
+                    true
+                    );
+                Assert.IsTrue(rv);
+            }
+        }
+
+
+        [TestMethod]
+        public void BAN_VENDOR_LISTING_ImportTabSeperatedTest()
+        {
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                db.Execute(@"DELETE FROM [RazorsightImportData].[dbo].[BAN_VENDOR_LISTING_Import]");
+                var rv = db.ImportSeperatedTxtToSql(
+                    "BAN_VENDOR_LISTING_Import",
+                    300,
+                    @"C:\junk\Razorsight\samples\BAN_VENDOR_LISTING.txt",
+                    @"C:\junk\Razorsight\samples\BAN_VENDOR_LISTING_Tab.xml",
+                    1000,
+                    true,
+                    "\t",
                     @"""",
                     "",
                     true

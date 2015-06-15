@@ -13,7 +13,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Flurl;
 using Flurl.Http;
-using System.Net.Http;
 
 namespace BusinessCommon.Tests.Controllers
 {
@@ -114,6 +113,7 @@ namespace BusinessCommon.Tests.Controllers
 
             var jobj = JObject.Parse(@"{""vendorTrunk"":""TEST_TRUNK""}");
 
+            //var result = "http://jkoshlt1.broadvox.local/BusinessCommon/api"
             var result = "http://jkoshlt1.broadvox.local/BusinessCommon/api"
                 .AppendPathSegment("AutoDialerResults")
                 .AppendPathSegment("2165132288")
@@ -123,20 +123,9 @@ namespace BusinessCommon.Tests.Controllers
         }
 
         [TestMethod]
-        public void PostAutoDialWithFlurl()
+        public void PostAutoDialWithFlurl() // submit autodial test to server
         {
-//            var json = @"{
-//""transactionId"":""3adfjoi9ilq344iodfd-0234rjsdf"",
-//""cps"":""20"",
-//""numbers"":[
-//{""number"":""2163734622"",""callback-url"":""http://172.16.3.92/BusinessCommon/api/2163734622""},
-//{""number"":""4407819740"",""callback-url"":""http://172.16.3.92/BusinessCommon/api/4407819740""}
-//]
-//}
-//";
-
-            var url = @"http://172.16.5.144:8080/llama/spank";
-
+            var url = @"http://65.57.109.99:8080/llama/spank";
             var result =
                 url.WithBasicAuth("naughtydog", "dGV0sBH89NLmlDoiCGgo").PostJsonAsync(new
                 {
@@ -144,8 +133,8 @@ namespace BusinessCommon.Tests.Controllers
                     , cps = "20" 
                     , numbers = new[]
                     {
-                        new{number="2163734622", callback = "http://172.16.3.92/BusinessCommon/api/2163734622"}
-                        , new{number="4407819740", callback = "http://172.16.3.92/BusinessCommon/api/4407819740"}
+                        new{number="2163734622", callback = "http://172.16.3.87/BusinessCommon/api/AutoDialerResults/2163734622"}
+                        , new{number="4407819740", callback = "http://172.16.3.87/BusinessCommon/api/AutoDialerResults/4407819740"}
                     }
                 }).Result;
 
@@ -155,7 +144,7 @@ namespace BusinessCommon.Tests.Controllers
         [TestMethod]
         public void PostAutoDialModelWithFlurl()
         {
-            var url = @"http://172.16.5.144:8080/llama/spank";
+            var url = @"http://65.57.109.99:8080/llama/spank";
             var result = url.WithBasicAuth("naughtydog", "dGV0sBH89NLmlDoiCGgo").PostJsonAsync(GetFakeAutoDialRequest()).Result;
 
             if (!result.IsSuccessStatusCode) Assert.Fail();
@@ -169,8 +158,9 @@ namespace BusinessCommon.Tests.Controllers
                 cps = "20",
                 numbers = new List<AutoDialRequestModel.Number>()
                 {
-                    new AutoDialRequestModel.Number(){number="2163734622", callback = "http://172.16.3.92/BusinessCommon/api/2163734622"},
-                    new AutoDialRequestModel.Number(){number="4407819740", callback = "http://172.16.3.92/BusinessCommon/api/4407819740"}
+                    new AutoDialRequestModel.Number(){number="2163734622", callback = "http://172.16.3.87/BusinessCommon/api/AutoDialerResults/2163734622"},
+                    new AutoDialRequestModel.Number(){number="4407819740", callback = "http://172.16.3.87/BusinessCommon/api/AutoDialerResults/4407819740"},
+                    new AutoDialRequestModel.Number(){number="4407819740", callback = "http://172.16.3.87/BusinessCommon/api/AutoDialerResults/2163734604"}
                 }
             };
         }

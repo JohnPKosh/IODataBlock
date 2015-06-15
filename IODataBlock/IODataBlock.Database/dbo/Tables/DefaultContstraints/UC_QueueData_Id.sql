@@ -1,0 +1,4 @@
+﻿ALTER TABLE [dbo].[QueueData]
+	ADD CONSTRAINT [UC_QueueData_Id]
+	DEFAULT NEWSEQUENTIALID()
+	FOR [Id]

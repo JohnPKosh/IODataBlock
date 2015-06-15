@@ -7,6 +7,6 @@
     <BlockWhenDriftDetected>True</BlockWhenDriftDetected>
     <RegisterDataTierApplication>True</RegisterDataTierApplication>
     <ProfileVersionNumber>1</ProfileVersionNumber>
-    <TargetConnectionString>Data Source=.\EXP12;Integrated Security=True;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=.\EXP14;Integrated Security=True;Pooling=False</TargetConnectionString>
   </PropertyGroup>
 </Project>

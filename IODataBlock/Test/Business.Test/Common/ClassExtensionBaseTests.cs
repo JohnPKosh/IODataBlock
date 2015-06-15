@@ -88,7 +88,7 @@ namespace Business.Test.Common
 
             tempperson.SomeUnknownProperty = 5; // additional properties are ignored
 
-            FakePerson newperson = ClassExtensionBase.ConvertDynamicTo<FakePerson>(tempperson);
+            FakePerson newperson = ClassExtensions.ConvertDynamicTo<FakePerson>(tempperson);
 
             Assert.IsNotNull(newperson);
             Assert.IsInstanceOfType(newperson, typeof(FakePerson));
