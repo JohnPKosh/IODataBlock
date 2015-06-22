@@ -154,7 +154,6 @@ namespace Business.Test.Configuration
             Assert.AreEqual(connString, value);
         }
 
-
         [TestMethod]
         public void RemoveConnStringTest()
         {
@@ -163,7 +162,6 @@ namespace Business.Test.Configuration
             var value = cm.GetConnectionString(connName);
             Assert.IsNull(value);
         }
-
 
         [TestMethod]
         public void ProtectConnStringTest()
@@ -187,6 +185,7 @@ namespace Business.Test.Configuration
         [TestMethod]
         public void CreateCspDefaultFile()
         {
+            // TODO: Generate CSP defaults for your production environment with different values.
             const string Ksaltp = "11c30c1a34c06143730e9218bfd1903eb01361036f5bbbe546ca8251ec81a1f0";
             const string Ksaltstr = "vDhRGMa4hwg=";
             const string Isaltp = "d77ceafc71cfa337c9f69466de2909f19438c73a3a595860a9fdf074edf10659";

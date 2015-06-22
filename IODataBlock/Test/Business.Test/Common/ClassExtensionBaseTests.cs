@@ -139,6 +139,85 @@ namespace Business.Test.Common
             Console.ReadKey(true);
         }
 
+        [TestMethod]
+        public void AddPropertyToExpando()
+        {
+            var person = FakePerson.CreateKirk();
+            dynamic tempperson = person.ToExpando();
+            ClassExtensions.AddMember(tempperson, "newValue1", 1);
+            Assert.IsTrue(((int)tempperson.newValue1) == 1);
+
+            if (ClassExtensions.TryAddMember(tempperson, "newValue2", 2))
+            {
+                Assert.IsTrue(((int)tempperson.newValue2) == 2);
+                var members = ClassExtensions.GetMetaMemberNames(tempperson);
+                Assert.IsNotNull(members);
+            }
+            else
+            {
+                Assert.Fail("why?");
+            }
+        }
+
+        [TestMethod]
+        public void ExpandoTryGetMembers()
+        {
+            var person = FakePerson.CreateKirk();
+            dynamic tempperson = person.ToExpando();
+
+            var members = ClassExtensions.GetMetaMemberNames(tempperson);
+            var memberTypes = ClassExtensions.GetMemberTypes(tempperson);
+
+            Assert.IsNotNull(members);
+            Assert.IsNotNull(memberTypes);
+        }
+
+        [TestMethod]
+        public void ExpandoTryGetValue()
+        {
+            var person = FakePerson.CreateKirk();
+            dynamic tempperson = person.ToExpando();
+            ClassExtensions.AddMember(tempperson, "newValue1", 1);
+
+            var val = 0;
+            if (ClassExtensions.TryGetValue(tempperson, "newValue1", out val))
+            {
+                Assert.IsNotNull(val);
+            }
+            else
+            {
+                Assert.IsTrue(val == 0);
+            }
+        }
+
+        [TestMethod]
+        public void ExpandoTryGetValueObject()
+        {
+            var person = FakePerson.CreateKirk();
+            dynamic tempperson = person.ToExpando();
+            ClassExtensions.AddMember(tempperson, "newValue1", 1);
+
+            object val;
+            if (ClassExtensions.TryGetValue(tempperson, "newValue1", out val))
+            {
+                Assert.IsNotNull(val);
+            }
+        }
+
+        [TestMethod]
+        public void ExpandoDeleteValue()
+        {
+            var person = FakePerson.CreateKirk();
+            dynamic tempperson = person.ToExpando();
+            ClassExtensions.AddMember(tempperson, "newValue1", 1);
+            ClassExtensions.DeleteMember(tempperson, "newValue1");
+            object val;
+            if (ClassExtensions.TryGetValue(tempperson, "newValue1", out val))
+            {
+                Assert.IsNotNull(val);
+            }
+        }
+
         #region Comparison Extension Tests
 
         [TestMethod]

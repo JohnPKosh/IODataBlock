@@ -99,6 +99,7 @@
     <Compile Include="Extensions\BsonStreamSerialization.cs" />
     <Compile Include="Extensions\ClassExtensionBase.cs" />
     <Compile Include="Extensions\ClassExtensionConversions.cs" />
+    <Compile Include="Extensions\ClassExtensionExpando.cs" />
     <Compile Include="Extensions\ClassExtensions.cs" />
     <Compile Include="Extensions\FilterOption.cs" />
     <Compile Include="Extensions\IEnumerableExtensionBase.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Extensions\JsonStreamSerialization.cs" />
     <Compile Include="Extensions\ParameterExtensionBase.cs" />
     <Compile Include="Extensions\SeperatedFileUtil.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensionBase.cs" />
     <Compile Include="Extensions\StringFilterExtensions.cs" />
     <Compile Include="IO\BaseFileSystemEntry.cs" />
@@ -135,6 +137,7 @@
     <None Include="csp.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Extensions\ExtensionsDiagram.cd" />
     <None Include="IO\Serialization\JsonSerializationExtensionBase.cs" />
     <Compile Include="IO\Serialization\SerializationExtensionBase.cs" />
     <Compile Include="IO\Serialization\SerializationListHelpers.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using Business.Common.Extensions;
@@ -30,7 +31,9 @@ namespace Business.Test.Data
             }
         }
 
-        private const string MySqlConnectionString = @"Server=jkoshlt1;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+        private const string MySqlConnectionString = @"Server=localhost;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+
+        private const string NpgsqlConnectionString = "connection string goes here";
 
         private const string SqliteFile = "sqliteTest.sl3";
 
@@ -41,6 +44,44 @@ namespace Business.Test.Data
                 return Database.CreateSqlLiteConnectionString(SqliteFile, "foo", 60, false, false, 100, 2000, 1024, false, false);
             }
         }
+
+        #region Npgsql
+
+        [TestMethod]
+        public void ConnectNpgsqlTest()
+        {
+            //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
+
+            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            {
+                db.Connection.Open();
+                if (db.Connection.State != ConnectionState.Open) Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void QueryTn2LrnTableNpgsqlTest()
+        {
+            var sql = @"
+                SELECT tn
+                    ,lrn
+                    ,spid
+                    ,cr_date
+                FROM tn2lrn216
+                limit 100;";
+
+            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            {
+                var data = db.QueryToJObjects(sql, 120);
+                if (!data.Any())
+                {
+                    Assert.Fail();
+                }
+                var json = data.ToJsonString();
+                Assert.IsNotNull(json);
+            }
+        } 
+        #endregion
 
         #region MySql Tests
 

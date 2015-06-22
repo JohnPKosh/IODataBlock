@@ -309,7 +309,6 @@ namespace Business.Common.Extensions
                 var obj = propertyDescriptor.GetValue(anonymousObject);
                 expando.Add(propertyDescriptor.Name, obj);
             }
-
             return (ExpandoObject)expando;
         }
 

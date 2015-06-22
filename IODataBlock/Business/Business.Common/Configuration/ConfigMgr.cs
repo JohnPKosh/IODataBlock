@@ -109,12 +109,12 @@ namespace Business.Common.Configuration
             return rv;
         }
 
-        internal byte[] GetAesKBytes()
+        public byte[] GetAesKBytes()
         {
             return _appSettings.GetAesKBytes();
         }
 
-        internal byte[] GetAesIvBytes()
+        public byte[] GetAesIvBytes()
         {
             return _appSettings.GetAesIvBytes();
         }

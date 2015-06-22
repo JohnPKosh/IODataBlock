@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Business.Common.Extensions.BsonExpandoBytesSerialization" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonExpandoBytesSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonObjectBytesSerialization" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonObjectBytesSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonObjectFileInfoDeserialization" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonObjectFileInfoDeserialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonObjectFileInfoSerialization" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonObjectFileInfoSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonObjectFilePathSerialization" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonObjectFilePathSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonStreamDeserialization" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAABAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonStreamDeserialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.BsonStreamSerialization" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAgAAAAABAQAAAgAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\BsonStreamSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.ClassExtensions">
+    <Position X="9.5" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>SEAAIGBkBTRQAggBJAAAIACgAQGIACGIhEJwQAIIkCI=</HashCode>
+      <FileName>Extensions\ClassExtensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.ExceptionObjectExtensions" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\ExceptionObjectExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.IEnumerableExtensionBase" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SIUEACAAEAAwAAAiAAAAQAQAAAAAAQAAIAEBNAgAoCI=</HashCode>
+      <FileName>Extensions\IEnumerableExtensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.IObjectBaseExtensions" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\IObjectBaseExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonExpandoStringSerialization" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonExpandoStringSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonObjectFileInfoSerialization" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonObjectFileInfoSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonObjectFilePathSerialization" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonObjectFilePathSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonObjectStringSerialization" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonObjectStringSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonStreamDeserialization" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAGAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonStreamDeserialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.JsonStreamSerialization" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAACAAAAAAEAAAACAAAAAAABAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Extensions\JsonStreamSerialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.ParameterExtensionBase" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAEBAAAAAAAAIAAAAAAhgAGAAAWAAAAAYAAwAAAAA=</HashCode>
+      <FileName>Extensions\ParameterExtensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.SeperatedFileUtil" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\SeperatedFileUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.StringExtensionBase" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IcihwGAAABBUAIAAkRIkBAEAYAAgACISC2CSBAAsQAI=</HashCode>
+      <FileName>Extensions\StringExtensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Business.Common.Extensions.StringFilterExtensions" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAgAAAAAAAAAAAAAAAAAAAABQAABIAAAAAIACAAAA=</HashCode>
+      <FileName>Extensions\StringFilterExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Business.Common.Extensions.StringFilterOption" Collapsed="true">
+    <Position X="4" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAAAQAAAAAAgAAAIAAAAAAAAAAAAAIAIBUYgCA=</HashCode>
+      <FileName>Extensions\FilterOption.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Business.Common.Extensions.NumericFilterOption" Collapsed="true">
+    <Position X="2.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAgAAAIAAAAAAAAAAAAAIAIBUAgCA=</HashCode>
+      <FileName>Extensions\FilterOption.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Business.Common.Extensions.DateTimeFilterOption" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAgAAAIAAAAAAAAAAAAAIAIBUAgCA=</HashCode>
+      <FileName>Extensions\FilterOption.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
