@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.DbClient.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 
 namespace Data.DbClient
@@ -225,20 +227,28 @@ namespace Data.DbClient
 
         #region Execute Methods
 
-        public int Execute(string commandText, int commandTimeout = 0, params object[] args)
+        public int Execute(string commandText, int commandTimeout = 0, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
             if (commandTimeout > 0) dbCommand.CommandTimeout = commandTimeout;
-            AddParameters(dbCommand, args);
+            AddParameters(dbCommand, parameters);
             int num;
             using (dbCommand)
             {
                 num = dbCommand.ExecuteNonQuery();
             }
             return num;
+        }
+
+        public static int ExecuteNonQuery(string connectionString, String providerName, String commandText, Int32 commandTimeout = 0, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.Execute(commandText, commandTimeout, parameters);
+            }
         }
 
         #endregion Execute Methods
@@ -256,6 +266,14 @@ namespace Data.DbClient
             throw new ArgumentNullException("commandText");
         }
 
+        public static IEnumerable<dynamic> Query(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.Query(commandText, commandTimeout, parameters);
+            }
+        }
+
         public IEnumerable<JObject> QueryToJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -265,6 +283,27 @@ namespace Data.DbClient
             }
             throw new ArgumentNullException("commandText");
         }
+
+        public Stream QueryToBson(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            if (!string.IsNullOrEmpty(commandText))
+            {
+                return QueryInternalBsonAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
+                //return QueryInternalJObjects(commandText, commandTimeout, parameters);
+            }
+            throw new ArgumentNullException("commandText");
+        }
+
+        public Stream QueryToJsonStream(string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            if (!string.IsNullOrEmpty(commandText))
+            {
+                return QueryInternalJObjectWriterAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
+                //return QueryInternalJObjects(commandText, commandTimeout, parameters);
+            }
+            throw new ArgumentNullException("commandText");
+        }
+
 
         public DataTable QueryToDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
@@ -533,6 +572,92 @@ namespace Data.DbClient
             }
             return rv;
         }
+
+        private async Task<Stream> QueryInternalJObjectWriterAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new MemoryStream();
+            List<string> columnNames = null;
+            var fcnt = 0;
+            using (var dr = await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters))
+            {
+                using (var writer = new JsonTextWriter(new StreamWriter(rv)))
+                {
+                    var jobjectType = typeof(JObject);
+                    var serializer = JsonSerializer.CreateDefault();
+                    writer.WriteStartArray();
+                    while (await dr.ReadAsync(cancellationToken))
+                    {
+                        writer.WriteStartObject();
+                        if (columnNames == null)
+                        {
+                            fcnt = dr.FieldCount;
+                            columnNames = GetColumnNames(dr).ToList();
+                        }
+                        dynamic e = new JObject();
+                        var d = e as IDictionary<string, JToken>;
+                        for (var i = 0; i < fcnt; i++)
+                        {
+                            //d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
+                            //var token = JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                            writer.WritePropertyName(columnNames[i]);
+                            writer.WriteValue(await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                        }
+                        //serializer.Serialize(writer, d, jobjectType);
+                        writer.WriteEnd();
+                        //writer.WriteValue(e);
+                        //rv.Add(e);
+                    }
+                    writer.WriteEndArray();
+                    //serializer.Serialize(writer, value, type);
+                }
+                if (rv.CanSeek) rv.Seek(0, SeekOrigin.Begin);  // reset Stream to beginning.
+            }
+            return rv;
+        }
+
+        private async Task<Stream> QueryInternalBsonAsync(string commandText, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new MemoryStream();
+            List<string> columnNames = null;
+            var fcnt = 0;
+            using (var dr = await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters))
+            {
+                using (var writer = new BsonWriter(rv))
+                {
+                    var jobjectType = typeof(JObject);
+                    var serializer = JsonSerializer.CreateDefault();
+                    writer.WriteStartArray();
+                    while (await dr.ReadAsync(cancellationToken))
+                    {
+                        writer.WriteStartObject();
+                        if (columnNames == null)
+                        {
+                            fcnt = dr.FieldCount;
+                            columnNames = GetColumnNames(dr).ToList();
+                        }
+                        dynamic e = new JObject();
+                        var d = e as IDictionary<string, JToken>;
+                        for (var i = 0; i < fcnt; i++)
+                        {
+                            //d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
+                            //var token = JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                            writer.WritePropertyName(columnNames[i]);
+                            writer.WriteValue(await dr.GetFieldValueAsync<object>(i, cancellationToken));
+                        }
+                        //serializer.Serialize(writer, d, jobjectType);
+                        writer.WriteEnd();
+                        //writer.WriteValue(e);
+                        //rv.Add(e);
+                    }
+                    writer.WriteEndArray();
+                    writer.Flush();
+                    //serializer.Serialize(writer, value, type);
+                }
+                if (rv.CanSeek) rv.Seek(0, SeekOrigin.Begin);  // reset Stream to beginning.
+            }
+            return rv;
+        }
+
 
         #endregion Private Query Methods
 

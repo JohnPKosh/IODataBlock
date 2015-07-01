@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace Business.Common.Extensions
@@ -49,6 +52,53 @@ namespace Business.Common.Extensions
         {
             return source.OrderBy(orderBy).Take(count).AsEnumerable();
         }
+
+        public static DataTable AsDataTable<T>(this IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)throw new ArgumentNullException("enumerable");
+            var input = enumerable.ToList();
+
+
+            var table = new DataTable();
+            if (input.Any())
+            {
+                IList<PropertyInfo> properties = typeof(T)
+                                                    .GetProperties()
+                                                    .Where(p => p.CanRead && (p.GetIndexParameters().Length == 0))
+                                                    .ToList();
+
+                foreach (var property in properties)
+                {
+                    table.Columns.Add(property.Name, property.PropertyType);
+                }
+
+                IList<MethodInfo> getters = properties.Select(p => p.GetGetMethod()).ToList();
+
+                table.BeginLoadData();
+                try
+                {
+                    var values = new object[properties.Count];
+                    foreach (var item in input)
+                    {
+                        for (var i = 0; i < getters.Count; i++)
+                        {
+                            values[i] = getters[i].Invoke(item, BindingFlags.Default, null, null, CultureInfo.InvariantCulture);
+                        }
+
+                        table.Rows.Add(values);
+                    }
+                }
+                finally
+                {
+                    table.EndLoadData();
+                }
+            }
+
+            return table;
+        }
+
+
+
 
         public static XElement IEnumerableToXElement<TSource>(this IEnumerable<TSource> list
             , String filePath
@@ -282,6 +332,23 @@ namespace Business.Common.Extensions
                 yield return page;
             }
         }
+
+        //TODO: review this to see if it can be extended or made better.
+        public static IEnumerable<T[]> Buffer<T>(this IEnumerable<T> enumerable, int bufferSize)
+        {
+            var buffer = new List<T>();
+            foreach (var item in enumerable)
+            {
+                buffer.Add(item);
+                if (buffer.Count < bufferSize) continue;
+                yield return buffer.ToArray();
+                buffer.Clear();
+            }
+            if (buffer.Count > 0)
+                yield return buffer.ToArray();
+        }
+
+
 
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> values)
         {

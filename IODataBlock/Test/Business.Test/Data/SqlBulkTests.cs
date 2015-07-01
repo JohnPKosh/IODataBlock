@@ -269,6 +269,69 @@ namespace Business.Test.Data
             }
         }
 
+        //TODO: Add real connectionstring to dbrate readdata
+        private const string NpgsqlConnectionString = "********";
+
+        [TestMethod]
+        public void PostgreSqlQueryToSqlServerBulkTest()
+        {
+            // flush import table
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                db.Execute(@"TRUNCATE TABLE [dbo].[ratetable_cnt]");
+            }
+
+            // copy data from PostgreSql
+            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            {
+                db.QueryToSqlServerBulk(
+                    @"SELECT productid, count(*) as cnt
+FROM (
+	SELECT productid, zonedestinationcode
+	FROM public.ratetable
+	WHERE to_char(current_timestamp,'YYYY-MM-DD') BETWEEN dateeff AND dateexp
+	GROUP BY productid, zonedestinationcode
+) as a
+GROUP BY productid
+ORDER BY cnt, productid",
+                    SqlServerConnectionString,
+                    "ratetable_cnt",
+                    300,
+                    1000,
+                    300,
+                    true
+                    );
+            }
+        }
+
+        [TestMethod]
+        public void PostgreSqlQueryToSqlServerBulkTest2()
+        {
+            // flush import table
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                db.Execute(@"TRUNCATE TABLE [dbo].[trunkgroups]");
+            }
+
+            // copy data from PostgreSql
+            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            {
+                db.QueryToSqlServerBulk(
+                    @"SELECT trunkgroupid, productid, productpriority, sourcerating, penaltyrate, 
+       rateperiod, initialperiod, initialrate, initialratetype, objid, 
+       recid, ratio, forcelrn, created_by, created_at, updated_by, updated_at, 
+       lcrrtype
+  FROM trunkgroups;",
+                    SqlServerConnectionString,
+                    "trunkgroups",
+                    300,
+                    1000,
+                    300,
+                    true
+                    );
+            }
+        }
+
     }
 }
 

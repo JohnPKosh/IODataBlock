@@ -577,33 +577,31 @@ namespace Business.Common.Extensions
                 else if (v.InheritsOrImplements<IList>())
                 {
                     var list = val as IList;
-                    if (list != null)
-                    {
-                        var ti = t.GenericTypeArguments[0];
-                        var vi = v.GenericTypeArguments[0];
-                        var propertyList = t.CreateInstance(Flags.Default, list.Count) as IList;
+                    if (list == null) continue;
+                    var ti = t.GenericTypeArguments[0];
+                    var vi = v.GenericTypeArguments[0];
+                    var propertyList = t.CreateInstance(Flags.Default, list.Count) as IList;
 
-                        foreach (var o in list)
+                    foreach (var o in list)
+                    {
+                        if (ti.IsGenericType && (ti.GetGenericTypeDefinition() == typeof(Nullable<>)))
                         {
-                            if (ti.IsGenericType && (ti.GetGenericTypeDefinition() == typeof(Nullable<>)))
-                            {
-                                if (propertyList != null)
-                                    propertyList.Add(Convert.ChangeType(o, Nullable.GetUnderlyingType(ti)));
-                            }
-                            else if (ti.Namespace != null && (ti.IsClass && !ti.Namespace.StartsWith("System")))
-                            {
-                                var newti = ti.CreateInstance();
-                                newti.ConvertFromDynamic(o);
-                                if (propertyList != null) propertyList.Add(newti);
-                            }
-                            else
-                            {
-                                if (propertyList != null)
-                                    propertyList.Add(vi == typeof(string) ? ((string)o).ParseAs(ti) : Convert.ChangeType(o, ti));
-                            }
+                            if (propertyList != null)
+                                propertyList.Add(Convert.ChangeType(o, Nullable.GetUnderlyingType(ti)));
                         }
-                        prop.SetValue(anonymousObject, propertyList, null);
+                        else if (ti.Namespace != null && (ti.IsClass && !ti.Namespace.StartsWith("System")))
+                        {
+                            var newti = ti.CreateInstance();
+                            newti.ConvertFromDynamic(o);
+                            if (propertyList != null) propertyList.Add(newti);
+                        }
+                        else
+                        {
+                            if (propertyList != null)
+                                propertyList.Add(vi == typeof(string) ? ((string)o).ParseAs(ti) : Convert.ChangeType(o, ti));
+                        }
                     }
+                    prop.SetValue(anonymousObject, propertyList, null);
                 }
                 else
                 {

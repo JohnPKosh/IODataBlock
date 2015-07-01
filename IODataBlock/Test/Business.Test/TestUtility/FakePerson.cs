@@ -45,6 +45,8 @@ namespace Business.Test.TestUtility
             return person;
         }
 
+        public string Hello;
+
         public String FirstName { get; set; }
 
         public String LastName { get; set; }

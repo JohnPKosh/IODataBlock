@@ -88,15 +88,15 @@ namespace Business.Test.Security
         {
             var input = new FileInfo(@"Junk\kirk.xml");
             var encrypted = new FileInfo(@"Junk\kirk.dat");
-            var output = new FileInfo(@"Junk\kirk_output.xml");
+            var output = new FileInfo(@"Junk\kirk_output2.xml");
 
             var cfg = new ConfigMgr();
             cfg.SetDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 
-            input.AesEncryptFileToFile(encrypted, key, iv);
-            encrypted.AesDecryptFileToFile(output, key, iv);
+            input.AesEncryptToFile(encrypted, key, iv);
+            encrypted.AesDecryptToFile(output, key, iv);
 
             var inputstr = File.ReadAllText(input.FullName);
             var outputstr = File.ReadAllText(output.FullName);
@@ -128,7 +128,7 @@ namespace Business.Test.Security
                 }
             }
             //input.AesEncryptFileToFile(encrypted, key, iv);
-            encrypted.AesDecryptFileToFile(output, key, iv);
+            encrypted.AesDecryptToFile(output, key, iv);
 
             var outputstr = File.ReadAllText(output.FullName);
             Assert.AreEqual(inputstr, outputstr);
@@ -211,6 +211,24 @@ namespace Business.Test.Security
         }
 
 
+        [TestMethod]
+        public void ReadWriteFile6()
+        {
+            var input = new FileInfo(@"Junk\kirk.xml");
+            var encrypted = new FileInfo(@"Junk\kirk.dat");
+            var output = new FileInfo(@"Junk\kirk_output.xml");
 
+            var cfg = new ConfigMgr();
+            cfg.SetDefaults(false);
+            var key = cfg.GetAesKBytes();
+            var iv = cfg.GetAesIvBytes();
+
+            input.AesGzipEncryptToFile(encrypted, key, iv);
+            encrypted.AesGzipDecryptToFile(output, key, iv);
+
+            var inputstr = File.ReadAllText(input.FullName);
+            var outputstr = File.ReadAllText(output.FullName);
+            Assert.AreEqual(inputstr, outputstr);
+        }
     }
 }

@@ -80,8 +80,9 @@ namespace Business.Test.Data
                 var json = data.ToJsonString();
                 Assert.IsNotNull(json);
             }
-        } 
-        #endregion
+        }
+
+        #endregion Npgsql
 
         #region MySql Tests
 
@@ -107,6 +108,94 @@ namespace Business.Test.Data
         #endregion MySql Tests
 
         #region SQL Server Tests
+
+        [TestMethod]
+        public void TestStaticDatabaseQuery()
+        {
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+,NULL as testnull
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, "LERG%");
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void TestStaticDatabaseFillDataTableSchema()
+        {
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+,NULL as testnull
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            var data = Database.FillSchemaDataTable(SqlServerConnectionString, "System.Data.SqlClient", sql, "data", 120, "LERG%");
+            if (data == null || data.Columns == null || data.Columns.Count == 0)
+            {
+                Assert.Fail();
+            }
+        }
 
         [TestMethod]
         public void QuerySqlServerSchemaTest()
@@ -341,6 +430,106 @@ ORDER BY [ORDINAL_POSITION]
                 db.QueryToJObjects(sql, 120, "Data%").WriteJsonToFilePath(@"c:\junk\data.json");
 
                 using (var fs = File.Open(@"c:\junk\data.json", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var jarr = fs.JsonDeserialize<JArray>();
+                    var jarrstr = jarr.ToString();
+                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeserializeFromBsonStream()
+        {
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+                var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+                #endregion sql
+
+                //db.QueryToJObjects(sql, 120, "Data%").WriteJsonToFilePath(@"c:\junk\data.bson");
+                File.WriteAllBytes(@"c:\junk\data.bson", (db.QueryToBson(sql, 120, "%") as MemoryStream).ToArray());
+
+                using (var fs = File.Open(@"c:\junk\data.bson", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var jarr = fs.BsonDeserialize<JObject>();
+                    var jarrstr = jarr.ToString();
+                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeserializeFromJsonStream()
+        {
+            using (var db = Database.OpenConnectionString(SqlServerConnectionString, "System.Data.SqlClient"))
+            {
+                #region sql
+
+                var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+                #endregion sql
+
+                //db.QueryToJObjects(sql, 120, "Data%").WriteJsonToFilePath(@"c:\junk\data.bson");
+                File.WriteAllBytes(@"c:\junk\data2.json", (db.QueryToJsonStream(sql, 120, "%") as MemoryStream).ToArray());
+
+                using (var fs = File.Open(@"c:\junk\data2.json", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var jarr = fs.JsonDeserialize<JArray>();
                     var jarrstr = jarr.ToString();

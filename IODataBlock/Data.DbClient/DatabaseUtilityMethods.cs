@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using Data.DbClient.BulkCopy;
+using Npgsql;
 
 namespace Data.DbClient
 {
@@ -22,13 +25,9 @@ namespace Data.DbClient
         //    return QueryFromFile(filePath, namedArgs, startTag, endTag, commandTimeout, parameters);
         //}
 
-        public int ExecuteNonQuery(string connectionString, String providerName, String commandText, Int32 commandTimeout = 0, params object[] args)
-        {
-            using (var db = OpenConnectionString(connectionString, providerName))
-            {
-                return db.Execute(commandText, commandTimeout, args);
-            }
-        }
+
+
+        #region Connection String Utilities
 
         public static String CreateSqlConnectionString(String sqlServer
             , String databaseName
@@ -50,6 +49,39 @@ namespace Data.DbClient
             }
             if (!String.IsNullOrWhiteSpace(applicationName)) cb.ApplicationName = applicationName;
             if (connectTimeout > -1) cb.ConnectTimeout = connectTimeout;
+            return cb.ConnectionString;
+        }
+
+        public static String CreatePostgreSqlConnectionString(String host
+            , String database
+            , String userName = null
+            , String password = null
+            , bool? disableSsl = null
+            , Int32 connectTimeout = -1
+            , Int32 port = 5432
+            , bool integratedSecurity = false
+            )
+        {
+            var cb = new NpgsqlConnectionStringBuilder { Host = host, Database = database };
+            if (!String.IsNullOrWhiteSpace(userName) && !String.IsNullOrWhiteSpace(password))
+            {
+                cb.UserName = userName;
+                cb.Password = password;
+            }
+            else
+            {
+                if (integratedSecurity)
+                {
+                    cb.IntegratedSecurity = true;
+                }
+                else
+                {
+                    cb.UserName = userName;
+                    cb.Password = password;
+                }
+            }
+            if (!disableSsl.HasValue) cb.SslMode = SslMode.Disable;
+            if (connectTimeout > -1) cb.Timeout = connectTimeout;
             return cb.ConnectionString;
         }
 
@@ -83,42 +115,45 @@ namespace Data.DbClient
             return "Data Source=:memory:;Version=3;New=True;";
         }
 
+        #endregion Connection String Utilities
 
         public Boolean ImportSeperatedTxtToSql(
-            String tableName, 
+            String tableName,
             Int32 timeOutSeconds,
-            String filePathStr, 
-            String schemaFilePath, 
-            Int32 batchRowSize, 
-            Boolean colHeaders, 
+            String filePathStr,
+            String schemaFilePath,
+            Int32 batchRowSize,
+            Boolean colHeaders,
             String fieldSeperator,
-            String textQualifier, 
-            String nullValue, 
-            //String filterExpression, 
+            String textQualifier,
+            String nullValue,
+            //String filterExpression,
             Boolean enableIndentityInsert = false
             )
         {
             var connectionString = Connection.ConnectionString;
             var sqlBulkCopyUtility = new SqlBulkCopyUtility();
             return sqlBulkCopyUtility.ImportSeperatedTxtToSql(
-                connectionString, 
-                tableName, 
-                timeOutSeconds, 
+                connectionString,
+                tableName,
+                timeOutSeconds,
                 filePathStr,
-                schemaFilePath, 
-                batchRowSize, 
-                colHeaders, 
-                fieldSeperator, 
-                textQualifier, 
-                nullValue, 
+                schemaFilePath,
+                batchRowSize,
+                colHeaders,
+                fieldSeperator,
+                textQualifier,
+                nullValue,
                 //filterExpression,
                 enableIndentityInsert
                 );
         }
 
-        public void QueryToSqlServerBulk(string commandText, String destConnStr,
+        public void QueryToSqlServerBulk(
+            string commandText, 
+            String destConnStr,
             String destTableName,
-            int commandTimeout = 60, 
+            int commandTimeout = 60,
             Int32 batchSize = 0,
             Int32 bulkCopyTimeout = 0,
             Boolean enableIndentityInsert = false, params object[] parameters)
@@ -136,9 +171,39 @@ namespace Data.DbClient
             {
                 var sqlBulkCopyUtility = new SqlBulkCopyUtility();
                 var dataReader = dbCommand.ExecuteReader();
-                sqlBulkCopyUtility.SqlServerBulkCopy( ref dataReader, destConnStr,destTableName,batchSize, bulkCopyTimeout, enableIndentityInsert);
-                //return dbCommand.ExecuteReader();
+                sqlBulkCopyUtility.SqlServerBulkCopy(ref dataReader, destConnStr, destTableName, batchSize, bulkCopyTimeout, enableIndentityInsert);
             }
         }
+
+
+
+        public DataTable FillSchemaDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            EnsureConnectionOpen();
+            var dbCommand = Connection.CreateCommand();
+            dbCommand.CommandText = commandText;
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            var providerName = GetConnectionProviderName();
+            var da = DbProviderFactories.GetFactory(providerName).CreateDataAdapter();
+            // ReSharper disable once PossibleNullReferenceException
+            da.SelectCommand = dbCommand;
+            var dt = tableName == null ? new DataTable() : new DataTable(tableName);
+            da.FillSchema(dt, SchemaType.Source);
+            return dt;
+        }
+
+        public static DataTable FillSchemaDataTable(string connectionString, string providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.FillSchemaDataTable(commandText, tableName, commandTimeout, parameters);
+            }
+        }
+
     }
 }

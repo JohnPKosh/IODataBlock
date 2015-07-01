@@ -9,7 +9,7 @@ namespace Business.Common.IO
 {
     public class ReadFileAccess : IDisposable
     {
-        //static readonly object FileLockObject = new object();
+        #region Class Initialization
 
         public ReadFileAccess(String filePath)
             : this(new FileInfo(filePath), 180000, TimeSpan.FromSeconds(30))
@@ -40,6 +40,7 @@ namespace Business.Common.IO
         {
             _file = fi;
             _file.Refresh();
+            //if (!FileExists()) throw new FileNotFoundException();
             _templockfile = new FileInfo(_file.FullName + ".tlock");
             DefaultLockWaitMs = lockWaitMs;
             DefaultLockDuration = lockDuration;
@@ -53,8 +54,14 @@ namespace Business.Common.IO
                 throw new DirectoryNotFoundException(@"DirectoryNotFoundException: No directory found!");
         }
 
+        #endregion Class Initialization
+
+        #region Fields and Properties
+
         private readonly FileInfo _file;
+
         private readonly FileInfo _templockfile;
+
         public Timer LockUpdateTimer;
 
         public int DefaultLockWaitMs { get; set; }
@@ -70,6 +77,31 @@ namespace Business.Common.IO
         public Boolean AutoEscalateLock { get; set; }
 
         public Boolean LockAcquired { get; set; }
+
+
+
+        #endregion Fields and Properties
+
+        #region Public Methods
+
+        public FileStream OpenReadFileStream(Int32 bufferSize = 4096, Boolean lockStream = true)
+        {
+            var lockWaitUntil = DateTime.Now.AddMilliseconds(DefaultLockWaitMs);
+            while (true)
+            {
+                try
+                {
+                    var stream = new FileStream(_file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize);
+                    if (lockStream) stream.Lock(0, stream.Length);
+                    return stream;
+                }
+                catch (IOException ex)
+                {
+                    if (!ex.Message.Contains(@"The process cannot access the file") || DateTime.Now >= lockWaitUntil) throw;
+                    Thread.Sleep(500);
+                }
+            }
+        }
 
         public Boolean TempLockExists()
         {
@@ -90,22 +122,6 @@ namespace Business.Common.IO
                 LockUpdateTimer = new Timer(DefaultLockDuration.TotalMilliseconds - 5000);
                 LockUpdateTimer.Elapsed += OnLockUpdateTimer;
                 LockUpdateTimer.Enabled = true;
-            }
-        }
-
-        private void OnLockUpdateTimer(object source, ElapsedEventArgs e)
-        {
-            if (!UpdatingLock)
-            {
-                UpdatingLock = true;
-                try
-                {
-                    if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
-                }
-                finally
-                {
-                    UpdatingLock = false;
-                }
             }
         }
 
@@ -421,6 +437,28 @@ namespace Business.Common.IO
             }
             return lockFileRemoved;
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void OnLockUpdateTimer(object source, ElapsedEventArgs e)
+        {
+            if (!UpdatingLock)
+            {
+                UpdatingLock = true;
+                try
+                {
+                    if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
+                }
+                finally
+                {
+                    UpdatingLock = false;
+                }
+            }
+        }
+
+        #endregion Private Methods
 
         #region "Disposal Section"
 

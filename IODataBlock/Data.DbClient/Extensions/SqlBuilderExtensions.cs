@@ -1,4 +1,8 @@
-﻿namespace Data.DbClient.Extensions
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+
+namespace Data.DbClient.Extensions
 {
     public static class SqlBuilderExtensions
     {
@@ -7,5 +11,15 @@
         //    params object[] parameters)
         //{
         //}
+
+
+        public static IEnumerable<SqlBulkCopyColumnMapping> GetSqlBulkCopyColumnMappings(this IDictionary<string, string> mappings)
+        {
+            if (mappings != null)
+            {
+                return mappings.Select(mapId => new SqlBulkCopyColumnMapping(mapId.Key, mapId.Value));
+            }
+            return null;
+        }
     }
 }

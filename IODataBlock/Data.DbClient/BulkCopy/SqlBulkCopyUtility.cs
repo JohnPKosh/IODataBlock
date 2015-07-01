@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -10,6 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Data.DbClient.Extensions;
 
 namespace Data.DbClient.BulkCopy
 {
@@ -17,6 +19,7 @@ namespace Data.DbClient.BulkCopy
     {
         #region Import Methods
 
+        //TODO: Rework into new SqlServerBulkCopy method similiar to below methods.
         public void ImportDataTableToSql(
             ref DataTable dt,
             String server,
@@ -61,7 +64,8 @@ namespace Data.DbClient.BulkCopy
             String destTableName,
             Int32 batchSize = 0,
             Int32 bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false
+            Boolean enableIndentityInsert = false,
+            IDictionary<string, string> sqlBulkCopyColumnMappings = null
             )
         {
             using (var sourceConn = new SqlConnection(sourceConnStr))
@@ -73,6 +77,13 @@ namespace Data.DbClient.BulkCopy
                     bulkCopy.DestinationTableName = destTableName;
                     if (batchSize > 0) bulkCopy.BatchSize = batchSize;
                     if (bulkCopyTimeout > 0) bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
+                    if (sqlBulkCopyColumnMappings != null)
+                    {
+                        foreach (var mapId in sqlBulkCopyColumnMappings.GetSqlBulkCopyColumnMappings())
+                        {
+                            bulkCopy.ColumnMappings.Add(mapId);
+                        }
+                    }
                     using (IDataReader reader = command.ExecuteReader())
                     {
                         bulkCopy.WriteToServer(reader);
@@ -87,7 +98,8 @@ namespace Data.DbClient.BulkCopy
             String destTableName,
             Int32 batchSize = 0,
             Int32 bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false
+            Boolean enableIndentityInsert = false,
+            IDictionary<string, string> sqlBulkCopyColumnMappings = null
             )
         {
             using (var bulkCopy = new SqlBulkCopy(destConnStr, enableIndentityInsert ? SqlBulkCopyOptions.KeepIdentity : SqlBulkCopyOptions.Default))
@@ -95,9 +107,103 @@ namespace Data.DbClient.BulkCopy
                 bulkCopy.DestinationTableName = destTableName;
                 if (batchSize > 0) bulkCopy.BatchSize = batchSize;
                 if (bulkCopyTimeout > 0) bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
+                if (sqlBulkCopyColumnMappings != null)
+                {
+                    foreach (var mapId in sqlBulkCopyColumnMappings.GetSqlBulkCopyColumnMappings())
+                    {
+                        bulkCopy.ColumnMappings.Add(mapId);
+                    }
+                }
                 bulkCopy.WriteToServer(dataReader);
             }
         }
+
+        public static void BulkInsert<T>(
+            IEnumerable<T> list,
+            string destConnStr,
+            string destTableName,
+            Int32 batchSize = 0,
+            Int32 bulkCopyTimeout = 0,
+            Boolean enableIndentityInsert = false,
+            IDictionary<string, string> sqlBulkCopyColumnMappings = null
+            )
+        {
+            using (var bulkCopy = new SqlBulkCopy(destConnStr))
+            {
+                bulkCopy.DestinationTableName = destTableName;
+                if (batchSize > 0) bulkCopy.BatchSize = batchSize;
+                if (bulkCopyTimeout > 0) bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
+                if (sqlBulkCopyColumnMappings != null)
+                {
+                    foreach (var mapId in sqlBulkCopyColumnMappings.GetSqlBulkCopyColumnMappings())
+                    {
+                        bulkCopy.ColumnMappings.Add(mapId);
+                    }
+                }
+
+                var table = new DataTable();
+                var props = TypeDescriptor.GetProperties(typeof(T))
+                    //Dirty hack to make sure we only have system data types 
+                    //i.e. filter out the relationships/collections
+                                           .Cast<PropertyDescriptor>()
+                                           .Where(propertyInfo => propertyInfo.PropertyType.Namespace.Equals("System"))
+                                           .ToArray();
+
+                foreach (var propertyInfo in props)
+                {
+                    bulkCopy.ColumnMappings.Add(propertyInfo.Name, propertyInfo.Name);
+                    table.Columns.Add(propertyInfo.Name, Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType);
+                }
+
+                var values = new object[props.Length];
+                foreach (var item in list)
+                {
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        values[i] = props[i].GetValue(item);
+                    }
+                    table.Rows.Add(values);
+                }
+
+                bulkCopy.WriteToServer(table);
+            }
+        }
+
+        //public static void BulkInsert<T>(string connection, string tableName, IList<T> list)
+        //{
+        //    using (var bulkCopy = new SqlBulkCopy(connection))
+        //    {
+        //        bulkCopy.BatchSize = list.Count;
+        //        bulkCopy.DestinationTableName = tableName;
+
+        //        var table = new DataTable();
+        //        var props = TypeDescriptor.GetProperties(typeof(T))
+        //            //Dirty hack to make sure we only have system data types 
+        //            //i.e. filter out the relationships/collections
+        //                                   .Cast<PropertyDescriptor>()
+        //                                   .Where(propertyInfo => propertyInfo.PropertyType.Namespace.Equals("System"))
+        //                                   .ToArray();
+
+        //        foreach (var propertyInfo in props)
+        //        {
+        //            bulkCopy.ColumnMappings.Add(propertyInfo.Name, propertyInfo.Name);
+        //            table.Columns.Add(propertyInfo.Name, Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType);
+        //        }
+
+        //        var values = new object[props.Length];
+        //        foreach (var item in list)
+        //        {
+        //            for (var i = 0; i < values.Length; i++)
+        //            {
+        //                values[i] = props[i].GetValue(item);
+        //            }
+
+        //            table.Rows.Add(values);
+        //        }
+
+        //        bulkCopy.WriteToServer(table);
+        //    }
+        //}
 
         public Boolean ImportSeperatedTxtToSql(String connectionString, String tableName, Int32 timeOutSeconds, String filePathStr, String schemaFilePath, Int32 batchRowSize, Boolean colHeaders, String fieldSeperator, String textQualifier, String nullValue, Boolean enableIndentityInsert = false)
         {
@@ -734,7 +840,6 @@ namespace Data.DbClient.BulkCopy
                 da.FillSchema(dt, SchemaType.Source);
                 conn.Close();
             }
-
             return dt;
         }
 

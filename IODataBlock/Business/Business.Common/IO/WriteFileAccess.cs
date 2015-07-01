@@ -9,7 +9,7 @@ namespace Business.Common.IO
 {
     public class WriteFileAccess : IDisposable
     {
-        //static readonly object FileLockObject = new object();
+        #region Class Initialization
 
         public WriteFileAccess(String filePath, TimeSpan lockDuration)
         {
@@ -45,6 +45,10 @@ namespace Business.Common.IO
                 throw new DirectoryNotFoundException(@"DirectoryNotFoundException: No directory found!");
         }
 
+        #endregion Class Initialization
+
+        #region Fields and Properties
+
         private FileInfo _file;
         private FileInfo _templockfile;
         public Timer LockUpdateTimer;
@@ -56,6 +60,29 @@ namespace Business.Common.IO
         public Boolean UpdatingLock { get; set; }
 
         public Boolean IsAccessible { get; set; }
+
+        #endregion Fields and Properties
+
+        #region Public Methods
+
+        public FileStream OpenWriteFileStream(Int32 bufferSize = 4096, Boolean lockStream = true)
+        {
+            var lockWaitUntil = DateTime.Now.AddMilliseconds(DefaultLockWaitMs);
+            while (true)
+            {
+                try
+                {
+                    var stream = new FileStream(_file.FullName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, bufferSize);
+                    if (lockStream) stream.Lock(0, stream.Length);
+                    return stream;
+                }
+                catch (IOException ex)
+                {
+                    if (!ex.Message.Contains(@"The process cannot access the file") || DateTime.Now >= lockWaitUntil) throw;
+                    Thread.Sleep(500);
+                }
+            }
+        }
 
         public Boolean TempLockExists()
         {
@@ -75,20 +102,6 @@ namespace Business.Common.IO
             LockUpdateTimer = new Timer(DefaultLockDuration.TotalMilliseconds - 5000);
             LockUpdateTimer.Elapsed += OnLockUpdateTimer;
             LockUpdateTimer.Enabled = true;
-        }
-
-        private void OnLockUpdateTimer(object source, ElapsedEventArgs e)
-        {
-            if (UpdatingLock) return;
-            UpdatingLock = true;
-            try
-            {
-                if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
-            }
-            finally
-            {
-                UpdatingLock = false;
-            }
         }
 
         public Boolean ClearExpiredTempLock(Int32 lockWaitMs)
@@ -370,6 +383,26 @@ namespace Business.Common.IO
             }
             return true;
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void OnLockUpdateTimer(object source, ElapsedEventArgs e)
+        {
+            if (UpdatingLock) return;
+            UpdatingLock = true;
+            try
+            {
+                if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
+            }
+            finally
+            {
+                UpdatingLock = false;
+            }
+        }
+
+        #endregion Private Methods
 
         #region "Disposal Section"
 

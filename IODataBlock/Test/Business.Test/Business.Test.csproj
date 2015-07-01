@@ -113,6 +113,7 @@
     <Compile Include="Common\CommandCollectionTests.cs" />
     <Compile Include="Common\CommandObjectTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
+    <Compile Include="Common\Reflection\PropertyTests.cs" />
     <Compile Include="Common\RequestObjectTests.cs" />
     <Compile Include="Common\System\App\DynamicAppStateTests.cs" />
     <Compile Include="Common\System\App\AppStateTests.cs" />
@@ -168,7 +169,9 @@
     </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
+    <None Include="Junk\data2.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\Response.json" />
     <None Include="Junk\server.json" />
