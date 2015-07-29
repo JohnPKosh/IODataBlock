@@ -1,0 +1,55 @@
+﻿{
+    "portalId": 667333,
+    "companyId": 47074771,
+    "isDeleted": false,
+    "properties": {
+        "name": {
+            "value": "Cloud Route",
+            "timestamp": 1436987685491,
+            "source": "API",
+            "sourceId": null,
+            "versions": [
+                {
+                    "name": "name",
+                    "value": "Cloud Route",
+                    "timestamp": 1436987685491,
+                    "source": "API",
+                    "sourceVid": [
+                    ]
+                }
+            ]
+        },
+        "description": {
+            "value": "This is CloudRoute",
+            "timestamp": 1436987685491,
+            "source": "API",
+            "sourceId": null,
+            "versions": [
+                {
+                    "name": "description",
+                    "value": "This is CloudRoute",
+                    "timestamp": 1436987685491,
+                    "source": "API",
+                    "sourceVid": [
+                    ]
+                }
+            ]
+        },
+        "createdate": {
+            "value": "1436987685491",
+            "timestamp": 1436987685491,
+            "source": "API",
+            "sourceId": null,
+            "versions": [
+                {
+                    "name": "createdate",
+                    "value": "1436987685491",
+                    "timestamp": 1436987685491,
+                    "source": "API",
+                    "sourceVid": [
+                    ]
+                }
+            ]
+        }
+    }
+}

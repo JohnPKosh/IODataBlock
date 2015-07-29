@@ -1,0 +1,68 @@
+
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus, .navbar-nav .open > a, .navbar-nav .open > a:hover, .navbar-nav .open > a:focus {
+    color: inherit;
+    background: @gray-light-bg;
+    border-bottom: 1px solid @border-gray-lighter
+}
+
+.fixed-navbar #header {
+    width: 100%;
+    position: fixed;
+    z-index: 1000
+}
+
+.fixed-navbar #wrapper {
+    top: 62px
+}
+
+.navbar-static-top {
+    margin: 0 0 0 180px
+}
+
+.navbar.navbar-static-top a, .nav.navbar-nav li a {
+    color: @gray-light
+}
+
+.navbar-nav > li, .navbar-nav > li > a {
+    height: 56px
+}
+
+.navbar-nav > li > a {
+    padding: 15px 25px;
+    font-size: 25px
+}
+
+.navbar-nav > li:last-child > a {
+    padding-right: 35px
+}
+
+.navbar.navbar-static-top .hide-menu {
+    color: @gray-light
+}
+
+.navbar-form-custom {
+    float: left;
+    height: 52px;
+    padding: 0;
+    width: 200px
+}
+
+.navbar-form-custom .form-control {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    font-size: 13px;
+    height: 52px;
+    margin: 0;
+    z-index: 1060;
+    padding: 0
+}
+
+@media (max-width: 768px) {
+    .navbar-form-custom, .navbar-right {
+        display: none
+    }
+
+    .navbar-static-top {
+        margin: 0
+    }
+}

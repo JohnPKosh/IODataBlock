@@ -1,0 +1,44 @@
+﻿.header-line.extreme-color {
+  width: 20%;
+}
+.header-line {
+  height: 6px;
+  width: 10%;
+  float: left;
+  margin: 0;
+  position: relative;
+}
+.header-line div {
+  position: absolute;
+  top: 70px;
+  left: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.header-line div span {
+  font-weight: 400;
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.color-demo .header-line {
+  height: 118px;
+}
+.color-demo .header-line:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.2);
+  content: '';
+  height: 10px;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .header-line div {
+    display: none;
+  }
+  .color-demo .header-line {
+    height: 48px;
+  }
+}
+/*# sourceMappingURL=header-line.css.map */

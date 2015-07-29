@@ -1,0 +1,71 @@
+﻿#menu {
+  width: 180px;
+  bottom: 0;
+  float: left;
+  left: 0;
+  position: absolute;
+  top: 62px;
+  transition: all 0.4s ease 0s;
+}
+#side-menu {
+  background: #f7f9fa;
+}
+#side-menu li a {
+  color: #6a6c6f;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 15px 20px;
+}
+#side-menu li {
+  border-bottom: 1px solid #e4e5e7;
+}
+#side-menu li:first-child {
+  border-top: 1px solid #e4e5e7;
+}
+#side-menu li.active a,
+#side-menu li:hover a {
+  color: #34495e;
+}
+#side-menu li .nav-second-level li a {
+  padding: 10px 10px 10px 30px;
+  color: #6a6c6f;
+  text-transform: none;
+  font-weight: 600;
+}
+#side-menu li .nav-second-level li.active a {
+  color: #34495e;
+}
+#side-menu.nav > li > a:hover,
+#side-menu.nav > li > a:focus {
+  background: #ffffff;
+}
+#side-menu li.active {
+  background: #ffffff;
+}
+body.hide-sidebar #menu {
+  margin-left: -180px;
+}
+body.hide-sidebar #wrapper {
+  margin-left: 0;
+}
+body.page-small #menu {
+  margin-left: -180px;
+}
+body.page-small #wrapper {
+  margin-left: 0;
+}
+body.page-small.show-sidebar #menu {
+  margin-left: 0;
+}
+body.page-small.show-sidebar #wrapper {
+  margin-left: 180px;
+}
+/* Not used */
+.fixed-sidebar #menu {
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 197px;
+  margin-right: -17px;
+}
+/*# sourceMappingURL=side-menu.css.map */

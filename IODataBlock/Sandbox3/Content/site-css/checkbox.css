@@ -1,0 +1,40 @@
+﻿.checkbox-primary input[type="checkbox"]:checked + label::before {
+  background-color: #34495e;
+  border-color: #34495e;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}
+.checkbox-info input[type="checkbox"]:checked + label::before {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+.checkbox-info input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}
+.checkbox-warning input[type="checkbox"]:checked + label::before {
+  background-color: #ffb606;
+  border-color: #ffb606;
+}
+.checkbox-warning input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}
+.checkbox-success input[type="checkbox"]:checked + label::before {
+  background-color: #62cb31;
+  border-color: #62cb31;
+}
+.checkbox-success input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}
+.checkbox input:hover,
+.radio input:hover {
+  cursor: pointer;
+}
+/*# sourceMappingURL=checkbox.css.map */

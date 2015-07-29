@@ -1,0 +1,42 @@
+﻿.stats h4,
+h5,
+h6 {
+  margin: 5px 0;
+}
+.stats-title h4 {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+}
+.stats-box div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.stats-label {
+  line-height: 1.2;
+}
+.stats-label small {
+  font-size: 80%;
+  line-height: 0.6;
+}
+.stats-box-value {
+  background: #ffffff;
+}
+.stats-box-detail {
+  background: #34495e;
+  color: #fff;
+  position: relative;
+}
+.stats .flot-chart {
+  height: 60px;
+}
+.flot-chart {
+  display: block;
+  height: 300px;
+  position: relative;
+}
+.flot-chart-content {
+  width: 100%;
+  height: 100%;
+}
+/*# sourceMappingURL=stats.css.map */

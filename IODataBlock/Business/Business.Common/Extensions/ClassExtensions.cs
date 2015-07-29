@@ -210,6 +210,32 @@ namespace Business.Common.Extensions
             return (JObject)JToken.FromObject(value);
         }
 
+        public static T ToOrOther<T>(this JObject obj, string propertyName, T other)
+        {
+            try
+            {
+                JToken temp;
+                //return obj.TryGetValue(propertyName, out temp) ? temp.Value<T>(): other;
+                return obj.TryGetValue(propertyName, out temp) ? temp.ToObject<T>() : other;
+            }
+            catch
+            {
+                return other;
+            }
+        }
+
+        public static T ToOrOther<T>(this JToken obj, T other)
+        {
+            try
+            {
+                return obj.ToObject<T>();
+            }
+            catch
+            {
+                return other;
+            }
+        }
+
         public static XmlDocument ToJObjectXml(this object value)
         {
             //return (JObject)JToken.FromObject(value);

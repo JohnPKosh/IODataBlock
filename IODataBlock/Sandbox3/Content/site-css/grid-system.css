@@ -1,0 +1,14 @@
+﻿.gridStyle {
+  border: 1px solid #e4e5e7;
+  height: 400px;
+}
+.show-grid [class^="col-"] {
+  background-color: #edf0f5 !important;
+  border: 1px solid #ddd;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.show-grid {
+  margin: 15px 0;
+}
+/*# sourceMappingURL=grid-system.css.map */

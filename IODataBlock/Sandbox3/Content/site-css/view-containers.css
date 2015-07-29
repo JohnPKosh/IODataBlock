@@ -1,0 +1,27 @@
+﻿.login-container {
+  width: 420px;
+  margin: auto;
+  padding-top: 6%;
+}
+.register-container {
+  width: 720px;
+  margin: auto;
+  padding-top: 6%;
+}
+.lock-container {
+  width: 420px;
+  margin: auto;
+  padding-top: 6%;
+}
+.error-container {
+  width: 620px;
+  margin: auto;
+  padding-top: 6%;
+}
+.error-container h1 {
+  font-size: 44px;
+}
+.big-icon {
+  font-size: 120px;
+}
+/*# sourceMappingURL=view-containers.css.map */
