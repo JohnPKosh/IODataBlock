@@ -2,7 +2,76 @@
     Layout = "~/Views/Shared/_Layout_MVC.cshtml";
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1>ASP.NET Identity</h1>
+            <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
+            <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}
+
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-success">@ViewBag.Title</h5>
+                <p>Add Content Here.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="active">
+                            <span>About</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="hpanel hgreen">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="text-success">@ViewBag.Title</h2>
+                                <h4>@ViewBag.Message</h4>
+                                <div class="m">
+                                    <i class="pe-7s-user fa-5x text-success"></i>
+                                </div>
+                                <hr />
+                            </div>
+                            <section>
+                                <p>Use this area to provide additional information.</p>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+
+
+
+
+

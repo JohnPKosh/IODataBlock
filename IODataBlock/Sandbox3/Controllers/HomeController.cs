@@ -9,7 +9,7 @@ namespace Sandbox3.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
