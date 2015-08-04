@@ -1,14 +1,16 @@
-﻿<div class="color-line">
+﻿<div class="color-line-gradient">
 </div>
-<div id="logo" class="light-version">
-    <span>
-        Homer Angular App
-    </span>
-</div>
+
+<a href="@Url.Action("Index", "Dashboard")">
+    <div id="logo" class="light-version">
+        <img src="~/Images/assets/brand-logo-sm-nav.png" alt="logo">
+    </div>
+</a>
+
 <nav role="navigation">
     <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
-    <div class="small-logo">
-        <span class="text-primary">HOMER APP</span>
+    <div class="logo-small">
+        <span class="text-primary">@ViewBag.Title</span>
     </div>
     <form role="search" class="navbar-form-custom" method="post" action="#">
         <div class="form-group">
@@ -43,12 +45,14 @@
             <li class="dropdown">
                 <a class="dropdown-toggle label label-menu-corner" href="#" data-toggle="dropdown">
                     <i class="pe-7s-mail"></i>
-                    <span class="label label-success">4</span>
+                    <span class="label label-primary-2">4</span>
                 </a>
                 <ul class="dropdown-menu hdropdown animated flipInX">
-                    <div class="title">
-                        You have 4 new messages
-                    </div>
+                    
+                    <li><div class="title">
+                            You have 4 new messages
+                        </div>
+                    </li>
                     <li>
                         <a>
                             It is a long established.

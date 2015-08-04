@@ -93,10 +93,10 @@ $(document).ready(function () {
 
 });
 
-$(window).bind("load", function () {
+$(window).bind("load", function() {
     // Remove splash screen after load
-    $('.splash').css('display', 'none')
-})
+    $('.splash').css('display', 'none');
+});
 
 $(window).bind("resize click", function () {
 

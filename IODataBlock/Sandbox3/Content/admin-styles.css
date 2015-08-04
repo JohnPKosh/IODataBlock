@@ -716,6 +716,16 @@ fieldset[disabled] .btn-link.active {
   background-position: 50% 100%;
   background-repeat: no-repeat;
 }
+.color-line-gradient {
+  height: 6px;
+  background-image: -webkit-linear-gradient(left, #3578a8 0%, #295c81 100%);
+  background-image: -o-linear-gradient(left, #3578a8 0%, #295c81 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#3578a8), to(#295c81));
+  background-image: linear-gradient(to left, #3578a8 0%, #295c81 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  background-repeat: repeat-x;
+}
 a {
   cursor: pointer;
   color: #3578a8;
@@ -1137,8 +1147,8 @@ a:focus {
   margin-top: 6px;
   margin-bottom: 0px;
   list-style: none;
-  background-color: #f5f5f5;
-  border-radius: #f5f5f5;
+  background-color: #ffffff;
+  border-radius: #ffffff;
   font-size: 11px;
 }
 .hbreadcrumb > li {
@@ -1238,11 +1248,12 @@ a:focus {
   border-right: 1px solid #eeeeee;
   border-left: 1px solid #eeeeee;
   margin-right: 15px;
-  background: #f7f9fa;
+  background: #ffffff;
   cursor: pointer;
+  color: #3578a8;
 }
 .header-link:hover {
-  background: #eeeeee;
+  background: #f7f9fa;
 }
 .normalheader .hpanel {
   margin-bottom: 0;
@@ -1710,7 +1721,7 @@ a.list-group-item.active:focus {
   font-size: 14px;
 }
 #logo.light-version {
-  background-color: #f7f9fa;
+  background-color: #ffffff;
   border-bottom: 1px solid #eeeeee;
   text-align: left;
 }
@@ -1719,7 +1730,7 @@ a.list-group-item.active:focus {
   color: #3578a8;
   font-size: 14px;
 }
-.small-logo {
+.logo-small {
   display: none;
   text-align: center;
   padding-top: 18px;
@@ -2069,13 +2080,59 @@ ul.mailbox-list li:hover a {
 .hmodal-danger h4.modal-title {
   color: #c0392b;
 }
+/*.mvc-page .navbar-form-custom, .mvc-page .navbar-right, .mvc-page #logo {
+    display: block
+}*/
+.mvc-page .navbar-default {
+  background: #ffffff;
+}
+/*.mvc-page .navbar .navbar-brand {
+    font-size: 12px;
+    height: auto;
+    margin-top: 8px;
+    padding: 9px 15px;
+    font-weight: 700;
+    border-radius: 5px;
+    color: @label-color;
+    display: block;
+    background-color: @brand-primary;
+    margin-left: 0
+}*/
+/*.mvc-page .navbar-default .navbar-toggle:hover, .mvc-page .navbar-default .navbar-toggle:focus {
+    background: @brand-primary
+}*/
+/*.mvc-page .navbar-default .navbar-toggle:hover .icon-bar, .mvc-page .navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: @body-bg !important
+}*/
+.mvc-page .navbar-default .navbar-nav > .active > a,
+.mvc-page .navbar-default .navbar-nav > .active > a:hover,
+.mvc-page .navbar-default .navbar-nav > .active > a:focus {
+  background-color: transparent;
+  color: #3578a8;
+  border: none;
+}
+.mvc-page .navbar-default li a:hover {
+  border-bottom: none;
+}
+/*
+.mvc-page .brand-desc {
+    color: @brand-primary;
+    margin: 17px 10px 0 90px;
+    width: 180px
+}*/
+.mvc-page .navbar-nav > li > a {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px 15px;
+  color: #3578a8;
+}
 .navbar-nav > li > a:hover,
 .navbar-nav > li > a:focus,
 .navbar-nav .open > a,
 .navbar-nav .open > a:hover,
 .navbar-nav .open > a:focus {
   color: inherit;
-  background: #edf0f5;
+  background: #f7f9fa;
   border-bottom: 1px solid #eeeeee;
 }
 .fixed-navbar #header {
@@ -3311,7 +3368,8 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fff;
   font-size: 13px;
-  color: #6a6c6f;
+  color: #555555;
+  /*color: #6a6c6f;*/
   margin: 0;
   padding: 0;
   height: 100%;

@@ -4,19 +4,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>HOMER | @ViewBag.Title</title>
-
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="/Icon.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/Icon.png" sizes="16x16" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-    
+
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <!-- Add local styles, mostly for plugins css file -->
+    <!-- Add local styles for plugins css file -->
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
 
-    <!-- Primary HOMER style -->
+    <!-- Primary styles -->
     @Styles.Render("~/bundles/font-awesome/css")
     @Styles.Render("~/bundles/animate/css")
     @*@Styles.Render("~/bundles/bootstrap/css")*@

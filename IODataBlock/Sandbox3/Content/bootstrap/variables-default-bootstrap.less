@@ -12,44 +12,13 @@
 @gray-dark:              lighten(@gray-base, 20%);   // #333
 @gray:                   lighten(@gray-base, 33.5%); // #555
 @gray-light:             lighten(@gray-base, 46.7%); // #777
-@gray-mid-light:         lighten(@gray-base, 60%); // #???
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-/*@brand-primary:         #34495e;
-@brand-primary-2:       #9b59b6;
-@brand-success:         #62cb31;
-@brand-info:            #3498db;
-@brand-warning:         #ffb606;
-@brand-warning-2:       #e67e22;
-@brand-danger:          #e74c3c;
-@brand-danger-2:        #c0392b;*/
-
-/* BVX Colors*/
-
-@brand-primary:         #3578a8;
-@brand-primary-2:       #f3ab1d;
-@brand-success:         #80c342;
-@brand-info:            #6db0e8;
-@brand-warning:         #e46b1f;
-@brand-warning-2:       darken(@brand-warning,5);
-@brand-danger:          lighten(@brand-danger-2,5);
-@brand-danger-2:        #c0392b;
-
-
-@border-gray-light:     @gray-light;
-@border-gray-lighter:   @gray-lighter;
-
-@gray-light-bg: #edf0f5;
-@gray-lighter-bg: #f7f9fa;
-@gray-light-border: #e4e5e7;
-@placeholder-border: #cecece;
-
-
-
-@wrapper-bg: lighten(@gray-base, 99%);
-@wrapper-border: @gray-light-border;
-
-
+@brand-primary:         darken(#428bca, 6.5%); // #337ab7
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
 
 
 //== Scaffolding
@@ -178,83 +147,26 @@
 @btn-default-color:              #333;
 @btn-default-bg:                 #fff;
 @btn-default-border:             #ccc;
-/* custom hover styles */
-@btn-default-bg-hover:           lighten(@btn-default-bg,10%);
-@btn-default-border-hover:       lighten(@btn-default-border,10%);
-@btn-default-bg-disabled:        darken(@btn-default-bg,10%);
-@btn-default-border-disabled:    darken(@btn-default-border,10%);
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
 @btn-primary-border:             darken(@btn-primary-bg, 5%);
-/* custom hover styles */
-@btn-primary-bg-hover:           lighten(@btn-primary-bg,10%);
-@btn-primary-border-hover:       lighten(@btn-primary-border,10%);
-@btn-primary-bg-disabled:        darken(@btn-primary-bg,10%);
-@btn-primary-border-disabled:    darken(@btn-primary-border,10%);
-
-@btn-primary2-color:             #fff;
-@btn-primary2-bg:                @brand-primary-2;
-@btn-primary2-border:            darken(@btn-primary2-bg, 5%);
-/* custom hover styles */
-@btn-primary2-bg-hover:          lighten(@btn-primary2-bg,10%);
-@btn-primary2-border-hover:      lighten(@btn-primary2-border,10%);
-@btn-primary2-bg-disabled:       darken(@btn-primary2-bg,10%);
-@btn-primary2-border-disabled:   darken(@btn-primary2-border,10%);
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
 @btn-success-border:             darken(@btn-success-bg, 5%);
-/* custom hover styles */
-@btn-success-bg-hover:           lighten(@btn-success-bg,10%);
-@btn-success-border-hover:       lighten(@btn-success-border,10%);
-@btn-success-bg-disabled:        darken(@btn-success-bg,10%);
-@btn-success-border-disabled:    darken(@btn-success-border,10%);
 
 @btn-info-color:                 #fff;
 @btn-info-bg:                    @brand-info;
 @btn-info-border:                darken(@btn-info-bg, 5%);
-/* custom hover styles */
-@btn-info-bg-hover:              lighten(@btn-info-bg,10%);
-@btn-info-border-hover:          lighten(@btn-info-border,10%);
-@btn-info-bg-disabled:           darken(@btn-default-bg,10%);
-@btn-info-border-disabled:       darken(@btn-default-border,10%);
 
 @btn-warning-color:              #fff;
 @btn-warning-bg:                 @brand-warning;
 @btn-warning-border:             darken(@btn-warning-bg, 5%);
-/* custom hover styles */
-@btn-warning-bg-hover:           lighten(@btn-warning-bg,10%);
-@btn-warning-border-hover:       lighten(@btn-warning-border,10%);
-@btn-warning-bg-disabled:        darken(@btn-warning-bg,10%);
-@btn-warning-border-disabled:    darken(@btn-warning-border,10%);
-
-@btn-warning2-color:             #fff;
-@btn-warning2-bg:                @brand-warning-2;
-@btn-warning2-border:            darken(@btn-warning2-bg, 5%);
-/* custom hover styles */
-@btn-warning2-bg-hover:          lighten(@btn-warning2-bg,10%);
-@btn-warning2-border-hover:      lighten(@btn-warning2-border,10%);
-@btn-warning2-bg-disabled:       darken(@btn-warning2-bg,10%);
-@btn-warning2-border-disabled:   darken(@btn-warning2-border,10%);
 
 @btn-danger-color:               #fff;
 @btn-danger-bg:                  @brand-danger;
 @btn-danger-border:              darken(@btn-danger-bg, 5%);
-/* custom hover styles */
-@btn-danger-bg-hover:            lighten(@btn-danger-bg,10%);
-@btn-danger-border-hover:        lighten(@btn-danger-border,10%);
-@btn-danger-bg-disabled:         darken(@btn-danger-bg,10%);
-@btn-danger-border-disabled:     darken(@btn-danger-border,10%);
-
-@btn-danger2-color:              #fff;
-@btn-danger2-bg:                 @brand-danger-2;
-@btn-danger2-border:             darken(@btn-danger2-bg, 5%);
-/* custom hover styles */
-@btn-danger2-bg-hover:           lighten(@btn-danger2-bg,10%);
-@btn-danger2-border-hover:       lighten(@btn-danger2-border,10%);
-@btn-danger2-bg-disabled:        darken(@btn-danger2-bg,10%);
-@btn-danger2-border-disabled:    darken(@btn-danger2-border,10%);
 
 @btn-link-disabled-color:        @gray-light;
 
@@ -953,23 +865,3 @@
 @dl-horizontal-offset:        @component-offset-horizontal;
 //** Horizontal line color.
 @hr-border:                   @gray-lighter;
-
-
-@toast-bg:                    #fff;
-
-@checkbox-color:              #fff;
-
-@hbreadcrumb-bg:              @panel-default-heading-bg;
-@hbreadcrumb-border:          @panel-default-heading-bg;
-@hbreadcrumb-active-color:    @text-color;
-
-@header-bg:                   @panel-bg;
-
-@logo-color:                  #fff;
-
-@side-menu-background:        #fff;
-
-@dd-handle-hover-bg: #f0f0f0;
-@dd-item-button-color: #c1c1c1;
-@dd-placeholder-bg: #f2fbff;
-@dd-empty-border-color: #bbb;

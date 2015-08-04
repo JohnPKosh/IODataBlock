@@ -281,6 +281,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap\variables.min.css">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
     <Content Include="Content\DataTables-1.10.7\examples\advanced_init\column_render.html" />
     <Content Include="Content\DataTables-1.10.7\examples\advanced_init\complex_header.html" />
     <Content Include="Content\DataTables-1.10.7\examples\advanced_init\defaults.html" />
@@ -599,6 +611,12 @@
     <Content Include="Content\site-css\header-styles.min.css">
       <DependentUpon>header-styles.css</DependentUpon>
     </Content>
+    <Content Include="Content\site-css\mvc-page.css">
+      <DependentUpon>mvc-page.less</DependentUpon>
+    </Content>
+    <Content Include="Content\site-css\mvc-page.min.css">
+      <DependentUpon>mvc-page.css</DependentUpon>
+    </Content>
     <Content Include="Content\site-css\pagination.css">
       <DependentUpon>pagination.less</DependentUpon>
     </Content>
@@ -868,12 +886,6 @@
     </Content>
     <Content Include="Content\site-css\note-editor.min.css">
       <DependentUpon>note-editor.css</DependentUpon>
-    </Content>
-    <Content Include="Content\site-css\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\site-css\variables.min.css">
-      <DependentUpon>variables.css</DependentUpon>
     </Content>
     <Content Include="Content\site-css\view-containers.css">
       <DependentUpon>view-containers.less</DependentUpon>
@@ -2005,7 +2017,12 @@
     <Content Include="Images\a7.jpg" />
     <Content Include="Images\a8.jpg" />
     <Content Include="Images\a9.jpg" />
+    <Content Include="Images\assets\brand-logo-sm-nav.png" />
+    <Content Include="Images\assets\brand-logo-sm.png" />
     <Content Include="Images\assets\brand-logo.png" />
+    <Content Include="Images\assets\logo.png" />
+    <Content Include="Images\assets\brand-logo.jpg" />
+    <Content Include="Images\banner-background.jpg" />
     <Content Include="Images\gallery\1.jpg" />
     <Content Include="Images\gallery\10.jpg" />
     <Content Include="Images\gallery\10s.jpg" />
@@ -2691,9 +2708,16 @@
     <Content Include="Content\site-css\form-styles.css.map">
       <DependentUpon>form-styles.css</DependentUpon>
     </Content>
-    <Content Include="Content\site-css\variables.less" />
-    <Content Include="Content\site-css\variables.css.map">
+    <Content Include="Content\bootstrap\variables-default-bootstrap.less" />
+    <Content Include="Content\bootstrap\variables.css.map">
       <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\site-css\mvc-page.less" />
+    <Content Include="Content\site-css\mvc-page.css.map">
+      <DependentUpon>mvc-page.css</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - Web Deploy.pubxml" />
