@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,24 +39,37 @@
                 <div class="p-xs"><a href="@Url.Action("Index", "Dashboard", new { area = "" })"><img src="~/Images/assets/brand-logo-sm.png" alt="logo"></a></div>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @*<li>@Html.ActionLink("API Help", "Index", "Help", new { area = "" }, null)</li>*@
+                <div class="nav navbar-right">
+                    <div class="navbar-right">
+                        @Html.Partial("_LoginPartial_MVC")
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        @*<li>@Html.ActionLink("API Help", "Index", "Help", new { area = "" }, null)</li>*@
 
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
-                        <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
-                    }
-                    @Html.Partial("_LoginPartial")
-                </ul>
+                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
+                            <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
+                        }
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Manage")" title="Manage">@*<i class="fa fa-user"></i>*@ @User.Identity.GetUserName()</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-            
         </div>
     </nav>
-    
+
     <header id="page-top">
 
         @*Optional Jumbotron section!*@
@@ -69,24 +83,23 @@
         {
             @RenderSection("pageBreadcrumbSection", required: false)
         }
-
     </header>
 
-        @*Add body here!*@
-        @RenderBody()
+    @*Add body here!*@
+    @RenderBody()
 
-        @*Add footer here!*@
-        <div class="container body-content">
-            <hr />
-            <footer>
-                <p class="font-light small">&copy; COPYRIGHT © 2001 – @DateTime.Now.Year BROADVOX™. All rights reserved. </p>
-            </footer>
-        </div>
+    @*Add footer here!*@
+    <div class="container body-content">
+        <hr />
+        <footer>
+            <p class="font-light small">&copy; COPYRIGHT © 2001 – @DateTime.Now.Year BROADVOX™. All rights reserved. </p>
+        </footer>
+    </div>
 
-        @*Add scripts here!*@
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/admin-scripts/js")
-        @RenderSection("scripts", required: false)
+    @*Add scripts here!*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/admin-scripts/js")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

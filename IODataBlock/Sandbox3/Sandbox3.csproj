@@ -2825,6 +2825,7 @@
     <Content Include="Views\Tables\DataTables.cshtml" />
     <Content Include="Views\Tables\TablesDesign.cshtml" />
     <Content Include="Views\Widgets\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial_MVC.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -4,6 +4,7 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
+
         <ul class="nav navbar-nav navbar-right">
             <li>
                 @Html.ActionLink("My API", "MyApi", "Account", routeValues: null, htmlAttributes: new { title = "My API" })

@@ -31,6 +31,13 @@
 .badge.badge-primary {
   background-color: #3578a8;
 }
+.badge.badge-login {
+  background-color: #f3ab1d;
+  width: 62px;
+  min-height: 20px;
+  margin-top: 6px;
+  z-index: 1001;
+}
 .blog-box p {
   font-size: 12px;
 }
