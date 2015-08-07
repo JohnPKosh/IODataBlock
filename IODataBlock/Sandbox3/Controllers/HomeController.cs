@@ -1,11 +1,25 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Sandbox3.Models.Content;
 
 namespace Sandbox3.Controllers
 {
     public class HomeController : Controller
     {
+        private string GetContent(string controller, string action, string section, string contentId, string areaName = "")
+        {
+            var firstOrDefault = ContentManager.Data.Value.FirstOrDefault(x => x.IsTarget(controller, action, section, contentId, areaName));
+            if (firstOrDefault != null && !string.IsNullOrWhiteSpace(firstOrDefault.Content))
+            {
+                return firstOrDefault.Content;
+            }
+            return "Content Goes Here!";
+        }
+
         public ActionResult Index()
         {
+            ViewBag.JumbotronTitle = GetContent("Home", "Index", "Jumbotron","Title");
+            ViewBag.JumbotronSubtitle = GetContent("Home", "Index", "Jumbotron", "Subtitle");
             return View();
         }
 
@@ -14,12 +28,18 @@ namespace Sandbox3.Controllers
         {
             ViewBag.Message = "Your app description page.";
 
+            ViewBag.JumbotronTitle = GetContent("Home", "About", "Jumbotron", "Title");
+            ViewBag.JumbotronSubtitle = GetContent("Home", "About", "Jumbotron", "Subtitle");
+
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            ViewBag.JumbotronTitle = GetContent("Home", "Contact", "Jumbotron", "Title");
+            ViewBag.JumbotronSubtitle = GetContent("Home", "Contact", "Jumbotron", "Subtitle");
 
             return View();
         }

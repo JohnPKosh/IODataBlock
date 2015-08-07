@@ -7,9 +7,9 @@
 {
     <div class="jumbotron">
         <div class="container">
-            <h1>ASP.NET Identity</h1>
-            <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
-            <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            <h1>@ViewBag.JumbotronTitle</h1>
+            <p class="lead">@ViewBag.JumbotronSubtitle</p>
+            <p><a href="@Url.Action("Index", "LandingPage")" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
         </div>
     </div>
 }
