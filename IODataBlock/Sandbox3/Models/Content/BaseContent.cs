@@ -16,5 +16,6 @@ namespace Sandbox3.Models.Content
         {
             return Targets.Any(x=>x.AreaName == areaName && x.Controller == controller && x.Action == action && x.Section == section && x.ContentId == contentId);
         }
+
     }
 }

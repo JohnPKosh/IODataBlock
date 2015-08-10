@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Sandbox3.Models.Content;
 
 namespace Sandbox3.Controllers
@@ -8,16 +9,13 @@ namespace Sandbox3.Controllers
     {
         private string GetContent(string controller, string action, string section, string contentId, string areaName = "")
         {
-            var firstOrDefault = ContentManager.Data.Value.FirstOrDefault(x => x.IsTarget(controller, action, section, contentId, areaName));
-            if (firstOrDefault != null && !string.IsNullOrWhiteSpace(firstOrDefault.Content))
-            {
-                return firstOrDefault.Content;
-            }
-            return "Content Goes Here!";
+            //var myid = User.Identity.GetUserId();
+            return ContentManager.Data.GetUnauthenticatedContent(controller, action, section, contentId, areaName, "Content Goes Here!");
         }
 
         public ActionResult Index()
         {
+            var action = (string)RouteData.Values["action"];
             ViewBag.JumbotronTitle = GetContent("Home", "Index", "Jumbotron","Title");
             ViewBag.JumbotronSubtitle = GetContent("Home", "Index", "Jumbotron", "Subtitle");
             return View();
@@ -36,6 +34,8 @@ namespace Sandbox3.Controllers
 
         public ActionResult Contact()
         {
+            ContentManager.Reload();
+
             ViewBag.Message = "Your contact page.";
 
             ViewBag.JumbotronTitle = GetContent("Home", "Contact", "Jumbotron", "Title");

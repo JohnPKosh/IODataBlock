@@ -2,36 +2,120 @@
 
 @{
     Layout = "~/Views/Shared/_Layout_MVC.cshtml";
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Roles Admin";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
+@*@section headerJumbotron
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+        <div class="jumbotron">
+            <div class="container">
+                <h1>ASP.NET Identity</h1>
+                <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
+                <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>
+        </div>
+    }*@
 
-</table>
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-primary-2">@ViewBag.Title</h5>
+                <p>Add Content Here.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="active"><a href="@Url.Action("Index", "RolesAdmin")"> Roles Admin</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="hpanel hviolet">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="m-t-lg text-primary2">@ViewBag.Title</h2>
+                                <h4 class="m-t-lg">@ViewBag.Message</h4>
+                                <div class="m-t-lg">
+                                    <i class="fa fa-users fa-5x text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="hpanel hblue">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h4 class="m-t-lg">Create New Role</h4>
+                                <p>
+                                    <a class="btn btn-large btn-primary m-t-lg" href="@Url.Action("Create", "RolesAdmin")"><i class="fa fa-plus"></i> New</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hpanel">
+
+                        <div class="panel-heading">
+                            <h5 class="font-bold text-uppercase">Existing Roles:</h5>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    <div class="pull-right">
+                                                        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", "RolesAdmin", new { id = item.Id })"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a class="btn btn-xs btn-primary2" href="@Url.Action("Details", "RolesAdmin", new { id = item.Id })"><i class="fa fa-th-list"></i> View</a>
+                                                        <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "RolesAdmin", new { id = item.Id })"><i class="fa fa-th-list"></i> Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @*<div class="panel-footer">
+                                Table - 6 rows
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
