@@ -1,7 +1,7 @@
 ﻿<div class="color-line-gradient">
 </div>
 
-<a href="@Url.Action("Index", "Dashboard")">
+<a href="@Url.Action("Index", "Home")">
     <div id="logo" class="light-version">
         <img src="~/Images/assets/brand-logo-sm-nav.png" alt="logo">
     </div>
@@ -80,6 +80,18 @@
                 <a href="login.html">
                     <i class="pe-7s-upload pe-rotate-90"></i>
                 </a>
+                @*TODO: Fix styling below to replace above!*@
+                @*@if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "dropdown"}))
+                     {
+                         @Html.AntiForgeryToken()
+                         <a href="javascript:document.getElementById('logoutForm').submit()" title="Log Out">
+                             <i class="pe-7s-upload pe-rotate-90"></i>
+                         </a>
+                     }
+                }*@
+
             </li>
         </ul>
     </div>
