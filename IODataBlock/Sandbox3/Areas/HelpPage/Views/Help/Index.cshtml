@@ -12,27 +12,67 @@
     ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
 }
 
-<link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
-<header class="help-page">
-    <div class="content-wrapper">
-        <div class="float-left">
-            <h1>@ViewBag.Title</h1>
+
+
+@*@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1>@ViewBag.JumbotronTitle</h1>
+            <p class="lead">@ViewBag.JumbotronSubtitle</p>
+            <p><a href="@Url.Action("Index", "LandingPage")" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
         </div>
     </div>
-</header>
-<div id="body" class="help-page">
-    <section class="featured">
-        <div class="content-wrapper">
-            <h2>Introduction</h2>
-            <p>
-                Provide a general description of your APIs here.
-            </p>
+}*@
+
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-primary">@ViewBag.Title</h5>
+                <p>Add Content Here.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="active">
+                            <span>About</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
         </div>
-    </section>
-    <section class="content-wrapper main-content clear-fix">
-        @foreach (var group in apiGroups)
-        {
-            @Html.DisplayFor(m => group, "ApiGroup")
-        }
-    </section>
-</div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hpanel hblue">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="text-primary">@ViewBag.Title</h2>
+                                <h4>@ViewBag.Message</h4>
+                                <div class="m">
+                                    <i class="fa fa-cog fa-5x text-primary"></i>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var group in apiGroups)
+    {
+        @Html.DisplayFor(m => group, "ApiGroup")
+    }
+
+</section>

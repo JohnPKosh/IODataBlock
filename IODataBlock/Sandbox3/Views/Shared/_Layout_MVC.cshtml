@@ -51,7 +51,7 @@
 
                         @if (Request.IsAuthenticated)
                         {
-                            <li class="active">@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                            <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                         }
                         
                         @if (Request.IsAuthenticated && User.IsInRole("Admin"))

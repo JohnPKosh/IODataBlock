@@ -38,13 +38,14 @@
     <div class="container">
         <div class="heading">
             <h1>
-                Welcome to Homer landing page
+                Welcome to Broadvox landing page
             </h1>
             <span>Contrary to popular belief, Lorem Ipsum is not<br /> simply random text for print.</span>
             <p class="small">
                 Lorem Ipsum is simply dummy text of the printing and tLorem Ipsum is  Lorem Ipsum is simply dummy of the simply dummy text of the ypesetting.
             </p>
-            <a href="#" class="btn btn-success btn-sm">Learn more</a>
+            @*<a href="#" class="btn btn-success btn-sm">Learn more</a>*@
+            @Html.ActionLink("API Help", "Index", "Help", new { area = "" }, new { @class = "btn btn-success btn-sm" })
         </div>
         <div class="heading-image animate-panel" data-child="img-animate" data-effect="fadeInRight">
             <p class="small">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
