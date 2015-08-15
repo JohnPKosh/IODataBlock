@@ -7,9 +7,9 @@ namespace Sandbox3.Helpers
     {
         public static string IsSelected(this HtmlHelper html, string controller = null, string action = null)
         {
-            string cssClass = "active";
-            string currentAction = (string)html.ViewContext.RouteData.Values["action"];
-            string currentController = (string)html.ViewContext.RouteData.Values["controller"];
+            var cssClass = "active";
+            var currentAction = (string)html.ViewContext.RouteData.Values["action"];
+            var currentController = (string)html.ViewContext.RouteData.Values["controller"];
 
             if (String.IsNullOrEmpty(controller))
                 controller = currentController;
@@ -23,7 +23,7 @@ namespace Sandbox3.Helpers
 
         public static string PageClass(this HtmlHelper html)
         {
-            string currentAction = (string)html.ViewContext.RouteData.Values["action"];
+            var currentAction = (string)html.ViewContext.RouteData.Values["action"];
             return currentAction;
         }
 

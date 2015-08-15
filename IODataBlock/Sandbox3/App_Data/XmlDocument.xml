@@ -4,6 +4,201 @@
         <name>Sandbox3</name>
     </assembly>
     <members>
+        <member name="T:Sandbox3.BundleConfig">
+            <summary>
+            For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+            </summary>
+        </member>
+        <member name="M:Sandbox3.BundleConfig.RegisterBundles(System.Web.Optimization.BundleCollection)">
+            <summary>
+            For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+            </summary>
+            <param name="bundles">The bundles collection to register.</param>
+        </member>
+        <member name="T:Sandbox3.FilterConfig">
+            <summary>
+            Web Application FilterConfig
+            </summary>
+        </member>
+        <member name="M:Sandbox3.FilterConfig.RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection)">
+            <summary>
+            Registers the global filters for this Web Application.
+            </summary>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="T:Sandbox3.Models.ApplicationUserManager">
+            <summary>
+            Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationUserManager.#ctor(Microsoft.AspNet.Identity.IUserStore{Sandbox3.Models.ApplicationUser,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Models.ApplicationUserManager"/> class.
+            </summary>
+            <param name="store">The store.</param>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationUserManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{Sandbox3.Models.ApplicationUserManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Sandbox3.Models.ApplicationRoleManager">
+            <summary>
+            Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationRoleManager.#ctor(Microsoft.AspNet.Identity.IRoleStore{Sandbox3.Models.ApplicationRole,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Models.ApplicationRoleManager"/> class.
+            </summary>
+            <param name="roleStore">The role store.</param>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationRoleManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{Sandbox3.Models.ApplicationRoleManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Sandbox3.Models.ApplicationDbInitializer">
+            <summary>
+            This is useful if you do not want to tear down the database each time you run the application.
+            This example shows you how to create a new database if the Model changes
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationDbInitializer.InitializeIdentityForEf(Sandbox3.Models.ApplicationDbContext)">
+            <summary>
+            Initializes the identity (Create User=Admin@Admin.com with password=Admin@123456 in the Admin role).
+            </summary>
+            <param name="db">The database.</param>
+        </member>
+        <member name="T:Sandbox3.Models.EmailService">
+            <summary>
+            Plug in your email service here to send an email.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.EmailService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+            <summary>
+            This method should send the message
+            </summary>
+            <param name="message">IdentityMessage message</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Sandbox3.Models.SmsService">
+            <summary>
+            Plug in your SMS service here to send a text message.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.SmsService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+            <summary>
+            This method should send the SMS message
+            </summary>
+            <param name="message">IdentityMessage message</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Sandbox3.Models.ApplicationSignInManager">
+            <summary>
+            Configure the application sign-in manager which is used in this application.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationSignInManager.#ctor(Sandbox3.Models.ApplicationUserManager,Microsoft.Owin.Security.IAuthenticationManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Models.ApplicationSignInManager"/> class.
+            </summary>
+            <param name="userManager">The user manager.</param>
+            <param name="authenticationManager">The authentication manager.</param>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationSignInManager.CreateUserIdentityAsync(Sandbox3.Models.ApplicationUser)">
+            <summary>
+            Creates the user identity asynchronous.
+            </summary>
+            <param name="user">The user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sandbox3.Models.ApplicationSignInManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{Sandbox3.Models.ApplicationSignInManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Sandbox3.RouteConfig">
+            <summary>
+            Registers Routes for your MVC Web Application
+            </summary>
+        </member>
+        <member name="M:Sandbox3.RouteConfig.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Registers the routes.
+            </summary>
+            <param name="routes">The routes.</param>
+        </member>
+        <member name="T:Sandbox3.Startup">
+            <summary>
+            MVC Web Application Startup Class
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Startup.ConfigureAuth(Owin.IAppBuilder)">
+            <summary>
+            Configures the authentication. For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+            </summary>
+            <param name="app">The application.</param>
+        </member>
+        <member name="P:Sandbox3.Startup.OAuthOptions">
+            <summary>
+            Gets the OAuth authentication options.
+            </summary>
+            <value>
+            The OAuth authentication options.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Startup.UserManagerFactory">
+            <summary>
+            Gets or sets the user manager factory.
+            </summary>
+            <value>
+            The user manager factory.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Startup.PublicClientId">
+            <summary>
+            Gets the public client identifier.
+            </summary>
+            <value>
+            The public client identifier.
+            </value>
+        </member>
+        <member name="T:Sandbox3.SwaggerConfig">
+            <summary>
+            Manages Swagger Configuration.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.SwaggerConfig.Register">
+            <summary>
+            Registers this instance.
+            </summary>
+        </member>
+        <member name="T:Sandbox3.WebApiConfig">
+            <summary>
+            WebApi Configuration
+            </summary>
+        </member>
+        <member name="M:Sandbox3.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ApiDescriptionExtensions">
+            <summary>
+            WebApi Description Extensions
+            </summary>
+        </member>
         <member name="M:Sandbox3.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
@@ -18,9 +213,64 @@
             or you can provide the samples for the requests/responses.
             </summary>
         </member>
+        <member name="M:Sandbox3.Areas.HelpPage.HelpPageConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
         <member name="T:Sandbox3.Areas.HelpPage.Controllers.HelpController">
             <summary>
             The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.Controllers.HelpController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.Controllers.HelpController.#ctor(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.Controllers.HelpController.Index">
+            <summary>
+            GET: /Help
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.Controllers.HelpController.Api(System.String)">
+            <summary>
+            GET: /Help/Api
+            </summary>
+            <param name="apiId">The API identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.Controllers.HelpController.ResourceModel(System.String)">
+            <summary>
+            GET: /Help/ResourceModel
+            </summary>
+            <param name="modelName">Name of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.Controllers.HelpController.Configuration">
+            <summary>
+            Gets the HttpConfiguration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.HelpPageAreaRegistration">
+            <summary>
+            MVC Web Application HelpPage Area Registration
+            </summary>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.HelpPageConfigurationExtensions">
+            <summary>
+            Help Page Configuration Extenstion Methods
             </summary>
         </member>
         <member name="M:Sandbox3.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
@@ -169,19 +419,261 @@
             An <see cref="T:Sandbox3.Areas.HelpPage.Models.HelpPageApiModel"/>
             </returns>
         </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.CollectionModelDescription">
+            <summary>
+            CollectionModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
         <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescription">
             <summary>
             Describes a type model.
             </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
+            <summary>
+            Gets or sets the type of the model.
+            </summary>
+            <value>
+            The type of the model.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.CollectionModelDescription.ElementDescription">
+            <summary>
+            Gets or sets the element description.
+            </summary>
+            <value>
+            The element description.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription">
+            <summary>
+            ComplexTypeModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription.Properties">
+            <summary>
+            Gets the properties.
+            </summary>
+            <value>
+            The ParameterDescription Collection properties.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.DictionaryModelDescription">
+            <summary>
+            DictionaryModelDescription class, Inherits from KeyValuePairModelDescription.
+            </summary>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
+            <summary>
+            KeyValuePairModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
+            <summary>
+            Gets or sets the key model description.
+            </summary>
+            <value>
+            The key ModelDescription.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
+            <summary>
+            Gets or sets the value model description.
+            </summary>
+            <value>
+            The value ModelDescription.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription">
+            <summary>
+            EnumTypeModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription.Values">
+            <summary>
+            Gets the values.
+            </summary>
+            <value>
+            The EnumValueDescription values.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumValueDescription">
+            <summary>
+            The EnumValueDescription class.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+            <value>
+            The string value.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider">
+            <summary>
+            IModelDocumentationProvider Interface used by the ModelDescriptionGenerator class.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider.GetDocumentation(System.Reflection.MemberInfo)">
+            <summary>
+            Gets the documentation by MemberInfo.
+            </summary>
+            <param name="member">The MemberInfo member.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider.GetDocumentation(System.Type)">
+            <summary>
+            Gets the documentation by Type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns></returns>
         </member>
         <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
             <summary>
             Generates model descriptions for given types.
             </summary>
         </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.#ctor(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/> class.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
+            <summary>
+            Gets the or create model description.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GeneratedModels">
+            <summary>
+            Gets the generated models.
+            </summary>
+            <value>
+            The generated models dictionary.
+            </value>
+        </member>
         <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
             <summary>
             Use this attribute to change the name of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelNameAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ModelNameAttribute"/> class.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterAnnotation">
+            <summary>
+            ParameterAnnotation class.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterAnnotation.AnnotationAttribute">
+            <summary>
+            Gets or sets the annotation attribute.
+            </summary>
+            <value>
+            The annotation attribute.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterAnnotation.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription">
+            <summary>
+            ParameterDescription class.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription.Annotations">
+            <summary>
+            Gets the annotations.
+            </summary>
+            <value>
+            The annotations.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.ModelDescriptions.ParameterDescription.TypeDescription">
+            <summary>
+            Gets or sets the type description.
+            </summary>
+            <value>
+            The type description.
+            </value>
+        </member>
+        <member name="T:Sandbox3.Areas.HelpPage.ModelDescriptions.SimpleTypeModelDescription">
+            <summary>
+            SimpleTypeModelDescription class, Inherits from ModelDescription
             </summary>
         </member>
         <member name="T:Sandbox3.Areas.HelpPage.Models.HelpPageApiModel">
@@ -291,7 +783,7 @@
         </member>
         <member name="M:Sandbox3.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
             <summary>
-            Gets the sample object that will be serialized by the formatters. 
+            Gets the sample object that will be serialized by the formatters.
             First, it will look at the <see cref="P:Sandbox3.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
             one using <see cref="M:Sandbox3.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(Sandbox3.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:Sandbox3.Areas.HelpPage.ObjectGenerator"/>) and other
             factories in <see cref="P:Sandbox3.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
@@ -418,6 +910,14 @@
             Gets the parameter names.
             </summary>
         </member>
+        <member name="P:Sandbox3.Areas.HelpPage.HelpPageSampleKey.ParameterType">
+            <summary>
+            Gets the type of the parameter.
+            </summary>
+            <value>
+            The type of the parameter.
+            </value>
+        </member>
         <member name="P:Sandbox3.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
             <summary>
             Gets the <see cref="P:Sandbox3.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
@@ -438,6 +938,21 @@
             <summary>
             This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
             </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.InvalidSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.InvalidSample"/> class.
+            </summary>
+            <param name="errorMessage">The error message.</param>
+            <exception cref="T:System.ArgumentNullException">errorMessage</exception>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.InvalidSample.ErrorMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value>
+            The error message.
+            </value>
         </member>
         <member name="T:Sandbox3.Areas.HelpPage.ObjectGenerator">
             <summary>
@@ -465,10 +980,35 @@
             Indicates whether the sample is used for request or response
             </summary>
         </member>
+        <member name="F:Sandbox3.Areas.HelpPage.SampleDirection.Request">
+            <summary>
+            The request
+            </summary>
+        </member>
+        <member name="F:Sandbox3.Areas.HelpPage.SampleDirection.Response">
+            <summary>
+            The response
+            </summary>
+        </member>
         <member name="T:Sandbox3.Areas.HelpPage.TextSample">
             <summary>
             This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
             </summary>
+        </member>
+        <member name="M:Sandbox3.Areas.HelpPage.TextSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Areas.HelpPage.TextSample"/> class.
+            </summary>
+            <param name="text">The text.</param>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="P:Sandbox3.Areas.HelpPage.TextSample.Text">
+            <summary>
+            Gets the text.
+            </summary>
+            <value>
+            The text.
+            </value>
         </member>
         <member name="T:Sandbox3.Areas.HelpPage.XmlDocumentationProvider">
             <summary>
@@ -481,16 +1021,206 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:Sandbox3.Controllers.AccountController">
+            <summary>
+            MVC Application AccountController
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Controllers.AccountController"/> class.
+            </summary>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.#ctor(Sandbox3.Models.ApplicationUserManager,Sandbox3.Models.ApplicationSignInManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sandbox3.Controllers.AccountController"/> class.
+            </summary>
+            <param name="userManager">The user manager.</param>
+            <param name="signInManager">The sign in manager.</param>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.MyApi">
+            <summary>
+            GET: /Account/MyApi
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.Login(System.String)">
+            <summary>
+            GET: /Account/Login.
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.Login(Sandbox3.Models.LoginViewModel,System.String)">
+            <summary>
+            POST: /Account/Login
+            </summary>
+            <param name="model">The model.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.VerifyCode(System.String,System.String,System.Boolean)">
+            <summary>
+            GET: /Account/VerifyCode
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="returnUrl">The return URL.</param>
+            <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.VerifyCode(Sandbox3.Models.VerifyCodeViewModel)">
+            <summary>
+            POST: /Account/VerifyCode
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.Register">
+            <summary>
+            GET: /Account/Register
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.Register(Sandbox3.Models.RegisterViewModel)">
+            <summary>
+            POST: /Account/Register
+            For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ConfirmEmail(System.String,System.String)">
+            <summary>
+            GET: /Account/ConfirmEmail
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <param name="code">The code.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ForgotPassword">
+            <summary>
+            GET: /Account/ForgotPassword
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ForgotPassword(Sandbox3.Models.ForgotPasswordViewModel)">
+            <summary>
+            POST: /Account/ForgotPassword
+            For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ForgotPasswordConfirmation">
+            <summary>
+            GET: /Account/ForgotPasswordConfirmation
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ResetPassword(System.String)">
+            <summary>
+            GET: /Account/ResetPassword
+            </summary>
+            <param name="code">The code.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ResetPassword(Sandbox3.Models.ResetPasswordViewModel)">
+            <summary>
+            POST: /Account/ResetPassword
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ResetPasswordConfirmation">
+            <summary>
+            GET: /Account/ResetPasswordConfirmation
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ExternalLogin(System.String,System.String)">
+            <summary>
+            POST: /Account/ExternalLogin
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.SendCode(System.String,System.Boolean)">
+            <summary>
+            GET: /Account/SendCode
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.SendCode(Sandbox3.Models.SendCodeViewModel)">
+            <summary>
+            POST: /Account/SendCode
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ExternalLoginCallback(System.String)">
+            <summary>
+            GET: /Account/ExternalLoginCallback
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ExternalLoginConfirmation(Sandbox3.Models.ExternalLoginConfirmationViewModel,System.String)">
+            <summary>
+            POST: /Account/ExternalLoginConfirmation
+            </summary>
+            <param name="model">The model.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.LogOff">
+            <summary>
+            POST: /Account/LogOff
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.ExternalLoginFailure">
+            <summary>
+            GET: /Account/ExternalLoginFailure
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:Sandbox3.Controllers.AccountController.getBanNameFromRegistrationCode(System.String)">
+            <summary>
+            Gets the Billing Account name from registration code.
+            TODO: Review Functionality and Move Business Logic Elsewhere.
+            </summary>
+            <param name="code">The code.</param>
+            <returns>string Billing Account name</returns>
+        </member>
+        <member name="P:Sandbox3.Controllers.AccountController.SignInManager">
+            <summary>
+            Gets the sign in manager.
+            </summary>
+            <value>
+            The ApplicationSignInManager.
+            </value>
+        </member>
+        <member name="P:Sandbox3.Controllers.AccountController.UserManager">
+            <summary>
+            Gets the user manager.
+            </summary>
+            <value>
+            The ApplicationUserManager.
+            </value>
+        </member>
         <member name="T:Sandbox3.Controllers.AccountTestController">
             <summary>
-            The Account Test Controller allows you to test your client credentials against the server.
+            The Account Test Controller allows you to test your client credentials against the server after you have authenticated with OAuth.
             </summary>
         </member>
         <member name="M:Sandbox3.Controllers.AccountTestController.Get">
             <summary>
             Once your are authenticated this method Gets your user name, account number, and API key data for your login.
             </summary>
-            <returns></returns>
+            <returns>Http Response Message</returns>
         </member>
         <member name="P:Sandbox3.Controllers.AccountTestController.UserManager">
             <summary>

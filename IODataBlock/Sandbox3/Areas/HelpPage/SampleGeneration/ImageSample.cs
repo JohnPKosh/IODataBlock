@@ -1,5 +1,6 @@
 using System;
 
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Areas.HelpPage
 {
     /// <summary>
@@ -24,7 +25,7 @@ namespace Sandbox3.Areas.HelpPage
 
         public override bool Equals(object obj)
         {
-            ImageSample other = obj as ImageSample;
+            var other = obj as ImageSample;
             return other != null && Src == other.Src;
         }
 

@@ -1,13 +1,20 @@
-﻿using BundleTransformer.Core.Bundles;
+﻿using System.Web.Optimization;
+
+//using BundleTransformer.Core.Bundles;
 using BundleTransformer.Core.Orderers;
 using BundleTransformer.Core.Transformers;
-using System.Web.Optimization;
 
 namespace Sandbox3
 {
+    /// <summary>
+    /// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+    /// </summary>
     public class BundleConfig
     {
-        // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+        /// <summary>
+        /// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+        /// </summary>
+        /// <param name="bundles">The bundles collection to register.</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.UseCdn = true;
@@ -47,7 +54,6 @@ namespace Sandbox3
             bootstrapBundle.Transforms.Add(jsTransformer);
             bootstrapBundle.Orderer = nullOrderer;
             bundles.Add(bootstrapBundle);
-
 
             /* Homer imported bundles */
 
@@ -228,11 +234,7 @@ namespace Sandbox3
             // Blueimp gallery style
             bundles.Add(new StyleBundle("~/bundles/blueimp/css").Include(
                       "~/Content/blueimp-gallery/css/blueimp-gallery.min.css", new CssRewriteUrlTransform()));
-
-
-
         }
-
 
         //// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         //public static void RegisterBundles(BundleCollection bundles)
@@ -256,6 +258,5 @@ namespace Sandbox3
         //              "~/Content/bootstrap.css",
         //              "~/Content/site.css"));
         //}
-
     }
 }

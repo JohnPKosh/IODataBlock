@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using Microsoft.Owin.Security.OAuth;
+﻿using System.Web.Http;
+//using Microsoft.Owin.Security.OAuth;
 
 namespace Sandbox3
 {
+    /// <summary>
+    /// WebApi Configuration
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Registers the specified configuration.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services Configure Web API to use only bearer token authentication.

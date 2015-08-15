@@ -6,12 +6,15 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
+//using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 namespace Sandbox3
 {
+    /// <summary>
+    /// MVC Web Application Startup Class
+    /// </summary>
     public partial class Startup
     {
         static Startup()
@@ -30,14 +33,35 @@ namespace Sandbox3
             };
         }
 
+        /// <summary>
+        /// Gets the OAuth authentication options.
+        /// </summary>
+        /// <value>
+        /// The OAuth authentication options.
+        /// </value>
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the user manager factory.
+        /// </summary>
+        /// <value>
+        /// The user manager factory.
+        /// </value>
         public static Func<UserManager<IdentityUser>> UserManagerFactory { get; set; }
 
+        /// <summary>
+        /// Gets the public client identifier.
+        /// </summary>
+        /// <value>
+        /// The public client identifier.
+        /// </value>
         public static string PublicClientId { get; private set; }
+        
 
-
-        // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// Configures the authentication. For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// </summary>
+        /// <param name="app">The application.</param>
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and role manager to use a single instance per request
@@ -61,7 +85,7 @@ namespace Sandbox3
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager),
                         // Need to add THIS line because we added the third type argument (int) above:
-                            getUserIdCallback: (claim) => claim.GetUserId())
+                            getUserIdCallback: claim => claim.GetUserId())
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);

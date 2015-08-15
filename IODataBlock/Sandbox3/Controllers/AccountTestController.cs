@@ -8,11 +8,13 @@ using Sandbox3.Models;
 namespace Sandbox3.Controllers
 {
     /// <summary>
-    /// The Account Test Controller allows you to test your client credentials against the server.
+    /// The Account Test Controller allows you to test your client credentials against the server after you have authenticated with OAuth.
     /// </summary>
     [Authorize]
     public class AccountTestController : ApiController
     {
+        #region Fields and Properties
+
         private ApplicationUserManager _userManager;
 
         /// <summary>
@@ -33,10 +35,14 @@ namespace Sandbox3.Controllers
             }
         }
 
+        #endregion Fields and Properties
+
+        #region Public Action Methods
+
         /// <summary>
         /// Once your are authenticated this method Gets your user name, account number, and API key data for your login.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Http Response Message</returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -46,7 +52,10 @@ namespace Sandbox3.Controllers
             }
             var userId = User.Identity.GetUserId();
             var appUser = await UserManager.FindByIdAsync(userId);
+            // ReSharper disable once RedundantAnonymousTypePropertyName
             return Ok(new { UserName = appUser.UserName, AccountNumber = appUser.AccountNumber, ApiKey = appUser.ApiKey });
         }
+
+        #endregion Public Action Methods
     }
 }

@@ -1,3 +1,4 @@
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Areas.HelpPage
 {
     /// <summary>
@@ -5,7 +6,13 @@ namespace Sandbox3.Areas.HelpPage
     /// </summary>
     public enum SampleDirection
     {
+        /// <summary>
+        /// The request
+        /// </summary>
         Request = 0,
+        /// <summary>
+        /// The response
+        /// </summary>
         Response
     }
 }

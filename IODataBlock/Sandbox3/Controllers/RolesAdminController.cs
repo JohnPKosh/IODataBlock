@@ -123,7 +123,7 @@ namespace Sandbox3.Controllers
             {
                 return HttpNotFound();
             }
-            RoleViewModel roleModel = new RoleViewModel { Id = role.Id, Name = role.Name };
+            var roleModel = new RoleViewModel { Id = role.Id, Name = role.Name };
             return View(roleModel);
         }
 

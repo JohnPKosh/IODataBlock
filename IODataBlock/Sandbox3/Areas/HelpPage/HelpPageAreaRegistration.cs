@@ -3,6 +3,9 @@ using System.Web.Mvc;
 
 namespace Sandbox3.Areas.HelpPage
 {
+    /// <summary>
+    /// MVC Web Application HelpPage Area Registration
+    /// </summary>
     public class HelpPageAreaRegistration : AreaRegistration
     {
         public override string AreaName

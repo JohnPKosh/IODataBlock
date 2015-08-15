@@ -1,33 +1,54 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Sandbox3.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Sandbox3.Models;
 
 namespace Sandbox3.Controllers
 {
+    /// <summary>
+    /// MVC Application AccountController
+    /// </summary>
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        #region Class Initialization
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
         public AccountController()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        #endregion Class Initialization
+
+        #region Fields and Properties
+
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        /// <summary>
+        /// Gets the sign in manager.
+        /// </summary>
+        /// <value>
+        /// The ApplicationSignInManager.
+        /// </value>
         public ApplicationSignInManager SignInManager
         {
             get
@@ -37,6 +58,12 @@ namespace Sandbox3.Controllers
             private set { _signInManager = value; }
         }
 
+        /// <summary>
+        /// Gets the user manager.
+        /// </summary>
+        /// <value>
+        /// The ApplicationUserManager.
+        /// </value>
         public ApplicationUserManager UserManager
         {
             get
@@ -49,20 +76,41 @@ namespace Sandbox3.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
+        #endregion Fields and Properties
+
+        // TODO: Determine if this should be moved to some other Area or Controller?
+        /// <summary>
+        /// GET: /Account/MyApi
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        public ActionResult MyApi()
+        {
+            var id = User.Identity.GetUserId();
+            var user = UserManager.FindByIdAsync(id).Result;
+            return View(user);
+        }
+
+        #region Public Action Methods
+
+        /// <summary>
+        /// GET: /Account/Login.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            var model = new LoginViewModel();
-            model.Email = @"admin@example.com"; /*For Debug Purposes Only - Remove for Production*/
-            model.Password = "Admin@123456"; /*For Debug Purposes Only - Remove for Production*/
+            var model = new LoginViewModel { Email = @"admin@example.com", Password = "Admin@123456" };
             return View(model);
         }
 
-        //
-        // POST: /Account/Login
+        /// <summary>
+        /// POST: /Account/Login
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -80,10 +128,14 @@ namespace Sandbox3.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
+                    // ReSharper disable once RedundantAnonymousTypePropertyName
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                // ReSharper disable once RedundantCaseLabel
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -91,8 +143,13 @@ namespace Sandbox3.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
+        /// <summary>
+        /// GET: /Account/VerifyCode
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
@@ -111,8 +168,11 @@ namespace Sandbox3.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/VerifyCode
+        /// <summary>
+        /// POST: /Account/VerifyCode
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -123,17 +183,22 @@ namespace Sandbox3.Controllers
                 return View(model);
             }
 
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
+            // The following code protects for brute force attacks against the two factor codes.
+            // If a user enters incorrect codes for a specified amount of time then the user account
+            // will be locked out for a specified amount of time.
             // You can configure the account lockout settings in IdentityConfig
+            // ReSharper disable RedundantArgumentName
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            // ReSharper restore RedundantArgumentName
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
+                // ReSharper disable once RedundantCaseLabel
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid code.");
@@ -141,8 +206,10 @@ namespace Sandbox3.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
+        /// <summary>
+        /// GET: /Account/Register
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -150,65 +217,64 @@ namespace Sandbox3.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/Register
+        /// <summary>
+        /// POST: /Account/Register
+        /// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            Int32 accountNo;
+            if (!Int32.TryParse(getBanNameFromRegistrationCode(model.RegistrationCode), out accountNo))
             {
-                Int32 accountNo;
-                if (!Int32.TryParse(getBanNameFromRegistrationCode(model.RegistrationCode), out accountNo))
-                {
-                    ModelState.AddModelError("", "Registration Code is Invalid!");
-                    return View(model);
-                }
-
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    ApiKey = model.ApiKey,
-                    AccountNumber = accountNo
-                };
-
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-
-                    return RedirectToAction("MyApi", "Account");
-                    //ViewBag.Link = callbackUrl;
-                    //return View("DisplayEmail");
-                }
-                AddErrors(result);
+                ModelState.AddModelError("", "Registration Code is Invalid!");
+                return View(model);
             }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                ApiKey = model.ApiKey,
+                AccountNumber = accountNo
+            };
+
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                // ReSharper disable RedundantAnonymousTypePropertyName
+                // ReSharper disable RedundantArgumentName
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                // ReSharper restore RedundantArgumentName
+                // ReSharper restore RedundantAnonymousTypePropertyName
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+                return RedirectToAction("MyApi", "Account");
+                //ViewBag.Link = callbackUrl;
+                //return View("DisplayEmail");
+            }
+            AddErrors(result);
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
-        private string getBanNameFromRegistrationCode(string code)
-        {
-            var segments = code.Split("-".ToCharArray());
-            if (segments.Length == 3 && !String.IsNullOrWhiteSpace(segments[1]) && segments[1].Trim().Length > 2)
-            {
-                // add additional business logic here to check code.
-                return segments[1].Trim();
-            }
-            return null;
-        }
-
-        //
-        // GET: /Account/ConfirmEmail
+        /// <summary>
+        /// GET: /Account/ConfirmEmail
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -220,63 +286,77 @@ namespace Sandbox3.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
-        // GET: /Account/ForgotPassword
+        /// <summary>
+        /// GET: /Account/ForgotPassword
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
+        /// <summary>
+        /// POST: /Account/ForgotPassword
+        /// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
-
-                //ViewBag.Link = callbackUrl;
-                //return View("ForgotPasswordConfirmation");
+                // Don't reveal that the user does not exist or is not confirmed
+                return View("ForgotPasswordConfirmation");
             }
 
+            // Send an email with this link
+            var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            // ReSharper disable RedundantAnonymousTypePropertyName
+            // ReSharper disable RedundantArgumentName
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            // ReSharper restore RedundantArgumentName
+            // ReSharper restore RedundantAnonymousTypePropertyName
+            await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+            return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
+            //ViewBag.Link = callbackUrl;
+            //return View("ForgotPasswordConfirmation");
+
             // If we got this far, something failed, redisplay form
-            return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        /// <summary>
+        /// GET: /Account/ForgotPasswordConfirmation
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
+        /// <summary>
+        /// GET: /Account/ResetPassword
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
-        // POST: /Account/ResetPassword
+        /// <summary>
+        /// POST: /Account/ResetPassword
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -301,16 +381,22 @@ namespace Sandbox3.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
+        /// <summary>
+        /// GET: /Account/ResetPasswordConfirmation
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
+        /// <summary>
+        /// POST: /Account/ExternalLogin
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -320,8 +406,12 @@ namespace Sandbox3.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
+        /// <summary>
+        /// GET: /Account/SendCode
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -335,8 +425,11 @@ namespace Sandbox3.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/SendCode
+        /// <summary>
+        /// POST: /Account/SendCode
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -352,11 +445,16 @@ namespace Sandbox3.Controllers
             {
                 return View("Error");
             }
+            // ReSharper disable RedundantAnonymousTypePropertyName
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            // ReSharper restore RedundantAnonymousTypePropertyName
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
+        /// <summary>
+        /// GET: /Account/ExternalLoginCallback
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -372,10 +470,14 @@ namespace Sandbox3.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+
+                // ReSharper disable once RedundantCaseLabel
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
@@ -385,8 +487,12 @@ namespace Sandbox3.Controllers
             }
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
+        /// <summary>
+        /// POST: /Account/ExternalLoginConfirmation
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -423,8 +529,10 @@ namespace Sandbox3.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
+        /// <summary>
+        /// POST: /Account/LogOff
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -433,44 +541,41 @@ namespace Sandbox3.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /Account/MyApi
-        public ActionResult MyApi()
-        {
-            var id = User.Identity.GetUserId();
-            var user = UserManager.FindByIdAsync(id).Result;
-            return View(user);
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
+        /// <summary>
+        /// GET: /Account/ExternalLoginFailure
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
-        protected override void Dispose(bool disposing)
+        #endregion Public Action Methods
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Gets the Billing Account name from registration code.
+        /// TODO: Review Functionality and Move Business Logic Elsewhere.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns>string Billing Account name</returns>
+        private string getBanNameFromRegistrationCode(string code)
         {
-            if (disposing)
+            var segments = code.Split("-".ToCharArray());
+            if (segments.Length == 3 && !String.IsNullOrWhiteSpace(segments[1]) && segments[1].Trim().Length > 2)
             {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
-
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
+                // add additional business logic here to check code.
+                return segments[1].Trim();
             }
-
-            base.Dispose(disposing);
+            return null;
         }
 
-        #region Helpers
+        #endregion Private Helper Methods
+
+        #region Default Account Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -514,7 +619,9 @@ namespace Sandbox3.Controllers
             }
 
             public string LoginProvider { get; set; }
+
             public string RedirectUri { get; set; }
+
             public string UserId { get; set; }
 
             public override void ExecuteResult(ControllerContext context)
@@ -527,6 +634,27 @@ namespace Sandbox3.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-        #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion Default Account Helpers
     }
 }

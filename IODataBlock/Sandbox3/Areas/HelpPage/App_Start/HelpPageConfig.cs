@@ -2,6 +2,7 @@
 // package to your project.
 ////#define Handle_PageResultOfT
 
+// ReSharper disable RedundantUsingDirective
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,9 @@ using System.Web.Http;
 #if Handle_PageResultOfT
 using System.Web.Http.OData;
 #endif
+// ReSharper restore RedundantUsingDirective
 
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Areas.HelpPage
 {
     /// <summary>
@@ -25,6 +28,10 @@ namespace Sandbox3.Areas.HelpPage
     /// </summary>
     public static class HelpPageConfig
     {
+        /// <summary>
+        /// Registers the specified configuration.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters",
             MessageId = "Sandbox3.Areas.HelpPage.TextSample.#ctor(System.String)",
             Justification = "End users may choose to merge this string with existing localized resources.")]
@@ -42,7 +49,7 @@ namespace Sandbox3.Areas.HelpPage
             config.SetSampleObjects(new Dictionary<Type, object>
             {
                 {typeof(string), "sample string"},
-                {typeof(IEnumerable<string>), new string[]{"sample 1", "sample 2"}}
+                {typeof(IEnumerable<string>), new[]{"sample 1", "sample 2"}}
             });
 
             // Extend the following to provide factories for types not handled automatically (those lacking parameterless

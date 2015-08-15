@@ -9,16 +9,29 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Models
 {
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    /// <summary>
+    /// Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    /// </summary>
     public class ApplicationUserManager : UserManager<ApplicationUser, string>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationUserManager"/> class.
+        /// </summary>
+        /// <param name="store">The store.</param>
         public ApplicationUserManager(IUserStore<ApplicationUser, string> store)
             : base(store)
         {
         }
 
+        /// <summary>
+        /// Creates the specified options.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
@@ -67,33 +80,49 @@ namespace Sandbox3.Models
         }
     }
 
-    // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+    /// <summary>
+    /// Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+    /// </summary>
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationRoleManager"/> class.
+        /// </summary>
+        /// <param name="roleStore">The role store.</param>
         public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
             : base(roleStore)
         {
         }
 
+        /// <summary>
+        /// Creates the specified options.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
             return new ApplicationRoleManager(new ApplicationRoleStore(context.Get<ApplicationDbContext>()));
         }
     }
 
-    // This is useful if you do not want to tear down the database each time you run the application.
-    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
-    // This example shows you how to create a new database if the Model changes
+    /// <summary>
+    /// This is useful if you do not want to tear down the database each time you run the application.
+    /// This example shows you how to create a new database if the Model changes
+    /// </summary>
     public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            InitializeIdentityForEF(context);
+            InitializeIdentityForEf(context);
             base.Seed(context);
         }
 
-        //Create User=Admin@Admin.com with password=Admin@123456 in the Admin role
-        public static void InitializeIdentityForEF(ApplicationDbContext db)
+        /// <summary>
+        /// Initializes the identity (Create User=Admin@Admin.com with password=Admin@123456 in the Admin role).
+        /// </summary>
+        /// <param name="db">The database.</param>
+        public static void InitializeIdentityForEf(ApplicationDbContext db)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
@@ -107,28 +136,36 @@ namespace Sandbox3.Models
             if (role == null)
             {
                 role = new ApplicationRole(roleName);
-                var roleresult = roleManager.Create(role);
+                roleManager.Create(role);
             }
 
             var user = userManager.FindByName(name);
             if (user == null)
             {
                 user = new ApplicationUser { UserName = name, Email = name, ApiKey = apiKey, AccountNumber = 0, EmailConfirmed = true };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
+                userManager.Create(user, password);
+                userManager.SetLockoutEnabled(user.Id, false);
             }
 
             // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
             if (!rolesForUser.Contains(role.Name))
             {
-                var result = userManager.AddToRole(user.Id, role.Name);
+                userManager.AddToRole(user.Id, role.Name);
             }
         }
     }
 
+    /// <summary>
+    /// Plug in your email service here to send an email.
+    /// </summary>
     public class EmailService : IIdentityMessageService
     {
+        /// <summary>
+        /// This method should send the message
+        /// </summary>
+        /// <param name="message">IdentityMessage message</param>
+        /// <returns>Task</returns>
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
@@ -136,28 +173,53 @@ namespace Sandbox3.Models
         }
     }
 
+    /// <summary>
+    /// Plug in your SMS service here to send a text message.
+    /// </summary>
     public class SmsService : IIdentityMessageService
     {
+        /// <summary>
+        /// This method should send the SMS message
+        /// </summary>
+        /// <param name="message">IdentityMessage message</param>
+        /// <returns>Task</returns>
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
             return Task.FromResult(0);
         }
     }
 
-    // Configure the application sign-in manager which is used in this application.
+    /// <summary>
+    /// Configure the application sign-in manager which is used in this application.
+    /// </summary>
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="authenticationManager">The authentication manager.</param>
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
+        /// <summary>
+        /// Creates the user identity asynchronous.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
+        /// <summary>
+        /// Creates the specified options.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);

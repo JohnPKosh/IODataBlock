@@ -1,5 +1,6 @@
 using System;
 
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Areas.HelpPage
 {
     /// <summary>
@@ -7,6 +8,11 @@ namespace Sandbox3.Areas.HelpPage
     /// </summary>
     public class InvalidSample
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidSample"/> class.
+        /// </summary>
+        /// <param name="errorMessage">The error message.</param>
+        /// <exception cref="System.ArgumentNullException">errorMessage</exception>
         public InvalidSample(string errorMessage)
         {
             if (errorMessage == null)
@@ -16,11 +22,17 @@ namespace Sandbox3.Areas.HelpPage
             ErrorMessage = errorMessage;
         }
 
+        /// <summary>
+        /// Gets the error message.
+        /// </summary>
+        /// <value>
+        /// The error message.
+        /// </value>
         public string ErrorMessage { get; private set; }
 
         public override bool Equals(object obj)
         {
-            InvalidSample other = obj as InvalidSample;
+            var other = obj as InvalidSample;
             return other != null && ErrorMessage == other.ErrorMessage;
         }
 

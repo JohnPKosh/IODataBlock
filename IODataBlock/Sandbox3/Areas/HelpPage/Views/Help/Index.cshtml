@@ -9,7 +9,7 @@
     ViewBag.Title = "API Help Page";
 
     // Group APIs by controller
-    ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
+    var apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
 }
 
 
@@ -36,9 +36,9 @@
             <div class="col-md-6">
                 <div class="pull-right">
                     <ol class="breadcrumb">
-                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new { area = "" })"><i class="fa fa-home"></i> Home</a></li>
                         <li class="active">
-                            <span>About</span>
+                            <span>Help</span>
                         </li>
                     </ol>
                 </div>

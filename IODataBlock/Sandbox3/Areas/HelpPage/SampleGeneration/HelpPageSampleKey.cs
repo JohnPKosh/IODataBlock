@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http.Headers;
 
+// ReSharper disable once CheckNamespace
 namespace Sandbox3.Areas.HelpPage
 {
     /// <summary>
@@ -123,6 +125,12 @@ namespace Sandbox3.Areas.HelpPage
         /// </summary>
         public HashSet<string> ParameterNames { get; private set; }
 
+        /// <summary>
+        /// Gets the type of the parameter.
+        /// </summary>
+        /// <value>
+        /// The type of the parameter.
+        /// </value>
         public Type ParameterType { get; private set; }
 
         /// <summary>
@@ -132,7 +140,7 @@ namespace Sandbox3.Areas.HelpPage
 
         public override bool Equals(object obj)
         {
-            HelpPageSampleKey otherKey = obj as HelpPageSampleKey;
+            var otherKey = obj as HelpPageSampleKey;
             if (otherKey == null)
             {
                 return false;
@@ -148,7 +156,7 @@ namespace Sandbox3.Areas.HelpPage
 
         public override int GetHashCode()
         {
-            int hashCode = ControllerName.ToUpperInvariant().GetHashCode() ^ ActionName.ToUpperInvariant().GetHashCode();
+            var hashCode = ControllerName.ToUpperInvariant().GetHashCode() ^ ActionName.ToUpperInvariant().GetHashCode();
             if (MediaType != null)
             {
                 hashCode ^= MediaType.GetHashCode();
@@ -161,12 +169,8 @@ namespace Sandbox3.Areas.HelpPage
             {
                 hashCode ^= ParameterType.GetHashCode();
             }
-            foreach (string parameterName in ParameterNames)
-            {
-                hashCode ^= parameterName.ToUpperInvariant().GetHashCode();
-            }
 
-            return hashCode;
+            return ParameterNames.Aggregate(hashCode, (current, parameterName) => current ^ parameterName.ToUpperInvariant().GetHashCode());
         }
     }
 }

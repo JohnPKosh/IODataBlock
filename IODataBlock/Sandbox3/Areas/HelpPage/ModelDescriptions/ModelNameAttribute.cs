@@ -8,6 +8,10 @@ namespace Sandbox3.Areas.HelpPage.ModelDescriptions
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum, AllowMultiple = false, Inherited = false)]
     public sealed class ModelNameAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModelNameAttribute"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public ModelNameAttribute(string name)
         {
             Name = name;
