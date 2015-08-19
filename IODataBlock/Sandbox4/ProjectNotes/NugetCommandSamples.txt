@@ -1,0 +1,5 @@
+﻿/* To update all packages in project */
+update-package
+
+/* To reinstall a package */
+Update-Package Microsoft.AspNet.Mvc -Reinstall

@@ -1,0 +1,197 @@
+﻿@using System.Web.Optimization
+@using Microsoft.AspNet.Identity
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="@Url.Content("~/Images/assets/brand-icon.png")" sizes="32x32" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Images/assets/brand-icon.png")" sizes="16x16" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Add local styles for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", required: false)
+    }
+
+    @*Primary styles*@
+    @Styles.Render("~/bundles/font-awesome/css")
+    @Styles.Render("~/bundles/animate/css")
+    @Styles.Render("~/bundles/peicon7stroke/css")
+    @Styles.Render("~/bundles/admin-styles/css")
+</head>
+<body class="mvc-page">
+
+    @*Add navigation here!*@
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="p-xs"><a href="@Url.Action("Index", "Home", new { area = "" })"><img src="~/Images/assets/brand-logo-sm.png" alt="logo"></a></div>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <div class="nav navbar-right">
+                    <div class="navbar-right">
+                        @Html.Partial("_LoginPartial_MVC")
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Landing Page", "Index", "LandingPage", new { area = "" }, null)</li>
+                        @*<li>@Html.ActionLink("API Help", "Index", "Help", new { area = "" }, null)</li>*@
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "" }, null)</li>
+                        }
+
+                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            @*<li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>*@
+                            <li>@Html.ActionLink("Users", "Index", "UsersAdmin", new { area = "" }, null)</li>
+                        }
+
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "registerLink" })</li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Manage", new { area = "" })" title="Manage">@*<i class="fa fa-user"></i>*@ @User.Identity.GetUserName()</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="page-top">
+        <!-- Simple splash screen-->
+        <div class="splash"> <div class="color-line-gradient"></div><div class="splash-title"><h1>@ViewBag.Title</h1><p>@ViewBag.Message</p><img src="~/Images/loading-bars.svg" width="64" height="64" /> </div> </div>
+        <!--[if lt IE 7]>
+        <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Header -->
+        @*Optional Jumbotron section!*@
+        @if (IsSectionDefined("headerJumbotron"))
+        {
+            @RenderSection("headerJumbotron", required: false)
+        }
+
+        @*Optional pageBreadcrumbSection section!*@
+        @if (IsSectionDefined("pageBreadcrumbSection"))
+        {
+            @RenderSection("pageBreadcrumbSection", required: false)
+        }
+    </header>
+
+    @*Add body here!*@
+    @RenderBody()
+
+    @*Add footer here!*@
+    <div class="container body-content">
+        @*<hr />*@
+        <footer>
+            <p class="font-light small">&copy; COPYRIGHT © 2001 – @DateTime.Now.Year BROADVOX™. All rights reserved. </p>
+        </footer>
+    </div>
+
+    @*Add scripts here!*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/admin-scripts/js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+@*<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="icon" type="image/png" href="/Icon.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/Icon.png" sizes="16x16" />
+    
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("API Help", "Index", "Help", new { area = "" }, null)</li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin", new { area = "" }, null)</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>*@
+
+
+
+
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>*@

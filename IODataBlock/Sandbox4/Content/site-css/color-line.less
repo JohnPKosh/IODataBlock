@@ -1,0 +1,23 @@
+
+.color-line {
+    background: @gray-lighter-bg;
+    height: 6px;
+    background-image: -webkit-linear-gradient(left, @brand-primary, @brand-primary 25%, @brand-primary-2 25%, @brand-primary-2 35%, @brand-info 35%, @brand-info 45%, @brand-success 45%, @brand-success 55%, @brand-warning 55%, @brand-warning 65%, @brand-warning-2 65%, @brand-warning-2 75%, @brand-danger 85%, @brand-danger 85%, @brand-danger-2 85%, @brand-danger-2 100%);
+    background-image: -moz-linear-gradient(left, @brand-primary, @brand-primary 25%, @brand-primary-2 25%, @brand-primary-2 35%, @brand-info 35%, @brand-info 45%, @brand-success 45%, @brand-success 55%, @brand-warning 55%, @brand-warning 65%, @brand-warning-2 65%, @brand-warning-2 75%, @brand-danger 85%, @brand-danger 85%, @brand-danger-2 85%, @brand-danger-2 100%);
+    background-image: -ms-linear-gradient(left, @brand-primary, @brand-primary 25%, @brand-primary-2 25%, @brand-primary-2 35%, @brand-info 35%, @brand-info 45%, @brand-success 45%, @brand-success 55%, @brand-warning 55%, @brand-warning 65%, @brand-warning-2 65%, @brand-warning-2 75%, @brand-danger 85%, @brand-danger 85%, @brand-danger-2 85%, @brand-danger-2 100%);
+    background-image: linear-gradient(to right, @brand-primary, @brand-primary 25%, @brand-primary-2 25%, @brand-primary-2 35%, @brand-info 35%, @brand-info 45%, @brand-success 45%, @brand-success 55%, @brand-warning 55%, @brand-warning 65%, @brand-warning-2 65%, @brand-warning-2 75%, @brand-danger 85%, @brand-danger 85%, @brand-danger-2 85%, @brand-danger-2 100%);
+    background-size: 100% 6px;
+    background-position: 50% 100%;
+    background-repeat: no-repeat
+}
+
+.color-line-gradient{
+    height: 6px;
+    background-image: -webkit-linear-gradient(left, @brand-primary 0%, darken(@brand-primary, 10%) 100%);
+    background-image:      -o-linear-gradient(left, @brand-primary 0%, darken(@brand-primary, 10%) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(@brand-primary), to(darken(@brand-primary, 10%)));
+    background-image:         linear-gradient(to left, @brand-primary 0%, darken(@brand-primary, 10%)100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+}

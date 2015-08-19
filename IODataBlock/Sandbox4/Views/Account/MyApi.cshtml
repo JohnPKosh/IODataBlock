@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNet.Identity
+@using Sandbox4.Models
+@model Sandbox4.Models.ApplicationUser
+@{
+    Layout = "~/Views/Shared/_Layout_MVC.cshtml";
+    ViewBag.Title = "My API Membership";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<h4>For Customer Account <strong>@Model.AccountNumber</strong></h4>
+<hr />
+@if (Request.IsAuthenticated)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">User Information</div>
+        <div class="panel-body">
+            <ul>
+                <li><strong>API Key:</strong> @Model.ApiKey</li>
+                <li><strong>User Name:</strong> @Model.UserName</li>
+                <li><strong>Registered Email:</strong> <a href="mailto://@Model.Email">@Model.Email</a></li>
+                <li><strong>Customer Account:</strong> @Model.AccountNumber</li>
+            </ul>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,63 @@
+﻿.h-modal-icon {
+  font-size: 66px;
+}
+.inmodal .color-line {
+  border-radius: 4px 4px 0 0;
+}
+.modal-content {
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.modal-backdrop.in {
+  opacity: 0.4;
+}
+.modal-backdrop {
+  position: fixed;
+  bottom: 0;
+}
+.modal-dialog {
+  margin-top: 80px;
+}
+.modal-title {
+  font-size: 30px;
+  font-weight: 300;
+}
+.modal-header {
+  padding: 40px 30px;
+  background: #f7f9fa;
+}
+.modal-body {
+  padding: 20px 30px;
+}
+.modal-header small {
+  color: #9d9fa2;
+}
+.modal-footer {
+  background: #f7f9fa;
+}
+.hmodal-info .color-line {
+  background: #3498db;
+}
+.hmodal-warning .color-line {
+  background: #ffb606;
+}
+.hmodal-success .color-line {
+  background: #62cb31;
+}
+.hmodal-danger .color-line {
+  background: #c0392b;
+}
+.hmodal-info h4.modal-title {
+  color: #3498db;
+}
+.hmodal-warning h4.modal-title {
+  color: #ffb606;
+}
+.hmodal-success h4.modal-title {
+  color: #62cb31;
+}
+.hmodal-danger h4.modal-title {
+  color: #c0392b;
+}
+/*# sourceMappingURL=modal.css.map */

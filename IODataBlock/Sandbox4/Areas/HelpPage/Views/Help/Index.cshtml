@@ -1,0 +1,78 @@
+@using System.Web.Http
+@using System.Web.Http.Controllers
+@using System.Web.Http.Description
+@using System.Collections.ObjectModel
+@using Sandbox4.Areas.HelpPage.Models
+@model Collection<ApiDescription>
+
+@{
+    ViewBag.Title = "API Help Page";
+
+    // Group APIs by controller
+    var apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
+}
+
+
+
+@*@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1>@ViewBag.JumbotronTitle</h1>
+            <p class="lead">@ViewBag.JumbotronSubtitle</p>
+            <p><a href="@Url.Action("Index", "LandingPage")" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}*@
+
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-primary">@ViewBag.Title</h5>
+                <p>Add Content Here.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home", new { area = "" })"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="active">
+                            <span>Help</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hpanel hblue">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="text-primary">@ViewBag.Title</h2>
+                                <h4>@ViewBag.Message</h4>
+                                <div class="m">
+                                    <i class="fa fa-cog fa-5x text-primary"></i>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var group in apiGroups)
+    {
+        @Html.DisplayFor(m => group, "ApiGroup")
+    }
+
+</section>

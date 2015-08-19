@@ -1,0 +1,213 @@
+
+@import "bootstrap/variables.less";
+
+@import "site-css/badge.less";
+@import "site-css/blog.less";
+@import "site-css/borders.less";
+@import "site-css/box.less";
+@import "site-css/btn.less";
+@import "site-css/chat.less";
+@import "site-css/checkbox.less";
+@import "site-css/color-line.less";
+@import "site-css/colors.less";
+@import "site-css/contact-panel.less";
+@import "site-css/dropdown-menu.less";
+@import "site-css/feed.less";
+@import "site-css/form-styles.less";
+@import "site-css/forum-box.less";
+@import "site-css/full-calendar.less";
+@import "site-css/grid-system.less";
+@import "site-css/hbreadcrumb.less";
+@import "site-css/header-line.less";
+@import "site-css/header-styles.less";
+@import "site-css/height-width.less";
+@import "site-css/homer-notify.less";
+@import "site-css/icheckbox.less";
+@import "site-css/icons-box.less";
+@import "site-css/iradio.less";
+@import "site-css/landing-page.less";
+@import "site-css/list.less";
+@import "site-css/logo.less";
+@import "site-css/mailbox.less";
+@import "site-css/margin.less";
+@import "site-css/modal.less";
+@import "site-css/mvc-page.less";
+@import "site-css/navbar.less";
+@import "site-css/nestable.less";
+@import "site-css/ng-styles.less";
+@import "site-css/note-editor.less";
+@import "site-css/padding.less";
+@import "site-css/pagination.less";
+@import "site-css/panels.less";
+@import "site-css/progress-bar.less";
+@import "site-css/projects.less";
+@import "site-css/radio.less";
+@import "site-css/side-menu.less";
+@import "site-css/small-header.less";
+@import "site-css/social.less";
+@import "site-css/splash.less";
+@import "site-css/stats.less";
+@import "site-css/sweet-alert.less";
+@import "site-css/tabs.less";
+@import "site-css/toast.less";
+@import "site-css/tooltip.less";
+@import "site-css/tree.less"; /* Not used? */
+@import "site-css/typography.less";
+@import "site-css/vertical-timeline.less";
+@import "site-css/view-containers.less";
+
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden !important
+}
+
+body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    font-size: 13px;
+    color: @gray;
+    /*color: #6a6c6f;*/
+    margin: 0;
+    padding: 0;
+    height: 100%
+}
+
+body.blank {
+    background-color: @gray-light-bg
+}
+
+.wrapper {
+    padding: 10px 20px
+}
+
+.content {
+    padding: 25px 40px 40px 40px;
+    min-width: 320px
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 15px 15px 15px 15px;
+        min-width: 320px
+    }
+}
+
+.content-boxed {
+    max-width: 1100px;
+    margin: auto;
+    padding-top: 60px
+}
+
+#wrapper {
+    margin: 0 0 0 180px;
+    padding: 0;
+    background: @wrapper-bg;
+    border-left: 1px solid @wrapper-border;
+    transition: all 0.4s ease 0s;
+    position: relative;
+    min-height: 100%
+}
+
+@media (max-width: 320px) {
+    #wrapper {
+        overflow: hidden
+    }
+}
+
+.table > thead > tr > th {
+    border-bottom: 1px solid #ddd;
+    border-bottom: none
+}
+
+.label-menu-corner .label {
+    font-size: 10px;
+    line-height: 12px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 18px;
+    top: 12px
+}
+
+.arrow {
+    float: right
+}
+
+.fa.arrow:before {
+    content: "\f104"
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107"
+}
+
+.img-small {
+    width: 62px;
+    height: 62px
+}
+
+.profile-picture {
+    padding: 20px 20px;
+    text-align: center
+}
+
+.transition {
+    transition: all 0.5s
+}
+
+.tour-backdrop {
+    opacity: 0.5
+}
+
+.google-map {
+    height: 300px
+}
+
+/* Included in bootstrap! */
+.label-success {
+    background-color: #62cb31
+}
+
+/* Included in bootstrap! */
+.well {
+    background: #f7f9fa;
+    box-shadow: none
+}
+
+/* Not used? */
+.vertical-mid {
+    display: table
+}
+
+/* Not used? */
+.vertical-mid * {
+    display: table-cell;
+    vertical-align: middle
+}
+
+/* Not used? */
+.canvass {
+    -moz-transition: width 0.01s, height 0.01s;
+    -webkit-transition: width 0.01s, height 0.01s;
+    -o-transition: width 0.01s, height 0.01s;
+    transition: width 0.01s, height 0.01s
+}
+
+/* Not used? */
+.fullpanel {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1070;
+    overflow-x: scroll;
+    transition: all 2s
+}
+
+/* Not used? */
+#top-navigation {
+    height: 56px;
+    position: relative;
+    float: left
+}

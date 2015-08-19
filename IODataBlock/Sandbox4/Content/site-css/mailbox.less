@@ -1,0 +1,61 @@
+
+ul.mailbox-list {
+    list-style: none;
+    padding: 0
+}
+
+ul.mailbox-list li a {
+    padding: 10px 15px;
+    display: block
+}
+
+ul.mailbox-list li a i {
+    margin-right: 6px;
+    display: inline-block
+}
+
+ul.mailbox-list li.active a {
+    background: @gray-lighter-bg;
+    border: 1px solid @border-gray-lighter;
+    font-weight: 600;
+    border-radius: 1px
+}
+
+ul.mailbox-list li:hover a {
+    font-weight: 600
+}
+
+.table-mailbox .radio, .table-mailbox .checkbox {
+    margin: 0
+}
+
+.table-mailbox .radio label, .table-mailbox .checkbox label {
+    cursor: default
+}
+
+.table-mailbox tr.unread td a {
+    font-weight: 600
+}
+
+.table-mailbox tr td span.label {
+    margin-left: 10px
+}
+
+.table-mailbox tr:first-child td {
+    border-top: none
+}
+
+.table-mailbox tr td:first-child {
+    width: 33px;
+    padding-right: 0
+}
+
+.mailbox-pagination {
+    text-align: right
+}
+
+@media (max-width: 768px) {
+    .mailbox-pagination {
+        text-align: left
+    }
+}

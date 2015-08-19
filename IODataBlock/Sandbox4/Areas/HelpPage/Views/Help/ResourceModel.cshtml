@@ -1,0 +1,28 @@
+@using System.Web.Http
+@using Sandbox4.Areas.HelpPage.ModelDescriptions
+@model ModelDescription
+
+<link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+
+<div class="content animate-panel">
+    <div class="container">
+        <div class="row m-b-md">
+            <div class="col-md-12">
+                <h1>@Model.Name</h1>
+                <p>@Model.Documentation</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hpanel hblue">
+                    <div class="panel-body">
+                        @Html.DisplayFor(m => Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

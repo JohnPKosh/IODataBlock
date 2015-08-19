@@ -1,0 +1,35 @@
+
+.hbreadcrumb {
+    padding: 2px 0px;
+    margin-top: 6px;
+    margin-bottom: 0px;
+    list-style: none;
+    background-color: @hbreadcrumb-bg;
+    border-radius: @hbreadcrumb-border;
+    font-size: 11px
+}
+
+.hbreadcrumb > li {
+    display: inline-block
+}
+
+.hbreadcrumb > li + li:before {
+    padding: 0 5px;
+    color: @brand-primary
+}
+
+.hbreadcrumb > .active {
+    color: @hbreadcrumb-active-color
+}
+
+.hbreadcrumb a.active {
+    color: @hbreadcrumb-active-color
+}
+
+@media (max-width: 768px) {
+    #hbreadcrumb {
+        float: none !important;
+        margin-bottom: 10px;
+        margin-top: 0
+    }
+}
