@@ -50,5 +50,17 @@ namespace Business.Test.Integration
             contact.WriteJsonToFilePath(@"SampleResults\contactListAllClone.json");
         }
 
+
+
+        [TestMethod]
+        public void ReadWriteContactListQuery()
+        {
+            var contact = File.ReadAllText(@"SampleResults\contactListQuery.json").ConvertJson<ContactListDto>();
+
+            Assert.IsNotNull(contact);
+
+            contact.WriteJsonToFilePath(@"SampleResults\contactListQueryClone.json");
+        }
+
     }
 }

@@ -73,8 +73,13 @@ namespace Sandbox4
                       "~/Content/iCheck/icheck.min.js",
                       "~/Content/peity/jquery.peity.min.js",
                       "~/Content/sparkline/index.js",
-                      "~/Scripts/homer.js",
+                      "~/Scripts/admin-dashboard.js",
                       "~/Scripts/charts.js"));
+
+            // Template script mvc admin-only
+            bundles.Add(new ScriptBundle("~/bundles/admin-only/js").Include(
+                "~/Scripts/admin-mvc.js"
+                ));
 
             // Animate.css
             bundles.Add(new StyleBundle("~/bundles/animate/css").Include(

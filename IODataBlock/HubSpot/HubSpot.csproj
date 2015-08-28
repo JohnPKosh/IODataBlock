@@ -61,6 +61,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SampleResults\contactClone.json" />
+    <None Include="SampleResults\contactListQuery.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SampleResults\createContact.json" />
   </ItemGroup>
   <ItemGroup>

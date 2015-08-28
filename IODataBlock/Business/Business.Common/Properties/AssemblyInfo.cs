@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Business.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Windows User")]
+[assembly: AssemblyCompany("John P Kosh")]
 [assembly: AssemblyProduct("Business.Common")]
-[assembly: AssemblyCopyright("Copyright © Windows User 2014")]
+[assembly: AssemblyCopyright("Copyright © John P Kosh 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

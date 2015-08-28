@@ -618,6 +618,12 @@
     <Content Include="Content\DataTables-1.10.7\media\js\jquery.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\mvc-site.css">
+      <DependentUpon>mvc-site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\mvc-site.min.css">
+      <DependentUpon>mvc-site.css</DependentUpon>
+    </Content>
     <Content Include="Content\site-css\form-styles.css">
       <DependentUpon>form-styles.less</DependentUpon>
     </Content>
@@ -2811,14 +2817,20 @@
     <Content Include="Content\bootstrap\breadcrumbs.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\mvc-site.css.map">
+      <DependentUpon>mvc-site.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - Web Deploy.pubxml" />
     <Content Include="ProjectNotes\NugetCommandSamples.txt" />
     <Content Include="Project_Readme.html" />
+    <Content Include="Scripts\admin-mvc.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\charts.js" />
-    <Content Include="Scripts\homer.js" />
+    <Content Include="Scripts\admin-dashboard.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

@@ -12,5 +12,11 @@ namespace HubSpot.Models
 
         [JsonProperty("vid-offset")]
         public int vid_offset { get; set; }
+
+        [JsonProperty("total")]
+        public int total { get; set; }
+
+        [JsonProperty("query")]
+        public string query { get; set; }
     }
 }

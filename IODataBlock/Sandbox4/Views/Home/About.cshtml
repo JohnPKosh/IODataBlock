@@ -16,7 +16,7 @@
 
 @section pageBreadcrumbSection
 {
-    <div class="container animate-panel">
+    <div class="container">
         <div class="row">
             <div class="col-md-6 m-t-lg m-b-lg">
                 <h5 class="font-bold text-uppercase text-success">@ViewBag.Title</h5>
@@ -37,15 +37,16 @@
 }
 
 <section>
-    <div class="content animate-panel">
+    <div >
         <div class="container">
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="hpanel hgreen">
+                    <div class="hpanel hgreen animate-panel" data-child="panel-body" data-effect="zoomInLeft">
+                        @*<div class="hpanel hgreen fadeInLeft-300-1-0 ease-out">*@
                         <div class="panel-body">
-                            <div class="text-center">
-                                <h2 class="text-success">@ViewBag.Title</h2>
+                            <div class="content text-center">
+                                <h2 class="text-success animated infinite bounce">@ViewBag.Title</h2>
                                 <h4>@ViewBag.Message</h4>
                                 <div class="m">
                                     <i class="pe-7s-user fa-5x text-success"></i>
@@ -63,9 +64,9 @@
     </div>
 </section>
 
-@section Scripts {
+@*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@
 
 
 
