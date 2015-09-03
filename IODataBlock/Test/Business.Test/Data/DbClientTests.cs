@@ -33,7 +33,7 @@ namespace Business.Test.Data
 
         private const string MySqlConnectionString = @"Server=localhost;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
 
-        private const string NpgsqlConnectionString = "connection string goes here";
+        private const string NpgsqlConnectionString = "Server=10.128.28.92;Port=5432;User Id=qixlrn;Database=qixlrn;";
 
         private const string SqliteFile = "sqliteTest.sl3";
 
