@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Data.DbClient.Extensions;
 using DbExtensions;
@@ -15,6 +16,15 @@ namespace Business.Test.Data
     [TestClass]
     public class DbClientTests
     {
+        public DbClientTests()
+        {
+            _npgsqlConnectionString = _configMgr.GetConnectionString("qixlrn");
+            _mySqlConnectionString = _configMgr.GetConnectionString("mysql_local");
+            _oracleConnectionString = _configMgr.GetConnectionString("oracle");
+        }
+
+        private readonly ConfigMgr _configMgr = new ConfigMgr();
+
         //private const string SqlServer = @"(localdb)\ProjectsV12";
 
         //private const string SqlServerDatabase = @"IODataBlock.Database";
@@ -31,9 +41,9 @@ namespace Business.Test.Data
             }
         }
 
-        private const string MySqlConnectionString = @"Server=localhost;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+        private readonly string _mySqlConnectionString;
 
-        private const string NpgsqlConnectionString = "Server=10.128.28.92;Port=5432;User Id=qixlrn;Database=qixlrn;";
+        private readonly string _npgsqlConnectionString;
 
         private const string SqliteFile = "sqliteTest.sl3";
 
@@ -45,7 +55,7 @@ namespace Business.Test.Data
             }
         }
 
-        private string OracleConn = @"DATA SOURCE=10.128.0.33:1521/DFWPSX001M;PERSIST SECURITY INFO=True;USER ID=dbimpl;Password=dbimpl";
+        private readonly string _oracleConnectionString;
 
         #region Npgsql
 
@@ -54,7 +64,7 @@ namespace Business.Test.Data
         {
             //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
 
-            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            using (var db = Database.OpenConnectionString(_npgsqlConnectionString, "Npgsql"))
             {
                 db.Connection.Open();
                 if (db.Connection.State != ConnectionState.Open) Assert.Fail();
@@ -72,7 +82,7 @@ namespace Business.Test.Data
                 FROM tn2lrn216
                 limit 100;";
 
-            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            using (var db = Database.OpenConnectionString(_npgsqlConnectionString, "Npgsql"))
             {
                 var data = db.QueryToJObjects(sql, 120);
                 if (!data.Any())
@@ -91,7 +101,7 @@ namespace Business.Test.Data
         [TestMethod]
         public void QueryMySqlTest()
         {
-            using (var db = Database.OpenConnectionString(MySqlConnectionString, "MySql.Data.MySqlClient"))
+            using (var db = Database.OpenConnectionString(_mySqlConnectionString, "MySql.Data.MySqlClient"))
             {
                 #region sql
 
@@ -587,20 +597,19 @@ ORDER BY [ORDINAL_POSITION]
 
         #region Oracle
 
-
         [TestMethod]
         public void ConnectOracleTest()
         {
             //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
 
-            using (var db = Database.OpenConnectionString(OracleConn, "Oracle.ManagedDataAccess.Client"))
+            using (var db = Database.OpenConnectionString(_oracleConnectionString, "Oracle.ManagedDataAccess.Client"))
             {
                 db.Connection.Open();
                 if (db.Connection.State != ConnectionState.Open) Assert.Fail();
             }
         }
 
-        #endregion
+        #endregion Oracle
 
         #region DbExtensions.SqlBuilder Tests
 
