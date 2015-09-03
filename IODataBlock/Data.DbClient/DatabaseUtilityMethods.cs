@@ -66,7 +66,7 @@ namespace Data.DbClient
             var cb = new NpgsqlConnectionStringBuilder { Host = host, Database = database };
             if (!String.IsNullOrWhiteSpace(userName) && !String.IsNullOrWhiteSpace(password))
             {
-                cb.UserName = userName;
+                cb.Username = userName;
                 cb.Password = password;
             }
             else
@@ -77,7 +77,7 @@ namespace Data.DbClient
                 }
                 else
                 {
-                    cb.UserName = userName;
+                    cb.Username = userName;
                     cb.Password = password;
                 }
             }

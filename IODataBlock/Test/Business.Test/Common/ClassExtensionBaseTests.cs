@@ -136,7 +136,7 @@ namespace Business.Test.Common
             Console.WriteLine(results.Count());
 
             //Console.WriteLine("15".IsGreaterThan(20));
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
         }
 
         [TestMethod]
