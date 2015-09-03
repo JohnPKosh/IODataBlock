@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Data.DbClient.BulkCopy;
 using Npgsql;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Data.DbClient
 {
@@ -114,6 +115,43 @@ namespace Data.DbClient
         {
             return "Data Source=:memory:;Version=3;New=True;";
         }
+
+        public static String CreateOracleConnectionString(String dataSource
+            , String userId = null
+            , String password = null
+            , bool persistSecurityInfo = true
+            , Int32 connectTimeout = -1
+            , Int32 connectionLifetime = -1
+            , bool pooling = false
+            , Int32 minPoolSize = 10
+            , Int32 maxPoolSize = 100
+            , Int32 incrPoolSize = 5
+            , Int32 decrPoolSize = 2
+            )
+        {
+            var cb = new OracleConnectionStringBuilder { DataSource = dataSource, PersistSecurityInfo = persistSecurityInfo, UserID = userId, Password = password };
+            if (!String.IsNullOrWhiteSpace(userId) && !String.IsNullOrWhiteSpace(password))
+            {
+                cb.UserID = userId;
+                cb.Password = password;
+            }
+            else
+            {
+                cb.UserID = "";
+            }
+            if (connectTimeout > -1) cb.ConnectionTimeout = connectTimeout;
+            if (connectionLifetime > -1) cb.ConnectionLifeTime = connectionLifetime;
+            if (pooling)
+            {
+                cb.Pooling = true;
+                cb.MinPoolSize = minPoolSize;
+                cb.MaxPoolSize = maxPoolSize;
+                cb.IncrPoolSize = incrPoolSize;
+                cb.DecrPoolSize = decrPoolSize;
+            }
+            return cb.ConnectionString;
+        }
+
 
         #endregion Connection String Utilities
 

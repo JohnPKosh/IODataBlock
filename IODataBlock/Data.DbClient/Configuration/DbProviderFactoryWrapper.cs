@@ -1,5 +1,9 @@
 using System.Data.Common;
+using System.Data.SQLite;
 using MySql.Data.MySqlClient;
+using Npgsql;
+using Oracle;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Data.DbClient.Configuration
 {
@@ -24,13 +28,23 @@ namespace Data.DbClient.Configuration
             {
                 /* TODO add DbProviderFactories for Oracle, SQLite and PostreSql */
                 // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-                if (_providerName == "MySql.Data.MySqlClient")
+                switch (_providerName)
                 {
-                    _providerFactory = new MySqlClientFactory();
-                }
-                else
-                {
-                    _providerFactory = DbProviderFactories.GetFactory(_providerName);
+                    case "MySql.Data.MySqlClient":
+                        _providerFactory = new MySqlClientFactory();
+                        break;
+                    case "Oracle.ManagedDataAccess.Client":
+                        _providerFactory = new OracleClientFactory();
+                        break;
+                    case "System.Data.SQLite":
+                        _providerFactory = new SQLiteFactory();
+                        break;
+                    case "Npgsql":
+                        _providerFactory = NpgsqlFactory.Instance;
+                        break;
+                    default:
+                        _providerFactory = DbProviderFactories.GetFactory(_providerName);
+                        break;
                 }
             }
             var dbConnection = _providerFactory.CreateConnection();

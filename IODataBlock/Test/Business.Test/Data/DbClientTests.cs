@@ -45,6 +45,8 @@ namespace Business.Test.Data
             }
         }
 
+        private string OracleConn = @"DATA SOURCE=10.128.0.33:1521/DFWPSX001M;PERSIST SECURITY INFO=True;USER ID=dbimpl;Password=dbimpl";
+
         #region Npgsql
 
         [TestMethod]
@@ -582,6 +584,23 @@ ORDER BY [ORDINAL_POSITION]
         }
 
         #endregion SQLite
+
+        #region Oracle
+
+
+        [TestMethod]
+        public void ConnectOracleTest()
+        {
+            //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
+
+            using (var db = Database.OpenConnectionString(OracleConn, "Oracle.ManagedDataAccess.Client"))
+            {
+                db.Connection.Open();
+                if (db.Connection.State != ConnectionState.Open) Assert.Fail();
+            }
+        }
+
+        #endregion
 
         #region DbExtensions.SqlBuilder Tests
 
