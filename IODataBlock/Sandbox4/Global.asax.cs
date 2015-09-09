@@ -21,8 +21,11 @@ namespace Sandbox4
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Remove the XML formatter
+            /* Remove the XML formatter */
             //ConfigureApi(GlobalConfiguration.Configuration);
+
+            /* Create custom mappings in the Mapping Config class */
+            MappingConfig.RegisterMaps();
         }
 
         void ConfigureApi(HttpConfiguration config)
