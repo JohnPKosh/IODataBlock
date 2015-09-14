@@ -175,6 +175,7 @@
     </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />

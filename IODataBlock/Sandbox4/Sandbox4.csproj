@@ -33,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>App_Data/XmlDocument.xml</DocumentationFile>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,8 +42,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IncludeIisSettings>true</IncludeIisSettings>
+    <IncludeIisSettings>false</IncludeIisSettings>
     <DocumentationFile>App_Data\XmlDocument.xml</DocumentationFile>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -299,6 +301,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\XmlDocument.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -1947,6 +1952,9 @@
     <Content Include="Areas\SiteDemo\Views\Tables\TablesDesign.cshtml" />
     <Content Include="Areas\SiteDemo\Views\Widgets\Index.cshtml" />
     <Content Include="Areas\SiteDemo\Views\LandingPage\Index.cshtml" />
+    <Content Include="Configuration\ConnectionString.johnkoshtest02.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Content\admin-styles.less" />
     <Content Include="Content\summernote\build\grunt-build.js" />
     <Content Include="Content\summernote\dist\summernote-bs2.css" />
@@ -2828,6 +2836,7 @@
     <Content Include="Content\mvc-site.css.map">
       <DependentUpon>mvc-site.css</DependentUpon>
     </Content>
+    <Content Include="johnkoshtest02.azurewebsites.net.PublishSettings" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - Web Deploy.pubxml" />
     <Content Include="ProjectNotes\NugetCommandSamples.txt" />
@@ -2839,6 +2848,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\charts.js" />
     <Content Include="Scripts\admin-dashboard.js" />
+    <None Include="Properties\PublishProfiles\johnkoshtest02 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\johnkoshtest02 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -3067,7 +3079,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\SiteDemo\Models\" />
   </ItemGroup>
   <PropertyGroup>
