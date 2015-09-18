@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HubSpot.Models
 {
-    public enum FormSumissionModeType
+    public enum FormSubmissionModeType
     {
         Newest, All, None, Oldest
     }

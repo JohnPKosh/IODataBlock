@@ -41,14 +41,14 @@ namespace Business.Test.Validation
 
         public override bool TryValidate(ICollection<ValidationResult> validationResults, bool validateAllProperties = true)
         {
-            // TODO: Find best way to inject custom validation below.  Perhaps method overload of this method with additional function param.
-            // If I meet my custom validations then TryValidate with base.
-            if (Value == "2165132288")
-            {
-                return base.TryValidate(validationResults, validateAllProperties);
-            }
-            // Else add my error and check for base ValidationResults an return false.
-            validationResults.Add(new ValidationResult("You did something wrong! Just Kidding!!!!!", new[] { "Value" }));
+            //// TODO: Find best way to inject custom validation below.  Perhaps method overload of this method with additional function param.
+            //// If I meet my custom validations then TryValidate with base.
+            //if (Value == "2165132288")
+            //{
+            //    return base.TryValidate(validationResults, validateAllProperties);
+            //}
+            //// Else add my error and check for base ValidationResults an return false.
+            //validationResults.Add(new ValidationResult("You did something wrong! Just Kidding!!!!!", new[] { "Value" }));
             base.TryValidate(validationResults, validateAllProperties);
             return false;
         }

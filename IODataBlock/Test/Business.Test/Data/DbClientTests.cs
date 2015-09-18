@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Test.TestUtility;
 using Data.DbClient.Extensions;
 using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -159,6 +160,53 @@ ORDER BY [ORDINAL_POSITION]
             #endregion sql
 
             var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, "LERG%");
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void TestQueryQueryTransformToTest1()
+        {
+            #region sql
+
+            var sql = @"SELECT [OCN_#] as [OCN], [OCN_NAME], [CATEGORY] FROM [LERG].[dbo].[LERG 1]";
+
+            #endregion sql
+
+            var data = Database.QueryTransformEach(SqlServerConnectionString, "System.Data.SqlClient", sql, Lerg1DtoLoad, 120, "LERG%");
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        private static Lerg1Dto Lerg1DtoLoad(JObject jObject)
+        {
+            return new Lerg1Dto()
+            {
+                Ocn = jObject.Value<string>("OCN"),
+                OcnName = jObject.Value<string>("OCN_NAME"),
+                Category = jObject.Value<string>("CATEGORY")
+            };
+        }
+
+        [TestMethod]
+        public void TestQueryQueryTransformToTest2()
+        {
+            #region sql
+
+            var sql = @"SELECT [OCN_#] as [OCN], [OCN_NAME], [CATEGORY] FROM [LERG].[dbo].[LERG 1]";
+
+            #endregion sql
+
+            var data = Database.QueryTransformEach(SqlServerConnectionString, "System.Data.SqlClient", sql, o => new Lerg1Dto()
+            {
+                Ocn = o.Value<string>("OCN"),
+                OcnName = o.Value<string>("OCN_NAME"),
+                Category = o.Value<string>("CATEGORY")
+            }, 120, "LERG%");
             if (!data.Any())
             {
                 Assert.Fail();

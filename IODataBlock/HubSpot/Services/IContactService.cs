@@ -40,9 +40,11 @@ namespace HubSpot.Services
 
         bool DeleteContact(int id);
 
-        /* http://developers.hubspot.com/docs/methods/contacts/delete_contact */
+        /* http://developers.hubspot.com/docs/methods/contacts/get_contacts */
         /* Example URL:  https://api.hubapi.com/contacts/v1/contact/vid/61571?hapikey=demo */
 
-        bool GetAllContacts();
+        bool GetAllContacts(int? count = null, int? vidOffset = null, string property = null, PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest, bool showListMemberships = false);
+
+
     }
 }

@@ -284,6 +284,24 @@ namespace Data.DbClient
             throw new ArgumentNullException("commandText");
         }
 
+        public IEnumerable<T> QueryTransformEach<T>(string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
+        {
+            if (!string.IsNullOrEmpty(commandText))
+            {
+                return QueryInternalTransformToAsync(commandText, function, CancellationToken.None, commandTimeout, parameters).Result;
+                //return QueryInternalJObjects(commandText, commandTimeout, parameters);
+            }
+            throw new ArgumentNullException("commandText");
+        }
+
+        public static IEnumerable<T> QueryTransformEach<T>(string connectionString, String providerName, string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryTransformEach(commandText, function, commandTimeout, parameters);
+            }
+        }
+
         public Stream QueryToBson(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -303,7 +321,6 @@ namespace Data.DbClient
             }
             throw new ArgumentNullException("commandText");
         }
-
 
         public DataTable QueryToDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
@@ -568,6 +585,32 @@ namespace Data.DbClient
                         d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
                     }
                     rv.Add(e);
+                }
+            }
+            return rv;
+        }
+
+        private async Task<List<T>> QueryInternalTransformToAsync<T>(string commandText, Func<JObject, T> function, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            var rv = new List<T>();
+            List<string> columnNames = null;
+            var fcnt = 0;
+            using (var dr = await QueryToDataReaderAsync(commandText, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters))
+            {
+                while (await dr.ReadAsync(cancellationToken))
+                {
+                    if (columnNames == null)
+                    {
+                        fcnt = dr.FieldCount;
+                        columnNames = GetColumnNames(dr).ToList();
+                    }
+                    dynamic e = new JObject();
+                    var d = e as IDictionary<string, JToken>;
+                    for (var i = 0; i < fcnt; i++)
+                    {
+                        d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
+                    }
+                    rv.Add(function.Invoke(e));
                 }
             }
             return rv;

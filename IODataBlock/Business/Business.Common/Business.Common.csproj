@@ -79,6 +79,7 @@
     <Compile Include="Extensions\ClassExtensionConversions.cs" />
     <Compile Include="Extensions\ClassExtensionExpando.cs" />
     <Compile Include="Extensions\ClassExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\FilterOption.cs" />
     <Compile Include="Extensions\GenericListDataReader.cs" />
     <Compile Include="Extensions\IEnumerableExtensionBase.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="System\ObjectBase.cs" />
     <Compile Include="System\States\DynamicJsonFileLoader.cs" />
     <Compile Include="System\SystemCommandParser.cs" />
+    <Compile Include="System\UnixMsTimestamp.cs" />
     <Compile Include="Validation\IValidationObjectBase.cs" />
     <Compile Include="Validation\ValidationObjectBase.cs" />
   </ItemGroup>

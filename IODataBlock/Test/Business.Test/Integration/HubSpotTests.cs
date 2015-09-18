@@ -82,7 +82,7 @@ namespace Business.Test.Integration
             // https://api.hubapi.com/contacts/v1/contact/vid/3/profile?hapikey=your+key+here
 
             var result = "https://api.hubapi.com/contacts/v1/contact/vid"
-                .AppendPathSegment("6")
+                .AppendPathSegment("37")
                 .AppendPathSegment("profile")
                 .SetQueryParam("hapikey", _hapiKey)
                 .GetJsonAsync<ContactDto>().Result;
@@ -93,6 +93,61 @@ namespace Business.Test.Integration
                 var vid = result.vid;
                 Assert.IsNotNull(vid);
                 result.WriteJsonToFilePath(@"SampleResults\contactByIdClone.json", new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate});
+            }
+        }
+
+
+        [TestMethod]
+        public void GetAllContacts()
+        {
+            // https://api.hubapi.com/contacts/v1/lists/all/contacts/all?hapikey=your+key+here
+
+            var result = "https://api.hubapi.com/contacts/v1/lists/all/contacts/all"
+                .SetQueryParam("hapikey", _hapiKey)
+                .GetJsonAsync<ContactListDto>().Result;
+
+            if (result == null) Assert.Fail();
+            else
+            {
+                //var vid = result.vid;
+                //Assert.IsNotNull(vid);
+                result.WriteJsonToFilePath(@"SampleResults\allContacts.json", new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate });
+            }
+        }
+
+        [TestMethod]
+        public void GetAllContactsDynamic()
+        {
+            // https://api.hubapi.com/contacts/v1/lists/all/contacts/all?hapikey=your+key+here
+
+            var result = "https://api.hubapi.com/contacts/v1/lists/all/contacts/all"
+                .SetQueryParam("hapikey", _hapiKey)
+                .GetJsonAsync<ExpandoObject>().Result;
+
+            if (result == null) Assert.Fail();
+            else
+            {
+                //var vid = result.vid;
+                //Assert.IsNotNull(vid);
+                result.WriteJsonToFilePath(@"SampleResults\allContacts.json", new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate });
+            }
+        }
+
+        [TestMethod]
+        public void GetCompanyWithFlurl()
+        {
+            // https://api.hubapi.com/companies/v2/companies/recent/modified?hapikey=your+key+here
+
+            var result = "https://api.hubapi.com/companies/v2/companies/recent/modified"
+                .SetQueryParam("hapikey", _hapiKey)
+                .GetJsonAsync<ExpandoObject>().Result;
+
+            if (result == null) Assert.Fail();
+            else
+            {
+                //var vid = result.vid;
+                //Assert.IsNotNull(vid);
+                result.WriteJsonToFilePath(@"SampleResults\recentCompanies.json", new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate });
             }
         }
 
