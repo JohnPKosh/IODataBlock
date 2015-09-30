@@ -63,6 +63,7 @@
     <Compile Include="Configuration\ConfigMgr.cs" />
     <Compile Include="Configuration\ConnectionStringsMgr.cs" />
     <Compile Include="Configuration\CspDefault.cs" />
+    <Compile Include="Exceptions\CommandNameNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionLogLevelType.cs" />
     <Compile Include="Exceptions\ExceptionObjectBase.cs" />
     <Compile Include="Exceptions\ExceptionObjectListBase.cs" />
@@ -98,6 +99,18 @@
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensionBase.cs" />
     <Compile Include="Extensions\StringFilterExtensions.cs" />
+    <Compile Include="GenericRequests\IRequestObject.cs" />
+    <Compile Include="GenericRequests\RequestObject.cs" />
+    <Compile Include="GenericResponses\IResponseObject.cs" />
+    <Compile Include="GenericResponses\ResponseExtensions.cs" />
+    <Compile Include="GenericResponses\ResponseObject.cs" />
+    <Compile Include="Generic\CommandCollectionParser.cs" />
+    <Compile Include="Generic\CommandObjectBase.cs" />
+    <Compile Include="Generic\CommandObjectParser.cs" />
+    <Compile Include="Generic\ICommandCollectionParser.cs" />
+    <Compile Include="Generic\ICommandObject.cs" />
+    <Compile Include="Generic\ICommandObjectFactory.cs" />
+    <Compile Include="Generic\ICommandObjectParser.cs" />
     <Compile Include="IO\BaseFileSystemEntry.cs" />
     <Compile Include="IO\CompareDirectoryContent.cs" />
     <Compile Include="IO\DirectoryEntry.cs" />

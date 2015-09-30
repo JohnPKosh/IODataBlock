@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using Data.DbClient.BulkCopy;
+using Newtonsoft.Json.Linq;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
 
@@ -11,22 +15,146 @@ namespace Data.DbClient
 {
     public partial class Database
     {
-        //public IEnumerable<dynamic> QueryFromFile(String filePath, IDictionary<String, String> namedArgs = null, String startTag = null, String endTag = null, int commandTimeout = 60, params object[] parameters)
-        //{
-        //    var commandText = File.ReadAllText(filePath);
-        //    if (string.IsNullOrEmpty(commandText))throw new ArgumentException("Command Text from file is null or empty!");
-        //    if (namedArgs != null) commandText = commandText.ReplaceNamedParameters(namedArgs);
-        //    return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
-        //}
+        #region Database class IEnumerable<object> paramaterized method overloads
 
-        //public IEnumerable<dynamic> QueryFromFileTemplate(String templateName, IDictionary<String, String> namedArgs = null, String startTag = null, String endTag = null, int commandTimeout = 60, params object[] parameters)
-        //{
-        //    var root = IOUtility.DefaultFolderPath;
-        //    var filePath = Path.Combine(root, @"App_Data\Sql", templateName + ".sql");
-        //    return QueryFromFile(filePath, namedArgs, startTag, endTag, commandTimeout, parameters);
-        //}
+        #region Execute Methods
 
+        public int Execute(string commandText, IEnumerable<object> parameters, int commandTimeout = 0)
+        {
+            return parameters == null ? Execute(commandText, commandTimeout) : Execute(commandText, commandTimeout, parameters.ToArray());
+        }
 
+        public static int ExecuteNonQuery(string connectionString, String providerName, String commandText, IEnumerable<object> parameters, Int32 commandTimeout = 0)
+        {
+            return parameters == null ? ExecuteNonQuery(connectionString, providerName, commandText, commandTimeout) : ExecuteNonQuery(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static int ExecuteNonQuery(DbConnection connection, String commandText, IEnumerable<object> parameters, Int32 commandTimeout = 0)
+        {
+            return parameters == null ? ExecuteNonQuery(connection, commandText, commandTimeout) : ExecuteNonQuery(connection, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        #endregion
+
+        #region Query Methods
+
+        public IEnumerable<dynamic> Query(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? Query(commandText, commandTimeout) : Query(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<dynamic> Query(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? Query(connectionString, providerName, commandText, commandTimeout) : Query(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<dynamic> Query(DbConnection connection, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? Query(connection, commandText, commandTimeout) : Query(connection, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public IEnumerable<JObject> QueryToJObjects(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJObjects(commandText, commandTimeout) : QueryToJObjects(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<JObject> QueryToJObjects(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJObjects(connectionString, providerName, commandText, commandTimeout) : QueryToJObjects(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<JObject> QueryToJObjects(DbConnection connection, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJObjects(connection, commandText, commandTimeout) : QueryToJObjects(connection, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public IEnumerable<T> QueryTransformEach<T>(string commandText, Func<JObject, T> function, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryTransformEach(commandText, function, commandTimeout) : QueryTransformEach(commandText, function, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<T> QueryTransformEach<T>(string connectionString, String providerName, string commandText, Func<JObject, T> function, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryTransformEach(connectionString, providerName, commandText, function, commandTimeout) : QueryTransformEach(connectionString, providerName, commandText, function, commandTimeout, parameters.ToArray());
+        }
+
+        public static IEnumerable<T> QueryTransformEach<T>(DbConnection connection, string commandText, Func<JObject, T> function, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryTransformEach(connection, commandText, function, commandTimeout) : QueryTransformEach(connection, commandText, function, commandTimeout, parameters.ToArray());
+        }
+        
+        public Stream QueryToBson(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToBson(commandText, commandTimeout) : QueryToBson(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static Stream QueryToBson(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToBson(connectionString, providerName, commandText, commandTimeout) : QueryToBson(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static Stream QueryToBson(DbConnection connection, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToBson(connection, commandText, commandTimeout) : QueryToBson(connection, commandText, commandTimeout, parameters.ToArray());
+        }
+        
+        public Stream QueryToJsonStream(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJsonStream(commandText, commandTimeout) : QueryToJsonStream(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static Stream QueryToJsonStream(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJsonStream(connectionString, providerName, commandText, commandTimeout) : QueryToJsonStream(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static Stream QueryToJsonStream(DbConnection connection, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToJsonStream(connection, commandText, commandTimeout) : QueryToJsonStream(connection, commandText, commandTimeout, parameters.ToArray());
+        }
+        
+        public DataTable QueryToDataTable(string commandText, IEnumerable<object> parameters, string tableName = null, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToDataTable(commandText, tableName, commandTimeout) : QueryToDataTable(commandText, tableName, commandTimeout, parameters.ToArray());
+        }
+
+        public static DataTable QueryToDataTable(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, string tableName = null, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToDataTable(connectionString, providerName, commandText, tableName, commandTimeout) : QueryToDataTable(connectionString, providerName, commandText, tableName, commandTimeout, parameters.ToArray());
+        }
+
+        public static DataTable QueryToDataTable(DbConnection connection, string commandText, IEnumerable<object> parameters, string tableName = null, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryToDataTable(connection, commandText, tableName, commandTimeout) : QueryToDataTable(connection, commandText, tableName, commandTimeout, parameters.ToArray());
+        }
+
+        #endregion
+
+        #region Single / Scalar Methods
+
+        public dynamic QuerySingle(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QuerySingle(commandText, commandTimeout) : QuerySingle(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static dynamic QuerySingle(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QuerySingle(connectionString, providerName, commandText, commandTimeout) : QuerySingle(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public dynamic QueryValue(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryValue(commandText, commandTimeout) : QueryValue(commandText, commandTimeout, parameters.ToArray());
+        }
+
+        public static dynamic QueryValue(string connectionString, String providerName, string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
+        {
+            return parameters == null ? QueryValue(connectionString, providerName, commandText, commandTimeout) : QueryValue(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
+        }
+
+        #endregion
+
+        #endregion
 
         #region Connection String Utilities
 
@@ -152,8 +280,9 @@ namespace Data.DbClient
             return cb.ConnectionString;
         }
 
-
         #endregion Connection String Utilities
+
+        #region Bulk Utility Methods
 
         public Boolean ImportSeperatedTxtToSql(
             String tableName,
@@ -167,7 +296,7 @@ namespace Data.DbClient
             String nullValue,
             //String filterExpression,
             Boolean enableIndentityInsert = false
-            )
+        )
         {
             var connectionString = Connection.ConnectionString;
             var sqlBulkCopyUtility = new SqlBulkCopyUtility();
@@ -188,7 +317,7 @@ namespace Data.DbClient
         }
 
         public void QueryToSqlServerBulk(
-            string commandText, 
+            string commandText,
             String destConnStr,
             String destTableName,
             int commandTimeout = 60,
@@ -213,7 +342,9 @@ namespace Data.DbClient
             }
         }
 
+        #endregion Bulk Utility Methods
 
+        #region Schema Utilities
 
         public DataTable FillSchemaDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
@@ -243,5 +374,77 @@ namespace Data.DbClient
             }
         }
 
+        #endregion Schema Utilities
+
+        #region SQL Server Script Utilities
+
+        public static String CreateSqlServer2008BatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        {
+            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
+            const string template = @"
+WITH [temp_batch_table] AS
+(
+    $(InputSql)
+)
+SELECT *
+FROM [temp_batch_table]
+WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
+";
+
+            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
+            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
+            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
+
+            return outputSql;
+        }
+
+        public static String CreateSqlServer2008CountSelect(String selectSql, Int32 batchSize = 0)
+        {
+            string template;
+            if (batchSize < 1)
+            {
+                template = @"
+SELECT COUNT(*) as [cnt]
+FROM
+(
+    $(InputSql)
+) as a
+";
+            }
+            else
+            {
+                template = @"
+SELECT (COUNT(*) / $(BatchSize)) as [cnt]
+FROM
+(
+    $(InputSql)
+) as a
+".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var outputSql = template.Replace("$(InputSql)", selectSql);
+            return outputSql;
+        }
+
+        #endregion
+
+        #region Not Yet Implemented
+
+        //public IEnumerable<dynamic> QueryFromFile(String filePath, IDictionary<String, String> namedArgs = null, String startTag = null, String endTag = null, int commandTimeout = 60, params object[] parameters)
+        //{
+        //    var commandText = File.ReadAllText(filePath);
+        //    if (string.IsNullOrEmpty(commandText))throw new ArgumentException("Command Text from file is null or empty!");
+        //    if (namedArgs != null) commandText = commandText.ReplaceNamedParameters(namedArgs);
+        //    return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
+        //}
+
+        //public IEnumerable<dynamic> QueryFromFileTemplate(String templateName, IDictionary<String, String> namedArgs = null, String startTag = null, String endTag = null, int commandTimeout = 60, params object[] parameters)
+        //{
+        //    var root = IOUtility.DefaultFolderPath;
+        //    var filePath = Path.Combine(root, @"App_Data\Sql", templateName + ".sql");
+        //    return QueryFromFile(filePath, namedArgs, startTag, endTag, commandTimeout, parameters);
+        //}
+
+        #endregion Not Yet Implemented
     }
 }

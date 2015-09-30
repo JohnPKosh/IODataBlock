@@ -47,7 +47,7 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.4\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Common.1.0.5\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -119,7 +119,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\GenericCommandCollectionTests.cs" />
     <Compile Include="Common\CommandCollectionTests.cs" />
+    <Compile Include="Common\GenericCommandObjectTests.cs" />
     <Compile Include="Common\CommandObjectTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
     <Compile Include="Common\Reflection\PropertyTests.cs" />
@@ -136,6 +138,10 @@
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
+    <None Include="Junk\DbCmd.cs" />
+    <None Include="Junk\DbCmdCollection.cs" />
+    <None Include="Junk\DbCmdRepeatSequence.cs" />
+    <None Include="Junk\DbProviders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
     <Compile Include="Common\ClassExtensionBaseTests.cs" />
@@ -145,6 +151,9 @@
     <Compile Include="Security\RngCryptoTests.cs" />
     <Compile Include="TestUtility\FileCommandDictionary.cs" />
     <Compile Include="TestUtility\Lerg1Dto.cs" />
+    <Compile Include="TestUtility\ThrowExceptionFromGenericCommand.cs" />
+    <Compile Include="TestUtility\ReadFromFileGenericCommand.cs" />
+    <Compile Include="TestUtility\WriteToFileGenericCommand.cs" />
     <Compile Include="TestUtility\WriteToJsonFileCommand.cs" />
     <Compile Include="TestUtility\ReadFromJsonFileCommand.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
@@ -182,13 +191,17 @@
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
+    <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
+    <None Include="Junk\sample.md" />
+    <None Include="Junk\sample2.md" />
     <None Include="Junk\server.json" />
     <None Include="Junk\test.appState.json" />
     <None Include="Junk\test.config.json" />
     <None Include="Junk\test.state.json" />
+    <None Include="Junk\Tst1.json" />
     <None Include="packages.config" />
     <None Include="sqliteTest.sl3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -196,12 +209,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Junk\CDR_Bill_Sonus_Lookup.xml" />
     <Content Include="Junk\G15BVX140.txt" />
     <Content Include="Junk\kirk.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Junk\kirk_output.xml" />
     <Content Include="Junk\NRFs.txt" />
+    <Content Include="Junk\salesorder.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

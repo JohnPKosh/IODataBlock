@@ -1,16 +1,23 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using Data.DbClient.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Database = Data.DbClient.Database;
+using dbe = DbExtensions;
 
 namespace Business.Test.Data
 {
     [TestClass]
     public class DbQueryBuilderTests
     {
-        private const string SqlServer = @"(localdb)\ProjectsV12";
-        private const string SqlServerDatabase = @"IODataBlock.Database";
+        //private const string SqlServer = @"(localdb)\ProjectsV12";
+        //private const string SqlServerDatabase = @"IODataBlock.Database";
+
+        private const string SqlServer = @".\EXP14";
+        private const string SqlServerDatabase = @"LERG";
+
+        
 
         private static string SqlServerConnectionString
         {
@@ -19,6 +26,8 @@ namespace Business.Test.Data
                 return Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
             }
         }
+
+        //readonly dbe.Database _db = new dbe.Database(new SqlConnection(SqlServerConnectionString));
 
         #region sql
 
@@ -56,6 +65,31 @@ ORDER BY [ORDINAL_POSITION]
         [TestMethod]
         public void SimpleDbQueryBuilderTest1()
         {
+            dbe.Database _db = new dbe.Database(new SqlConnection(SqlServerConnectionString));
+            var sqlb = new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
+            var q = _db.From(sqlb).Skip(10).Take(10).ToString();
+            Assert.IsNotNull(q);
+
+
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToList();
+            //Assert.IsNotNull(q);
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).GetDefiningQuery();
+            //Assert.IsNotNull(q);
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToString();
+            //Assert.IsNotNull(q);
+
+            //var sb =
+            //    new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]").OFFSET(10)
+            //        .LIMIT(10)
+            //        .ToCommand(new SqlConnection(SqlServerConnectionString));
+            //var reader = sb.ExecuteReader(CommandBehavior.CloseConnection);
+            //reader.HasRows
+            //Assert.IsNotNull(sb);
+
+
             var qb = new DbQueryBuilder();
 
             // build a query
@@ -136,5 +170,53 @@ ORDER BY [ORDINAL_POSITION]
                 Assert.Fail();
             }
         }
+
+
+
+
+        [TestMethod]
+        public void SimpleDbQueryBuilderTest6()
+        {
+            var db = new dbe.Database(new SqlConnection(Database.CreateSqlConnectionString("CLEHBDB02", "CDR_Stat_Ref", "servermgr", "defr3sTu")));
+
+            var sqlb = new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
+            var q = db.From(sqlb).Skip(10).Take(10).ToString();
+            Assert.IsNotNull(q);
+
+
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToList();
+            //Assert.IsNotNull(q);
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).GetDefiningQuery();
+            //Assert.IsNotNull(q);
+
+            //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToString();
+            //Assert.IsNotNull(q);
+
+            //var sb =
+            //    new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]").OFFSET(10)
+            //        .LIMIT(10)
+            //        .ToCommand(new SqlConnection(SqlServerConnectionString));
+            //var reader = sb.ExecuteReader(CommandBehavior.CloseConnection);
+            //reader.HasRows
+            //Assert.IsNotNull(sb);
+
+
+            var qb = new DbQueryBuilder();
+
+            // build a query
+            DbQuery query = qb.From(new SqlConnection(SqlServerConnectionString))
+                .WithCommand("SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
+
+            // execute a query
+            var data = query.ExecuteQuery();
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+
     }
 }

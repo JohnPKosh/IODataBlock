@@ -37,6 +37,14 @@
     <Reference Include="DbExtensions">
       <HintPath>..\packages\DbExtensions.5.0.0\lib\net40\DbExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Fasterflect, Version=2.1.3.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
       <HintPath>..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
       <Private>True</Private>
@@ -58,6 +66,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -78,6 +87,7 @@
   <ItemGroup>
     <Compile Include="BulkCopy\BulkInserter.cs" />
     <Compile Include="BulkCopy\SqlBulkCopyUtility.cs" />
+    <Compile Include="Commands\ProviderType.cs" />
     <Compile Include="Configuration\ConfigurationManagerWrapper.cs" />
     <Compile Include="Configuration\ConnectionConfiguration.cs" />
     <Compile Include="Configuration\ConnectionEventArgs.cs" />
@@ -85,8 +95,12 @@
     <Compile Include="Database.Events.cs" />
     <Compile Include="DatabaseUtilityMethods.cs" />
     <Compile Include="Configuration\DbProviderFactoryWrapper.cs" />
+    <Compile Include="Extensions\DataExtensionBase.cs" />
     <Compile Include="Extensions\DbClientJsonExtensions.cs" />
+    <Compile Include="Extensions\ProviderTypeExtensions.cs" />
+    <Compile Include="Extensions\SchemaReader.cs" />
     <Compile Include="Extensions\SqlBuilderExtensions.cs" />
+    <Compile Include="Extensions\SqlTableCreator.cs" />
     <Compile Include="Fluent\DbQuery.cs" />
     <Compile Include="Fluent\DbQueryBuilder.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
@@ -101,6 +115,12 @@
     <None Include="App.config" />
     <Compile Include="Database.Constants.cs" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.Common\Business.Common.csproj">
+      <Project>{AF1C182A-F249-40D4-83C5-915D83FF9B5C}</Project>
+      <Name>Business.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

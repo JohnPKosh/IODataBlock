@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.DbClient.Configuration;
+using DbExtensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
@@ -168,6 +169,11 @@ namespace Data.DbClient
             }
         }
 
+        public object DbNullToNull(object input)
+        {
+            return Convert.DBNull.Equals(input) ? null : input;
+        }
+
         #endregion Helper Methods
 
         #region Open Methods
@@ -221,6 +227,16 @@ namespace Data.DbClient
 
         #endregion OpenConnectionString Methods
 
+        #region Open DbConnection Methods
+
+        public static Database OpenDbConnection(DbConnection connection)
+        {
+            //return new Database(() => connection.GetProviderFactory().CreateConnection(connection.ConnectionString));
+            return new Database(() => connection);
+        }
+
+        #endregion
+
         #region Query Methods
 
         #region Public Command Methods
@@ -251,10 +267,18 @@ namespace Data.DbClient
             }
         }
 
+        public static int ExecuteNonQuery(DbConnection connection, String commandText, Int32 commandTimeout = 0, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.Execute(commandText, commandTimeout, parameters);
+            }
+        }
+
         #endregion Execute Methods
 
         #region Query Methods
-
+        
         public IEnumerable<dynamic> Query(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -274,6 +298,14 @@ namespace Data.DbClient
             }
         }
 
+        public static IEnumerable<dynamic> Query(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.Query(commandText, commandTimeout, parameters);
+            }
+        }
+
         public IEnumerable<JObject> QueryToJObjects(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -282,6 +314,22 @@ namespace Data.DbClient
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
+        }
+
+        public static IEnumerable<JObject> QueryToJObjects(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryToJObjects(commandText, commandTimeout, parameters);
+            }
+        }
+
+        public static IEnumerable<JObject> QueryToJObjects(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryToJObjects(commandText, commandTimeout, parameters);
+            }
         }
 
         public IEnumerable<T> QueryTransformEach<T>(string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
@@ -302,6 +350,14 @@ namespace Data.DbClient
             }
         }
 
+        public static IEnumerable<T> QueryTransformEach<T>(DbConnection connection, string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryTransformEach(commandText, function, commandTimeout, parameters);
+            }
+        }
+
         public Stream QueryToBson(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -312,6 +368,22 @@ namespace Data.DbClient
             throw new ArgumentNullException("commandText");
         }
 
+        public static Stream QueryToBson(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryToBson(commandText, commandTimeout, parameters);
+            }
+        }
+
+        public static Stream QueryToBson(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryToBson(commandText, commandTimeout, parameters);
+            }
+        }
+
         public Stream QueryToJsonStream(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -320,6 +392,22 @@ namespace Data.DbClient
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
+        }
+
+        public static Stream QueryToJsonStream(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryToJsonStream(commandText, commandTimeout, parameters);
+            }
+        }
+
+        public static Stream QueryToJsonStream(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryToJsonStream(commandText, commandTimeout, parameters);
+            }
         }
 
         public DataTable QueryToDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
@@ -340,6 +428,22 @@ namespace Data.DbClient
             var dt = tableName == null ? new DataTable() : new DataTable(tableName);
             da.Fill(dt);
             return dt;
+        }
+
+        public static DataTable QueryToDataTable(string connectionString, String providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryToDataTable(commandText, tableName, commandTimeout, parameters);
+            }
+        }
+
+        public static DataTable QueryToDataTable(DbConnection connection, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryToDataTable(commandText, tableName, commandTimeout, parameters);
+            }
         }
 
         /*
@@ -448,6 +552,22 @@ namespace Data.DbClient
             throw new ArgumentNullException("commandText");
         }
 
+        public static dynamic QuerySingle(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QuerySingle(commandText, commandTimeout, parameters);
+            }
+        }
+
+        public static dynamic QuerySingle(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QuerySingle(commandText, commandTimeout, parameters);
+            }
+        }
+
         public dynamic QueryValue(string commandText, int commandTimeout = 0, params object[] args)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
@@ -462,6 +582,22 @@ namespace Data.DbClient
                 obj = dbCommand.ExecuteScalar();
             }
             return obj;
+        }
+
+        public static dynamic QueryValue(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenConnectionString(connectionString, providerName))
+            {
+                return db.QueryValue(commandText, commandTimeout, parameters);
+            }
+        }
+
+        public static dynamic QueryValue(DbConnection connection, string commandText, int commandTimeout = 60, params object[] parameters)
+        {
+            using (var db = OpenDbConnection(connection))
+            {
+                return db.QueryValue(commandText, commandTimeout, parameters);
+            }
         }
 
         #endregion Single / Scalar Methods
@@ -705,11 +841,6 @@ namespace Data.DbClient
         #endregion Private Query Methods
 
         #endregion Query Methods
-
-        public object DbNullToNull(object input)
-        {
-            return Convert.DBNull.Equals(input) ? null : input;
-        }
 
         #region IDisposable Region
 

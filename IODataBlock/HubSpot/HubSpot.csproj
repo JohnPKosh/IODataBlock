@@ -50,6 +50,7 @@
     <Compile Include="Models\FormSubmissionModeType.cs" />
     <Compile Include="Models\PropertyModeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactService.cs" />
     <Compile Include="Services\IContactService.cs" />
   </ItemGroup>
   <ItemGroup>
