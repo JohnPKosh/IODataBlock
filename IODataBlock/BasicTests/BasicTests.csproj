@@ -45,12 +45,21 @@
       <HintPath>..\packages\Flurl.Http.0.6.2\lib\net45\Flurl.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.7.2.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.7.2\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
@@ -70,11 +79,17 @@
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="HttpClient\ApiUrlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\TemplatesTest.cs" />
+    <Compile Include="Templates\TestMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business.HttpClient\Business.HttpClient.csproj">
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Business.Templates\Business.Templates.csproj">
+      <Project>{16564C00-FD7C-41EB-853D-F7F7666581DB}</Project>
+      <Name>Business.Templates</Name>
     </ProjectReference>
     <ProjectReference Include="..\Business\Business.Common\Business.Common.csproj">
       <Project>{af1c182a-f249-40d4-83c5-915d83ff9b5c}</Project>
