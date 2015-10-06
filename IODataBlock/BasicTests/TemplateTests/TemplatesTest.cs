@@ -1,13 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Text;
-using System.Collections.Generic;
-using Business.Templates;
+using System.Linq;
+using Business.Templates.deprecated;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
 using UnitTests_01;
 
-namespace BasicTests.Templates
+namespace BasicTests.TemplateTests
 {
     /// <summary>
     /// Summary description for TemplatesTest
@@ -629,5 +628,7 @@ PARENT";
         }
 
         #endregion
+
+
     }
 }

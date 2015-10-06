@@ -4,14 +4,12 @@ using System.Data;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-//using Fasterflect;
-using Business.Common.Reflection;
 using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
 using RazorEngine.Text;
 
-namespace Business.Templates
+namespace Business.Templates.deprecated
 {
     public static class RazorTemplateExtensions
     {
@@ -57,10 +55,22 @@ namespace Business.Templates
 
         #region ParseWithRazor Methods
 
-        public static String ParseWithRazor<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null)
+        public static String ParseWithRazor<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateType = null, RazorTemplateSections sectionTemplates = null)
         {
-            var parser = new TemplateParser();
-            return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, parser.RenderTemplate(obj, typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T), templateString, null, viewBag, sectionTemplates, false, false, null, templateBase));
+            var config = templateType == null ? new TemplateServiceConfiguration() : new TemplateServiceConfiguration { BaseTemplateType = templateType };
+            config.EncodedStringFactory = new HtmlEncodedStringFactory();
+            var service = new TemplateService(config);
+            if (sectionTemplates != null)
+            {
+                foreach (var s in sectionTemplates)
+                {
+                    service.GetTemplate(s.RazorTemplate, s.Model, s.CacheName);
+                }
+            }
+            Razor.SetTemplateService(service);
+            templatePrefix = String.IsNullOrWhiteSpace(templatePrefix) ? String.Empty : templatePrefix;
+            templateSuffix = String.IsNullOrWhiteSpace(templateSuffix) ? String.Empty : templateSuffix;
+            return templatePrefix + service.Parse<T>(templateString, obj, viewBag, String.Format("{0}_ItemTemplate", typeof(T).Name)) + templateSuffix;
         }
 
         public static String ParseWithRazor<T>(this T obj, Func<T, String> templateModelFunction, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateType = null, RazorTemplateSections sectionTemplates = null)
@@ -92,10 +102,25 @@ namespace Business.Templates
 
         #region ParseWithRazorRaw Methods
 
-        public static String ParseWithRazorRaw<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null)
+        public static String ParseWithRazorRaw<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateType = null, RazorTemplateSections sectionTemplates = null)
         {
-            var parser = new TemplateParser();
-            return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, parser.RenderTemplate(obj, typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T), templateString, null, viewBag, sectionTemplates, true, false, null, templateBase));
+            TemplateServiceConfiguration config = templateType == null ? new TemplateServiceConfiguration() : new TemplateServiceConfiguration { BaseTemplateType = templateType };
+
+            config.EncodedStringFactory = new RawStringFactory();
+            var service = new TemplateService(config);
+
+            if (sectionTemplates != null)
+            {
+                foreach (var s in sectionTemplates)
+                {
+                    service.GetTemplate(s.RazorTemplate, s.Model, s.CacheName);
+                }
+            }
+
+            Razor.SetTemplateService(service);
+            templatePrefix = String.IsNullOrWhiteSpace(templatePrefix) ? String.Empty : templatePrefix;
+            templateSuffix = String.IsNullOrWhiteSpace(templateSuffix) ? String.Empty : templateSuffix;
+            return templatePrefix + service.Parse<T>(templateString, obj, viewBag, String.Format("{0}_ItemTemplate", typeof(T).Name)) + templateSuffix;
         }
 
         public static String ParseWithRazorRaw<T>(this T obj, Func<T, String> templateModelFunction, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateType = null, RazorTemplateSections sectionTemplates = null)
@@ -307,11 +332,6 @@ namespace Business.Templates
                 result.Add(e);
                 yield return e;
             }
-        }
-
-        private static string _wrapPrefixAndSuffix(string prefix, string suffix, string value)
-        {
-            return prefix + value + suffix;
         }
 
         #endregion Utiltiy Methods

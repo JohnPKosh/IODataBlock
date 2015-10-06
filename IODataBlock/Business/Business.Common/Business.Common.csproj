@@ -139,6 +139,7 @@
     <Compile Include="IO\ZipExtensionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\PropertyExtenstions.cs" />
+    <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="Reflection\TypeSearch.cs" />
     <Compile Include="Requests\IRequestObject.cs" />
     <Compile Include="Requests\RequestObject.cs" />

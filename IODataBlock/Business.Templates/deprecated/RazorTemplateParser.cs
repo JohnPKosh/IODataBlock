@@ -7,7 +7,7 @@ using RazorEngine.Configuration;
 using RazorEngine.Templating;
 using RazorEngine.Text;
 
-namespace Business.Templates
+namespace Business.Templates.deprecated
 {
     public class RazorTemplateParser
     {
