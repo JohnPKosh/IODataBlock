@@ -1,7 +1,7 @@
 ﻿using Business.Common.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Business.Test.Configuration
+namespace Business.Test.ConfigurationTests
 {
     /// <summary>
     /// Summary description for ConfigMgrTests

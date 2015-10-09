@@ -8,7 +8,7 @@
 
 /IODataBlock/Sandbox4/*.PublishSettings
 /IODataBlock/Sandbox4/Properties/PublishProfiles/
-/IODataBlock/Test/Business.Test/*.config
+/IODataBlock/Test/Business.Test/Configuration/
 /IODataBlock/Sandbox4/Configuration/
 /IODataBlock/Test/Business.Test/Junk/
 

@@ -131,7 +131,7 @@
     <Compile Include="Common\System\Commands\SystemCommandTests.cs" />
     <Compile Include="Common\System\UnixMsTimestampTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
-    <Compile Include="Configuration\ConfigMgrTests.cs" />
+    <Compile Include="ConfigurationTests\ConfigMgrTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkTests.cs" />
@@ -174,12 +174,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="appSettings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="connectionStrings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Configuration\appSettings.config" />
+    <None Include="Configuration\connectionStrings.config" />
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
     <None Include="Junk\allContacts.json" />

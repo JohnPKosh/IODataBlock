@@ -2834,7 +2834,6 @@
     <Content Include="Content\mvc-site.css.map">
       <DependentUpon>mvc-site.css</DependentUpon>
     </Content>
-    <Content Include="johnkoshtest02.azurewebsites.net.PublishSettings" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\f181162e-0ee0-4-231-b9ee - Web Deploy.pubxml" />
     <Content Include="ProjectNotes\NugetCommandSamples.txt" />
