@@ -18,7 +18,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>a3ee8155</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>44111fe2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,36 +46,49 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Business.Common.1.0.6\lib\net452\Business.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CsvHelper.2.13.0.0\lib\net40-client\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DbExtensions">
+    <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Data.DbClient.1.0.6\lib\net452\Data.DbClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DbExtensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=6b3b4f54da52bca4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DbExtensions.5.0.0\lib\net40\DbExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Fasterflect, Version=2.1.3.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Flurl, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.1.0.8\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=0.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Http.0.6.2\lib\net45\Flurl.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Npgsql.2.2.5\lib\net45\Mono.Security.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Npgsql.2.2.5\lib\net45\Npgsql.dll</HintPath>
+    <Reference Include="Npgsql, Version=3.0.1.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Npgsql.3.0.1\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Oracle.ManagedDataAccess.12.1.022\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -83,17 +96,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SQLite, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.96.0\lib\net451\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net451\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\System.Data.SQLite.EF6.1.0.96.0\lib\net451\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\System.Data.SQLite.Linq.1.0.96.0\lib\net451\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -110,7 +119,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\GenericCommandCollectionTests.cs" />
     <Compile Include="Common\CommandCollectionTests.cs" />
+    <Compile Include="Common\GenericCommandObjectTests.cs" />
     <Compile Include="Common\CommandObjectTests.cs" />
     <Compile Include="Common\ObjectBaseTests.cs" />
     <Compile Include="Common\Reflection\PropertyTests.cs" />
@@ -118,8 +129,9 @@
     <Compile Include="Common\System\App\DynamicAppStateTests.cs" />
     <Compile Include="Common\System\App\AppStateTests.cs" />
     <Compile Include="Common\System\Commands\SystemCommandTests.cs" />
+    <Compile Include="Common\System\UnixMsTimestampTests.cs" />
     <Compile Include="Common\TypeSearchTests.cs" />
-    <Compile Include="Configuration\ConfigMgrTests.cs" />
+    <Compile Include="ConfigurationTests\ConfigMgrTests.cs" />
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkTests.cs" />
@@ -134,6 +146,10 @@
     <Compile Include="Security\AesCryptoTest.cs" />
     <Compile Include="Security\RngCryptoTests.cs" />
     <Compile Include="TestUtility\FileCommandDictionary.cs" />
+    <Compile Include="TestUtility\Lerg1Dto.cs" />
+    <Compile Include="TestUtility\ThrowExceptionFromGenericCommand.cs" />
+    <Compile Include="TestUtility\ReadFromFileGenericCommand.cs" />
+    <Compile Include="TestUtility\WriteToFileGenericCommand.cs" />
     <Compile Include="TestUtility\WriteToJsonFileCommand.cs" />
     <Compile Include="TestUtility\ReadFromJsonFileCommand.cs" />
     <Compile Include="TestUtility\FakePerson.cs" />
@@ -151,51 +167,50 @@
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business\Business.Common\Business.Common.csproj">
-      <Project>{af1c182a-f249-40d4-83c5-915d83ff9b5c}</Project>
-      <Name>Business.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data.DbClient\Data.DbClient.csproj">
-      <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
-      <Name>Data.DbClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\HubSpot\HubSpot.csproj">
       <Project>{37a6b3d6-018e-493c-957a-c92d6cf78df5}</Project>
       <Name>HubSpot</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="appSettings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="connectionStrings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\allContacts.json" />
+    <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
+    <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
+    <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
+    <None Include="Junk\sample.md" />
+    <None Include="Junk\sample2.md" />
     <None Include="Junk\server.json" />
     <None Include="Junk\test.appState.json" />
     <None Include="Junk\test.config.json" />
     <None Include="Junk\test.state.json" />
+    <None Include="Junk\Tst1.json" />
     <None Include="packages.config" />
     <None Include="sqliteTest.sl3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Junk\CDR_Bill_Sonus_Lookup.xml" />
+    <Content Include="Junk\email.htm" />
     <Content Include="Junk\G15BVX140.txt" />
+    <Content Include="Junk\Invoice.txt" />
     <Content Include="Junk\kirk.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Junk\kirk_output.xml" />
     <Content Include="Junk\NRFs.txt" />
+    <Content Include="Junk\salesorder.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -223,10 +238,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\packages\System.Data.SQLite.Core.1.0.96.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Data.SQLite.Core.1.0.96.0\build\net451\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets'))" />
   </Target>
   <Import Project="..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
-  <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.96.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.96.0\build\net451\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -66,7 +66,7 @@ namespace Data.DbClient.Fluent
             return this;
         }
 
-        public IEnumerable<dynamic> ExecuteQuery()
+        public IEnumerable<dynamic> Query()
         {
             if (_connection == null) throw new ArgumentNullException("Connection");
             if (string.IsNullOrEmpty(_commandText)) throw new ArgumentNullException("CommandText");

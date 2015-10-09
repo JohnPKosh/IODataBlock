@@ -127,6 +127,16 @@
             <param name="context">The context.</param>
             <returns></returns>
         </member>
+        <member name="T:Sandbox4.MappingConfig">
+            <summary>
+            Project Mapping Config.
+            </summary>
+        </member>
+        <member name="M:Sandbox4.MappingConfig.RegisterMaps">
+            <summary>
+            Registers the AutoMapper Mappings.
+            </summary>
+        </member>
         <member name="T:Sandbox4.RouteConfig">
             <summary>
             Registers Routes for your MVC Web Application

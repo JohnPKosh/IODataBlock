@@ -41,14 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ReportDataTable.cs" />
     <Compile Include="Dialogs\IoDialogUtility.cs" />
     <Compile Include="Imaging\ImageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business.Excel\Business.Excel.csproj">
+      <Project>{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA}</Project>
+      <Name>Business.Excel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Business\Business.Common\Business.Common.csproj">
       <Project>{AF1C182A-F249-40D4-83C5-915D83FF9B5C}</Project>
       <Name>Business.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.DbClient\Data.DbClient.csproj">
+      <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
+      <Name>Data.DbClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

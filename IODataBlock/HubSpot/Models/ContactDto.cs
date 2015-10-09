@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Business.Common.Extensions;
+using Business.Common.System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,6 +10,8 @@ namespace HubSpot.Models
 
     public class ContactDto
     {
+        public UnixMsTimestamp addedAt { get; set; }
+
         public int vid { get; set; }
 
         [JsonProperty("canonical-vid")]

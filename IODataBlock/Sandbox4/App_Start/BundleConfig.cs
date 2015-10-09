@@ -62,7 +62,7 @@ namespace Sandbox4
             //          "~/Content/style.css", new CssRewriteUrlTransform()));
 
             var cssAdminStyleBundle = new StyleBundle("~/bundles/admin-styles/css");
-            cssAdminStyleBundle.Include("~/Content/admin-styles.less");
+            cssAdminStyleBundle.Include("~/Content/admin-styles.min.css");
             cssAdminStyleBundle.Transforms.Add(new StyleTransformer());
             cssAdminStyleBundle.Orderer = nullOrderer;
             bundles.Add(cssAdminStyleBundle);

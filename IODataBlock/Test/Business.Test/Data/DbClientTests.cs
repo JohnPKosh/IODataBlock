@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Test.TestUtility;
 using Data.DbClient.Extensions;
 using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +18,15 @@ namespace Business.Test.Data
     [TestClass]
     public class DbClientTests
     {
+        public DbClientTests()
+        {
+            _npgsqlConnectionString = _configMgr.GetConnectionString("qixlrn");
+            _mySqlConnectionString = _configMgr.GetConnectionString("mysql_local");
+            _oracleConnectionString = _configMgr.GetConnectionString("oracle");
+        }
+
+        private readonly ConfigMgr _configMgr = new ConfigMgr();
+
         //private const string SqlServer = @"(localdb)\ProjectsV12";
 
         //private const string SqlServerDatabase = @"IODataBlock.Database";
@@ -31,9 +43,9 @@ namespace Business.Test.Data
             }
         }
 
-        private const string MySqlConnectionString = @"Server=localhost;Database=test;Uid=admin;Pwd=2n6Kr6dQoY8#;";
+        private readonly string _mySqlConnectionString;
 
-        private const string NpgsqlConnectionString = "connection string goes here";
+        private readonly string _npgsqlConnectionString;
 
         private const string SqliteFile = "sqliteTest.sl3";
 
@@ -45,6 +57,8 @@ namespace Business.Test.Data
             }
         }
 
+        private readonly string _oracleConnectionString;
+
         #region Npgsql
 
         [TestMethod]
@@ -52,7 +66,7 @@ namespace Business.Test.Data
         {
             //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
 
-            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            using (var db = Database.OpenConnectionString(_npgsqlConnectionString, "Npgsql"))
             {
                 db.Connection.Open();
                 if (db.Connection.State != ConnectionState.Open) Assert.Fail();
@@ -70,7 +84,7 @@ namespace Business.Test.Data
                 FROM tn2lrn216
                 limit 100;";
 
-            using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
+            using (var db = Database.OpenConnectionString(_npgsqlConnectionString, "Npgsql"))
             {
                 var data = db.QueryToJObjects(sql, 120);
                 if (!data.Any())
@@ -89,7 +103,7 @@ namespace Business.Test.Data
         [TestMethod]
         public void QueryMySqlTest()
         {
-            using (var db = Database.OpenConnectionString(MySqlConnectionString, "MySql.Data.MySqlClient"))
+            using (var db = Database.OpenConnectionString(_mySqlConnectionString, "MySql.Data.MySqlClient"))
             {
                 #region sql
 
@@ -147,6 +161,98 @@ ORDER BY [ORDINAL_POSITION]
             #endregion sql
 
             var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, "LERG%");
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void TestStaticDatabaseQuery2()
+        {
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+,NULL as testnull
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            var myparams = new List<object>() {"LERG%"};
+            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, myparams.ToArray());
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void TestQueryQueryTransformToTest1()
+        {
+            #region sql
+
+            var sql = @"SELECT [OCN_#] as [OCN], [OCN_NAME], [CATEGORY] FROM [LERG].[dbo].[LERG 1]";
+
+            #endregion sql
+
+            var data = Database.QueryTransformEach(SqlServerConnectionString, "System.Data.SqlClient", sql, Lerg1DtoLoad, 120, "LERG%");
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+        }
+
+        private static Lerg1Dto Lerg1DtoLoad(JObject jObject)
+        {
+            return new Lerg1Dto()
+            {
+                Ocn = jObject.Value<string>("OCN"),
+                OcnName = jObject.Value<string>("OCN_NAME"),
+                Category = jObject.Value<string>("CATEGORY")
+            };
+        }
+
+        [TestMethod]
+        public void TestQueryQueryTransformToTest2()
+        {
+            #region sql
+
+            var sql = @"SELECT [OCN_#] as [OCN], [OCN_NAME], [CATEGORY] FROM [LERG].[dbo].[LERG 1]";
+
+            #endregion sql
+
+            var data = Database.QueryTransformEach(SqlServerConnectionString, "System.Data.SqlClient", sql, o => new Lerg1Dto()
+            {
+                Ocn = o.Value<string>("OCN"),
+                OcnName = o.Value<string>("OCN_NAME"),
+                Category = o.Value<string>("CATEGORY")
+            }, 120, "LERG%");
             if (!data.Any())
             {
                 Assert.Fail();
@@ -582,6 +688,22 @@ ORDER BY [ORDINAL_POSITION]
         }
 
         #endregion SQLite
+
+        #region Oracle
+
+        [TestMethod]
+        public void ConnectOracleTest()
+        {
+            //var name = typeof (Npgsql.NpgsqlFactory).AssemblyQualifiedName;
+
+            using (var db = Database.OpenConnectionString(_oracleConnectionString, "Oracle.ManagedDataAccess.Client"))
+            {
+                db.Connection.Open();
+                if (db.Connection.State != ConnectionState.Open) Assert.Fail();
+            }
+        }
+
+        #endregion Oracle
 
         #region DbExtensions.SqlBuilder Tests
 
