@@ -138,10 +138,6 @@
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
-    <None Include="Junk\DbCmd.cs" />
-    <None Include="Junk\DbCmdCollection.cs" />
-    <None Include="Junk\DbCmdRepeatSequence.cs" />
-    <None Include="Junk\DbProviders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
     <Compile Include="Common\ClassExtensionBaseTests.cs" />

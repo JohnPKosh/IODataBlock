@@ -166,3 +166,14 @@ $RECYCLE.BIN/
 /IODataBlock/BusinessCommon/App_Data/AutoDialerResults/2015-06-05 182408.json
 /IODataBlock/LessWeb/App_Data/aspnet-MVC5Bootstrap-3-1-1-Less-20140302121355.mdf
 /IODataBlock/LessWeb/App_Data/aspnet-MVC5Bootstrap-3-1-1-Less-20140302121355_log.ldf
+
+/IODataBlock/Sandbox4/Configuration/
+/IODataBlock/Test/Business.Test/Junk/
+
+*.PublishSettings
+
+/IODataBlock/Sandbox4/johnkoshtest02.azurewebsites.net.PublishSettings
+/IODataBlock/Sandbox4/Properties/PublishProfiles
+
+/IODataBlock/Test/Business.Test/appSettings.config
+/IODataBlock/Test/Business.Test/connectionStrings.config
