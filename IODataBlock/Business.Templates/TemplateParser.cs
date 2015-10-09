@@ -9,15 +9,15 @@ namespace Business.Templates
 {
     public class TemplateParser
     {
-        public String RenderTemplate(object model, Type modelType, string templateString, string templateName = null, DynamicViewBag viewBag = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public String RenderTemplate(object model, Type modelType, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
-            return RunTemplate(model, modelType, templateString, templateName, viewBag, sectionTemplates, config);
+            return RunTemplate(model, modelType, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public String RunTemplate(object model, Type modelType, string templateString, string templateName = null, DynamicViewBag viewBag = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
+        public String RunTemplate(object model, Type modelType, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
         {
-            templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_Template", model.GetType().IsAnonymousOrDynamicType() ? "anonymous": model.GetType().Name): templateName;
+            templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_Template", model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name) : templateName;
             if (config == null) config = new TemplateServiceConfiguration();
             using (var service = RazorEngineService.Create(config))
             {
@@ -25,26 +25,21 @@ namespace Business.Templates
                 {
                     foreach (var s in sectionTemplates)
                     {
-                        //service.AddTemplate(s.CacheName, s.RazorTemplate);
-                        //service.AddTemplate(s.CacheName, new LoadedTemplateSource(s.RazorTemplate));
                         service.Compile(s.RazorTemplate, s.CacheName, s.ModelType ?? modelType);
                     }
                 }
-                // ReSharper disable once InvokeAsExtensionMethod
-                //return RazorEngineServiceExtensions.RunCompile(service, template, templateName, modelType: modelType, model: model, viewBag: viewBag);
-
                 service.Compile(templateString, templateName, modelType);
-                return service.Run(templateName, modelType, model, viewBag);
+                return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, service.Run(templateName, modelType, model, viewBag));
             }
         }
 
-        public IEnumerable<String> RenderTemplates(IEnumerable<object> model, Type modelType, string templateString, string templateName = null, DynamicViewBag viewBag = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public IEnumerable<String> RenderTemplates(IEnumerable<object> model, Type modelType, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
-            return RunTemplates(model, modelType, templateString, templateName, viewBag, sectionTemplates, config);
+            return RunTemplates(model, modelType, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public IEnumerable<String> RunTemplates(IEnumerable<object> model, Type modelType, string templateString, string templateName = null, DynamicViewBag viewBag = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
+        public IEnumerable<String> RunTemplates(IEnumerable<object> model, Type modelType, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
         {
             templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_ItemTemplate", model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name) : templateName;
             if (config == null) config = new TemplateServiceConfiguration();
@@ -54,15 +49,13 @@ namespace Business.Templates
                 {
                     foreach (var s in sectionTemplates)
                     {
-                        //service.AddTemplate(s.CacheName, s.RazorTemplate);
-                        //service.AddTemplate(s.CacheName, new LoadedTemplateSource(s.RazorTemplate));
                         service.Compile(s.RazorTemplate, s.CacheName, s.ModelType ?? modelType);
                     }
                 }
                 service.Compile(templateString, templateName, modelType);
                 foreach (var o in model)
                 {
-                    yield return service.Run(templateName, modelType, o, viewBag);
+                    yield return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, service.Run(templateName, modelType, o, viewBag));
                 }
             }
         }
@@ -85,6 +78,12 @@ namespace Business.Templates
             }
             if (templateBase != null) config.BaseTemplateType = templateBase;
             return config;
+        }
+
+        private string _wrapPrefixAndSuffix(string prefix, string suffix, string value)
+        {
+            if (prefix == null && suffix == null) return value;
+            return prefix + value + suffix;
         }
     }
 }

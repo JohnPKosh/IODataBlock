@@ -210,6 +210,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Junk\CDR_Bill_Sonus_Lookup.xml" />
+    <Content Include="Junk\email.htm" />
     <Content Include="Junk\G15BVX140.txt" />
     <Content Include="Junk\Invoice.txt" />
     <Content Include="Junk\kirk.xml">

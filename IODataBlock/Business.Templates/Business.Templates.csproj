@@ -69,6 +69,7 @@
     <Compile Include="deprecated\RazorTemplateParser.cs" />
     <Compile Include="deprecated\RazorTemplateSection.cs" />
     <Compile Include="deprecated\RazorTemplateSections.cs" />
+    <Compile Include="GenericTemplateParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorTemplateExtensions.cs" />
     <Compile Include="RazorTemplateParser.cs" />
