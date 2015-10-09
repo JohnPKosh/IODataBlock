@@ -174,8 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Configuration\appSettings.config" />
-    <None Include="Configuration\connectionStrings.config" />
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
     <None Include="Junk\allContacts.json" />
@@ -199,7 +197,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Junk\CDR_Bill_Sonus_Lookup.xml" />
     <Content Include="Junk\email.htm" />
