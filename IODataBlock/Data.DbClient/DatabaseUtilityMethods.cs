@@ -380,26 +380,37 @@ namespace Data.DbClient
 
         public static String CreateSqlServer2008BatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
         {
-            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+            var originalSelect = selectSql.Substring(0, selectSql.IndexOf("from", StringComparison.InvariantCultureIgnoreCase));
+
+            var offset = (batchNumber * batchSize);
+            var limit = (offset + batchSize)-1;
+
+            
             const string template = @"
 WITH [temp_batch_table] AS
 (
     $(InputSql)
 )
-SELECT *
+$(originalSelect)
 FROM [temp_batch_table]
-WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
+WHERE [RowNumber] BETWEEN $(Offset) AND $(Limit);
 ";
-
+            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS RowNumber, ".Replace("$(RowOrderBy)", rowOrderBy);
             var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
             selectSql = selectSql.Insert(selectIdx, rowNumberSql);
-            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
+            var outputSql = template.Replace("$(Limit)", limit.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(InputSql)", selectSql)
+                .Replace("$(originalSelect)", originalSelect);
 
             return outputSql;
         }
 
         public static String CreateSqlServer2008CountSelect(String selectSql, Int32 batchSize = 0)
         {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
             string template;
             if (batchSize < 1)
             {
@@ -415,6 +426,230 @@ FROM
             {
                 template = @"
 SELECT (COUNT(*) / $(BatchSize)) as [cnt]
+FROM
+(
+    $(InputSql)
+) as a
+".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var outputSql = template.Replace("$(InputSql)", selectSql);
+            return outputSql;
+        }
+
+        #endregion
+
+        #region MySql Server Script Utilities
+
+        public static String CreateMySqlBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
+            var offset = (batchNumber*batchSize);
+            const string template = @"
+SELECT *
+FROM 
+(
+    $(InputSql)
+) as a
+$(OrderBy)
+LIMIT $(BatchSize) OFFSET $(Offset);
+";
+            //if(!String.IsNullOrWhiteSpace(rowOrderBy))
+            var outputSql = template.Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(InputSql)", selectSql)
+                .Replace("$(OrderBy)", !string.IsNullOrWhiteSpace(rowOrderBy) ? $@"ORDER BY {rowOrderBy}" :string.Empty);
+
+            return outputSql;
+        }
+
+        public static String CreateMySqlCountSelect(String selectSql, Int32 batchSize = 0)
+        {
+            string template;
+            if (batchSize < 1)
+            {
+                template = @"
+SELECT COUNT(*) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+";
+            }
+            else
+            {
+                template = @"
+SELECT (COUNT(*) / $(BatchSize)) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var outputSql = template.Replace("$(InputSql)", selectSql);
+            return outputSql;
+        }
+
+        #endregion
+
+        #region PostgreSql Server Script Utilities
+
+        public static String CreatePostgreSqlBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
+            var offset = (batchNumber * batchSize);
+            const string template = @"
+SELECT *
+FROM 
+(
+    $(InputSql)
+) as a
+$(OrderBy)
+LIMIT $(BatchSize) OFFSET $(Offset);
+";
+            //if(!String.IsNullOrWhiteSpace(rowOrderBy))
+            var outputSql = template.Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(InputSql)", selectSql)
+                .Replace("$(OrderBy)", !string.IsNullOrWhiteSpace(rowOrderBy) ? $@"ORDER BY {rowOrderBy}" : string.Empty);
+
+            return outputSql;
+        }
+
+        public static String CreatePostgreSqlCountSelect(String selectSql, Int32 batchSize = 0)
+        {
+            string template;
+            if (batchSize < 1)
+            {
+                template = @"
+SELECT COUNT(*) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+";
+            }
+            else
+            {
+                template = @"
+SELECT (COUNT(*) / $(BatchSize)) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var outputSql = template.Replace("$(InputSql)", selectSql);
+            return outputSql;
+        }
+
+        #endregion
+
+        #region Sqlite Server Script Utilities
+
+        public static String CreateSqliteBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
+            var offset = (batchNumber * batchSize);
+            const string template = @"
+SELECT *
+FROM 
+(
+    $(InputSql)
+) as a
+$(OrderBy)
+LIMIT $(BatchSize) OFFSET $(Offset);
+";
+            //if(!String.IsNullOrWhiteSpace(rowOrderBy))
+            var outputSql = template.Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(InputSql)", selectSql)
+                .Replace("$(OrderBy)", !string.IsNullOrWhiteSpace(rowOrderBy) ? $@"ORDER BY {rowOrderBy}" : string.Empty);
+
+            return outputSql;
+        }
+
+        public static String CreateSqliteCountSelect(String selectSql, Int32 batchSize = 0)
+        {
+            string template;
+            if (batchSize < 1)
+            {
+                template = @"
+SELECT COUNT(*) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+";
+            }
+            else
+            {
+                template = @"
+SELECT (COUNT(*) / $(BatchSize)) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var outputSql = template.Replace("$(InputSql)", selectSql);
+            return outputSql;
+        }
+
+        #endregion
+
+        #region SQL Server Script Utilities
+
+        public static String CreateOracleBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
+            var offset = (batchNumber * batchSize);
+            var limit = (offset + batchSize)-1;
+
+            const string template = @"
+SELECT *
+FROM(
+        $(InputSql)        
+    ) a
+WHERE [RowNumber] BETWEEN $(Offset) AND $(Limit);
+";
+
+            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS RowNumber, ".Replace("$(RowOrderBy)", rowOrderBy);
+            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
+            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
+            var outputSql = template.Replace("$(Limit)", limit.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
+                .Replace("$(InputSql)", selectSql);
+
+            return outputSql;
+        }
+
+        public static String CreateOracleCountSelect(String selectSql, Int32 batchSize = 0)
+        {
+            if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
+
+            string template;
+            if (batchSize < 1)
+            {
+                template = @"
+SELECT COUNT(*) as cnt
+FROM
+(
+    $(InputSql)
+) as a
+";
+            }
+            else
+            {
+                template = @"
+SELECT (COUNT(*) / $(BatchSize)) as cnt
 FROM
 (
     $(InputSql)

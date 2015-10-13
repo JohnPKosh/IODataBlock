@@ -97,6 +97,7 @@
     <Compile Include="Configuration\DbProviderFactoryWrapper.cs" />
     <Compile Include="Extensions\DataExtensionBase.cs" />
     <Compile Include="Extensions\DbClientJsonExtensions.cs" />
+    <Compile Include="Extensions\PagedQueryExtensions.cs" />
     <Compile Include="Extensions\ProviderTypeExtensions.cs" />
     <Compile Include="Extensions\SchemaReader.cs" />
     <Compile Include="Extensions\SqlBuilderExtensions.cs" />

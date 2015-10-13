@@ -910,7 +910,6 @@ namespace Data.DbClient
             return rv;
         }
 
-
         #endregion Private Query Methods
 
         #endregion Query Methods
