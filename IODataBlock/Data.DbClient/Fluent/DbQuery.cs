@@ -6,6 +6,8 @@ namespace Data.DbClient.Fluent
 {
     public class DbQuery
     {
+        #region Class Initialization
+
         public DbQuery(DbConnection connection, String commandText, Int32 commandTimeout, params object[] parameters)
         {
             Connection = connection;
@@ -13,6 +15,10 @@ namespace Data.DbClient.Fluent
             CommandTimeout = commandTimeout;
             Parameters = parameters;
         }
+
+        #endregion Class Initialization
+
+        #region Fields and Properties
 
         public DbConnection Connection { get; set; }
 
@@ -22,6 +28,10 @@ namespace Data.DbClient.Fluent
 
         public object[] Parameters { get; set; }
 
+        #endregion
+
+        #region Public Methods
+
         public IEnumerable<dynamic> ExecuteQuery()
         {
             if (Connection == null) throw new ArgumentNullException(paramName: "Connection");
@@ -30,6 +40,8 @@ namespace Data.DbClient.Fluent
             {
                 return db.Query(CommandText, CommandTimeout, Parameters);
             }
-        }
+        } 
+
+        #endregion
     }
 }
