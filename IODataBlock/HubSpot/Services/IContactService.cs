@@ -70,7 +70,7 @@ namespace HubSpot.Services
         /* http://developers.hubspot.com/docs/methods/contacts/get_contact_by_email */
         /* Example URL:  https://api.hubapi.com/contacts/v1/contact/email/testingapis@hubspot.com/profile?hapikey=demo */
 
-        IResponseObject GetContactByEmail(string email, string property = null, PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest, bool showListMemberships = false);
+        IResponseObject<string, string> GetContactByEmail(string email, IEnumerable<string> properties = null, PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest, bool showListMemberships = false);
 
         /* http://developers.hubspot.com/docs/methods/contacts/get_batch_by_email */
         /* Example URL:  http://api.hubapi.com/contacts/v1/contact/emails/batch/?portalId=62515&email=testingapis@hubspot.com&email=testingapisawesomeandstuff@hubspot.com&hapikey=demo */

@@ -1,4 +1,6 @@
-﻿using Business.Common.Configuration;
+﻿using System;
+using System.Globalization;
+using Business.Common.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.ConfigurationTests
@@ -12,7 +14,7 @@ namespace Business.Test.ConfigurationTests
         public ConfigMgrTests()
         {
             appSettingKey = "testKey";
-            appSettingValue = "Hello World";
+            appSettingValue = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
             appSettingTempKey = "tempKey";
             appSettingTempValue = "Only passing through.";

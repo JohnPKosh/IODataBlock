@@ -65,33 +65,33 @@ namespace HubSpot.Models
         public bool selected { get; set; }
     }
 
-    public class Country 
-    {
-        public string value { get; set; }
+    //public class Country 
+    //{
+    //    public string value { get; set; }
 
-        public List<Version> versions { get; set; }
-    }
+    //    public List<Version> versions { get; set; }
+    //}
 
-    public class HsAnalyticsLastUrl 
-    {
-        public string value { get; set; }
+    //public class HsAnalyticsLastUrl 
+    //{
+    //    public string value { get; set; }
 
-        public List<Version> versions { get; set; }
-    }
+    //    public List<Version> versions { get; set; }
+    //}
 
-    public class NumUniqueConversionEvents
-    {
-        public string value { get; set; }
+    //public class NumUniqueConversionEvents
+    //{
+    //    public string value { get; set; }
 
-        public List<Version> versions { get; set; }
-    }
+    //    public List<Version> versions { get; set; }
+    //}
 
-    public class HsAnalyticsRevenue
-    {
-        public string value { get; set; }
+    //public class HsAnalyticsRevenue
+    //{
+    //    public string value { get; set; }
 
-        public List<Version> versions { get; set; }
-    }
+    //    public List<Version> versions { get; set; }
+    //}
 
     public class Createdate
     {
@@ -100,12 +100,12 @@ namespace HubSpot.Models
         public List<Version> versions { get; set; }
     }
 
-    public class HsAnalyticsFirstReferrer
-    {
-        public string value { get; set; }
+    //public class HsAnalyticsFirstReferrer
+    //{
+    //    public string value { get; set; }
 
-        public List<Version> versions { get; set; }
-    }
+    //    public List<Version> versions { get; set; }
+    //}
 
     public class HsEmailOptout
     {
@@ -475,17 +475,17 @@ namespace HubSpot.Models
 
     public class Properties
     {
-        public Country country { get; set; }
+        public StringItem country { get; set; }
 
-        public HsAnalyticsLastUrl hs_analytics_last_url { get; set; }
+        public StringItem hs_analytics_last_url { get; set; }
 
-        public NumUniqueConversionEvents num_unique_conversion_events { get; set; }
+        public StringItem num_unique_conversion_events { get; set; }
 
-        public HsAnalyticsRevenue hs_analytics_revenue { get; set; }
+        public StringItem hs_analytics_revenue { get; set; }
 
-        public Createdate createdate { get; set; }
+        public StringItem createdate { get; set; }
 
-        public HsAnalyticsFirstReferrer hs_analytics_first_referrer { get; set; }
+        public StringItem hs_analytics_first_referrer { get; set; }
 
         public HsEmailOptout hs_email_optout { get; set; }
 

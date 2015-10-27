@@ -114,7 +114,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -136,6 +138,7 @@
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,12 +186,17 @@
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
     <None Include="Junk\allContacts.json" />
+    <None Include="Junk\allContactsdynamic.json" />
+    <None Include="Junk\allPropertiesDto.json" />
+    <None Include="Junk\allPropertiesDynamic.json" />
     <None Include="Junk\contactByIdClone.json" />
+    <None Include="Junk\contactByIdDynamic.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
+    <None Include="Junk\RawContactProperties.json" />
     <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
     <None Include="Junk\sample.md" />
@@ -214,6 +222,7 @@
     </Content>
     <Content Include="Junk\kirk_output.xml" />
     <Content Include="Junk\NRFs.txt" />
+    <Content Include="Junk\OutboundSalesFriendly.html" />
     <Content Include="Junk\salesorder.xml" />
   </ItemGroup>
   <Choose>

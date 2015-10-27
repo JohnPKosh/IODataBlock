@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Business.Common.Extensions;
+using Newtonsoft.Json;
 
 namespace Business.Common.System
 {
@@ -10,6 +11,9 @@ namespace Business.Common.System
     public class UnixMsTimestamp
     {
         #region Class Initialization
+
+        //[JsonConstructor]
+        public UnixMsTimestamp(){}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnixMsTimestamp"/> class.
@@ -95,7 +99,7 @@ namespace Business.Common.System
         /// </returns>
         static public implicit operator UnixMsTimestamp(Int64? value)
         {
-            return new UnixMsTimestamp(value);
+            return new UnixMsTimestamp() { Value = value };
         }
 
         /// <summary>
@@ -107,7 +111,10 @@ namespace Business.Common.System
         /// </returns>
         static public implicit operator UnixMsTimestamp(DateTime? value)
         {
-            return new UnixMsTimestamp(value);
+            var date1 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var val = value.HasValue && value.Value > date1 ? (Int64?)Convert.ToInt64((value.Value.ToUniversalTime() - date1).TotalMilliseconds) : null;
+
+            return new UnixMsTimestamp() { Value = val };
         }
 
         /// <summary>
@@ -119,7 +126,10 @@ namespace Business.Common.System
         /// </returns>
         static public implicit operator UnixMsTimestamp(string value)
         {
-            return new UnixMsTimestamp(value);
+            long? val;
+            if (value.IsNullOrWhiteSpace()) val = null;
+            else val = long.Parse(value);
+            return new UnixMsTimestamp() { Value = val };
         }
 
         #endregion Conversion Operators
