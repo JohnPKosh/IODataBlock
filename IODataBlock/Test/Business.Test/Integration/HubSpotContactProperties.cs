@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Flurl;
@@ -50,12 +51,33 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyDto>>().Result;
+            .GetJsonAsync<List<ContactPropertyDto>>().Result.OrderBy(x=>x.name);
 
             if (result == null) Assert.Fail();
             else
             {
                 result.WriteJsonToFilePath(@"SampleResults\allPropertiesDto.json", new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate });
+            }
+        }
+
+        [TestMethod]
+        public void GetAllPropertiesTest2()
+        {
+            /* https://api.hubapi.com/contacts/v2/properties?hapikey=demo */
+
+            var result = "https://api.hubapi.com/contacts/v2/properties"
+            .SetQueryParam("hapikey", _hapiKey)
+            .GetJsonAsync<List<ContactPropertyDto>>().Result;
+
+            if (result == null) Assert.Fail();
+            else
+            {
+                Dictionary<string, string> d = new Dictionary<string, string>();
+                foreach (var r in result.OrderBy(x=> x.name))
+                {
+                    d.Add(r.name, r.type);
+                }
+                d.WriteJsonToFilePath(@"c:\junk\contactpropnames.json");
             }
         }
     }

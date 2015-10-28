@@ -475,6 +475,12 @@ namespace HubSpot.Models
 
     public class Properties
     {
+        //associatedcompanyid
+
+        public StringItem associatedcompanyid { get; set; }
+
+        public StringItem hs_lead_status { get; set; }
+
         public StringItem country { get; set; }
 
         public StringItem hs_analytics_last_url { get; set; }
