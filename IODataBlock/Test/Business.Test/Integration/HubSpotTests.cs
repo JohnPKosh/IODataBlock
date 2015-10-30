@@ -16,7 +16,8 @@ using HubSpot.Models;
 using HubSpot.Services;
 using Business.Common.Extensions;
 using Business.Common.System;
-using Version = HubSpot.Models.Version;
+using HubSpot.Models.Contacts;
+using Version = HubSpot.Models.Contacts.Version;
 
 namespace Business.Test.Integration
 {

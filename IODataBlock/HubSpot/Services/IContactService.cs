@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Business.Common.Responses;
 using HubSpot.Models;
+using HubSpot.Models.Contacts;
 
 namespace HubSpot.Services
 {

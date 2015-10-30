@@ -5,6 +5,7 @@ using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
 using HubSpot.Models;
+using HubSpot.Models.Contacts;
 using HubSpot.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;

@@ -15,7 +15,8 @@ using Newtonsoft.Json.Linq;
 using HubSpot.Models;
 using Business.Common.Extensions;
 using Business.Common.Responses;
-using Version = HubSpot.Models.Version;
+using HubSpot.Models.Contacts;
+using Version = HubSpot.Models.Contacts.Version;
 
 namespace HubSpot.Services
 {
@@ -26,9 +27,12 @@ namespace HubSpot.Services
             //var configMgr = new ConfigMgr();
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
+            //_propertyManager = new PropertyManager(hapikey);
         }
 
         private readonly string _hapiKey;
+
+        //private readonly PropertyManager _propertyManager;
 
         public IResponseObject CreateContact(string value)
         {

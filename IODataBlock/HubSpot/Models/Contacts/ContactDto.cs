@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.Extensions;
+﻿using System.Collections.Generic;
 using Business.Common.System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace HubSpot.Models
+namespace HubSpot.Models.Contacts
 {
 
     public class ContactDto

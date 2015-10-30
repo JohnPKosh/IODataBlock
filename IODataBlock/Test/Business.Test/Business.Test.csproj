@@ -47,7 +47,7 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.6\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Common.1.0.8\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -55,11 +55,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Data.DbClient.1.0.6\lib\net452\Data.DbClient.dll</HintPath>
+      <HintPath>..\..\packages\Data.DbClient.1.0.7\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DbExtensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=6b3b4f54da52bca4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DbExtensions.5.0.0\lib\net40\DbExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Fasterflect, Version=2.1.3.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
@@ -139,6 +147,7 @@
     <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\FormsServiceTests.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
@@ -195,10 +204,12 @@
     <None Include="Junk\allPropertiesDynamic.json" />
     <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\contactByIdDynamic.json" />
+    <None Include="Junk\ContactPropertyList.json" />
     <None Include="Junk\contactpropnames.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
+    <None Include="Junk\formlist.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\RawContactProperties.json" />

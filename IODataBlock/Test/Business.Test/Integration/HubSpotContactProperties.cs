@@ -8,6 +8,7 @@ using Business.Common.Extensions;
 using Flurl;
 using Flurl.Http;
 using HubSpot.Models;
+using HubSpot.Models.Contacts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -21,9 +22,23 @@ namespace Business.Test.Integration
         {
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
+            _propertyManager = new PropertyManager(_hapiKey);
         }
 
         private readonly string _hapiKey;
+        private readonly PropertyManager _propertyManager;
+
+        [TestMethod]
+        public void PropertyManagerTest()
+        {
+            var props =_propertyManager.Properties;
+            var lastUpdated = _propertyManager.LastUpdated;
+            Assert.IsNotNull(props);
+            Assert.IsNotNull(lastUpdated.Value);
+        }
+
+
+
 
         /* http://developers.hubspot.com/docs/methods/contacts/v2/get_contacts_properties */
 

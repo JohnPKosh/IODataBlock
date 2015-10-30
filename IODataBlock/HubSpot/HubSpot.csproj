@@ -54,16 +54,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Base\PropertyItem.cs" />
     <Compile Include="Models\BooleanItem.cs" />
-    <Compile Include="Models\ContactDto.cs" />
-    <Compile Include="Models\ContactListDto.cs" />
-    <Compile Include="Models\ContactPropertyDto.cs" />
+    <Compile Include="Models\Contacts\ContactDto.cs" />
+    <Compile Include="Models\Contacts\ContactListDto.cs" />
+    <Compile Include="Models\Contacts\ContactPropertyDto.cs" />
+    <Compile Include="Models\Contacts\ContactPropertyListDto.cs" />
+    <Compile Include="Models\Contacts\PropertyManager.cs" />
+    <Compile Include="Models\Contacts\PropertyState.cs" />
     <Compile Include="Models\FormSubmissionModeType.cs" />
     <Compile Include="Models\PropertyModeType.cs" />
     <Compile Include="Models\StringItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactPropertyService.cs" />
     <Compile Include="Services\ContactService.cs" />
+    <Compile Include="Services\FormsService.cs" />
+    <Compile Include="Services\IContactPropertyService.cs" />
     <Compile Include="Services\IContactService.cs" />
+    <Compile Include="Services\IFormsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -89,7 +97,9 @@
       <Name>Business.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -74,6 +74,20 @@ namespace Business.Common.IO
             set { _pvtDefaultFolderPath = value; }
         }
 
+        private static String _pvtAppDataFolderPath = String.Empty;
+
+        public static string AppDataFolderPath
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_pvtAppDataFolderPath)) return _pvtAppDataFolderPath;
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                _pvtAppDataFolderPath = Path.Combine(baseDirectory.Substring(0, baseDirectory.LastIndexOf(@"\", StringComparison.Ordinal)), @"App_Data");
+                return _pvtAppDataFolderPath;
+            }
+            set { _pvtAppDataFolderPath = value; }
+        }
+
         private static String _pvtDefaultLogFolderPath = String.Empty;
 
         public static String DefaultLogFolderPath
