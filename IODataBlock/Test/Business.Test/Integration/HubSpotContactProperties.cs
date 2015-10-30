@@ -95,5 +95,26 @@ namespace Business.Test.Integration
                 d.WriteJsonToFilePath(@"c:\junk\contactpropnames.json");
             }
         }
+
+        [TestMethod]
+        public void GetAllPropertyTypes()
+        {
+            /* https://api.hubapi.com/contacts/v2/properties?hapikey=demo */
+
+            var result = "https://api.hubapi.com/contacts/v2/properties"
+            .SetQueryParam("hapikey", _hapiKey)
+            .GetJsonAsync<List<ContactPropertyDto>>().Result;
+
+            if (result == null) Assert.Fail();
+            else
+            {
+                HashSet<string> d = new HashSet<string>();
+                foreach (var r in result.OrderBy(x => x.name))
+                {
+                    d.Add(r.type);
+                }
+                d.WriteJsonToFilePath(@"c:\junk\contactproptypes.json");
+            }
+        }
     }
 }

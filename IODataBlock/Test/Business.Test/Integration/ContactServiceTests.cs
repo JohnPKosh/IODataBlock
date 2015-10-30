@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
@@ -40,7 +41,32 @@ namespace Business.Test.Integration
             else
             {
                 var data = ro.ResponseData;
-                var dto = ClassExtensions.CreateFromJson<ContactDto>(data);
+                var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+                Assert.IsNotNull(dto);
+            }
+        }
+
+        [TestMethod]
+        public void GetAllContactsDynamicTest()
+        {
+            var service = new ContactService(_hapiKey);
+            var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
+
+
+            var ro = service.GetAllContacts();
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+                var dto = ClassExtensions.CreateFromJson<ExpandoObject>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+                Assert.IsNotNull(dto);
+
+                var jdata = JObject.Parse(data);
+                Assert.IsNotNull(jdata);
+                File.WriteAllText(@"C:\junk\rawgetallcontacts.json", data);
             }
         }
 
@@ -115,36 +141,36 @@ namespace Business.Test.Integration
             contacts.WriteJsonToFilePath(@"c:\junk\allpagedcontactsleadstatus.json");
         }
 
-        [TestMethod]
-        public void GetAllContactsLeadStatusPagingTest2()
-        {
-            var service = new ContactService(_hapiKey);
-            var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+        //[TestMethod]
+        //public void GetAllContactsLeadStatusPagingTest2()
+        //{
+        //    var service = new ContactService(_hapiKey);
+        //    var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
 
-            int? lastId = null;
-            var moreResults = true;
-            var contacts = new List<dynamic>();
+        //    int? lastId = null;
+        //    var moreResults = true;
+        //    var contacts = new List<dynamic>();
 
-            while (moreResults)
-            {
-                var ro = service.GetAllContacts(100, lastId, properties: props);
-                if (ro.HasExceptions)
-                {
-                    Assert.Fail();
-                }
-                else
-                {
-                    var data = ro.ResponseData;
-                    //var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
-                    var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-                    moreResults = dto.has_more;
-                    lastId = dto.vid_offset;
-                    dynamic o = new ExpandoObject();
-                    contacts.AddRange(dto.contacts.Select(x=> new { lastname = x.properties.lastname, firstname = x.properties.firstname, email = x.properties.email, hs_lead_status = x.properties.hs_lead_status, lifecyclestage = x.properties.lifecyclestage }));
-                }
-            }
-            contacts.WriteJsonToFilePath(@"c:\junk\allpagedcontactsleadstatus2.json");
-        }
+        //    while (moreResults)
+        //    {
+        //        var ro = service.GetAllContacts(100, lastId, properties: props);
+        //        if (ro.HasExceptions)
+        //        {
+        //            Assert.Fail();
+        //        }
+        //        else
+        //        {
+        //            var data = ro.ResponseData;
+        //            //var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+        //            var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+        //            moreResults = dto.has_more;
+        //            lastId = dto.vid_offset;
+        //            dynamic o = new ExpandoObject();
+        //            contacts.AddRange(dto.contacts.Select(x=> new { lastname = x.properties.lastname, firstname = x.properties.firstname, email = x.properties.email, hs_lead_status = x.properties.hs_lead_status, lifecyclestage = x.properties.lifecyclestage }));
+        //        }
+        //    }
+        //    contacts.WriteJsonToFilePath(@"c:\junk\allpagedcontactsleadstatus2.json");
+        //}
 
 
 

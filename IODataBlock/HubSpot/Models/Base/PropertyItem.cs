@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Common.System;
+using HubSpot.Models.Contacts;
 using Newtonsoft.Json;
 
 namespace HubSpot.Models.Base
@@ -29,6 +30,9 @@ namespace HubSpot.Models.Base
 
         [JsonProperty("value")]
         public string Value { get; set; }
+
+        [JsonIgnore]
+        public ContactPropertyDto PropertyType { get; set; }
 
         #region Conversion Operators
 

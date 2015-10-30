@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Base\ContactProperties.cs" />
+    <Compile Include="Models\Base\ContactPropertiesBase.cs" />
+    <Compile Include="Models\Base\HubSpotContactProperties.cs" />
     <Compile Include="Models\Base\PropertyItem.cs" />
     <Compile Include="Models\BooleanItem.cs" />
     <Compile Include="Models\Contacts\ContactDto.cs" />

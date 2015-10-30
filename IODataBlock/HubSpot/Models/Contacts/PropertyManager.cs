@@ -65,7 +65,7 @@ namespace HubSpot.Models.Contacts
             try
             {
                 SetPropertyState();
-                return TrySetProperyState();
+                return true;
             }
             catch (Exception)
             {
