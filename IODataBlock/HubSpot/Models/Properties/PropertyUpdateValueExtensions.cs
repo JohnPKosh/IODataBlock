@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Security;
 using Business.Common.Extensions;
 using Business.Common.System;
 
-namespace HubSpot.Models.Base
+namespace HubSpot.Models.Properties
 {
-    public static class ContactUpdateValueExtensions
+    public static class PropertyUpdateValueExtensions
     {
 
         private static IEnumerable<Type> NumericTypes()
@@ -41,7 +38,7 @@ namespace HubSpot.Models.Base
             };
         } 
 
-        public static T GetValue<T>(this ContactUpdateValue item)
+        public static T GetValue<T>(this PropertyUpdateValue item)
         {
             var fieldType = item.PropertyType.fieldType;
 

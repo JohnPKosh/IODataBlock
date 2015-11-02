@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.Extensions;
 using Business.Common.IO;
 using Business.Common.System.States;
 using HubSpot.Services;
 
-namespace HubSpot.Models.Contacts
+namespace HubSpot.Models.Properties
 {
     public class PropertyManager
     {
@@ -50,8 +48,8 @@ namespace HubSpot.Models.Contacts
             var service = new ContactPropertyService(_hapiKey);
             var result = service.GetAllProperties();
             if(result.HasExceptions)throw new Exception(result.ExceptionList.Exceptions.First().Message);
-            var data = result.ResponseData.ConvertJson<List<ContactPropertyDto>>();
-            PropertyState.Instance.Value = new ContactPropertyListDto
+            var data = result.ResponseData.ConvertJson<List<ContactPropertyTypeModel>>();
+            PropertyState.Instance.Value = new ContactPropertyTypeListModel
             {
                 Properties = data,
                 LastUpdated = DateTime.Now
@@ -83,7 +81,7 @@ namespace HubSpot.Models.Contacts
 
         public DateTime? LastUpdated => PropertyState.Instance.Value.LastUpdated;
 
-        public List<ContactPropertyDto> Properties => PropertyState.Instance.Value.Properties;
+        public List<ContactPropertyTypeModel> Properties => PropertyState.Instance.Value.Properties;
 
         
     }

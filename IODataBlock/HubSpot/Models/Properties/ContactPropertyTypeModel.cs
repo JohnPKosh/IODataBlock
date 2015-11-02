@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming
 
-namespace HubSpot.Models.Contacts
+namespace HubSpot.Models.Properties
 {
-    public class ContactPropertyDto
+    public class ContactPropertyTypeModel
     {
         public string name { get; set; }
         public string label { get; set; }

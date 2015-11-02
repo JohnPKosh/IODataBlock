@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.System;
-using HubSpot.Models.Contacts;
 using Newtonsoft.Json;
 
-namespace HubSpot.Models.Base
+namespace HubSpot.Models.Properties
 {
-    public class ContactUpdateValue : IContactUpdateValue
+    public class PropertyUpdateValue : IPropertyUpdateValue
     {
-        public ContactUpdateValue(string key, string value, ContactPropertyDto propertyType = null)
+        public PropertyUpdateValue(string key, string value, ContactPropertyTypeModel propertyType = null)
         {
             this.Key = key;
             this.Value = value;
             this.PropertyType = propertyType;
         }
 
-        public ContactUpdateValue(string key, object value)
+        public PropertyUpdateValue(string key, object value)
         {
             this.Key = key;
             if (value == null) return;
@@ -33,23 +29,23 @@ namespace HubSpot.Models.Base
         public string Value { get; set; }
 
         [JsonIgnore]
-        public ContactPropertyDto PropertyType { get; set; }
+        public ContactPropertyTypeModel PropertyType { get; set; }
 
         #region Conversion Operators
 
-        static public implicit operator KeyValuePair<string,string>(ContactUpdateValue item)
+        static public implicit operator KeyValuePair<string,string>(PropertyUpdateValue item)
         {
             return new KeyValuePair<string, string>(item.Key, item.Value);
         }
 
-        static public implicit operator ContactUpdateValue(KeyValuePair<string, string> value)
+        static public implicit operator PropertyUpdateValue(KeyValuePair<string, string> value)
         {
-            return new ContactUpdateValue(value.Key, value.Value);
+            return new PropertyUpdateValue(value.Key, value.Value);
         }
 
-        static public implicit operator ContactUpdateValue(KeyValuePair<string, object> value)
+        static public implicit operator PropertyUpdateValue(KeyValuePair<string, object> value)
         {
-            return new ContactUpdateValue(value.Key, value.Value);
+            return new PropertyUpdateValue(value.Key, value.Value);
         }
 
         #endregion Conversion Operators

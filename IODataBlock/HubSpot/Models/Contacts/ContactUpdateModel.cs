@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Business.Common.Configuration;
-using Business.Common.Extensions;
-using Business.Common.System;
-using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace HubSpot.Models.Base
+namespace HubSpot.Models.Contacts
 {
     public class ContactUpdateModel : ContactModelBase<ContactUpdateModel>
     {
@@ -25,10 +18,10 @@ namespace HubSpot.Models.Base
         }
 
         private readonly string _hapiKey;
-        internal List<ContactPropertyDto> ManagedProperties;
+        internal List<ContactPropertyTypeModel> ManagedProperties;
             
         [JsonProperty("properties")]
-        public HashSet<ContactUpdateValue> Properties { get; set; }
+        public HashSet<PropertyUpdateValue> Properties { get; set; }
 
         #region Conversion Operators
 

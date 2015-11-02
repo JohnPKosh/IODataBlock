@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace HubSpot.Models.Contacts
+namespace HubSpot.Models.Properties
 {
-    public class Version
+    public class PropertyVersion
     {
         public string value { get; set; }
 

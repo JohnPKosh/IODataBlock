@@ -9,6 +9,7 @@ using Flurl;
 using Flurl.Http;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -66,7 +67,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyDto>>().Result.OrderBy(x=>x.name);
+            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result.OrderBy(x=>x.name);
 
             if (result == null) Assert.Fail();
             else
@@ -82,7 +83,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyDto>>().Result;
+            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result;
 
             if (result == null) Assert.Fail();
             else
@@ -103,7 +104,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyDto>>().Result;
+            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result;
 
             if (result == null) Assert.Fail();
             else

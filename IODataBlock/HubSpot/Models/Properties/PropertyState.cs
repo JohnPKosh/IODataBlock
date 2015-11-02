@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.System.App;
-using Business.Common.System.States;
+﻿using Business.Common.System.States;
 
-namespace HubSpot.Models.Contacts
+namespace HubSpot.Models.Properties
 {
     public class PropertyState
     {
@@ -21,9 +15,9 @@ namespace HubSpot.Models.Contacts
             get { return _instance ?? (_instance = new PropertyState()); }
         }
 
-        private ContactPropertyListDto _value = null;
+        private ContactPropertyTypeListModel _value = null;
 
-        public ContactPropertyListDto Value
+        public ContactPropertyTypeListModel Value
         {
             get { return _value; }
             set
@@ -37,13 +31,13 @@ namespace HubSpot.Models.Contacts
 
         public void Load(IStateLoader loader)
         {
-            Value = loader.LoadState<ContactPropertyListDto>();
+            Value = loader.LoadState<ContactPropertyTypeListModel>();
         }
 
         public bool TryLoad(IStateLoader loader)
         {
-            ContactPropertyListDto newValue;
-            if (!loader.TryLoadState<ContactPropertyListDto>(out newValue)) return false;
+            ContactPropertyTypeListModel newValue;
+            if (!loader.TryLoadState<ContactPropertyTypeListModel>(out newValue)) return false;
             Value = newValue;
             return true;
         }

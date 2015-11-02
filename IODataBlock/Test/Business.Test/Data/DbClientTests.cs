@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Excel;
 using Business.Test.TestUtility;
 using Data.DbClient.Extensions;
 using DbExtensions;
@@ -642,6 +643,39 @@ ORDER BY [ORDINAL_POSITION]
                     if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
+        }
+
+        [TestMethod]
+        public void QueryToExcel()
+        {
+            var con = Database.CreateSqlConnectionString("CLEHBDB02", "BDVOXData");
+
+            var sql = @"
+SELECT [SLE_CHNL_ID]
+      ,[SLE_CHNL_CD]
+      ,[SLE_CHNL_NAME]
+      ,[SLE_CHNL_ORIENT]
+      ,[SLE_CHNL_ASSGN_DATE]
+      ,[SLE_CHNL_TRMN_DATE]
+      ,[SLE_CHNL_CONTACT]
+      ,[SLE_CHNL_TITLE]
+      ,[SLE_CHNL_EMAIL]
+      ,[sle_chnl_enable_email]
+      ,[SLE_CHNL_PHONE_NUM]
+      ,[SLE_COMP_NAME]
+      ,[SLE_CHNL_FAX_NUM]
+      ,[SLE_CHNL_SOC_SEC]
+      ,[SLE_CHNL_FED_ID]
+      ,[SLE_CHNL_ADRES1]
+      ,[SLE_CHNL_ADRES2]
+      ,[SLE_CHNL_CITY]
+      ,[STATE_CODE_ID]
+      ,[SLE_CHNL_ZIP]
+  FROM [BDVOXData].[dbo].[SALE_CHANNEL]
+";
+            MsExcelExtensionBase.CreateExcelFromQuery(new FileInfo(@"C:\junk\SalesChannel.xlsx"), sql, con);
+
+
         }
 
         #endregion SQL Server Tests

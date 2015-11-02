@@ -16,7 +16,7 @@ using HubSpot.Models;
 using Business.Common.Extensions;
 using Business.Common.Responses;
 using HubSpot.Models.Contacts;
-using Version = HubSpot.Models.Contacts.Version;
+using Version = HubSpot.Models.Properties.PropertyVersion;
 
 namespace HubSpot.Services
 {
@@ -39,40 +39,40 @@ namespace HubSpot.Services
             throw new NotImplementedException();
         }
 
-        public IResponseObject CreateContact(ContactDto value)
-        {
-            throw new NotImplementedException();
-        }
+        //public IResponseObject CreateContact(ContactDto value)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IResponseObject UpdateContact(string value, int id)
         {
             throw new NotImplementedException();
         }
 
-        public IResponseObject UpdateContact(ContactDto value, int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public IResponseObject UpdateContact(ContactDto value, int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IResponseObject UpsertContact(string value)
         {
             throw new NotImplementedException();
         }
 
-        public IResponseObject UpsertContact(ContactDto value)
-        {
-            throw new NotImplementedException();
-        }
+        //public IResponseObject UpsertContact(ContactDto value)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IResponseObject BatchUpsertContacts(string value)
         {
             throw new NotImplementedException();
         }
 
-        public IResponseObject BatchUpsertContacts(IEnumerable<ContactDto> value)
-        {
-            throw new NotImplementedException();
-        }
+        //public IResponseObject BatchUpsertContacts(IEnumerable<ContactDto> value)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IResponseObject DeleteContact(int id)
         {
@@ -100,6 +100,9 @@ namespace HubSpot.Services
                 if (count.HasValue) path = path.SetQueryParam("count", count.Value);
                 if (vidOffset.HasValue) path = path.SetQueryParam("vidOffset", vidOffset.Value);
 
+                if (propertyMode != PropertyModeType.value_only) path = path.SetQueryParam("propertyMode", propertyMode.AsStringLower());
+                if (formSubmissionMode != FormSubmissionModeType.Newest) path = path.SetQueryParam("formSubmissionMode", formSubmissionMode.AsStringLower());
+                if (showListMemberships) path = path.SetQueryParam("showListMemberships", showListMemberships.ToString().ToLowerInvariant());
                 path = path.SetQueryParam("hapikey", _hapiKey);
 
                 ro.RequestData = path;
@@ -136,6 +139,9 @@ namespace HubSpot.Services
                 if (timeOffset.HasValue) path = path.SetQueryParam("timeOffset", timeOffset.Value);
                 if (vidOffset.HasValue) path = path.SetQueryParam("vidOffset", vidOffset.Value);
 
+                if (propertyMode != PropertyModeType.value_only) path = path.SetQueryParam("propertyMode", propertyMode.AsStringLower());
+                if (formSubmissionMode != FormSubmissionModeType.Newest) path = path.SetQueryParam("formSubmissionMode", formSubmissionMode.AsStringLower());
+                if (showListMemberships) path = path.SetQueryParam("showListMemberships", showListMemberships.ToString().ToLowerInvariant());
                 path = path.SetQueryParam("hapikey", _hapiKey);
 
                 ro.RequestData = path;

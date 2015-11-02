@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace HubSpot.Models.Base
+namespace HubSpot.Models.Contacts
 {
     public class ContactModelBase<T> : IObjectBase<T>
     {
