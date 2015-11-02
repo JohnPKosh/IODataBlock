@@ -54,17 +54,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Base\ContactProperties.cs" />
-    <Compile Include="Models\Base\ContactPropertiesBase.cs" />
-    <Compile Include="Models\Base\HubSpotContactProperties.cs" />
-    <Compile Include="Models\Base\PropertyItem.cs" />
+    <Compile Include="Models\Base\ContactModel.cs" />
+    <Compile Include="Models\Base\ContactModelBase.cs" />
+    <Compile Include="Models\Base\ContactModelList.cs" />
+    <Compile Include="Models\Base\ContactUpdateModel.cs" />
+    <Compile Include="Models\Base\ContactUpdateValueExtensions.cs" />
+    <Compile Include="Models\Base\IContactUpdateValue.cs" />
+    <Compile Include="Models\Base\ContactUpdateValue.cs" />
     <Compile Include="Models\BooleanItem.cs" />
     <Compile Include="Models\Contacts\ContactDto.cs" />
     <Compile Include="Models\Contacts\ContactListDto.cs" />
     <Compile Include="Models\Contacts\ContactPropertyDto.cs" />
     <Compile Include="Models\Contacts\ContactPropertyListDto.cs" />
+    <Compile Include="Models\Contacts\Identity.cs" />
+    <Compile Include="Models\Contacts\IdentityProfile.cs" />
+    <Compile Include="Models\Contacts\ListMembership.cs" />
+    <Compile Include="Models\Contacts\Properties.cs" />
     <Compile Include="Models\Contacts\PropertyManager.cs" />
     <Compile Include="Models\Contacts\PropertyState.cs" />
+    <Compile Include="Models\Contacts\Version.cs" />
     <Compile Include="Models\FormSubmissionModeType.cs" />
     <Compile Include="Models\PropertyModeType.cs" />
     <Compile Include="Models\StringItem.cs" />

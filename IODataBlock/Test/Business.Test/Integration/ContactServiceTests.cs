@@ -6,6 +6,7 @@ using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
 using HubSpot.Models;
+using HubSpot.Models.Base;
 using HubSpot.Models.Contacts;
 using HubSpot.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -41,8 +42,14 @@ namespace Business.Test.Integration
             else
             {
                 var data = ro.ResponseData;
-                var dto = ClassExtensions.CreateFromJson<ContactListDto>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+                var dto = ClassExtensions.CreateFromJson<ContactModelList>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
                 Assert.IsNotNull(dto);
+
+                ContactUpdateModel update = dto.contacts.First(x=>x.vid == 315);
+                Assert.IsNotNull(update);
+              
+
+                update.WriteJsonToFilePath(@"c:\junk\ContactUpdate.json");
             }
         }
 

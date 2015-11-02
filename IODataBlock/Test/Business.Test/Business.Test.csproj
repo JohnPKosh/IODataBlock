@@ -207,6 +207,7 @@
     <None Include="Junk\ContactPropertyList.json" />
     <None Include="Junk\contactpropnames.json" />
     <None Include="Junk\contactproptypes.json" />
+    <None Include="Junk\ContactUpdate.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />

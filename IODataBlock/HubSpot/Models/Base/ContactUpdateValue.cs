@@ -9,15 +9,16 @@ using Newtonsoft.Json;
 
 namespace HubSpot.Models.Base
 {
-    public class PropertyItem
+    public class ContactUpdateValue : IContactUpdateValue
     {
-        public PropertyItem(string key, string value)
+        public ContactUpdateValue(string key, string value, ContactPropertyDto propertyType = null)
         {
             this.Key = key;
             this.Value = value;
+            this.PropertyType = propertyType;
         }
 
-        public PropertyItem(string key, object value)
+        public ContactUpdateValue(string key, object value)
         {
             this.Key = key;
             if (value == null) return;
@@ -36,19 +37,19 @@ namespace HubSpot.Models.Base
 
         #region Conversion Operators
 
-        static public implicit operator KeyValuePair<string,string>(PropertyItem item)
+        static public implicit operator KeyValuePair<string,string>(ContactUpdateValue item)
         {
             return new KeyValuePair<string, string>(item.Key, item.Value);
         }
 
-        static public implicit operator PropertyItem(KeyValuePair<string, string> value)
+        static public implicit operator ContactUpdateValue(KeyValuePair<string, string> value)
         {
-            return new PropertyItem(value.Key, value.Value);
+            return new ContactUpdateValue(value.Key, value.Value);
         }
 
-        static public implicit operator PropertyItem(KeyValuePair<string, object> value)
+        static public implicit operator ContactUpdateValue(KeyValuePair<string, object> value)
         {
-            return new PropertyItem(value.Key, value.Value);
+            return new ContactUpdateValue(value.Key, value.Value);
         }
 
         #endregion Conversion Operators

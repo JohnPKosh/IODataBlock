@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HubSpot.Models.Base
 {
-    public class ContactPropertiesBase<T> : IObjectBase<T>
+    public class ContactModelBase<T> : IObjectBase<T>
     {
         #region Json Serialization
 
@@ -45,7 +45,7 @@ namespace HubSpot.Models.Base
 
         #region Conversion Operators
 
-        static public implicit operator JObject(ContactPropertiesBase<T> value)
+        static public implicit operator JObject(ContactModelBase<T> value)
         {
             return value.ToJObject();
         }
