@@ -14,35 +14,27 @@ namespace HubSpot.Services
         /* http://developers.hubspot.com/docs/methods/contacts/create_contact */
         /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/?hapikey=demo */
 
-        IResponseObject CreateContact(string value);
-
-        //IResponseObject CreateContact(ContactDto value);
+        IResponseObject<string, string> CreateContact(string value);
 
         /* http://developers.hubspot.com/docs/methods/contacts/update_contact */
         /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/vid/61571/profile?hapikey=demo */
 
-        IResponseObject UpdateContact(string value, int id);
-
-        //IResponseObject UpdateContact(ContactDto value, int id);
+        IResponseObject<string, string> UpdateContact(string value, int id);
 
         /* http://developers.hubspot.com/docs/methods/contacts/create_or_update */
         /* Example URL to POST to:  http://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/test@hubspot.com/?hapikey=demo */
 
-        IResponseObject UpsertContact(string value);
-
-        //IResponseObject UpsertContact(ContactDto value);
+        IResponseObject<string, string> UpsertContact(string value, string email);
 
         /* http://developers.hubspot.com/docs/methods/contacts/batch_create_or_update */
         /* Example URL to POST to:  "http://api.hubapi.com/contacts/v1/contact/batch/?hapikey=demo" */
 
-        IResponseObject BatchUpsertContacts(string value);
-
-        //IResponseObject BatchUpsertContacts(IEnumerable<ContactDto> value);
+        IResponseObject<string, string> BatchUpsertContacts(string value);
 
         /* http://developers.hubspot.com/docs/methods/contacts/delete_contact */
         /* Example URL:  https://api.hubapi.com/contacts/v1/contact/vid/61571?hapikey=demo */
 
-        IResponseObject DeleteContact(int id);
+        IResponseObject<string, string> DeleteContact(int id);
 
         #endregion Create / Update / Delete
 

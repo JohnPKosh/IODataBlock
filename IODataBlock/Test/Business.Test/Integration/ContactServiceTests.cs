@@ -132,7 +132,7 @@ namespace Business.Test.Integration
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
             UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
-            var ro = service.GetRecentContacts(100, timeOffsetDate, propertyMode: PropertyModeType.value_and_history);
+            var ro = service.GetRecentContacts(10, timeOffsetDate, propertyMode: PropertyModeType.value_and_history);
             //var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
@@ -147,6 +147,82 @@ namespace Business.Test.Integration
                 DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
             }
         }
+
+        [TestMethod]
+        public void GetContactByIdFromService()
+        {
+            var service = new ContactService(_hapiKey);
+            var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
+
+
+            //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
+            var ro = service.GetContactById(4098 ,propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+                File.WriteAllText(@"C:\junk\rawtestcontact.json", data);
+                var dto = ClassExtensions.CreateFromJson<ContactModel>(data);
+                ContactViewModel vm = dto;
+                ContactUpdateModel um = vm;
+                um.WriteJsonToFilePath(@"c:\junk\rawtestcontactupdatemodel.json", new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                });
+            }
+        }
+
+        [TestMethod]
+        public void CreateContactTest()
+        {
+            var service = new ContactService(_hapiKey);
+            var contactstring = File.ReadAllText(@"Junk\ContactUpdate.json");
+            var ro = service.CreateContact(contactstring);
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+            }
+        }
+
+        [TestMethod]
+        public void UpdateContactTest()
+        {
+            var service = new ContactService(_hapiKey);
+            var contactstring = File.ReadAllText(@"Junk\ContactUpdate2.json");
+            var ro = service.UpdateContact(contactstring, 4098);
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+            }
+        }
+
+        [TestMethod]
+        public void DeleteContactTest()
+        {
+            var service = new ContactService(_hapiKey);
+            var ro = service.DeleteContact(4098);
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+            }
+        }
+
 
         //[TestMethod]
         //public void GetAllContactsPagingTest()

@@ -215,7 +215,12 @@
     <None Include="Junk\ContactPropertyList.json" />
     <None Include="Junk\contactpropnames.json" />
     <None Include="Junk\contactproptypes.json" />
-    <None Include="Junk\ContactUpdate.json" />
+    <None Include="Junk\ContactUpdate2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Junk\ContactUpdate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
@@ -225,6 +230,8 @@
     <None Include="Junk\query.json" />
     <None Include="Junk\RawContactProperties.json" />
     <None Include="Junk\rawgetallcontacts.json" />
+    <None Include="Junk\rawtestcontact.json" />
+    <None Include="Junk\rawtestcontactupdatemodel.json" />
     <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
     <None Include="Junk\sample.md" />

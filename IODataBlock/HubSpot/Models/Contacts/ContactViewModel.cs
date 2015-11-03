@@ -81,7 +81,7 @@ namespace HubSpot.Models.Contacts
             foreach (var p in value.Properties)
             {
                 var prop = value.ManagedProperties.FirstOrDefault(x => x.name == p.Key);
-                if (prop == null) continue;
+                if (prop == null || !prop.readOnlyValue) continue;
                 rv.Properties.Add(new PropertyUpdateValue(p.Key, p.Value, prop));
             }
             rv.ManagedProperties = value.ManagedProperties;

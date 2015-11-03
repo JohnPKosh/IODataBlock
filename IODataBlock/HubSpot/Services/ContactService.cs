@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Business.Common.Configuration;
 using Business.Common.Exceptions;
 using Flurl;
@@ -27,57 +29,108 @@ namespace HubSpot.Services
             //var configMgr = new ConfigMgr();
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
-            //_propertyManager = new PropertyManager(hapikey);
         }
 
         private readonly string _hapiKey;
 
-        //private readonly PropertyManager _propertyManager;
+        #region Create / Update / Delete
 
-        public IResponseObject CreateContact(string value)
+        public IResponseObject<string, string> CreateContact(string value)
+        {
+            /* http://developers.hubspot.com/docs/methods/contacts/create_contact */
+            /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/?hapikey=demo */
+            
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var path = "https://api.hubapi.com/contacts/v1/contact/".SetQueryParam("hapikey", _hapiKey);
+                ro.RequestData = path;
+                HttpResponseMessage result = path.PostStringAsync(value).Result;
+                result.EnsureSuccessStatusCode();
+                ro.ResponseData = result.Content.ReadAsStringAsync().Result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.ExceptionList.Add(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, string> UpdateContact(string value, int id)
+        {
+            /* http://developers.hubspot.com/docs/methods/contacts/update_contact */
+            /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/vid/61571/profile?hapikey=demo */
+
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var path = "https://api.hubapi.com/contacts/v1/contact/vid/".AppendPathSegment(id.ToString()).AppendPathSegment("profile").SetQueryParam("hapikey", _hapiKey);
+                ro.RequestData = path;
+                HttpResponseMessage result = path.PostStringAsync(value).Result;
+                result.EnsureSuccessStatusCode();
+                ro.ResponseData = result.Content.ReadAsStringAsync().Result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.ExceptionList.Add(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, string> UpsertContact(string value, string email)
+        {
+            /* http://developers.hubspot.com/docs/methods/contacts/create_or_update */
+            /* Example URL to POST to:  http://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/test@hubspot.com/?hapikey=demo */
+
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var path = "http://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/".AppendPathSegment(email).SetQueryParam("hapikey", _hapiKey);
+                ro.RequestData = path;
+                HttpResponseMessage result = path.PostStringAsync(value).Result;
+                result.EnsureSuccessStatusCode();
+                ro.ResponseData = result.Content.ReadAsStringAsync().Result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.ExceptionList.Add(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, string> BatchUpsertContacts(string value)
         {
             throw new NotImplementedException();
         }
 
-        //public IResponseObject CreateContact(ContactDto value)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public IResponseObject UpdateContact(string value, int id)
+        public IResponseObject<string, string> DeleteContact(int id)
         {
-            throw new NotImplementedException();
+            /* http://developers.hubspot.com/docs/methods/contacts/delete_contact */
+            /* Example URL:  https://api.hubapi.com/contacts/v1/contact/vid/61571?hapikey=demo */
+
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var path = "https://api.hubapi.com/contacts/v1/contact/vid/".AppendPathSegment(id.ToString()).SetQueryParam("hapikey", _hapiKey);
+                ro.RequestData = path;
+                HttpResponseMessage result = path.DeleteAsync().Result;
+                result.EnsureSuccessStatusCode();
+                ro.ResponseData = result.Content.ReadAsStringAsync().Result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.ExceptionList.Add(ex);
+                return ro;
+            }
         }
 
-        //public IResponseObject UpdateContact(ContactDto value, int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        #endregion
 
-        public IResponseObject UpsertContact(string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public IResponseObject UpsertContact(ContactDto value)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public IResponseObject BatchUpsertContacts(string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public IResponseObject BatchUpsertContacts(IEnumerable<ContactDto> value)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public IResponseObject DeleteContact(int id)
-        {
-            throw new NotImplementedException();
-        }
+        #region Read Contacts
 
         public IResponseObject<string, string> GetAllContacts(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
             PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
@@ -311,7 +364,7 @@ namespace HubSpot.Services
 
                 var mergeList = new List<string>();
                 mergeList.AddRange(GetPropertyQueryParams(propertyList));
-                
+
                 if (mergeList.Any()) path += "?" + string.Join("&", mergeList);
 
                 if (propertyMode != PropertyModeType.value_only) path = path.SetQueryParam("propertyMode", propertyMode.AsStringLower());
@@ -398,7 +451,9 @@ namespace HubSpot.Services
             }
         }
 
+        #endregion
 
+        #region Private Utility Methods
 
         private IEnumerable<string> GetPropertyQueryParams(IEnumerable<string> values)
         {
@@ -418,7 +473,9 @@ namespace HubSpot.Services
         private IEnumerable<string> GetIdQueryParams(IEnumerable<int> values)
         {
             return values.Select(x => string.Format(@"vid={0}", x));
-        }
+        } 
+
+        #endregion
 
     }
 
