@@ -67,7 +67,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result.OrderBy(x=>x.name);
+            .GetJsonAsync<List<PropertyTypeModel>>().Result.OrderBy(x=>x.name);
 
             if (result == null) Assert.Fail();
             else
@@ -83,7 +83,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result;
+            .GetJsonAsync<List<PropertyTypeModel>>().Result;
 
             if (result == null) Assert.Fail();
             else
@@ -104,7 +104,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/contacts/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<ContactPropertyTypeModel>>().Result;
+            .GetJsonAsync<List<PropertyTypeModel>>().Result;
 
             if (result == null) Assert.Fail();
             else

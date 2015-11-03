@@ -7,7 +7,7 @@ namespace HubSpot.Models.Properties
 {
     public class PropertyValue: IPropertyValue
     {
-        public PropertyValue(string key, string value, HashSet<PropertyVersion> versions = null, ContactPropertyTypeModel propertyType = null)
+        public PropertyValue(string key, string value, HashSet<PropertyVersion> versions = null, PropertyTypeModel propertyType = null)
         {
             this.Key = key;
             this.Value = value;
@@ -31,7 +31,7 @@ namespace HubSpot.Models.Properties
         public string Value { get; set; }
 
         [JsonIgnore]
-        public ContactPropertyTypeModel PropertyType { get; set; }
+        public PropertyTypeModel PropertyType { get; set; }
 
         public HashSet<PropertyVersion> Versions { get; set; }
 

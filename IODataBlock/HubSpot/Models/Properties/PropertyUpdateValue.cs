@@ -7,7 +7,7 @@ namespace HubSpot.Models.Properties
 {
     public class PropertyUpdateValue : IPropertyUpdateValue
     {
-        public PropertyUpdateValue(string key, string value, ContactPropertyTypeModel propertyType = null)
+        public PropertyUpdateValue(string key, string value, PropertyTypeModel propertyType = null)
         {
             this.Key = key;
             this.Value = value;
@@ -29,7 +29,7 @@ namespace HubSpot.Models.Properties
         public string Value { get; set; }
 
         [JsonIgnore]
-        public ContactPropertyTypeModel PropertyType { get; set; }
+        public PropertyTypeModel PropertyType { get; set; }
 
         #region Conversion Operators
 

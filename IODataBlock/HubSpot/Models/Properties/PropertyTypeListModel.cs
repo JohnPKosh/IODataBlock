@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace HubSpot.Models.Properties
 {
-    public class ContactPropertyTypeListModel
+    public class PropertyTypeListModel
     {
         public DateTime? LastUpdated { get; set; }
 
-        public List<ContactPropertyTypeModel> Properties { get; set; }
+        public List<PropertyTypeModel> Properties { get; set; }
     }
 }

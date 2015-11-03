@@ -48,8 +48,8 @@ namespace HubSpot.Models.Properties
             var service = new ContactPropertyService(_hapiKey);
             var result = service.GetAllProperties();
             if(result.HasExceptions)throw new Exception(result.ExceptionList.Exceptions.First().Message);
-            var data = result.ResponseData.ConvertJson<List<ContactPropertyTypeModel>>();
-            PropertyState.Instance.Value = new ContactPropertyTypeListModel
+            var data = result.ResponseData.ConvertJson<List<PropertyTypeModel>>();
+            PropertyState.Instance.Value = new PropertyTypeListModel
             {
                 Properties = data,
                 LastUpdated = DateTime.Now
@@ -81,7 +81,7 @@ namespace HubSpot.Models.Properties
 
         public DateTime? LastUpdated => PropertyState.Instance.Value.LastUpdated;
 
-        public List<ContactPropertyTypeModel> Properties => PropertyState.Instance.Value.Properties;
+        public List<PropertyTypeModel> Properties => PropertyState.Instance.Value.Properties;
 
         
     }

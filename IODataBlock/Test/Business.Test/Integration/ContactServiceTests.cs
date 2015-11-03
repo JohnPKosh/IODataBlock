@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Common.System;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;
 using HubSpot.Services;
@@ -130,8 +131,9 @@ namespace Business.Test.Integration
             var service = new ContactService(_hapiKey);
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
-
-            var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
+            UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
+            var ro = service.GetRecentContacts(100, timeOffsetDate, propertyMode: PropertyModeType.value_and_history);
+            //var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -140,6 +142,9 @@ namespace Business.Test.Integration
             {
                 var data = ro.ResponseData;
                 var dto = ClassExtensions.CreateFromJson<ContactModelList>(data);
+                var contacts = dto.contacts.Select(c => (ContactViewModel) c).ToList();
+                DateTime? maxTimestamp = new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
+                DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
             }
         }
 

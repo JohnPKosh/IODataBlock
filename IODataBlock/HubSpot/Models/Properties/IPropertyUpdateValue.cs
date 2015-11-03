@@ -4,6 +4,6 @@ namespace HubSpot.Models.Properties
     {
         string Key { get; set; }
         string Value { get; set; }
-        ContactPropertyTypeModel PropertyType { get; set; }
+        PropertyTypeModel PropertyType { get; set; }
     }
 }

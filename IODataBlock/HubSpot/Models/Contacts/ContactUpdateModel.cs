@@ -18,7 +18,7 @@ namespace HubSpot.Models.Contacts
         }
 
         private readonly string _hapiKey;
-        internal List<ContactPropertyTypeModel> ManagedProperties;
+        internal List<PropertyTypeModel> ManagedProperties;
             
         [JsonProperty("properties")]
         public HashSet<PropertyUpdateValue> Properties { get; set; }

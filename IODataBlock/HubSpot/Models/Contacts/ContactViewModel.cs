@@ -26,7 +26,7 @@ namespace HubSpot.Models.Contacts
         #region Private Fields and Properties
 
         private readonly string _hapiKey;
-        internal List<ContactPropertyTypeModel> ManagedProperties;
+        internal List<PropertyTypeModel> ManagedProperties;
 
         #endregion
 

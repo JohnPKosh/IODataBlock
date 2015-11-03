@@ -67,8 +67,8 @@
     <None Include="Models\Unused\BooleanItem.cs" />
     <None Include="Models\Unused\ContactDto.cs" />
     <None Include="Models\Unused\ContactListDto.cs" />
-    <Compile Include="Models\Properties\ContactPropertyTypeModel.cs" />
-    <Compile Include="Models\Properties\ContactPropertyTypeListModel.cs" />
+    <Compile Include="Models\Properties\PropertyTypeModel.cs" />
+    <Compile Include="Models\Properties\PropertyTypeListModel.cs" />
     <Compile Include="Models\Contacts\Identity.cs" />
     <Compile Include="Models\Contacts\IdentityProfile.cs" />
     <Compile Include="Models\Contacts\ListMembership.cs" />

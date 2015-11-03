@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace HubSpot.Models.Properties
 {
-    public class ContactPropertyTypeModel
+    public class PropertyTypeModel
     {
         public string name { get; set; }
         public string label { get; set; }

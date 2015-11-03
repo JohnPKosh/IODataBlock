@@ -15,9 +15,9 @@ namespace HubSpot.Models.Properties
             get { return _instance ?? (_instance = new PropertyState()); }
         }
 
-        private ContactPropertyTypeListModel _value = null;
+        private PropertyTypeListModel _value = null;
 
-        public ContactPropertyTypeListModel Value
+        public PropertyTypeListModel Value
         {
             get { return _value; }
             set
@@ -31,13 +31,13 @@ namespace HubSpot.Models.Properties
 
         public void Load(IStateLoader loader)
         {
-            Value = loader.LoadState<ContactPropertyTypeListModel>();
+            Value = loader.LoadState<PropertyTypeListModel>();
         }
 
         public bool TryLoad(IStateLoader loader)
         {
-            ContactPropertyTypeListModel newValue;
-            if (!loader.TryLoadState<ContactPropertyTypeListModel>(out newValue)) return false;
+            PropertyTypeListModel newValue;
+            if (!loader.TryLoadState<PropertyTypeListModel>(out newValue)) return false;
             Value = newValue;
             return true;
         }
