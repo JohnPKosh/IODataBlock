@@ -15,14 +15,14 @@ namespace HubSpot.Models.Properties
             this.PropertyType = propertyType;
         }
 
-        public PropertyValue(string key, object value, HashSet<PropertyVersion> versions = null)
-        {
-            this.Key = key;
-            this.Versions = versions;
-            if (value == null) return;
-            if (value is DateTime) this.Value = new UnixMsTimestamp((DateTime)value).ToString();
-            else this.Value = value.ToString();
-        }
+        //public PropertyValue(string key, object value, HashSet<PropertyVersion> versions = null)
+        //{
+        //    this.Key = key;
+        //    this.Versions = versions;
+        //    if (value == null) return;
+        //    if (value is DateTime) this.Value = new UnixMsTimestamp((DateTime)value).ToString();
+        //    else this.Value = value.ToString();
+        //}
 
         [JsonProperty("property")]
         public string Key { get; set; }

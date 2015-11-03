@@ -101,8 +101,6 @@ namespace HubSpot.Models.Contacts
                     if (versions != null)
                     {
                         var ver = versions.ToObject<List<PropertyVersion>>();
-                        var verlist = ver;
-
                         rv.Properties.Add(new PropertyValue(p.name, token.Value<string>("value"), new HashSet<PropertyVersion>(ver), p));
                     }
                     else
