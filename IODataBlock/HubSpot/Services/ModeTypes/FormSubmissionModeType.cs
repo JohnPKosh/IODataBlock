@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-
-namespace HubSpot.Models
+namespace HubSpot.Services.ModeTypes
 {
     public enum FormSubmissionModeType
     {

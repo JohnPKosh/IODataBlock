@@ -77,8 +77,8 @@
     <Compile Include="Models\Properties\PropertyManager.cs" />
     <Compile Include="Models\Properties\PropertyState.cs" />
     <Compile Include="Models\Properties\PropertyVersion.cs" />
-    <Compile Include="Models\FormSubmissionModeType.cs" />
-    <Compile Include="Models\PropertyModeType.cs" />
+    <Compile Include="Services\ModeTypes\FormSubmissionModeType.cs" />
+    <Compile Include="Services\ModeTypes\PropertyModeType.cs" />
     <None Include="Models\Unused\StringItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContactPropertyService.cs" />

@@ -18,6 +18,8 @@ using HubSpot.Models;
 using Business.Common.Extensions;
 using Business.Common.Responses;
 using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
+using HubSpot.Services.ModeTypes;
 using Version = HubSpot.Models.Properties.PropertyVersion;
 
 namespace HubSpot.Services

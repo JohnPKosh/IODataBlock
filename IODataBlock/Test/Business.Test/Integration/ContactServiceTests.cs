@@ -8,7 +8,9 @@ using Business.Common.Extensions;
 using Business.Common.System;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
 using HubSpot.Services;
+using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -146,6 +148,60 @@ namespace Business.Test.Integration
                 DateTime? maxTimestamp = new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
                 DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
             }
+        }
+
+        [TestMethod]
+        public void GetRecentContactsPagingTest()
+        {
+            var service = new ContactService(_hapiKey);
+            //var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
+            UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now);
+
+            int? lastId = null;
+            var moreResults = true;
+            var contacts = new List<ContactViewModel>();
+
+            while (moreResults)
+            {
+                var ro = service.GetRecentContacts(100, timeOffsetDate, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode: FormSubmissionModeType.All, showListMemberships: true);
+                if (ro.HasExceptions)
+                {
+                    Assert.Fail();
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<ContactModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    moreResults = dto.has_more;
+                    lastId = dto.vid_offset;
+                    timeOffsetDate = new UnixMsTimestamp(((ContactViewModel)dto.contacts.Last()).Properties.First(y => y.Key == "lastmodifieddate").Value);
+                    contacts.AddRange(dto.contacts.Select(c => (ContactViewModel)c));
+                    DateTime? maxTimestamp = new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
+                    DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
+                    var maxtime = maxTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                    var mintime = minTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+            }
+
+            foreach (var c in contacts)
+            {
+                var versioned = c.Properties.Where(x => x.Versions != null);
+                if (versioned.Any(x => x.Versions.Count > 1))
+                {
+                    Assert.IsNotNull(versioned);
+                }
+            }
+
+            contacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels.json", new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
         }
 
         [TestMethod]

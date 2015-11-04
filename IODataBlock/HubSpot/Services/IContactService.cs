@@ -2,6 +2,8 @@
 using Business.Common.Responses;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
+using HubSpot.Services.ModeTypes;
 
 namespace HubSpot.Services
 {
