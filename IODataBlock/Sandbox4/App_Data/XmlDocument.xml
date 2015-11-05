@@ -153,12 +153,6 @@
             MVC Web Application Startup Class
             </summary>
         </member>
-        <member name="M:Sandbox4.Startup.ConfigureAuth(Owin.IAppBuilder)">
-            <summary>
-            Configures the authentication. For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
-            </summary>
-            <param name="app">The application.</param>
-        </member>
         <member name="P:Sandbox4.Startup.OAuthOptions">
             <summary>
             Gets the OAuth authentication options.
@@ -182,6 +176,12 @@
             <value>
             The public client identifier.
             </value>
+        </member>
+        <member name="M:Sandbox4.Startup.ConfigureAuth(Owin.IAppBuilder)">
+            <summary>
+            Configures the authentication. For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+            </summary>
+            <param name="app">The application.</param>
         </member>
         <member name="T:Sandbox4.SwaggerConfig">
             <summary>
@@ -245,6 +245,14 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
+        <member name="P:Sandbox4.Areas.HelpPage.Controllers.HelpController.Configuration">
+            <summary>
+            Gets the HttpConfiguration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
         <member name="M:Sandbox4.Areas.HelpPage.Controllers.HelpController.Index">
             <summary>
             GET: /Help
@@ -264,14 +272,6 @@
             </summary>
             <param name="modelName">Name of the model.</param>
             <returns></returns>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.Controllers.HelpController.Configuration">
-            <summary>
-            Gets the HttpConfiguration.
-            </summary>
-            <value>
-            The configuration.
-            </value>
         </member>
         <member name="T:Sandbox4.Areas.HelpPage.HelpPageAreaRegistration">
             <summary>
@@ -434,35 +434,6 @@
             CollectionModelDescription class, Inherits from ModelDescription.
             </summary>
         </member>
-        <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription">
-            <summary>
-            Describes a type model.
-            </summary>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
-            <summary>
-            Gets or sets the documentation.
-            </summary>
-            <value>
-            The string documentation.
-            </value>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
-            <summary>
-            Gets or sets the type of the model.
-            </summary>
-            <value>
-            The type of the model.
-            </value>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
-            <summary>
-            Gets or sets the name.
-            </summary>
-            <value>
-            The string name.
-            </value>
-        </member>
         <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.CollectionModelDescription.ElementDescription">
             <summary>
             Gets or sets the element description.
@@ -493,27 +464,6 @@
             <summary>
             DictionaryModelDescription class, Inherits from KeyValuePairModelDescription.
             </summary>
-        </member>
-        <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
-            <summary>
-            KeyValuePairModelDescription class, Inherits from ModelDescription.
-            </summary>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
-            <summary>
-            Gets or sets the key model description.
-            </summary>
-            <value>
-            The key ModelDescription.
-            </value>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
-            <summary>
-            Gets or sets the value model description.
-            </summary>
-            <value>
-            The value ModelDescription.
-            </value>
         </member>
         <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription">
             <summary>
@@ -581,6 +531,56 @@
             <param name="type">The type.</param>
             <returns></returns>
         </member>
+        <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
+            <summary>
+            KeyValuePairModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
+            <summary>
+            Gets or sets the key model description.
+            </summary>
+            <value>
+            The key ModelDescription.
+            </value>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
+            <summary>
+            Gets or sets the value model description.
+            </summary>
+            <value>
+            The value ModelDescription.
+            </value>
+        </member>
+        <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
+            <summary>
+            Gets or sets the type of the model.
+            </summary>
+            <value>
+            The type of the model.
+            </value>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
         <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
             <summary>
             Generates model descriptions for given types.
@@ -592,13 +592,6 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
-            <summary>
-            Gets the or create model description.
-            </summary>
-            <param name="modelType">Type of the model.</param>
-            <returns></returns>
-        </member>
         <member name="P:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GeneratedModels">
             <summary>
             Gets the generated models.
@@ -606,6 +599,13 @@
             <value>
             The generated models dictionary.
             </value>
+        </member>
+        <member name="M:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
+            <summary>
+            Gets the or create model description.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
         </member>
         <member name="T:Sandbox4.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
             <summary>
@@ -756,6 +756,31 @@
             Initializes a new instance of the <see cref="T:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator"/> class.
             </summary>
         </member>
+        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:Sandbox4.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
         <member name="M:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
             <summary>
             Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
@@ -828,31 +853,6 @@
             <param name="type">The type.</param>
             <param name="mediaType">Type of the media.</param>
             <returns></returns>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
-            <summary>
-            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-            </summary>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
-            <summary>
-            Gets the objects that are used directly as samples for certain actions.
-            </summary>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
-            <summary>
-            Gets the objects that are serialized as samples by the supported formatters.
-            </summary>
-        </member>
-        <member name="P:Sandbox4.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
-            <summary>
-            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
-            stopping when the factory successfully returns a non-<see langref="null"/> object.
-            </summary>
-            <remarks>
-            Collection includes just <see cref="M:Sandbox4.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
-            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
-            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
         </member>
         <member name="T:Sandbox4.Areas.HelpPage.HelpPageSampleKey">
             <summary>
@@ -1048,6 +1048,22 @@
             <param name="userManager">The user manager.</param>
             <param name="signInManager">The sign in manager.</param>
         </member>
+        <member name="P:Sandbox4.Controllers.AccountController.SignInManager">
+            <summary>
+            Gets the sign in manager.
+            </summary>
+            <value>
+            The ApplicationSignInManager.
+            </value>
+        </member>
+        <member name="P:Sandbox4.Controllers.AccountController.UserManager">
+            <summary>
+            Gets the user manager.
+            </summary>
+            <value>
+            The ApplicationUserManager.
+            </value>
+        </member>
         <member name="M:Sandbox4.Controllers.AccountController.MyApi">
             <summary>
             GET: /Account/MyApi
@@ -1205,32 +1221,10 @@
             <param name="code">The code.</param>
             <returns>string Billing Account name</returns>
         </member>
-        <member name="P:Sandbox4.Controllers.AccountController.SignInManager">
-            <summary>
-            Gets the sign in manager.
-            </summary>
-            <value>
-            The ApplicationSignInManager.
-            </value>
-        </member>
-        <member name="P:Sandbox4.Controllers.AccountController.UserManager">
-            <summary>
-            Gets the user manager.
-            </summary>
-            <value>
-            The ApplicationUserManager.
-            </value>
-        </member>
         <member name="T:Sandbox4.Controllers.AccountTestController">
             <summary>
             The Account Test Controller allows you to test your client credentials against the server after you have authenticated with OAuth.
             </summary>
-        </member>
-        <member name="M:Sandbox4.Controllers.AccountTestController.Get">
-            <summary>
-            Once your are authenticated this method Gets your user name, account number, and API key data for your login.
-            </summary>
-            <returns>Http Response Message</returns>
         </member>
         <member name="P:Sandbox4.Controllers.AccountTestController.UserManager">
             <summary>
@@ -1239,6 +1233,12 @@
             <value>
             The user manager.
             </value>
+        </member>
+        <member name="M:Sandbox4.Controllers.AccountTestController.Get">
+            <summary>
+            Once your are authenticated this method Gets your user name, account number, and API key data for your login.
+            </summary>
+            <returns>Http Response Message</returns>
         </member>
         <member name="T:Sandbox4.Controllers.HelloController">
             <summary>
