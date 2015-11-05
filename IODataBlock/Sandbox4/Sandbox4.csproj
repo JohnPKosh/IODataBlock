@@ -1953,9 +1953,6 @@
     <Content Include="Areas\SiteDemo\Views\Tables\TablesDesign.cshtml" />
     <Content Include="Areas\SiteDemo\Views\Widgets\Index.cshtml" />
     <Content Include="Areas\SiteDemo\Views\LandingPage\Index.cshtml" />
-    <Content Include="Configuration\ConnectionString.LocalDevJKoshDeploy - Copy.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Content\admin-styles.less" />
     <Content Include="Content\summernote\build\grunt-build.js" />
     <Content Include="Content\summernote\dist\summernote-bs2.css" />
