@@ -95,6 +95,14 @@
       <HintPath>..\..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NetSuite.RESTlet.Dto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Dto.1.0.0\lib\net452\NetSuite.RESTlet.Dto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetSuite.RESTlet.Integration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\NetSuite.RESTlet.Integration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -118,6 +126,10 @@
     </Reference>
     <Reference Include="System.Linq.Dynamic, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -155,6 +167,7 @@
     <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\ContactSyncToNSTests.cs" />
     <Compile Include="Integration\FormsServiceTests.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />

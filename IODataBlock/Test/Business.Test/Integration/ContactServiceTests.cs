@@ -176,13 +176,13 @@ namespace Business.Test.Integration
 
             var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\contacts.xlsx"));
 
-            var formContacts = contacts.Where(x => x.form_submissions.Count > 1);
+            //var formContacts = contacts.Where(x => x.form_submissions.Count > 1);
 
-            formContacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels_Forms.json", new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
-            });
+            //formContacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels_Forms.json", new JsonSerializerSettings()
+            //{
+            //    NullValueHandling = NullValueHandling.Ignore,
+            //    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            //});
         }
 
 
@@ -193,7 +193,7 @@ namespace Business.Test.Integration
             //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
 
             var maxTimestamp = new UnixMsTimestamp(DateTime.Today.AddHours(12)).Value;
-            var minTimestamp = new UnixMsTimestamp(DateTime.Today.AddHours(11.75)).Value;
+            var minTimestamp = new UnixMsTimestamp(DateTime.Today.AddDays(-1)).Value;
 
             var contacts = service.GetChangesContactViewModels(10, maxTimestamp, minTimestamp, null, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
             var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\recentcontacts.xlsx"));
