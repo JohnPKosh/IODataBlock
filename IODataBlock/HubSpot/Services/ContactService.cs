@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using Business.Common.Configuration;
 using Business.Common.Exceptions;
 using Flurl;
@@ -26,14 +27,29 @@ namespace HubSpot.Services
 {
     public class ContactService : IContactService
     {
+        #region Class Initialization
+
         public ContactService(string hapikey)
         {
             //var configMgr = new ConfigMgr();
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
+
+            var propertyManager = new PropertyManager(_hapiKey);
+            ManagedProperties = propertyManager.Properties;
         }
 
+        #endregion
+
+        #region Fields and Properties
+
         private readonly string _hapiKey;
+
+        public List<PropertyTypeModel> ManagedProperties;
+
+        #endregion
+
+        #region Raw API Implementation
 
         #region Create / Update / Delete
 
@@ -41,7 +57,7 @@ namespace HubSpot.Services
         {
             /* http://developers.hubspot.com/docs/methods/contacts/create_contact */
             /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/?hapikey=demo */
-            
+
             var ro = new ResponseObject<string, string>();
             try
             {
@@ -475,14 +491,132 @@ namespace HubSpot.Services
         private IEnumerable<string> GetIdQueryParams(IEnumerable<int> values)
         {
             return values.Select(x => string.Format(@"vid={0}", x));
-        } 
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Extended Implementation
+
+        #region Read Contacts
+
+        public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            var moreResults = true;
+            var contacts = new List<ContactViewModel>();
+            if (properties == null) properties = ManagedProperties.Select(x => x.name);
+
+            while (moreResults)
+            {
+                var ro = GetAllContacts(count, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<ContactModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    moreResults = dto.has_more;
+                    vidOffset = dto.vid_offset;
+                    contacts.AddRange(dto.contacts.Select(c => (ContactViewModel)c));
+                }
+            }
+            return contacts;
+        }
+
+        public IEnumerable<ContactViewModel> GetChangesContactViewModels(int? count = null, long? maxTimeOffset = null, long? minTimeOffset = null, int? maxVidOffset = null, int? minVidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            var moreResults = true;
+            var contacts = new List<ContactViewModel>();
+            if (properties == null) properties = ManagedProperties.Select(x => x.name);
+            //long? timeOffset = maxTimeOffset;
+            //int? vidOffset = maxVidOffset;
+            while (moreResults)
+            {
+                var ro = GetRecentContacts(count, maxTimeOffset, maxVidOffset, properties, propertyMode, formSubmissionMode, showListMemberships);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<ContactModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    maxVidOffset = dto.vid_offset;
+                    maxTimeOffset = dto.time_offset;
+                    var currentList = dto.contacts.Select(c => (ContactViewModel)c).ToList();
+
+                    if (minTimeOffset.HasValue || minVidOffset.HasValue)
+                    {
+                        if (!minVidOffset.HasValue) minVidOffset = 0;
+                        if (!minTimeOffset.HasValue) minTimeOffset = 0;
+                        contacts.AddRange(currentList.Where(x=> x.addedAt >= minTimeOffset.Value && x.vid >= minVidOffset.Value));
+                        if(maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value)break;
+                        //moreResults = false;
+                    }
+                    else
+                    {
+                        contacts.AddRange(currentList);
+                        //moreResults = dto.has_more;
+                    }
+                    moreResults = dto.has_more;
+                }
+            }
+            return contacts;
+        }
+
+        public IEnumerable<ContactViewModel> GetRecentContactViewModels(int? count = null, long? timeOffset = null, int? vidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            var moreResults = true;
+            var contacts = new List<ContactViewModel>();
+            if (properties == null) properties = ManagedProperties.Select(x => x.name);
+
+            while (moreResults)
+            {
+                var ro = GetRecentContacts(count, timeOffset, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<ContactModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    moreResults = dto.has_more;
+                    vidOffset = dto.vid_offset;
+                    timeOffset = dto.time_offset;
+                    contacts.AddRange(dto.contacts.Select(c => (ContactViewModel)c));
+                }
+            }
+            return contacts;
+        }
+
+        #endregion
 
         #endregion
 
     }
-
-
-
-
-
 }

@@ -128,13 +128,87 @@ namespace Business.Test.Integration
         }
 
         [TestMethod]
+        public void GetAllContactsPagingTest2()
+        {
+            var service = new ContactService(_hapiKey);
+            var contacts = service.GetAllContactViewModels(100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
+
+            var results = contacts.Select(c => (Dictionary<string, object>)c);
+            foreach (var c in contacts)
+            {
+
+                dynamic d = (Dictionary<string, object>) c;
+            }
+
+            contacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels.json", new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
+        }
+
+
+        [TestMethod]
+        public void GetAllContactsPagingTest3()
+        {
+            var service = new ContactService(_hapiKey);
+            var contacts = service.GetAllContactViewModels(100, null, null, PropertyModeType.value_only, FormSubmissionModeType.All, true).ToList();
+
+            var results = contacts.ConvertToIEnumerableDynamic();
+
+            var formContacts = contacts.Where(x => x.form_submissions.Count > 1);
+
+            formContacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels_Forms.json", new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
+        }
+
+
+        [TestMethod]
+        public void GetAllContactsPagingTest4()
+        {
+            var service = new ContactService(_hapiKey);
+            //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+
+            var contacts = service.GetAllContactViewModels(100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
+
+            var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\contacts.xlsx"));
+
+            var formContacts = contacts.Where(x => x.form_submissions.Count > 1);
+
+            formContacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels_Forms.json", new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
+        }
+
+
+        [TestMethod]
+        public void GetChangesContactViewModelsTest()
+        {
+            var service = new ContactService(_hapiKey);
+            //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+
+            var maxTimestamp = new UnixMsTimestamp(DateTime.Today.AddHours(12)).Value;
+            var minTimestamp = new UnixMsTimestamp(DateTime.Today.AddHours(11.75)).Value;
+
+            var contacts = service.GetChangesContactViewModels(10, maxTimestamp, minTimestamp, null, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
+            var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\recentcontacts.xlsx"));
+
+        }
+
+        [TestMethod]
         public void GetRecentContactsTest()
         {
             var service = new ContactService(_hapiKey);
-            var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
+            var props = new List<string> { "lastname", "firstname", "lastmodifieddate", "email" };
 
-            UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
-            var ro = service.GetRecentContacts(10, timeOffsetDate, propertyMode: PropertyModeType.value_and_history);
+            //UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
+            UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now);
+            var ro = service.GetRecentContacts(10, null,null, props, propertyMode: PropertyModeType.value_and_history);
             //var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
@@ -147,6 +221,7 @@ namespace Business.Test.Integration
                 var contacts = dto.contacts.Select(c => (ContactViewModel) c).ToList();
                 DateTime? maxTimestamp = new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
                 DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
+                var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\recentcontacts.xlsx"));
             }
         }
 
@@ -208,11 +283,11 @@ namespace Business.Test.Integration
         public void GetContactByIdFromService()
         {
             var service = new ContactService(_hapiKey);
-            var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
+            var props = new List<string> { "lastname", "firstname", "lastmodifieddate", "email" };
 
 
             //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
-            var ro = service.GetContactById(4098 ,propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
+            var ro = service.GetContactById(4181, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
             if (ro.HasExceptions)
             {
                 Assert.Fail();

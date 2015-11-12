@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.System;
@@ -86,6 +87,61 @@ namespace HubSpot.Models.Contacts
             }
             rv.ManagedProperties = value.ManagedProperties;
             return rv;
+        }
+
+        static public implicit operator Dictionary<string, object>(ContactViewModel value)
+        {
+            string email = null;
+            string leadGuid = null;
+
+            var rv = new Dictionary<string, object>
+            {
+                {"identity_email", TryGetIdentityValue(value, "EMAIL", out email) ? email : string.Empty},
+                {"lead_guid", TryGetIdentityValue(value, "LEAD_GUID", out leadGuid) ? leadGuid : string.Empty},
+                {"addedAt", ((DateTime) value.addedAt).ToLocalTime()},
+                {"vid", value.vid},
+                {"portal_id", value.portal_id},
+                {"is_contact", value.is_contact},
+                {"profile_token", value.profile_token},
+                {"profile_url", value.profile_url}
+            };
+
+            foreach (var p in value.Properties)
+            {
+                var prop = value.ManagedProperties.FirstOrDefault(x => x.name == p.Key);
+                if (prop == null) continue;
+                
+                rv.Add(p.Key, GetPropertyValueByType(p.Value, prop.type));
+            }
+            return rv;
+        }
+
+        private static bool TryGetIdentityValue(ContactViewModel value, string type, out string output)
+        {
+            output = null;
+            try
+            {
+                output = value.identity_profiles.First(x => x.vid == value.vid).identities.First(y => y.type == type).value;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private static object GetPropertyValueByType(string value, string type)
+        {
+            switch (type)
+            {
+                case "datetime":
+                    DateTime? ts = new UnixMsTimestamp(value);
+                    return ts?.ToLocalTime();
+                case "bool":
+                    return string.IsNullOrWhiteSpace(value) ? (bool?) null : bool.Parse(value);
+                default:
+                    return value;
+            }
         }
 
         //static public implicit operator ContactUpdateModel(ContactModel value)

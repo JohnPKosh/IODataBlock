@@ -14,6 +14,9 @@ namespace HubSpot.Models.Contacts
         [JsonProperty("vid-offset")]
         public int vid_offset { get; set; }
 
+        [JsonProperty("time-offset")]
+        public long? time_offset { get; set; }
+
         [JsonProperty("total")]
         public int total { get; set; }
 

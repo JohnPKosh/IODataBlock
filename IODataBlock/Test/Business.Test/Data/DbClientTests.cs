@@ -169,6 +169,65 @@ ORDER BY [ORDINAL_POSITION]
         }
 
         [TestMethod]
+        public void temptest()
+        {
+            Assert.IsNotNull(TestDbClient());
+        }
+        private string TestDbClient()
+        {
+            //Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu
+
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+,NULL as testnull
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            try
+            {
+                var data = Database.Query(@"Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu", "System.Data.SqlClient", sql, 120, "LERG%");
+                if (!data.Any())
+                {
+                    return data.Count().ToString();
+                }
+                return "broke";
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
         public void TestStaticDatabaseQuery2()
         {
             #region sql

@@ -222,6 +222,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Junk\ContactViewModels.json" />
+    <None Include="Junk\ContactViewModels_Forms.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
@@ -236,6 +237,7 @@
     <None Include="Junk\Response.json" />
     <None Include="Junk\sample.md" />
     <None Include="Junk\sample2.md" />
+    <None Include="Junk\schema.json" />
     <None Include="Junk\server.json" />
     <None Include="Junk\test.appState.json" />
     <None Include="Junk\test.config.json" />

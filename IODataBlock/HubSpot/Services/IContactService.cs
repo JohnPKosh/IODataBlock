@@ -11,6 +11,8 @@ namespace HubSpot.Services
 
     public interface IContactService
     {
+        #region Raw API Implementation
+
         #region Create / Update / Delete
 
         /* http://developers.hubspot.com/docs/methods/contacts/create_contact */
@@ -87,6 +89,8 @@ namespace HubSpot.Services
 
         IResponseObject<string, string> GetContactsByQuery(string partialmatchNameOrEmail, int? count = null, int? vidOffset = null, IEnumerable<string> properties = null);
 
-        #endregion Read Contacts
+        #endregion Read Contacts 
+
+        #endregion
     }
 }

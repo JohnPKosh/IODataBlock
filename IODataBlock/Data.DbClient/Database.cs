@@ -288,9 +288,9 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternalAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
+                //return QueryInternalAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
-                //return QueryInternal(commandText, commandTimeout, parameters);
+                return QueryInternal(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
         }
@@ -554,7 +554,8 @@ namespace Data.DbClient
         public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
-            await EnsureConnectionOpenAsync();
+            //await EnsureConnectionOpenAsync();
+            EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
             if (commandTimeout > 0)
