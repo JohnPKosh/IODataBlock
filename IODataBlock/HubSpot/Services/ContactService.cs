@@ -501,6 +501,27 @@ namespace HubSpot.Services
 
         #region Read Contacts
 
+        public ContactViewModel GetContactByEmailViewModel(string email, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            if (properties == null) properties = ManagedProperties.Select(x => x.name);
+
+            var ro = GetContactByEmail(email, properties, propertyMode, formSubmissionMode, showListMemberships);
+            if (ro.HasExceptions)
+            {
+                throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+            }
+            var data = ro.ResponseData;
+            var dto = ClassExtensions.CreateFromJson<ContactModel>(data,
+                new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Include,
+                    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                });
+            return (ContactViewModel)dto;
+        }
+
         public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
             PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
             bool showListMemberships = false)
@@ -516,6 +537,8 @@ namespace HubSpot.Services
                 {
                     throw new Exception(ro.ExceptionList.Exceptions.First().Message);
                 }
+                else if (string.IsNullOrWhiteSpace(ro.ResponseData))
+                    moreResults = false;
                 else
                 {
                     var data = ro.ResponseData;
@@ -612,6 +635,20 @@ namespace HubSpot.Services
                 }
             }
             return contacts;
+        }
+
+        #endregion
+
+        #region Update Contacts
+
+        public string GetContactUpdateString(ContactViewModel contact)
+        {
+            var dto = ((ContactUpdateModel)contact).ToJsonString(new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Include,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
+            return dto;
         }
 
         #endregion

@@ -185,6 +185,21 @@ namespace Business.Test.Integration
             //});
         }
 
+        [TestMethod]
+        public void GetContactByEmail()
+        {
+            var service = new ContactService(_hapiKey);
+            //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+
+            var contact = service.GetContactByEmailViewModel("alex@compsol.pro", null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true);
+            contact.WriteJsonToFilePath(@"c:\junk\ContactViewModel_ByEmail2.json", new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            });
+        }
+
+
 
         [TestMethod]
         public void GetChangesContactViewModelsTest()

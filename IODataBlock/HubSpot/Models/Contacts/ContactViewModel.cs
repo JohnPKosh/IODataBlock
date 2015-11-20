@@ -82,7 +82,7 @@ namespace HubSpot.Models.Contacts
             foreach (var p in value.Properties)
             {
                 var prop = value.ManagedProperties.FirstOrDefault(x => x.name == p.Key);
-                if (prop == null || !prop.readOnlyValue) continue;
+                if (prop == null || prop.readOnlyValue || prop.readOnlyDefinition || prop.mutableDefinitionNotDeletable || prop.calculated) continue;
                 rv.Properties.Add(new PropertyUpdateValue(p.Key, p.Value, prop));
             }
             rv.ManagedProperties = value.ManagedProperties;
@@ -116,7 +116,7 @@ namespace HubSpot.Models.Contacts
             return rv;
         }
 
-        private static bool TryGetIdentityValue(ContactViewModel value, string type, out string output)
+        public static bool TryGetIdentityValue(ContactViewModel value, string type, out string output)
         {
             output = null;
             try
@@ -130,7 +130,7 @@ namespace HubSpot.Models.Contacts
             return true;
         }
 
-        private static object GetPropertyValueByType(string value, string type)
+        public static object GetPropertyValueByType(string value, string type)
         {
             switch (type)
             {
