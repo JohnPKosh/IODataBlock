@@ -91,6 +91,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Exchange.WebServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Exchange.WebServices.Auth, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
@@ -165,6 +173,7 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkTests.cs" />
+    <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
     <Compile Include="Integration\ContactSyncToNSTests.cs" />
@@ -197,6 +206,10 @@
     <Compile Include="Validation\ValidateTn.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Business.EWS\Business.EWS.csproj">
+      <Project>{656d1ddd-951d-497a-a034-996addad1d91}</Project>
+      <Name>Business.EWS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business.HttpClient\Business.HttpClient.csproj">
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>

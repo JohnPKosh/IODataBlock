@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
+using Business.Common.Security.Aes;
 using Business.Common.System;
 using Fasterflect;
 using HubSpot.Models.Contacts;
@@ -76,20 +77,51 @@ namespace Business.Test.Integration
         //
         #endregion
 
+        //[TestMethod]
+        //public void DeleteNsContactWhereHsStageIsOther()
+        //{
+        //    var hsprops = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+        //    var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
+        //    var contacts = GetAllContacts(100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ConvertToIEnumerableDynamic();
+
+        //    foreach (var contact in contacts.Where(x => x.lifecyclestage == "other"))
+        //    {
+        //        var lifecyclestage = contact.lifecyclestage;
+        //        Assert.IsNotNull(lifecyclestage);
+
+        //        //var email = (string)contact.Properties.TryGetValue("email");
+        //        var email = contact.identity_email;
+        //        if (string.IsNullOrWhiteSpace(email)) continue;
+        //        var nsleads = SearchNsLeadsByEmail(email, nscolumns);
+        //        if (nsleads == null) continue;
+        //        foreach (dynamic nslead in nsleads)
+        //        {
+        //            Assert.IsNotNull(nslead);
+
+        //            var status = nslead.columns.entitystatus.name;
+        //            if(status == "LEAD-Qualified") continue;
+        //            Assert.IsTrue(nslead.columns.balance < .01 || nslead.columns.balance == null);
+        //            Assert.IsTrue(nslead.columns.stage.internalid == "LEAD");
+        //            var deleted = DeleteNs(nslead.recordtype, nslead.id);
+        //            Assert.IsTrue(deleted);
+        //        }
+        //    }
+        //}
+
+
         [TestMethod]
         public void DeleteNsContactWhereHsStageIsOther()
         {
             var hsprops = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+            //var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
             var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
-            var contacts = GetAllContacts(100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ConvertToIEnumerableDynamic();
+            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f", "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
+            var contacts = GetAllContactViewModels(100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).Where(x => x.Properties.First(y => y.Key == "lifecyclestage").Value != "lead");
 
-            foreach (var contact in contacts.Where(x => x.lifecyclestage == "other"))
+            foreach (var contact in contacts.Where(x => x.form_submissions == null || !x.form_submissions.Any(y => partnerForms.Contains(y.GetValue("form-id").ToObject<string>()))))
             {
-                var lifecyclestage = contact.lifecyclestage;
-                Assert.IsNotNull(lifecyclestage);
-
                 //var email = (string)contact.Properties.TryGetValue("email");
-                var email = contact.identity_email;
+                var email = (string)contact.Properties.First(x => x.Key == "email").Value;
                 if (string.IsNullOrWhiteSpace(email)) continue;
                 var nsleads = SearchNsLeadsByEmail(email, nscolumns);
                 if (nsleads == null) continue;
@@ -98,46 +130,61 @@ namespace Business.Test.Integration
                     Assert.IsNotNull(nslead);
 
                     var status = nslead.columns.entitystatus.name;
-                    if(status == "LEAD-Qualified") continue;
+                    if (status == "LEAD-Qualified") continue;
                     Assert.IsTrue(nslead.columns.balance < .01 || nslead.columns.balance == null);
                     Assert.IsTrue(nslead.columns.stage.internalid == "LEAD");
                     var deleted = DeleteNs(nslead.recordtype, nslead.id);
                     Assert.IsTrue(deleted);
                 }
             }
-
-            //foreach (var contact in contacts.Where(x=> x.Properties.First(y => y.Key == "lifecyclestage").Value == "lifecyclestage"))
-            //{
-            //    var lifecyclestage = contact.Properties.First(x=> x.Key == "lifecyclestage").Value;
-            //    Assert.IsNotNull(lifecyclestage);
-
-            //    //var email = (string)contact.Properties.TryGetValue("email");
-            //    var email = (string)contact.identity_profiles.GetFieldValue();
-            //    if (string.IsNullOrWhiteSpace(email))continue;
-            //    var nsleads = SearchLeadsByEmail(email, nscolumns).ToList();
-            //    foreach (dynamic nslead in nsleads)
-            //    {
-            //        Assert.IsNotNull(nslead);
-
-            //        var status = nslead.columns.entitystatus.name;
-            //        Assert.IsTrue(nslead.columns.balance < .01 || nslead.columns.balance == null);
-            //        Assert.IsTrue(nslead.columns.stage.internalid == "LEAD");
-            //        var deleted = Delete(nslead.recordtype, nslead.id);
-            //        Assert.IsTrue(deleted);
-
-
-            //    }
-            //}
         }
 
         //"category_field_partner"
         //"category_field_end_user"
 
+        [TestMethod]
+        public void InsertNsContactWhereHsIsLead()
+        {
+            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
+            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f", "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
+
+            //var contacts = GetRecentContactViewModels(100, new UnixMsTimestamp(DateTime.Today.AddDays(-15)), propertyMode: PropertyModeType.value_only)
+
+            var contacts = GetAllContactViewModels(100, propertyMode: PropertyModeType.value_only)
+                .Where(x => x.Properties.First(y => y.Key == "lifecyclestage").Value == "lead").ToList();
+            //.Where(x => x.form_submissions != null && x.form_submissions.Any(y => partnerForms.Contains(y.GetValue("form-id").ToObject<string>())));
+
+            foreach (var c in contacts)
+            {
+                var email = (string)c.Properties.First(x => x.Key == "email").Value;
+                //var email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
+                if (string.IsNullOrWhiteSpace(email)) continue;
+                var nsleads = SearchNsLeadsByEmail(email, nscolumns);
+                if (nsleads == null)
+                {
+                    InsertNsLead(c);
+                }
+                else
+                {
+                    var nsId = c.Properties.FirstOrDefault(x => x.Key == "netsuite_internal_id")?.Value;
+                    foreach (var o in nsleads.Where(o => o.id != nsId))
+                    {
+                        UpdateHubspotContactId(c, o.id);
+                    }
+
+                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>); 
+                    foreach (var o in nsleads.Where(o => !(o as IDictionary<string, object>).ContainsKey("columns") || !(o.columns as IDictionary<string, object>).ContainsKey("custentity_cr_hs_profile_url") || o.columns.custentity_cr_hs_profile_url != c.profile_url))
+                    {
+                        UpdateNsLeadProfileUrlByEmail(c, o.id as string);
+                    }
+                }
+            }
+        }
 
         [TestMethod]
         public void InsertNsContactWhereHsFormSubmitted()
         {
-            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
+            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
             var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f" , "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
 
             //var contacts = GetRecentContactViewModels(100, new UnixMsTimestamp(DateTime.Today.AddDays(-15)), propertyMode: PropertyModeType.value_only)
@@ -164,6 +211,12 @@ namespace Business.Test.Integration
                     foreach (var o in nsleads.Where(o => o.id != nsId))
                     {
                         UpdateHubspotContactId(c, o.id);
+                    }
+
+                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>);
+                    foreach (var o in nsleads.Where(o => !(o as IDictionary<string, object>).ContainsKey("columns") || !(o.columns as IDictionary<string, object>).ContainsKey("custentity_cr_hs_profile_url") || o.columns.custentity_cr_hs_profile_url != c.profile_url))
+                    {
+                        UpdateNsLeadProfileUrlByEmail(c, o.id as string);
                     }
                 }
             }
@@ -249,6 +302,7 @@ namespace Business.Test.Integration
                 o.title = c.Properties.First(x => x.Key == "jobtitle").Value;
                 o.recordtype = "lead";
                 o.firstname = c.Properties.First(x => x.Key == "firstname").Value;
+                o.custentity_cr_hs_profile_url = c.profile_url;
                 //o.email = updateModel.Properties.FirstOrDefault(x => x.Key == "email");
                 o.email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
 
@@ -258,6 +312,27 @@ namespace Business.Test.Integration
                 var parameters = new Dictionary<string, object> { { "type", "lead" }, { "request_body", o } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private void UpdateNsLeadProfileUrlByEmail(ContactViewModel c, string id)
+        {
+            try
+            {
+                dynamic o = new ExpandoObject();
+                o.custentity_cr_hs_profile_url = c.profile_url;
+
+                var parameters = new Dictionary<string, object> { { "type", "lead" }, { "id", id }, { "request_body", o } };
+
+                var restlet = PutRestletBase.Create(BaseUrl, GetScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 var result = rv.Result;
 
