@@ -141,7 +141,7 @@ namespace Business.Common.IO.Serialization
         {
             Stream ms = new MemoryStream();
             ms.GZipSerialize(obj, settings, encodingType, knownTypes);
-            return ms as MemoryStream;
+            return (MemoryStream) ms;
         }
 
         #endregion T Object to MemoryStream GZipSerialization Extensions
@@ -319,7 +319,7 @@ namespace Business.Common.IO.Serialization
             fileInfo.Refresh();
             if (fileInfo.Directory == null || !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
             var enumerable = knownTypes as Type[];
-            using (SerializationExtensionBase.SerializeToMemoryStream(obj, settings, encodingType, enumerable))
+            using (obj.SerializeToMemoryStream(settings, encodingType, enumerable))
             {
                 using (new WriteFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {

@@ -223,23 +223,23 @@ namespace Business.Common.System.Args
         /// <returns>Returns an instance of the Arguments class.</returns>
         public static Arguments ReadStringArgumentsFromFile(FileInfo fi, String id = null)
         {
-            if (fi.Exists)
+            if (!fi.Exists)
+                throw new FileNotFoundException(
+                    "Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
+            FileStream fs = null;
+            try
             {
-                FileStream fs = null;
-                try
+                fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using (var sr = new StreamReader(fs))
                 {
-                    fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using (var sr = new StreamReader(fs))
-                    {
-                        var readLine = sr.ReadLine();
-                        if (readLine != null) return CreateArguments(readLine.Trim(), id);
-                        else return null;
-                    }
+                    var readLine = sr.ReadLine();
+                    if (readLine != null) return CreateArguments(readLine.Trim(), id);
+                    else return null;
                 }
-                finally
-                {
-                    if (fs != null) fs.Dispose();
-                }
+            }
+            finally
+            {
+                if (fs != null) fs.Dispose();
             }
             throw new FileNotFoundException("Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
         }

@@ -515,12 +515,9 @@ namespace Business.Common.Extensions
 
         public static bool IsUrl(this string s, Boolean ignoreSurroundingWhitespace)
         {
-            if (!s.IsNullOrWhiteSpace())
-            {
-                var rx = new Regex(@"\A(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*\Z", RegexOptions.IgnoreCase);
-                return rx.IsMatch(ignoreSurroundingWhitespace ? s.Trim() : s);
-            }
-            return false;
+            if (s.IsNullOrWhiteSpace()) return false;
+            var rx = new Regex(@"\A(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*\Z", RegexOptions.IgnoreCase);
+            return rx.IsMatch(ignoreSurroundingWhitespace ? s.Trim() : s);
         }
 
         public static bool ContainsUrl(this string s)

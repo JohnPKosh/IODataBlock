@@ -49,28 +49,28 @@ namespace Business.Common.System.Args
 
         public static ArgumentList ReadStringCollectionFromFile(FileInfo collectionFileInfo)
         {
-            if (collectionFileInfo.Exists)
+            if (!collectionFileInfo.Exists)
+                throw new FileNotFoundException(
+                    "Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
+            FileStream fs = null;
+            try
             {
-                FileStream fs = null;
-                try
+                fs = new FileStream(collectionFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using (var sr = new StreamReader(fs))
                 {
-                    fs = new FileStream(collectionFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using (var sr = new StreamReader(fs))
+                    var ac = new ArgumentList();
+                    while (!sr.EndOfStream)
                     {
-                        var ac = new ArgumentList();
-                        while (!sr.EndOfStream)
-                        {
-                            var readLine = sr.ReadLine();
-                            if (readLine != null)
-                                ac.Items.Add(Arguments.CreateArguments(readLine.Trim()));
-                        }
-                        return ac;
+                        var readLine = sr.ReadLine();
+                        if (readLine != null)
+                            ac.Items.Add(Arguments.CreateArguments(readLine.Trim()));
                     }
+                    return ac;
                 }
-                finally
-                {
-                    if (fs != null) fs.Dispose();
-                }
+            }
+            finally
+            {
+                if (fs != null) fs.Dispose();
             }
             throw new FileNotFoundException("Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
         }

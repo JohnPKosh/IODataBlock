@@ -28,13 +28,11 @@ namespace Business.Common.Configuration
                 global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var section = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (section == null) return;
-                if (!section.SectionInformation.IsProtected)
-                {
-                    section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
-                    section.SectionInformation.ForceSave = true;
-                    config.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection("connectionStrings");
-                }
+                if (section.SectionInformation.IsProtected) return;
+                section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                section.SectionInformation.ForceSave = true;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("connectionStrings");
             }
 
             /// <summary>
@@ -45,13 +43,11 @@ namespace Business.Common.Configuration
                 global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var section = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (section == null) return;
-                if (section.SectionInformation.IsProtected)
-                {
-                    section.SectionInformation.UnprotectSection();
-                    section.SectionInformation.ForceSave = true;
-                    config.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection("connectionStrings");
-                }
+                if (!section.SectionInformation.IsProtected) return;
+                section.SectionInformation.UnprotectSection();
+                section.SectionInformation.ForceSave = true;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("connectionStrings");
             }
 
             protected internal String GetConnectionStringByName(String name)

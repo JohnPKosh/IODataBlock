@@ -493,7 +493,7 @@ namespace Business.Common.Security.Aes
         /// <param name="lockWaitMs">The lock wait ms.</param>
         public static void AesGzipDecryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
         {
-            var r = new AesCryptoServiceProvider();
+            //var r = new AesCryptoServiceProvider();
             outputFileInfo.Refresh();
             if (outputFileInfo.Directory == null || !outputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
             using (var writeFileAccess = new WriteFileAccess(outputFileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
