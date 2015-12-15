@@ -145,7 +145,8 @@ namespace Business.Test.Integration
         [TestMethod]
         public void InsertNsContactWhereHsIsLead()
         {
-            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
+            //var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
+            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
             var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f", "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
 
             //var contacts = GetRecentContactViewModels(100, new UnixMsTimestamp(DateTime.Today.AddDays(-15)), propertyMode: PropertyModeType.value_only)

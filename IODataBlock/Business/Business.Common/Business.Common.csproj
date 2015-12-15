@@ -127,9 +127,9 @@
     <None Include="connectionStrings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="csp.dat">
+    <Content Include="csp.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Extensions\ExtensionsDiagram.cd" />
     <None Include="IO\Serialization\JsonSerializationExtensionBase.cs" />
     <Compile Include="IO\Serialization\SerializationExtensionBase.cs" />
