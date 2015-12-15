@@ -492,23 +492,20 @@ namespace Business.Common.IO.Serialization
         IEnumerable<Type> knownTypes = null) where T : class
         {
             fileInfo.Refresh();
-            if (fileInfo.Directory != null && fileInfo.Directory.Exists)
+            if (fileInfo.Directory == null || !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
+            var enumerable = knownTypes as Type[];
+            using (obj.SerializeToMemoryStream(settings, encodingType, enumerable))
             {
-                var enumerable = knownTypes as Type[];
-                using (obj.SerializeToMemoryStream(settings, encodingType, enumerable))
+                using (new WriteFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
-                    using (new WriteFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
+                    using (var fs = fileInfo.OpenFileStream(FileMode.Create, FileAccess.Write, FileShare.None, lockWaitMs, true))
                     {
-                        using (var fs = fileInfo.OpenFileStream(FileMode.Create, FileAccess.Write, FileShare.None, lockWaitMs, true))
-                        {
-                            fs.Serialize(obj, settings, encodingType, enumerable);
-                        }
+                        fs.Serialize(obj, settings, encodingType, enumerable);
                     }
                 }
-                fileInfo.Refresh();
-                return fileInfo;
             }
-            throw new DirectoryNotFoundException();
+            fileInfo.Refresh();
+            return fileInfo;
         }
 
         #endregion Private FileInfo Serializer Methods

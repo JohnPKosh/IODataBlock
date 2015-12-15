@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Excel;
 using Business.Test.TestUtility;
 using Data.DbClient.Extensions;
 using DbExtensions;
@@ -164,6 +165,65 @@ ORDER BY [ORDINAL_POSITION]
             if (!data.Any())
             {
                 Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void temptest()
+        {
+            Assert.IsNotNull(TestDbClient());
+        }
+        private string TestDbClient()
+        {
+            //Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu
+
+            #region sql
+
+            var sql = @"
+SELECT [TABLE_CATALOG]
+    ,[TABLE_SCHEMA]
+    ,[TABLE_NAME]
+    ,[COLUMN_NAME]
+    ,[ORDINAL_POSITION]
+    ,[COLUMN_DEFAULT]
+    ,[IS_NULLABLE]
+    ,[DATA_TYPE]
+    ,[CHARACTER_MAXIMUM_LENGTH]
+    ,[CHARACTER_OCTET_LENGTH]
+    ,[NUMERIC_PRECISION]
+    ,[NUMERIC_PRECISION_RADIX]
+    ,[NUMERIC_SCALE]
+    ,[DATETIME_PRECISION]
+    ,[CHARACTER_SET_CATALOG]
+    ,[CHARACTER_SET_SCHEMA]
+    ,[CHARACTER_SET_NAME]
+    ,[COLLATION_CATALOG]
+    ,[COLLATION_SCHEMA]
+    ,[COLLATION_NAME]
+    ,[DOMAIN_CATALOG]
+    ,[DOMAIN_SCHEMA]
+    ,[DOMAIN_NAME]
+,NULL as testnull
+FROM [INFORMATION_SCHEMA].[COLUMNS]
+WHERE [TABLE_NAME] LIKE @0
+ORDER BY [ORDINAL_POSITION]
+";
+
+            #endregion sql
+
+            try
+            {
+                var data = Database.Query(@"Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu", "System.Data.SqlClient", sql, 120, "LERG%");
+                if (!data.Any())
+                {
+                    return data.Count().ToString();
+                }
+                return "broke";
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
 
@@ -642,6 +702,39 @@ ORDER BY [ORDINAL_POSITION]
                     if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
+        }
+
+        [TestMethod]
+        public void QueryToExcel()
+        {
+            var con = Database.CreateSqlConnectionString("CLEHBDB02", "BDVOXData");
+
+            var sql = @"
+SELECT [SLE_CHNL_ID]
+      ,[SLE_CHNL_CD]
+      ,[SLE_CHNL_NAME]
+      ,[SLE_CHNL_ORIENT]
+      ,[SLE_CHNL_ASSGN_DATE]
+      ,[SLE_CHNL_TRMN_DATE]
+      ,[SLE_CHNL_CONTACT]
+      ,[SLE_CHNL_TITLE]
+      ,[SLE_CHNL_EMAIL]
+      ,[sle_chnl_enable_email]
+      ,[SLE_CHNL_PHONE_NUM]
+      ,[SLE_COMP_NAME]
+      ,[SLE_CHNL_FAX_NUM]
+      ,[SLE_CHNL_SOC_SEC]
+      ,[SLE_CHNL_FED_ID]
+      ,[SLE_CHNL_ADRES1]
+      ,[SLE_CHNL_ADRES2]
+      ,[SLE_CHNL_CITY]
+      ,[STATE_CODE_ID]
+      ,[SLE_CHNL_ZIP]
+  FROM [BDVOXData].[dbo].[SALE_CHANNEL]
+";
+            MsExcelExtensionBase.CreateExcelFromQuery(new FileInfo(@"C:\junk\SalesChannel.xlsx"), sql, con);
+
+
         }
 
         #endregion SQL Server Tests

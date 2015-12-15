@@ -117,12 +117,10 @@ namespace Business.Common.IO
 
         public void StartLockUpdateTimer()
         {
-            if (DefaultLockDuration.TotalSeconds >= 30)
-            {
-                LockUpdateTimer = new Timer(DefaultLockDuration.TotalMilliseconds - 5000);
-                LockUpdateTimer.Elapsed += OnLockUpdateTimer;
-                LockUpdateTimer.Enabled = true;
-            }
+            if (!(DefaultLockDuration.TotalSeconds >= 30)) return;
+            LockUpdateTimer = new Timer(DefaultLockDuration.TotalMilliseconds - 5000);
+            LockUpdateTimer.Elapsed += OnLockUpdateTimer;
+            LockUpdateTimer.Enabled = true;
         }
 
         public Boolean ClearExpiredTempLock(Int32 lockWaitMs)
@@ -444,17 +442,15 @@ namespace Business.Common.IO
 
         private void OnLockUpdateTimer(object source, ElapsedEventArgs e)
         {
-            if (!UpdatingLock)
+            if (UpdatingLock) return;
+            UpdatingLock = true;
+            try
             {
-                UpdatingLock = true;
-                try
-                {
-                    if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
-                }
-                finally
-                {
-                    UpdatingLock = false;
-                }
+                if (IsAccessible && TempLockExists()) UpdateTempLockFile(DefaultLockWaitMs, DefaultLockDuration);
+            }
+            finally
+            {
+                UpdatingLock = false;
             }
         }
 

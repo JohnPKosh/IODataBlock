@@ -664,26 +664,23 @@ namespace Business.Common.Security.Aes
         IEnumerable<Type> knownTypes = null) where T : class
         {
             fileInfo.Refresh();
-            if (fileInfo.Directory != null && fileInfo.Directory.Exists)
+            if (fileInfo.Directory == null || !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
+            using (var fileAccess = new WriteFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
             {
-                using (var fileAccess = new WriteFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
+                if (!fileAccess.IsAccessible) throw new Exception(@"Could not create lock file!");
+                using (var fs = fileInfo.OpenFileStream(FileMode.Create, FileAccess.Write, FileShare.None, lockWaitMs, true))
                 {
-                    if (!fileAccess.IsAccessible) throw new Exception(@"Could not create lock file!");
-                    using (var fs = fileInfo.OpenFileStream(FileMode.Create, FileAccess.Write, FileShare.None, lockWaitMs, true))
+                    List<Type> types = null;
+                    if (knownTypes != null) types = knownTypes.ToList();
+                    using (var ms = obj.SerializeToMemoryStream(settings, encodingType, types))
                     {
-                        List<Type> types = null;
-                        if (knownTypes != null) types = knownTypes.ToList();
-                        using (var ms = obj.SerializeToMemoryStream(settings, encodingType, types))
-                        {
-                            ms.AesSimpleEncryptSerializeStream(obj, settings, encodingType, types);
-                            ms.CopyTo(fs);
-                        }
+                        ms.AesSimpleEncryptSerializeStream(obj, settings, encodingType, types);
+                        ms.CopyTo(fs);
                     }
                 }
-                fileInfo.Refresh();
-                return fileInfo;
             }
-            throw new DirectoryNotFoundException();
+            fileInfo.Refresh();
+            return fileInfo;
         }
 
         private static FileInfo AesSimpleEncryptSerializeRollbackFromCopy<T>(this T obj, FileInfo fileInfo,

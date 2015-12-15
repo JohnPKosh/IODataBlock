@@ -343,7 +343,7 @@ namespace Business.Common.IO
         public void AddException(Exception ex)
         {
             if (EntryReadErrors == null) InitExceptionList();
-            if (EntryReadErrors != null) EntryReadErrors.Add(ex);;
+            if (EntryReadErrors != null) EntryReadErrors.Add(ex);
         }
 
         private void InitExceptionList()

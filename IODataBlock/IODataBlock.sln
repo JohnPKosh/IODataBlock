@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IODataBlock.Database", "IODataBlock.Database\IODataBlock.Database.sqlproj", "{CC96992D-DE3F-4A18-8B6D-88B29C7467B3}"
 EndProject
@@ -81,6 +81,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Templates", "Business.Templates\Business.Templates.csproj", "{16564C00-FD7C-41EB-853D-F7F7666581DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Excel", "Business.Excel\Business.Excel.csproj", "{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Business.Wpf", "Nuget\Business.Wpf\Business.Wpf.nuproj", "{4D70F005-E350-4CA3-A6BF-390C086453D2}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Business.Excel", "Nuget\Business.Excel\Business.Excel.nuproj", "{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Business.Templates", "Nuget\Business.Templates\Business.Templates.nuproj", "{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.EWS", "Business.EWS\Business.EWS.csproj", "{656D1DDD-951D-497A-A034-996ADDAD1D91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -336,6 +344,48 @@ Global
 		{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4D70F005-E350-4CA3-A6BF-390C086453D2}.Release|x86.ActiveCfg = Release|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948}.Release|x86.ActiveCfg = Release|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Debug|x86.Build.0 = Debug|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|x86.ActiveCfg = Release|Any CPU
+		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -368,5 +418,12 @@ Global
 		{4B4CF453-BB0E-4CD2-A7DE-959C82F2FF1A} = {ED3CA360-CE79-4E2B-B77D-DDB78A205AC2}
 		{16564C00-FD7C-41EB-853D-F7F7666581DB} = {E833F9E3-D458-4A2B-8A02-5A1E62631024}
 		{7E6BC2BE-6D0C-4DC6-952A-E391F10449AA} = {E833F9E3-D458-4A2B-8A02-5A1E62631024}
+		{4D70F005-E350-4CA3-A6BF-390C086453D2} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
+		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
+		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
+		{656D1DDD-951D-497A-A034-996ADDAD1D91} = {E833F9E3-D458-4A2B-8A02-5A1E62631024}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

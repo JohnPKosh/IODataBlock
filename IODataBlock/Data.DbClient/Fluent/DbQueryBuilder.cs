@@ -6,10 +6,7 @@ namespace Data.DbClient.Fluent
 {
     public class DbQueryBuilder
     {
-        private DbConnection _connection;
-        private String _commandText;
-        private Int32 _commandTimeout = 120;
-        private object[] _parameters = null;
+        #region Class Initialization
 
         public DbQueryBuilder()
         {
@@ -31,6 +28,19 @@ namespace Data.DbClient.Fluent
             _parameters = parameters;
         }
 
+        #endregion
+
+        #region Fields and Properties
+
+        private DbConnection _connection;
+        private String _commandText;
+        private Int32 _commandTimeout = 120;
+        private object[] _parameters = null;
+
+        #endregion
+
+        #region Static Factory Methods
+
         public static DbQueryBuilder CreateFrom(DbConnection connection)
         {
             var rv = new DbQueryBuilder { _connection = connection };
@@ -40,9 +50,11 @@ namespace Data.DbClient.Fluent
         public static DbQueryBuilder CreateFrom(DbQuery query)
         {
             return new DbQueryBuilder(query);
-        }
+        } 
 
-        public DbQueryBuilder From(DbConnection connection)
+        #endregion
+
+        public DbQueryBuilder FromConnection(DbConnection connection)
         {
             _connection = connection;
             return this;

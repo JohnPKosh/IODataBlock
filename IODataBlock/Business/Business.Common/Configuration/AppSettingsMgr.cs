@@ -30,13 +30,11 @@ namespace Business.Common.Configuration
                 global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
-                if (!appsection.SectionInformation.IsProtected)
-                {
-                    appsection.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
-                    appsection.SectionInformation.ForceSave = true;
-                    config.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection("appSettings");
-                }
+                if (appsection.SectionInformation.IsProtected) return;
+                appsection.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                appsection.SectionInformation.ForceSave = true;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
 
             /// <summary>
@@ -47,13 +45,11 @@ namespace Business.Common.Configuration
                 global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
-                if (appsection.SectionInformation.IsProtected)
-                {
-                    appsection.SectionInformation.UnprotectSection();
-                    appsection.SectionInformation.ForceSave = true;
-                    config.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection("appSettings");
-                }
+                if (!appsection.SectionInformation.IsProtected) return;
+                appsection.SectionInformation.UnprotectSection();
+                appsection.SectionInformation.ForceSave = true;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
 
             /// <summary>

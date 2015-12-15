@@ -13,7 +13,7 @@ namespace Business.Test.Common.System.App
     {
         public DynamicAppStateTests()
         {
-            _dynamicJsonLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState2.json"));
+            _dynamicJsonLoader = new DynamicJsonFileLoader(new FileInfo(@"c:\junk\test.appState3.json"));
             _dynamicBsonLoader = new DynamicBsonFileLoader(new FileInfo(@"c:\junk\test.appState2.bson"));
             _appState = new ExpandoObject();
         }

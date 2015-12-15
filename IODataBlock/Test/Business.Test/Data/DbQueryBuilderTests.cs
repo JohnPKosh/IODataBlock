@@ -93,7 +93,7 @@ ORDER BY [ORDINAL_POSITION]
             var qb = new DbQueryBuilder();
 
             // build a query
-            DbQuery query = qb.From(new SqlConnection(SqlServerConnectionString))
+            DbQuery query = qb.FromConnection(new SqlConnection(SqlServerConnectionString))
                 .WithCommand("SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
 
             // execute a query
@@ -110,7 +110,7 @@ ORDER BY [ORDINAL_POSITION]
             var qb = new DbQueryBuilder();
 
             // build a query
-            DbQuery query = qb.From(new SqlConnection(SqlServerConnectionString))
+            DbQuery query = qb.FromConnection(new SqlConnection(SqlServerConnectionString))
                 .WithCommand(Sql)
                 .SetParameters("Data%")
                 .TimeoutAfter(120);
@@ -129,11 +129,11 @@ ORDER BY [ORDINAL_POSITION]
             var qb = new DbQueryBuilder();
 
             // execute a query
-            var data = qb.From(new SqlConnection(SqlServerConnectionString))
+            var data = qb.FromConnection(new SqlConnection(SqlServerConnectionString))
                 .WithCommand(Sql)
                 .SetParameters("Data%")
                 .TimeoutAfter(120)
-                .ExecuteQuery();
+                .Query();
 
             if (!data.Any())
             {
@@ -149,7 +149,7 @@ ORDER BY [ORDINAL_POSITION]
                 .WithCommand(Sql)
                 .SetParameters("Data%")
                 .TimeoutAfter(120)
-                .ExecuteQuery();
+                .Query();
 
             if (!data.Any())
             {
@@ -163,7 +163,7 @@ ORDER BY [ORDINAL_POSITION]
             var query = new DbQuery(new SqlConnection(SqlServerConnectionString), Sql, 120, "Data%");
 
             // execute a query
-            var data = DbQueryBuilder.CreateFrom(query).ExecuteQuery();
+            var data = DbQueryBuilder.CreateFrom(query).Query();
 
             if (!data.Any())
             {
@@ -206,7 +206,7 @@ ORDER BY [ORDINAL_POSITION]
             var qb = new DbQueryBuilder();
 
             // build a query
-            DbQuery query = qb.From(new SqlConnection(SqlServerConnectionString))
+            DbQuery query = qb.FromConnection(new SqlConnection(SqlServerConnectionString))
                 .WithCommand("SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
 
             // execute a query

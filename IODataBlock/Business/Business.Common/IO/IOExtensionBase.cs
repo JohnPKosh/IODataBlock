@@ -209,23 +209,18 @@ namespace Business.Common.IO
         public static DirectoryInfo ToDirectoryInfo(this String path, Boolean createDirectory, Boolean overwrite)
         {
             var d = new DirectoryInfo(path.ToDirectoryPath());
-            if (createDirectory)
+            if (!createDirectory) return d;
+            var exists = d.Exists;
+            if (overwrite && exists)
             {
-                var exists = d.Exists;
-                if (overwrite && exists)
-                {
-                    d.Delete(true);
-                    d.Create();
-                    d.Refresh();
-                    return d;
-                }
-                if (!exists)
-                {
-                    d.Create();
-                    d.Refresh();
-                    return d;
-                }
+                d.Delete(true);
+                d.Create();
+                d.Refresh();
+                return d;
             }
+            if (exists) return d;
+            d.Create();
+            d.Refresh();
             return d;
         }
 

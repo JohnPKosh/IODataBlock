@@ -35,7 +35,7 @@ namespace Data.DbClient.Extensions
                 throw new ArgumentException("connectionString must not be empty");
 
             _connectionString = connectionString;
-            _providerName = "System.Data.OracleClient";
+            _providerName = "System.Data.SqlClient";
         }
 
         /// <summary>

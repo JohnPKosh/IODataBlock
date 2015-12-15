@@ -47,7 +47,11 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.6\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Excel.1.0.1\lib\net452\Business.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Business.Excel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Business.Excel.1.0.1\lib\net452\Business.Excel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -55,11 +59,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Data.DbClient.1.0.6\lib\net452\Data.DbClient.dll</HintPath>
+      <HintPath>..\..\packages\Business.Excel.1.0.1\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DbExtensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=6b3b4f54da52bca4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DbExtensions.5.0.0\lib\net40\DbExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPPlus.4.0.4\lib\net20\EPPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Fasterflect, Version=2.1.3.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
@@ -75,8 +91,24 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Exchange.WebServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Exchange.WebServices.Auth, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Exchange.WebServices.2.2\lib\40\Microsoft.Exchange.WebServices.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetSuite.RESTlet.Dto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Dto.1.0.0\lib\net452\NetSuite.RESTlet.Dto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetSuite.RESTlet.Integration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\NetSuite.RESTlet.Integration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -104,6 +136,10 @@
       <HintPath>..\..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
@@ -114,7 +150,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -135,7 +173,12 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkTests.cs" />
+    <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\ContactSyncToNSTests.cs" />
+    <Compile Include="Integration\FormsServiceTests.cs" />
+    <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +206,10 @@
     <Compile Include="Validation\ValidateTn.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Business.EWS\Business.EWS.csproj">
+      <Project>{656d1ddd-951d-497a-a034-996addad1d91}</Project>
+      <Name>Business.EWS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business.HttpClient\Business.HttpClient.csproj">
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
@@ -174,19 +221,52 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Configuration\appSettings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configuration\connectionStrings.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="csp.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
     <None Include="Junk\allContacts.json" />
+    <None Include="Junk\allContactsdynamic.json" />
+    <None Include="Junk\allpagedcontacts.json" />
+    <None Include="Junk\allpagedcontactsleadstatus.json" />
+    <None Include="Junk\allpagedcontactsleadstatus2.json" />
+    <None Include="Junk\allPropertiesDto.json" />
+    <None Include="Junk\allPropertiesDynamic.json" />
     <None Include="Junk\contactByIdClone.json" />
+    <None Include="Junk\contactByIdDynamic.json" />
+    <None Include="Junk\ContactPropertyList.json" />
+    <None Include="Junk\contactpropnames.json" />
+    <None Include="Junk\contactproptypes.json" />
+    <None Include="Junk\ContactUpdate2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Junk\ContactUpdate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Junk\ContactViewModels.json" />
+    <None Include="Junk\ContactViewModels_Forms.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
+    <None Include="Junk\formlist.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
+    <None Include="Junk\RawContactProperties.json" />
+    <None Include="Junk\rawgetallcontacts.json" />
+    <None Include="Junk\rawtestcontact.json" />
+    <None Include="Junk\rawtestcontactupdatemodel.json" />
     <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
     <None Include="Junk\sample.md" />
     <None Include="Junk\sample2.md" />
+    <None Include="Junk\schema.json" />
     <None Include="Junk\server.json" />
     <None Include="Junk\test.appState.json" />
     <None Include="Junk\test.config.json" />
@@ -197,9 +277,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Junk\CDR_Bill_Sonus_Lookup.xml" />
     <Content Include="Junk\email.htm" />
@@ -210,6 +288,7 @@
     </Content>
     <Content Include="Junk\kirk_output.xml" />
     <Content Include="Junk\NRFs.txt" />
+    <Content Include="Junk\OutboundSalesFriendly.html" />
     <Content Include="Junk\salesorder.xml" />
   </ItemGroup>
   <Choose>

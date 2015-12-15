@@ -60,38 +60,36 @@ namespace Business.Common.Extensions
 
 
             var table = new DataTable();
-            if (input.Any())
+            if (!input.Any()) return table;
+            IList<PropertyInfo> properties = typeof(T)
+                .GetProperties()
+                .Where(p => p.CanRead && (p.GetIndexParameters().Length == 0))
+                .ToList();
+
+            foreach (var property in properties)
             {
-                IList<PropertyInfo> properties = typeof(T)
-                                                    .GetProperties()
-                                                    .Where(p => p.CanRead && (p.GetIndexParameters().Length == 0))
-                                                    .ToList();
+                table.Columns.Add(property.Name, property.PropertyType);
+            }
 
-                foreach (var property in properties)
+            IList<MethodInfo> getters = properties.Select(p => p.GetGetMethod()).ToList();
+
+            table.BeginLoadData();
+            try
+            {
+                var values = new object[properties.Count];
+                foreach (var item in input)
                 {
-                    table.Columns.Add(property.Name, property.PropertyType);
-                }
-
-                IList<MethodInfo> getters = properties.Select(p => p.GetGetMethod()).ToList();
-
-                table.BeginLoadData();
-                try
-                {
-                    var values = new object[properties.Count];
-                    foreach (var item in input)
+                    for (var i = 0; i < getters.Count; i++)
                     {
-                        for (var i = 0; i < getters.Count; i++)
-                        {
-                            values[i] = getters[i].Invoke(item, BindingFlags.Default, null, null, CultureInfo.InvariantCulture);
-                        }
-
-                        table.Rows.Add(values);
+                        values[i] = getters[i].Invoke(item, BindingFlags.Default, null, null, CultureInfo.InvariantCulture);
                     }
+
+                    table.Rows.Add(values);
                 }
-                finally
-                {
-                    table.EndLoadData();
-                }
+            }
+            finally
+            {
+                table.EndLoadData();
             }
 
             return table;

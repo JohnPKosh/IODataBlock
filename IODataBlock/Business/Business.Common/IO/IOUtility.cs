@@ -74,6 +74,20 @@ namespace Business.Common.IO
             set { _pvtDefaultFolderPath = value; }
         }
 
+        private static String _pvtAppDataFolderPath = String.Empty;
+
+        public static string AppDataFolderPath
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_pvtAppDataFolderPath)) return _pvtAppDataFolderPath;
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                _pvtAppDataFolderPath = Path.Combine(baseDirectory.Substring(0, baseDirectory.LastIndexOf(@"\", StringComparison.Ordinal)), @"App_Data");
+                return _pvtAppDataFolderPath;
+            }
+            set { _pvtAppDataFolderPath = value; }
+        }
+
         private static String _pvtDefaultLogFolderPath = String.Empty;
 
         public static String DefaultLogFolderPath
@@ -385,83 +399,81 @@ namespace Business.Common.IO
         {
             var di = new DirectoryInfo(folderPath);
             var fileDt = new DataTable(dataTablename);
-            if (di.Exists)
+            if (!di.Exists) return fileDt;
+            fileDt.Columns.Add("CreationTime", typeof(DateTime));
+            fileDt.Columns.Add("CreationTimeUtc", typeof(DateTime));
+            fileDt.Columns.Add("Directory");
+            fileDt.Columns.Add("DirectoryName");
+            fileDt.Columns.Add("Exists", typeof(Boolean));
+            fileDt.Columns.Add("Extension");
+            fileDt.Columns.Add("FullName");
+            fileDt.Columns.Add("IsReadOnly", typeof(Boolean));
+            fileDt.Columns.Add("LastAccessTime", typeof(DateTime));
+            fileDt.Columns.Add("LastAccessTimeUtc", typeof(DateTime));
+            fileDt.Columns.Add("LastWriteTime", typeof(DateTime));
+            fileDt.Columns.Add("LastWriteTimeUtc", typeof(DateTime));
+            fileDt.Columns.Add("Length", typeof(Int64));
+            fileDt.Columns.Add("Name");
+
+            fileDt.Columns.Add("IsArchive", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsCompressed", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsEncrypted", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsHidden", typeof(Boolean)).DefaultValue = false;
+
+            //fileDT.Columns.Add("IsReadOnly", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsSystem", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsTemporary", typeof(Boolean)).DefaultValue = false;
+
+            var files = di.GetFiles(ext, searchOption);
+            foreach (var fil in files)
             {
-                fileDt.Columns.Add("CreationTime", typeof(DateTime));
-                fileDt.Columns.Add("CreationTimeUtc", typeof(DateTime));
-                fileDt.Columns.Add("Directory");
-                fileDt.Columns.Add("DirectoryName");
-                fileDt.Columns.Add("Exists", typeof(Boolean));
-                fileDt.Columns.Add("Extension");
-                fileDt.Columns.Add("FullName");
-                fileDt.Columns.Add("IsReadOnly", typeof(Boolean));
-                fileDt.Columns.Add("LastAccessTime", typeof(DateTime));
-                fileDt.Columns.Add("LastAccessTimeUtc", typeof(DateTime));
-                fileDt.Columns.Add("LastWriteTime", typeof(DateTime));
-                fileDt.Columns.Add("LastWriteTimeUtc", typeof(DateTime));
-                fileDt.Columns.Add("Length", typeof(Int64));
-                fileDt.Columns.Add("Name");
+                var row = fileDt.NewRow();
+                row["CreationTime"] = fil.CreationTime;
+                row["CreationTimeUtc"] = fil.CreationTimeUtc;
+                row["Directory"] = fil.Directory;
+                row["DirectoryName"] = fil.DirectoryName;
+                row["Exists"] = fil.Exists;
+                row["Extension"] = fil.Extension;
+                row["FullName"] = fil.FullName;
+                row["IsReadOnly"] = fil.IsReadOnly;
+                row["LastAccessTime"] = fil.LastAccessTime;
+                row["LastAccessTimeUtc"] = fil.LastAccessTimeUtc;
+                row["LastWriteTime"] = fil.LastWriteTime;
+                row["LastWriteTimeUtc"] = fil.LastWriteTimeUtc;
+                row["Length"] = fil.Length;
+                row["Name"] = fil.Name;
 
-                fileDt.Columns.Add("IsArchive", typeof(Boolean)).DefaultValue = false;
-                fileDt.Columns.Add("IsCompressed", typeof(Boolean)).DefaultValue = false;
-                fileDt.Columns.Add("IsEncrypted", typeof(Boolean)).DefaultValue = false;
-                fileDt.Columns.Add("IsHidden", typeof(Boolean)).DefaultValue = false;
-
-                //fileDT.Columns.Add("IsReadOnly", typeof(Boolean)).DefaultValue = false;
-                fileDt.Columns.Add("IsSystem", typeof(Boolean)).DefaultValue = false;
-                fileDt.Columns.Add("IsTemporary", typeof(Boolean)).DefaultValue = false;
-
-                var files = di.GetFiles(ext, searchOption);
-                foreach (var fil in files)
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.Archive) == FileAttributes.Archive)
                 {
-                    var row = fileDt.NewRow();
-                    row["CreationTime"] = fil.CreationTime;
-                    row["CreationTimeUtc"] = fil.CreationTimeUtc;
-                    row["Directory"] = fil.Directory;
-                    row["DirectoryName"] = fil.DirectoryName;
-                    row["Exists"] = fil.Exists;
-                    row["Extension"] = fil.Extension;
-                    row["FullName"] = fil.FullName;
-                    row["IsReadOnly"] = fil.IsReadOnly;
-                    row["LastAccessTime"] = fil.LastAccessTime;
-                    row["LastAccessTimeUtc"] = fil.LastAccessTimeUtc;
-                    row["LastWriteTime"] = fil.LastWriteTime;
-                    row["LastWriteTimeUtc"] = fil.LastWriteTimeUtc;
-                    row["Length"] = fil.Length;
-                    row["Name"] = fil.Name;
-
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.Archive) == FileAttributes.Archive)
-                    {
-                        row["IsArchive"] = true;
-                    }
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.Compressed) == FileAttributes.Compressed)
-                    {
-                        row["IsCompressed"] = true;
-                    }
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.Encrypted) == FileAttributes.Encrypted)
-                    {
-                        row["IsEncrypted"] = true;
-                    }
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.Hidden) == FileAttributes.Hidden)
-                    {
-                        row["IsHidden"] = true;
-                    }
-
-                    //if ((File.GetAttributes(fil.FullName) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                    //{
-                    //    row["IsReadOnly"] = true;
-                    //}
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.System) == FileAttributes.System)
-                    {
-                        row["IsSystem"] = true;
-                    }
-                    if ((File.GetAttributes(fil.FullName) & FileAttributes.Temporary) == FileAttributes.Temporary)
-                    {
-                        row["IsTemporary"] = true;
-                    }
-
-                    fileDt.Rows.Add(row);
+                    row["IsArchive"] = true;
                 }
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.Compressed) == FileAttributes.Compressed)
+                {
+                    row["IsCompressed"] = true;
+                }
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.Encrypted) == FileAttributes.Encrypted)
+                {
+                    row["IsEncrypted"] = true;
+                }
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.Hidden) == FileAttributes.Hidden)
+                {
+                    row["IsHidden"] = true;
+                }
+
+                //if ((File.GetAttributes(fil.FullName) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                //{
+                //    row["IsReadOnly"] = true;
+                //}
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.System) == FileAttributes.System)
+                {
+                    row["IsSystem"] = true;
+                }
+                if ((File.GetAttributes(fil.FullName) & FileAttributes.Temporary) == FileAttributes.Temporary)
+                {
+                    row["IsTemporary"] = true;
+                }
+
+                fileDt.Rows.Add(row);
             }
             return fileDt;
         }
@@ -473,20 +485,18 @@ namespace Business.Common.IO
         {
             var di = new DirectoryInfo(folderPath);
             var fileDt = new DataTable(dataTablename);
-            if (di.Exists)
+            if (!di.Exists) return fileDt;
+            fileDt.Columns.Add("FullName");
+            fileDt.Columns.Add("LastWriteTime");
+
+            var files = di.GetFiles(ext, searchOption);
+
+            foreach (var fil in files)
             {
-                fileDt.Columns.Add("FullName");
-                fileDt.Columns.Add("LastWriteTime");
-
-                var files = di.GetFiles(ext, searchOption);
-
-                foreach (var fil in files)
-                {
-                    var row = fileDt.NewRow();
-                    row[0] = fil.FullName;
-                    row[1] = fil.LastWriteTime;
-                    fileDt.Rows.Add(row);
-                }
+                var row = fileDt.NewRow();
+                row[0] = fil.FullName;
+                row[1] = fil.LastWriteTime;
+                fileDt.Rows.Add(row);
             }
             return fileDt;
         }
@@ -750,44 +760,42 @@ namespace Business.Common.IO
         public static MemoryStream ReadFileToMemoryStream(String filePathStr, FileMode mode, FileShare share, FileAccess access, Int32 bufferSize)
         {
             var ms = new MemoryStream();
-            if (File.Exists(filePathStr))
+            if (!File.Exists(filePathStr)) return ms;
+            using (var fs = new FileStream(filePathStr, mode, access, share, bufferSize))
             {
-                using (var fs = new FileStream(filePathStr, mode, access, share, bufferSize))
+                using (var br = new BinaryReader(fs, Encoding.Default))
                 {
-                    using (var br = new BinaryReader(fs, Encoding.Default))
+                    const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
+                    var length = fs.Length < maxint ? (Int32)fs.Length : (Int32)maxint;
+                    Int32 buffersize;
+                    ms.Position = 0;
+                    if (bufferSize > 0)
                     {
-                        const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
-                        var length = fs.Length < maxint ? (Int32)fs.Length : (Int32)maxint;
-                        Int32 buffersize;
-                        ms.Position = 0;
-                        if (bufferSize > 0)
+                        buffersize = length > bufferSize ? bufferSize : length;
+                    }
+                    else
+                    {
+                        buffersize = length > 4096 ? 4096 : length;
+                    }
+                    var bytes = new Byte[buffersize];
+
+                    while (true) // Loops Rule!!!!!!!!
+                    {
+                        var bytecount = br.Read(bytes, 0, bytes.Length);
+                        if (bytecount > 0)
                         {
-                            buffersize = length > bufferSize ? bufferSize : length;
+                            ms.Write(bytes, 0, bytecount);
                         }
                         else
                         {
-                            buffersize = length > 4096 ? 4096 : length;
+                            fs.Flush();
+                            break;
                         }
-                        var bytes = new Byte[buffersize];
-
-                        while (true) // Loops Rule!!!!!!!!
-                        {
-                            var bytecount = br.Read(bytes, 0, bytes.Length);
-                            if (bytecount > 0)
-                            {
-                                ms.Write(bytes, 0, bytecount);
-                            }
-                            else
-                            {
-                                fs.Flush();
-                                break;
-                            }
-                        }
-                        ms.Position = 0;
-                        br.Close();
                     }
-                    fs.Close();
+                    ms.Position = 0;
+                    br.Close();
                 }
+                fs.Close();
             }
             return ms;
         }

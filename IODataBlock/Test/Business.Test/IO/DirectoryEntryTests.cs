@@ -13,6 +13,7 @@ namespace Business.Test.IO
         [TestMethod]
         public void TryToReadNonExistantDirectory()
         {
+            var app_data = IOUtility.AppDataFolderPath;
             var di = new DirectoryInfo(@"c:\junk2");
             var de = new DirectoryEntry(di);
 

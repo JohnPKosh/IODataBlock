@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace HubSpot.Models
+namespace HubSpot.Models.Contacts
 {
     public class ContactListDto
     {

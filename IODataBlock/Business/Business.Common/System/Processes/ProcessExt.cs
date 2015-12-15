@@ -13,9 +13,19 @@ namespace Business.Common.System.Processes
             Process.Start(targeFilePath);
         }
 
+        public static void OpenFileWithDefaultApplication(this String targeFilePath, string arguments)
+        {
+            Process.Start(targeFilePath, arguments);
+        }
+
         public static void OpenFileWithDefaultApplication(this FileInfo targeFileInfo)
         {
             Process.Start(targeFileInfo.FullName);
+        }
+
+        public static void OpenFileWithDefaultApplication(this FileInfo targeFileInfo, string arguments)
+        {
+            Process.Start(targeFileInfo.FullName, arguments);
         }
 
         public static IEnumerable<String> GetRunningLocalProcesses()

@@ -230,5 +230,13 @@ namespace Business.Test.Security
             var outputstr = File.ReadAllText(output.FullName);
             Assert.AreEqual(inputstr, outputstr);
         }
+
+        [TestMethod]
+        public void DecryptAppConfigTest()
+        {
+
+            var cfg = new ConfigMgr();
+            cfg.UnProtectAppSettings();
+        }
     }
 }

@@ -96,6 +96,11 @@ namespace Data.DbClient
             OnConnectionOpened();
         }
 
+        private void EnsureConnectionIsClosed()
+        {
+            if (Connection.State == ConnectionState.Open || Connection.State == ConnectionState.Connecting) Connection.Close();
+        }
+
         internal static string GetDefaultProviderName()
         {
             string str;
@@ -283,9 +288,9 @@ namespace Data.DbClient
         {
             if (!string.IsNullOrEmpty(commandText))
             {
-                return QueryInternalAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
+                //return QueryInternalAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
-                //return QueryInternal(commandText, commandTimeout, parameters);
+                return QueryInternal(commandText, commandTimeout, parameters);
             }
             throw new ArgumentNullException("commandText");
         }
@@ -446,6 +451,28 @@ namespace Data.DbClient
             }
         }
 
+        public DataTable QueryAsDataTable(DbCommand dbCommand, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            var dt = string.IsNullOrWhiteSpace(tableName) ? new DataTable() : new DataTable(tableName);
+            dt.Load(QueryToDataReader(dbCommand, commandTimeout, parameters));
+            return dt;
+        }
+
+        public static DataTable QueryToDataTable(DbCommand dbCommand, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        {
+            var dt = string.IsNullOrWhiteSpace(tableName) ? new DataTable():new DataTable(tableName);
+            using (var db = OpenDbConnection(dbCommand.Connection))
+            {
+                return db.QueryAsDataTable(dbCommand, tableName, commandTimeout, parameters);
+                //dt.Load(db.QueryToDataReader(dbCommand, tableName, commandTimeout, parameters));
+                //return dt;
+            }
+            //_connection = dbCommand.Connection;
+            //EnsureConnectionOpen();
+            //dt.Load(dbCommand.ExecuteReader(CommandBehavior.CloseConnection));
+            //return dt;
+        }
+
         /*
         public static async Task<DataTable> GetDataAsync(string connectionString, string query)
         {
@@ -495,6 +522,8 @@ namespace Data.DbClient
         }
         */
 
+        #region Query To DataReader
+
         public DbDataReader QueryToDataReader(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
@@ -525,7 +554,8 @@ namespace Data.DbClient
         public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
-            await EnsureConnectionOpenAsync();
+            //await EnsureConnectionOpenAsync();
+            EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
             if (commandTimeout > 0)
@@ -538,6 +568,50 @@ namespace Data.DbClient
                 return await dbCommand.ExecuteReaderAsync(commandBehavior, cancellationToken);
             }
         }
+
+
+        public DbDataReader QueryToDataReader(DbCommand dbCommand, int commandTimeout = 60, params object[] parameters)
+        {
+            _connection = dbCommand.Connection;
+            EnsureConnectionOpen();
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                return dbCommand.ExecuteReader();
+            }
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(DbCommand dbCommand, int commandTimeout = 60, params object[] parameters)
+        {
+            return await QueryToDataReaderAsync(dbCommand, CommandBehavior.CloseConnection, CancellationToken.None, commandTimeout, parameters);
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(DbCommand dbCommand, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            return await QueryToDataReaderAsync(dbCommand, CommandBehavior.CloseConnection, cancellationToken, commandTimeout, parameters);
+        }
+
+        public async Task<DbDataReader> QueryToDataReaderAsync(DbCommand dbCommand, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
+        {
+            _connection = dbCommand.Connection;
+            await EnsureConnectionOpenAsync();
+
+            if (commandTimeout > 0)
+            {
+                dbCommand.CommandTimeout = commandTimeout;
+            }
+            AddParameters(dbCommand, parameters);
+            using (dbCommand)
+            {
+                return await dbCommand.ExecuteReaderAsync(commandBehavior, cancellationToken);
+            }
+        }
+
+        #endregion
 
         #endregion Query Methods
 
@@ -836,7 +910,6 @@ namespace Data.DbClient
             }
             return rv;
         }
-
 
         #endregion Private Query Methods
 

@@ -39,17 +39,15 @@ namespace Business.Common.System.Processes
             _mProcess.ErrorDataReceived += process_ErrorDataReceived;
             _mProcess.OutputDataReceived += process_OutputDataReceived;
 
-            if (sendStreamsToStrings)
-            {
-                // Caller wants the standard output and error streams
-                // to be written in memory to strings that can later
-                // be extracted
-                _mOutBuilder = new StringBuilder(512);
-                _mErrorBuilder = new StringBuilder();
+            if (!sendStreamsToStrings) return;
+            // Caller wants the standard output and error streams
+            // to be written in memory to strings that can later
+            // be extracted
+            _mOutBuilder = new StringBuilder(512);
+            _mErrorBuilder = new StringBuilder();
 
-                Out = new StringWriter(_mOutBuilder);
-                Error = new StringWriter(_mErrorBuilder);
-            }
+            Out = new StringWriter(_mOutBuilder);
+            Error = new StringWriter(_mErrorBuilder);
         }
 
         /// <summary>
@@ -165,11 +163,9 @@ namespace Business.Common.System.Processes
         /// <param name="args">The args.</param>
         public void SetArguments(params string[] args)
         {
-            if (args != null)
-            {
-                StringBuilder sb = GetMangledArguments(args);
-                Arguments = sb.ToString();
-            }
+            if (args == null) return;
+            StringBuilder sb = GetMangledArguments(args);
+            Arguments = sb.ToString();
         }
 
         /// <summary>
@@ -208,16 +204,14 @@ namespace Business.Common.System.Processes
         /// <param name="args">The args.</param>
         public void AddArguments(params string[] args)
         {
-            if (args != null)
+            if (args == null) return;
+            StringBuilder sb = GetMangledArguments(args);
+            if (!string.IsNullOrEmpty(Arguments))
             {
-                StringBuilder sb = GetMangledArguments(args);
-                if (!string.IsNullOrEmpty(Arguments))
-                {
-                    sb.Insert(0, ' ');
-                    sb.Insert(0, Arguments);
-                }
-                Arguments = sb.ToString();
+                sb.Insert(0, ' ');
+                sb.Insert(0, Arguments);
             }
+            Arguments = sb.ToString();
         }
 
         /// <summary>
@@ -300,11 +294,9 @@ namespace Business.Common.System.Processes
 
             _mProcess.Start();
 
-            if (useRedirect)
-            {
-                _mProcess.BeginErrorReadLine();
-                _mProcess.BeginOutputReadLine();
-            }
+            if (!useRedirect) return;
+            _mProcess.BeginErrorReadLine();
+            _mProcess.BeginOutputReadLine();
         }
 
         /// <summary>
@@ -442,21 +434,18 @@ namespace Business.Common.System.Processes
         /// </returns>
         public override string ToString()
         {
-            if (!string.IsNullOrEmpty(FileName))
+            if (string.IsNullOrEmpty(FileName)) return base.ToString();
+            string result = FileName;
+            if (result.IndexOf(' ') != -1)
             {
-                string result = FileName;
-                if (result.IndexOf(' ') != -1)
-                {
-                    result = "\"" + result + "\"";
-                }
-
-                if (!string.IsNullOrEmpty(Arguments))
-                {
-                    result += " " + Arguments;
-                }
-                return result;
+                result = "\"" + result + "\"";
             }
-            return base.ToString();
+
+            if (!string.IsNullOrEmpty(Arguments))
+            {
+                result += " " + Arguments;
+            }
+            return result;
         }
 
         /// <summary>
@@ -496,13 +485,11 @@ namespace Business.Common.System.Processes
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                // dispose managed resources
-                if(_mProcess != null)_mProcess.Close();
-                if (_mError != null) _mError.Close();
-                if (_mOut != null) _mOut.Close();
-            }
+            if (!disposing) return;
+            // dispose managed resources
+            if(_mProcess != null)_mProcess.Close();
+            if (_mError != null) _mError.Close();
+            if (_mOut != null) _mOut.Close();
             // free native resources
         }
 
