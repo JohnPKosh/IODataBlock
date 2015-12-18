@@ -207,7 +207,7 @@ namespace Business.Test.ConfigurationTests
             const string Isaltp = "d77ceafc71cfa337c9f69466de2909f19438c73a3a595860a9fdf074edf10659";
 
             var cm = new ConfigMgr();
-            cm.SetDefaults(false);
+            cm.SetCspDefaults(false);
 
             var sK = cm.GetAppSetting("cspsK");
             Assert.AreEqual(Ksaltstr, sK);
@@ -220,6 +220,14 @@ namespace Business.Test.ConfigurationTests
 
             var pI = cm.GetAppSetting("csppI");
             Assert.AreEqual(Isaltp, pI);
+        }
+
+        [TestMethod]
+        public void TestForNonExistantEntry()
+        {
+            var cm = new ConfigMgr();
+            var value = cm.GetAppSetting("nonexistantentry");
+            Assert.IsNull(value);
         }
 
     }

@@ -47,7 +47,7 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.11\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Common.1.0.12\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Excel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
