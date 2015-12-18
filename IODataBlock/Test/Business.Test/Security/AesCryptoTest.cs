@@ -91,7 +91,7 @@ namespace Business.Test.Security
             var output = new FileInfo(@"Junk\kirk_output2.xml");
 
             var cfg = new ConfigMgr();
-            cfg.SetDefaults(false);
+            cfg.SetCspDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 
@@ -114,7 +114,7 @@ namespace Business.Test.Security
             var output = new FileInfo(@"Junk\kirk_output.xml");
 
             var cfg = new ConfigMgr();
-            cfg.SetDefaults(false);
+            cfg.SetCspDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 
@@ -142,7 +142,7 @@ namespace Business.Test.Security
             var output = new FileInfo(@"Junk\kirk_output.xml");
 
             var cfg = new ConfigMgr();
-            cfg.SetDefaults(false);
+            cfg.SetCspDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 
@@ -180,7 +180,7 @@ namespace Business.Test.Security
             var output = new FileInfo(@"Junk\kirk_output.xml");
 
             var cfg = new ConfigMgr();
-            cfg.SetDefaults(false);
+            cfg.SetCspDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 
@@ -219,7 +219,7 @@ namespace Business.Test.Security
             var output = new FileInfo(@"Junk\kirk_output.xml");
 
             var cfg = new ConfigMgr();
-            cfg.SetDefaults(false);
+            cfg.SetCspDefaults(false);
             var key = cfg.GetAesKBytes();
             var iv = cfg.GetAesIvBytes();
 

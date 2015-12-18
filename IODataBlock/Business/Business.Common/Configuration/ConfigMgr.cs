@@ -96,7 +96,7 @@ namespace Business.Common.Configuration
             _appSettings.UnProtectAppSettings();
         }
 
-        public void SetDefaults(bool deleteOnLoad = true)
+        public void SetCspDefaults(bool deleteOnLoad = true)
         {
             _appSettings.SetCspDefaults(deleteOnLoad);
             // add additional default setting initialization below.
