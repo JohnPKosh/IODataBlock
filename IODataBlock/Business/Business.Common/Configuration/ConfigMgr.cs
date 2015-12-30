@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Configuration;
-using System.IO;
 
 namespace Business.Common.Configuration
 {
@@ -10,7 +8,6 @@ namespace Business.Common.Configuration
 
         //public ConfigMgr()
         //{
-
         //}
 
         #endregion Class Initialization
@@ -86,6 +83,8 @@ namespace Business.Common.Configuration
             _appSettings.RemoveElementByName(name);
         }
 
+        #region Encryption Methods
+
         public void ProtectAppSettings()
         {
             _appSettings.ProtectAppSettings();
@@ -128,6 +127,8 @@ namespace Business.Common.Configuration
         {
             return _appSettings.GetTripleDesIvBytes();
         }
+
+        #endregion Encryption Methods
 
         #endregion AppSettings Section
 

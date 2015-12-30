@@ -108,7 +108,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NetSuite.RESTlet.Integration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\NetSuite.RESTlet.Integration.dll</HintPath>
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.5\lib\net452\NetSuite.RESTlet.Integration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -136,8 +136,9 @@
       <HintPath>..\..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.5\lib\net452\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -176,6 +177,7 @@
     <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\CustomerPaymentTests.cs" />
     <Compile Include="Integration\ContactSyncToNSTests.cs" />
     <Compile Include="Integration\FormsServiceTests.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
@@ -252,6 +254,7 @@
     </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\ContactViewModels_Forms.json" />
+    <None Include="Junk\customerWithCc.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />

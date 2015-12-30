@@ -15,7 +15,7 @@
     <AssemblyName>BusinessCommon</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -226,6 +226,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\callrest.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -253,7 +254,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>48982</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/BusinessCommon</IISUrl>
+          <IISUrl>http://localhost:48982/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
