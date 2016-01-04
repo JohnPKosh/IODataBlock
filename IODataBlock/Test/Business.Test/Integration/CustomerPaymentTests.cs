@@ -1,19 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
-using Business.Common.Security.Aes;
-using Business.Common.System;
-using Fasterflect;
+﻿using Business.Common.Configuration;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetSuite.RESTlet.Integration;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace Business.Test.Integration
 {
@@ -23,6 +18,8 @@ namespace Business.Test.Integration
     [TestClass]
     public class CustomerPaymentTests
     {
+        #region Class Initialization
+
         public CustomerPaymentTests()
         {
             var configMgr = new ConfigMgr();
@@ -56,6 +53,7 @@ namespace Business.Test.Integration
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -67,7 +65,7 @@ namespace Business.Test.Integration
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -75,7 +73,12 @@ namespace Business.Test.Integration
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
+
+        #endregion Class Initialization
+
+        #region Other Tests
 
         //[TestMethod]
         //public void DeleteNsContactWhereHsStageIsOther()
@@ -107,8 +110,6 @@ namespace Business.Test.Integration
         //        }
         //    }
         //}
-
-
         [TestMethod]
         public void DeleteNsContactWhereHsStageIsOther()
         {
@@ -173,7 +174,7 @@ namespace Business.Test.Integration
                         UpdateHubspotContactId(c, o.id);
                     }
 
-                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>); 
+                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>);
                     foreach (var o in nsleads.Where(o => !(o as IDictionary<string, object>).ContainsKey("columns") || !(o.columns as IDictionary<string, object>).ContainsKey("custentity_cr_hs_profile_url") || o.columns.custentity_cr_hs_profile_url != c.profile_url))
                     {
                         UpdateNsLeadProfileUrlByEmail(c, o.id as string);
@@ -186,7 +187,7 @@ namespace Business.Test.Integration
         public void InsertNsContactWhereHsFormSubmitted()
         {
             var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
-            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f" , "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
+            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f", "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
 
             //var contacts = GetRecentContactViewModels(100, new UnixMsTimestamp(DateTime.Today.AddDays(-15)), propertyMode: PropertyModeType.value_only)
 
@@ -198,7 +199,7 @@ namespace Business.Test.Integration
 
             foreach (var c in contacts)
             {
-                var email = (string)c.Properties.First(x=>x.Key == "email").Value;
+                var email = (string)c.Properties.First(x => x.Key == "email").Value;
                 //var email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
                 if (string.IsNullOrWhiteSpace(email)) continue;
                 var nsleads = SearchNsLeadsByEmail(email, nscolumns);
@@ -231,13 +232,11 @@ namespace Business.Test.Integration
             var nsleads = SearchNsLeadsByEmail(email, nscolumns);
             if (nsleads != null)
             {
-                // get NS id 
+                // get NS id
                 foreach (var o in nsleads)
                 {
-
                 }
             }
-
         }
 
         //22334
@@ -247,8 +246,7 @@ namespace Business.Test.Integration
             var nsleads = GetNsCustomerJsonById("22334");
             if (nsleads != null)
             {
-                // get NS id 
-
+                // get NS id
             }
         }
 
@@ -258,8 +256,7 @@ namespace Business.Test.Integration
             var nsleads = GetNsCcJsonById("11");
             if (nsleads != null)
             {
-                // get NS id 
-
+                // get NS id
             }
         }
 
@@ -271,8 +268,7 @@ namespace Business.Test.Integration
             var nsleads = SearchNsCustomersJsonByEmail(email, nscolumns);
             if (nsleads != null)
             {
-                // get NS id 
-
+                // get NS id
             }
         }
 
@@ -284,13 +280,11 @@ namespace Business.Test.Integration
             var nsleads = SearchNsCustomerPayments("Test CustomerName", nscolumns);
             if (nsleads != null)
             {
-                // get NS id 
+                // get NS id
                 foreach (var o in nsleads)
                 {
-
                 }
             }
-
         }
 
         [TestMethod]
@@ -309,7 +303,6 @@ namespace Business.Test.Integration
                 cc2.ccexpiredate = "12/2021";
 
                 ccs.Add(cc2);
-                
 
                 o.creditcards = ccs;
 
@@ -326,6 +319,10 @@ namespace Business.Test.Integration
                 throw;
             }
         }
+
+        #endregion Other Tests
+
+        #region Credit Card CRUD Tests
 
         [TestMethod]
         public void InsertCreditCardTest()
@@ -345,6 +342,57 @@ namespace Business.Test.Integration
                 o.creditcards = ccs;
 
                 var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "CREATE" }, { "request_body", o } };
+
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void ReadAllCreditCardsTest()
+        {
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" } };
+
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void ReadSpecificCreditCardTest()
+        {
+            try
+            {
+                dynamic o = new ExpandoObject();
+                var ccs = new List<dynamic>();
+
+                dynamic cc1 = new ExpandoObject();
+                cc1.internalid = 10;
+                ccs.Add(cc1);
+
+                dynamic cc2 = new ExpandoObject();
+                cc2.internalid = 11;
+                ccs.Add(cc2);
+
+                o.creditcards = ccs;
+
+                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" }, { "request_body", o } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -441,58 +489,7 @@ namespace Business.Test.Integration
             }
         }
 
-
-        [TestMethod]
-        public void ReadCreditCardTest()
-        {
-            try
-            {
-                dynamic o = new ExpandoObject();
-                var ccs = new List<dynamic>();
-
-                dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 10;
-                ccs.Add(cc1);
-
-                dynamic cc2 = new ExpandoObject();
-                cc2.internalid = 11;
-                ccs.Add(cc2);
-
-                o.creditcards = ccs;
-
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" }, { "request_body", o } };
-
-                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
-                var result = rv.Result;
-
-                Assert.IsNotNull(result);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-
-        [TestMethod]
-        public void ReadAllCreditCardsTest()
-        {
-            try
-            {
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" } };
-
-                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
-                var result = rv.Result;
-
-                Assert.IsNotNull(result);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+        #endregion Credit Card CRUD Tests
 
         #region Utility Methods
 
@@ -551,7 +548,7 @@ namespace Business.Test.Integration
         {
             var parameters = new Dictionary<string, object> { { "type", "customer" }, { "id", id } };
 
-            var login =  GetLogin();
+            var login = GetLogin();
             var script = GetScriptSetting();
 
             var restlet = GetRestletBase.Create(BaseUrl, GetScriptSetting(), GetLogin());
@@ -593,7 +590,7 @@ namespace Business.Test.Integration
                 var props = c.Properties;
                 //var updateModel = (ContactUpdateModel) c;
                 dynamic o = new ExpandoObject();
-                o.phone = c.Properties.First(x=>x.Key == "phone").Value;
+                o.phone = c.Properties.First(x => x.Key == "phone").Value;
                 o.lastname = c.Properties.First(x => x.Key == "lastname").Value;
                 o.mobilephone = c.Properties.First(x => x.Key == "mobilephone").Value;
                 o.title = c.Properties.First(x => x.Key == "jobtitle").Value;
@@ -661,8 +658,7 @@ namespace Business.Test.Integration
             }
         }
 
-
-        #endregion
+        #endregion Utility Methods
 
         #region NS Login helpers
 
@@ -687,8 +683,8 @@ namespace Business.Test.Integration
         public NetSuiteLogin GetLogin()
         {
             return NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, "3");
-        } 
+        }
 
-        #endregion
+        #endregion NS Login helpers
     }
 }
