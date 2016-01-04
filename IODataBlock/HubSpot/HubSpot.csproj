@@ -97,6 +97,11 @@
     <Compile Include="Services\IContactPropertyService.cs" />
     <Compile Include="Services\IContactService.cs" />
     <Compile Include="Services\IFormsService.cs" />
+    <None Include="SampleResults\allCompanyPropertiesDto.json" />
+    <None Include="SampleResults\allCompanyPropertiesDynamic.json" />
+    <None Include="SampleResults\Companypropnames.json" />
+    <None Include="SampleResults\Companyproptypes.json" />
+    <None Include="SampleResults\recentCompanies.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -177,9 +177,11 @@
     <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\CustomerPaymentProductionTests.cs" />
     <Compile Include="Integration\CustomerPaymentTests.cs" />
     <Compile Include="Integration\ContactSyncToNSTests.cs" />
     <Compile Include="Integration\FormsServiceTests.cs" />
+    <Compile Include="Integration\HubSpotCompanyProperties.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
@@ -254,6 +256,7 @@
     </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\ContactViewModels_Forms.json" />
+    <None Include="Junk\customerWithCcProduction.json" />
     <None Include="Junk\customerWithCc.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />

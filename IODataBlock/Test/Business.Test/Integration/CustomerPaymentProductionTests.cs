@@ -16,17 +16,19 @@ namespace Business.Test.Integration
     /// Summary description for ContactSyncToNSTests
     /// </summary>
     [TestClass]
-    public class CustomerPaymentTests
+    public class CustomerPaymentProductionTests
     {
         #region Class Initialization
 
-        public CustomerPaymentTests()
+        public CustomerPaymentProductionTests()
         {
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
             NsAccount = configMgr.GetAppSetting("nsaccount");
             NsEmail = configMgr.GetAppSetting("nsemail");
             NsPassword = configMgr.GetAppSetting("nspassword");
+
+            TestCustomerId = "355";
         }
 
         private TestContext testContextInstance;
@@ -35,6 +37,8 @@ namespace Business.Test.Integration
         private string NsAccount { get; set; }
         private string NsEmail { get; set; }
         private string NsPassword { get; set; }
+
+        private string TestCustomerId { get; set; }
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -243,7 +247,7 @@ namespace Business.Test.Integration
         [TestMethod]
         public void SearchNsCustomersById()
         {
-            var nsleads = GetNsCustomerJsonById("22334");
+            var nsleads = GetNsCustomerJsonById(TestCustomerId);
             if (nsleads != null)
             {
                 // get NS id
@@ -336,14 +340,14 @@ namespace Business.Test.Integration
 
                 /* Add Credit Card Info */
                 cc1.ccdefault = "T";
-                cc1.ccexpiredate = "07/2027";
-                cc1.ccname = "Test Rest4";
-                cc1.ccnumber = "4242424242424242";
-                cc1.customercode = "378";
+                cc1.ccexpiredate = "09/2020";
+                cc1.ccname = "You Name Here";
+                cc1.ccnumber = "XXXXXXXXX";
+                cc1.customercode = "XXXXX";
 
                 ccs.Add(cc1);
                 o.creditcards = ccs;
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "CREATE" }, { "request_body", o } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "method", "CREATE" }, { "request_body", o } };
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 var result = rv.Result;
@@ -361,7 +365,7 @@ namespace Business.Test.Integration
         {
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "method", "READ" } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -393,7 +397,7 @@ namespace Business.Test.Integration
 
                 o.creditcards = ccs;
 
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" }, { "request_body", o } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "method", "READ" }, { "request_body", o } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -416,7 +420,7 @@ namespace Business.Test.Integration
                 var ccs = new List<dynamic>();
 
                 dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 1613;
+                cc1.internalid = 414;
                 cc1.ccdefault = "T";
                 cc1.ccexpiredate = "08/2020";
                 cc1.ccname = "Test Rest Update";
@@ -425,7 +429,7 @@ namespace Business.Test.Integration
                 ccs.Add(cc1);
                 o.creditcards = ccs;
 
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "UPDATE" }, { "request_body", o } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "method", "UPDATE" }, { "request_body", o } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -448,7 +452,7 @@ namespace Business.Test.Integration
                 var ccs = new List<dynamic>();
 
                 dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 2012;
+                cc1.internalid = 414;
                 ccs.Add(cc1);
 
                 //dynamic cc2 = new ExpandoObject();
@@ -457,7 +461,7 @@ namespace Business.Test.Integration
 
                 o.creditcards = ccs;
 
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "DELETE" }, { "request_body", o } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "method", "DELETE" }, { "request_body", o } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -476,7 +480,7 @@ namespace Business.Test.Integration
         {
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "internalid", 1912 } };
+                var parameters = new Dictionary<string, object> { { "id", TestCustomerId }, { "internalid", 1912 } };
 
                 var restlet = DelRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.DelAsync(parameters);
@@ -663,8 +667,8 @@ namespace Business.Test.Integration
 
         #region NS Login helpers
 
-        //public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
-        public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
+        public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
+        //public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
 
         public NetSuiteScriptSetting GetScriptSetting()
         {
