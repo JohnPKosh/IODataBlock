@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
+using Business.Common.IO;
 using Flurl;
 using Flurl.Http;
 using HubSpot.Models;
@@ -21,9 +23,11 @@ namespace Business.Test.Integration
 
         public HubSpotCompanyProperties()
         {
+            var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"CompanyPropertyList.json");
+
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
-            _propertyManager = new PropertyManager(_hapiKey);
+            _propertyManager = new PropertyManager(_hapiKey, jsonFilePath);
         }
 
         private readonly string _hapiKey;

@@ -248,6 +248,10 @@ namespace Business.Test.Integration
             {
                 // get NS id
             }
+            if (nsleads == "null")
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
@@ -340,6 +344,7 @@ namespace Business.Test.Integration
                 cc1.ccname = "Test Rest4";
                 cc1.ccnumber = "4242424242424242";
                 cc1.customercode = "378";
+                cc1.ccsecuritycode = "378";
 
                 ccs.Add(cc1);
                 o.creditcards = ccs;
@@ -422,6 +427,7 @@ namespace Business.Test.Integration
                 cc1.ccname = "Test Rest Update";
                 cc1.ccnumber = "4242424242424242";
                 cc1.customercode = "378";
+                cc1.ccsecuritycode = "378";
                 ccs.Add(cc1);
                 o.creditcards = ccs;
 

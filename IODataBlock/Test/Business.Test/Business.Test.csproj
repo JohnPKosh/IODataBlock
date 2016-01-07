@@ -256,6 +256,8 @@
     </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\ContactViewModels_Forms.json" />
+    <None Include="Junk\customerCCList.json" />
+    <None Include="Junk\customerCCListSpecific.json" />
     <None Include="Junk\customerWithCcProduction.json" />
     <None Include="Junk\customerWithCc.json" />
     <None Include="Junk\data.bson" />

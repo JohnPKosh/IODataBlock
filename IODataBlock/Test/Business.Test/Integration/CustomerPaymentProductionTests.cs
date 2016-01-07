@@ -340,10 +340,11 @@ namespace Business.Test.Integration
 
                 /* Add Credit Card Info */
                 cc1.ccdefault = "T";
-                cc1.ccexpiredate = "09/2020";
-                cc1.ccname = "You Name Here";
-                cc1.ccnumber = "XXXXXXXXX";
-                cc1.customercode = "XXXXX";
+                cc1.ccexpiredate = "04/2017";
+                cc1.ccname = "Your Name Here";
+                cc1.ccnumber = "4242424242424242";
+                cc1.customercode = ""; /* not CVC investigate usage */
+                cc1.ccsecuritycode = "999";
 
                 ccs.Add(cc1);
                 o.creditcards = ccs;
@@ -420,12 +421,13 @@ namespace Business.Test.Integration
                 var ccs = new List<dynamic>();
 
                 dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 414;
+                cc1.internalid = 615;
                 cc1.ccdefault = "T";
                 cc1.ccexpiredate = "08/2020";
                 cc1.ccname = "Test Rest Update";
                 cc1.ccnumber = "4242424242424242";
-                cc1.customercode = "378";
+                cc1.customercode = "378"; /* not CVC investigate usage */
+                cc1.ccsecuritycode = "378";
                 ccs.Add(cc1);
                 o.creditcards = ccs;
 
@@ -452,7 +454,7 @@ namespace Business.Test.Integration
                 var ccs = new List<dynamic>();
 
                 dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 414;
+                cc1.internalid = 615;
                 ccs.Add(cc1);
 
                 //dynamic cc2 = new ExpandoObject();
