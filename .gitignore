@@ -174,3 +174,6 @@ $RECYCLE.BIN/
 /IODataBlock/BusinessCommon/App_Data/AutoDialerResults/2015-06-05 182408.json
 /IODataBlock/LessWeb/App_Data/aspnet-MVC5Bootstrap-3-1-1-Less-20140302121355.mdf
 /IODataBlock/LessWeb/App_Data/aspnet-MVC5Bootstrap-3-1-1-Less-20140302121355_log.ldf
+/IODataBlock/.vs/config/applicationhost.config
+/IODataBlock/packages
+/IODataBlock/BasicTests/Configuration
