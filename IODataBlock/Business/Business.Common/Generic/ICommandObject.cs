@@ -1,9 +1,10 @@
 ﻿using System;
-using Business.Common.Requests;
+using Business.Common.GenericRequests;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using Newtonsoft.Json;
 
-namespace Business.Common.System
+namespace Business.Common.Generic
 {
     public interface ICommandObject<TIn, TOut>
     {

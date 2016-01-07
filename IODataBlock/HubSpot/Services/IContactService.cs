@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;

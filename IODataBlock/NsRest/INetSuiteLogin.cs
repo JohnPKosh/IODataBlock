@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NetSuite.RESTlet.Integration
+namespace NsRest
 {
     public interface INetSuiteLogin
     {

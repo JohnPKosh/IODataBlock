@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace NetSuite.RESTlet.Integration
+namespace NsRest
 {
     public interface IRestletBase
     {

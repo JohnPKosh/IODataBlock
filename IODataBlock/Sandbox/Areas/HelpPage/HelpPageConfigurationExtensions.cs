@@ -13,6 +13,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using Sandbox.Areas.HelpPage.ModelDescriptions;
 using Sandbox.Areas.HelpPage.Models;
+using Sandbox.Areas.HelpPage.SampleGeneration;
 
 namespace Sandbox.Areas.HelpPage
 {

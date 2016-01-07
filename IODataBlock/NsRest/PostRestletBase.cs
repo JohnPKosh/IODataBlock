@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
@@ -9,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
-namespace NetSuite.RESTlet.Integration
+namespace NsRest
 {
     public class PostRestletBase : IRestletBase
     {

@@ -1,6 +1,6 @@
-﻿using Business.Common.Requests;
+﻿using Business.Common.GenericRequests;
 
-namespace Business.Common.System
+namespace Business.Common.Generic
 {
     public interface ICommandObjectFactory<TIn, TOut>
     {

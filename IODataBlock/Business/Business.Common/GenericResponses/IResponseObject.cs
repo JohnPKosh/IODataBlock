@@ -1,8 +1,9 @@
 using System;
 using Business.Common.Exceptions;
+using Business.Common.Responses;
 using Newtonsoft.Json;
 
-namespace Business.Common.Responses
+namespace Business.Common.GenericResponses
 {
     public interface IResponseObject<TIn, TOut>
     {

@@ -13,7 +13,7 @@ using HubSpot.Models.Properties;
 using HubSpot.Services;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NetSuite.RESTlet.Integration;
+using NsRest;
 
 namespace Business.Test.Integration
 {

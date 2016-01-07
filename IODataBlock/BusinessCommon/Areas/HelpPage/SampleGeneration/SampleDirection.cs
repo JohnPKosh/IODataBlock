@@ -1,4 +1,4 @@
-namespace BusinessCommon.Areas.HelpPage
+namespace BusinessCommon.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

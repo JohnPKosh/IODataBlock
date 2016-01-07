@@ -1,4 +1,4 @@
-namespace NetSuite.RESTlet.Integration.Search
+namespace NsRest.Search
 {
     public enum SearchDoubleFieldOperatorType
     {

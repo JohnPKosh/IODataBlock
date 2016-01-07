@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Business.Common.Exceptions;
-using Business.Common.Requests;
+using Business.Common.GenericRequests;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 
-namespace Business.Common.System
+namespace Business.Common.Generic
 {
     public class CommandCollectionParser<TIn, TOut> : ICommandCollectionParser<TIn, TOut>
     {

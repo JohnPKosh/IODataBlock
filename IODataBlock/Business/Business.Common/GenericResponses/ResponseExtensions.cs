@@ -1,7 +1,8 @@
 ﻿using System;
 using Business.Common.Exceptions;
+using Business.Common.Responses;
 
-namespace Business.Common.Responses
+namespace Business.Common.GenericResponses
 {
     public static class GenericResponseExtensions
     {

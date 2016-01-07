@@ -17,6 +17,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using HubSpot.Models;
 using Business.Common.Extensions;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;

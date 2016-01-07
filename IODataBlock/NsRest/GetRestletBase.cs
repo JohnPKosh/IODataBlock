@@ -7,7 +7,7 @@ using Flurl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace NetSuite.RESTlet.Integration
+namespace NsRest
 {
     public class GetRestletBase : IRestletBase
     {

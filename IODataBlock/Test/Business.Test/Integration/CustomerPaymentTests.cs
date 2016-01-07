@@ -4,11 +4,11 @@ using HubSpot.Models.Properties;
 using HubSpot.Services;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NetSuite.RESTlet.Integration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using NsRest;
 
 namespace Business.Test.Integration
 {
