@@ -103,6 +103,24 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response2);
         }
 
+        [TestMethod]
+        public void SearchCustomerJArrayByExternalId_Test()
+        {
+            var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+            var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+            var response = baseService.SearchJArrayAsync("customer", filters, scriptKey: "search").Result;
+            CheckJArrayResponse(response);
+        }
+
+        [TestMethod]
+        public void SearchCustomerJObjectsByExternalId_Test()
+        {
+            var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+            var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+            var response = baseService.SearchJObjectsAsync("customer", filters, scriptKey: "search").Result;
+            CheckJObjectsResponse(response);
+        }
+
         #endregion
 
 
@@ -127,6 +145,28 @@ namespace BasicTests.Integration.NsRest
             }
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
+
+        private void CheckJArrayResponse(IResponseObject<string, JArray> response)
+        {
+            /* "null" string returned by RESTlet if Record not found error occurs, otherwise if no Exceptions exist object value is returned. */
+            if (response.ResponseData == null)
+            {
+                Assert.Fail();
+            }
+            if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
+        }
+
+        private void CheckJObjectsResponse(IResponseObject<string, IEnumerable<JObject>> response)
+        {
+            /* "null" string returned by RESTlet if Record not found error occurs, otherwise if no Exceptions exist object value is returned. */
+            if (response.ResponseData == null)
+            {
+                Assert.Fail();
+            }
+            if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
+        }
+
+
 
         #endregion
 

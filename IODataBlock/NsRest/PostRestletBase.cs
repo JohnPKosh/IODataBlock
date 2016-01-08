@@ -67,9 +67,17 @@ namespace NsRest
             return result as IList<ExpandoObject>;
         }
 
-        public async Task<IEnumerable<JObject>> ExecuteToJObjectsAsync(IDictionary<string, object> input) => await Task.Run(() => JArray.Parse(ExecuteToJsonStringAsync(input).Result).Children<JObject>());
+        /* TODO: fix up methods below for no results */
 
-        public async Task<JArray> ExecuteToJArrayAsync(IDictionary<string, object> input) => await Task.Run(() => JArray.Parse(ExecuteToJsonStringAsync(input).Result));
+        public async Task<IEnumerable<JObject>> ExecuteToJObjectsAsync(IDictionary<string, object> input) => await Task.Run(() => ExecuteToJArrayAsync(input).Result.Children<JObject>());
+
+        public async Task<JArray> ExecuteToJArrayAsync(IDictionary<string, object> input) => await Task.Run(
+            () =>
+            {
+                var result = ExecuteToJsonStringAsync(input).Result;
+                if(string.IsNullOrWhiteSpace(result) || result == "null") return new JArray();
+                return JArray.Parse(result);
+            });
 
 
 
