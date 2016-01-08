@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
@@ -48,6 +50,8 @@ namespace BasicTests.Integration.NsRest
 
         #region Test Methods
 
+        #region Get Tests
+
         [TestMethod]
         public void GetCustomerJsonStringById_Test()
         {
@@ -76,6 +80,10 @@ namespace BasicTests.Integration.NsRest
             CheckDynamicResponse(response);
         }
 
+        #endregion
+
+        #region Search Tests
+
         [TestMethod]
         public void SearchCustomerJsonStringByExternalId_Test()
         {
@@ -97,7 +105,24 @@ namespace BasicTests.Integration.NsRest
             var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
             var response = baseService.SearchDynamicList("customer", filters, scriptKey: "search");
             dynamic ro = response.ResponseData.First();
-            CheckDynamicResponse(ro);
+            CheckDynamicListResponse(response);
+
+            var response2 = baseService.GetJsonStringById(ro.id, "customer", "crud");
+            CheckJsonStringResponse(response2);
+        }
+
+        [TestMethod]
+        public void SearchCustomerJsonStringByExternalId_Test3()
+        {
+            var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+            var columns = new[] { "externalid" };
+            var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+            var response = baseService.SearchDynamicList("customer", filters, columns, scriptKey: "search");
+
+            if (response.HasExceptions) Assert.Fail(response.ExceptionList.ToJson(true));
+            if (response.ResponseData == null) Assert.Fail("No records found!");
+            dynamic ro = response.ResponseData.First();
+            CheckDynamicListResponse(response);
 
             var response2 = baseService.GetJsonStringById(ro.id, "customer", "crud");
             CheckJsonStringResponse(response2);
@@ -113,6 +138,16 @@ namespace BasicTests.Integration.NsRest
         }
 
         [TestMethod]
+        public void SearchCustomerJArrayByExternalId_Test2()
+        {
+            var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+            var columns = new[] { "externalid" };
+            var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+            var response = baseService.SearchJArrayAsync("customer", filters, columns, scriptKey: "search").Result;
+            CheckJArrayResponse(response);
+        }
+
+        [TestMethod]
         public void SearchCustomerJObjectsByExternalId_Test()
         {
             var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
@@ -120,6 +155,73 @@ namespace BasicTests.Integration.NsRest
             var response = baseService.SearchJObjectsAsync("customer", filters, scriptKey: "search").Result;
             CheckJObjectsResponse(response);
         }
+
+        [TestMethod]
+        public void SearchCustomerJObjectsByExternalId_Test2()
+        {
+            var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+            var columns = new[] { "externalid" };
+            var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+            var response = baseService.SearchJObjectsAsync("customer", filters, columns, scriptKey: "search").Result;
+            CheckJObjectsResponse(response);
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void PostCustomer_Test()
+        {
+            dynamic o = new ExpandoObject();
+            o.phone = "2163734600";
+            o.mobilephone = "2165132288";
+            o.recordtype = "customer";
+            o.email = "jkosh@broadvox.com";
+            o.companyname = "MYCO";
+            o.url = "http://www.nfl.com";
+            o.subsidiary = "2";
+            o.category = "1"; /* TODO: Add customer and partner category items to sandbox from production */
+            o.isperson = "F";
+            o.partner = "352";
+            o.entitystatus = "13";
+            o.externalid = Guid.NewGuid().ToString();
+            var response = baseService.CreateByDynamic("customer", o, "crud");
+            CheckJsonStringResponse(response);
+        }
+
+        //[TestMethod]
+        //public void PostCC_Test()
+        //{
+        //    var externalid = "d0973491-df5e-4bcd-b9b6-9340fc00a5f0";
+        //    var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
+        //    //var response = baseService.SearchJsonString("customer", filters, scriptKey: "search");
+        //    var response = baseService.CreateByDynamic()
+        //    CheckJsonStringResponse(response);
+
+        //    var r = JArray.Parse(response.ResponseData);
+        //    var id = r[0].Value<string>("id");
+
+
+        //    response = baseService.GetJsonStringById(id, "customer", "crud");
+        //    CheckJsonStringResponse(response);
+        //}
+
+
+        [TestMethod]
+        public void PutCustomer_Test()
+        {
+            dynamic o = new ExpandoObject();
+            o.comments = "Mad Scientist";
+            var response = baseService.UpdateByDynamic("28637", "customer", o, "crud");
+            CheckJsonStringResponse(response);
+        }
+
+        [TestMethod]
+        public void DelCustomer_Test()
+        {
+            var response = baseService.DeleteByIdAsync("28637", "customer", "crud").Result;
+            CheckBooleanResponse(response);
+        }
+
 
         #endregion
 
@@ -135,6 +237,17 @@ namespace BasicTests.Integration.NsRest
             }
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
+
+        private void CheckDynamicListResponse(IResponseObject<string, IList<ExpandoObject>> response)
+        {
+            /* "null" string returned by RESTlet if Record not found error occurs, otherwise if no Exceptions exist object value is returned. */
+            if (response.ResponseData == null)
+            {
+                Assert.Fail();
+            }
+            if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
+        }
+
 
         private void CheckDynamicResponse(IResponseObject<string, dynamic> response)
         {
@@ -166,7 +279,15 @@ namespace BasicTests.Integration.NsRest
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
 
-
+        private void CheckBooleanResponse(IResponseObject<string, bool> response)
+        {
+            /* "null" string returned by RESTlet if Record not found error occurs, otherwise if no Exceptions exist object value is returned. */
+            if (!response.ResponseData)
+            {
+                Assert.Fail();
+            }
+            if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
+        }
 
         #endregion
 

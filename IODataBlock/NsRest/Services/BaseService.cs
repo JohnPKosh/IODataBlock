@@ -60,6 +60,91 @@ namespace NsRest.Services
 
         #region Create / Update / Delete
 
+        public IResponseObject<string, string> CreateByJsonString(string typeName, string requestBody, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var o = JObject.Parse(requestBody);
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", o } };
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                ro.ResponseData = rv.Result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, string> CreateByDynamic(string typeName, dynamic requestBody, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", requestBody } };
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                ro.ResponseData = rv.Result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+        
+        public IResponseObject<string, bool> DeleteById(string id, string typeName, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, bool>();
+            try
+            {
+                var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.DelAsync(typeName, id);
+                var result = rv.Result;
+                if (result.IsSuccessStatusCode) ro.ResponseData = true;
+                else ro.AddException(new Exception(result.ReasonPhrase));
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public async Task<IResponseObject<string, bool>> DeleteByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => DeleteById(id, typeName, scriptKey));
+
+        public IResponseObject<string, string> UpdateByDynamic(string id, string typeName, dynamic requestBody, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
+                var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                ro.ResponseData = rv.Result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public async Task<IResponseObject<string, string>> UpdateByDynamicAsync(string id, string typeName, dynamic requestBody, string scriptKey = "crud") => await Task.Run(() => UpdateByDynamic(id, typeName, requestBody, scriptKey));
 
         #endregion
 
@@ -81,7 +166,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -102,7 +188,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -123,7 +210,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -144,7 +232,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -165,7 +254,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -190,7 +280,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -205,13 +296,17 @@ namespace NsRest.Services
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToDynamicListAsync(parameters);
-                ro.ResponseData = rv.Result;
+                //ro.ResponseData = rv.Result;
+                var result = rv.Result;
+                if (result != null) ro.ResponseData = result;
+                else ro.ResponseData = new List<ExpandoObject>();
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -232,7 +327,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -255,7 +351,8 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                //ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
