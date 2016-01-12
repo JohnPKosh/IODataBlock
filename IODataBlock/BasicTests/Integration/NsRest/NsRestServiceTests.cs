@@ -65,14 +65,14 @@ namespace BasicTests.Integration.NsRest
         [TestMethod]
         public void GetCustomerJsonStringById_Test()
         {
-            var response = baseService.GetJsonStringById("29838", "customer", "crud");
+            var response = baseService.GetJsonById("29838", "customer", "crud");
             CheckJsonStringResponse(response);
         }
 
         [TestMethod]
         public void GetCustomerJsonStringByIdAsync_Test()
         {
-            var response = baseService.GetJsonStringByIdAsync("22334", "customer", "crud").Result;
+            var response = baseService.GetJsonByIdAsync("22334", "customer", "crud").Result;
             CheckJsonStringResponse(response);
         }
 
@@ -101,7 +101,7 @@ namespace BasicTests.Integration.NsRest
             var externalid = TestCustomerGuid;
             var columns = new[] { "name" };
             var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
-            var response = baseService.SearchJsonString("customercategory", null, columns, scriptKey: "search");
+            var response = baseService.SearchJson("customercategory", null, columns, scriptKey: "search");
             CheckJsonStringResponse(response);
         }
 
@@ -111,7 +111,7 @@ namespace BasicTests.Integration.NsRest
             var externalid = TestCustomerGuid;
             var columns = new[] { "name" };
             var filters = new[] { NsSearchFilter.NewStringFilter("isinactive", SearchStringFieldOperatorType.Is, false.GetNsValue()) };
-            var response = baseService.SearchJsonString("customercategory", filters, columns, scriptKey: "search");
+            var response = baseService.SearchJson("customercategory", filters, columns, scriptKey: "search");
             CheckJsonStringResponse(response);
         }
 
@@ -126,7 +126,7 @@ namespace BasicTests.Integration.NsRest
                 NsSearchFilter.NewStringFilter("isinactive", SearchStringFieldOperatorType.Is, false.GetNsValue()),
                 NsSearchFilter.NewEnumMultiSelectFilter("salesrole", SearchEnumMultiSelectFieldOperatorType.AnyOf, "-2", null)
             };
-            var response = baseService.SearchJsonString("employee", filters, columns, scriptKey: "search");
+            var response = baseService.SearchJson("employee", filters, columns, scriptKey: "search");
             CheckJsonStringResponse(response);
         }
 
@@ -135,12 +135,12 @@ namespace BasicTests.Integration.NsRest
         {
             var externalid = TestCustomerGuid;
             var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
-            var response = baseService.SearchJsonString("customer", filters, scriptKey: "search");
+            var response = baseService.SearchJson("customer", filters, scriptKey: "search");
             CheckJsonStringResponse(response);
 
             var r = JArray.Parse(response.ResponseData);
             var id = r[0].Value<string>("id");
-            response = baseService.GetJsonStringById(id, "customer", "crud");
+            response = baseService.GetJsonById(id, "customer", "crud");
             CheckJsonStringResponse(response);
         }
 
@@ -153,7 +153,7 @@ namespace BasicTests.Integration.NsRest
             dynamic ro = response.ResponseData.First();
             CheckDynamicListResponse(response);
 
-            var response2 = baseService.GetJsonStringById(ro.id, "customer", "crud");
+            var response2 = baseService.GetJsonById(ro.id, "customer", "crud");
             CheckJsonStringResponse(response2);
         }
 
@@ -170,7 +170,7 @@ namespace BasicTests.Integration.NsRest
             dynamic ro = response.ResponseData.First();
             CheckDynamicListResponse(response);
 
-            var response2 = baseService.GetJsonStringById(ro.id, "customer", "crud");
+            var response2 = baseService.GetJsonById(ro.id, "customer", "crud");
             CheckJsonStringResponse(response2);
         }
 
@@ -279,7 +279,7 @@ namespace BasicTests.Integration.NsRest
             //string json = JObject.FromObject(o).ToString();
             string json = JsonExpandoStringSerialization.ToJsonString(o);
 
-            var response = baseService.CreateByJsonString("customer", json, "crud");
+            var response = baseService.CreateByJson("customer", json, "crud");
             CheckJsonStringResponse(response);
         }
 
@@ -306,7 +306,7 @@ namespace BasicTests.Integration.NsRest
                 dynamic o = new ExpandoObject();
                 o.comments = "null";
                 //o.phone = "2163734624";
-                var response = baseService.UpdateByDynamic(id, "customer", o, "crud");
+                var response = baseService.Update(id, "customer", o, "crud");
                 CheckJsonStringResponse(response);
             }
             else
@@ -347,14 +347,14 @@ namespace BasicTests.Integration.NsRest
         [TestMethod]
         public void GetPartnerJsonStringById_Test()
         {
-            var response = baseService.GetJsonStringById("27661", "partner", "crud");
+            var response = baseService.GetJsonById("27661", "partner", "crud");
             CheckJsonStringResponse(response);
         }
 
         [TestMethod]
         public void GetPartnerJsonStringByIdAsync_Test()
         {
-            var response = baseService.GetJsonStringByIdAsync("22334", "partner", "crud").Result;
+            var response = baseService.GetJsonByIdAsync("22334", "partner", "crud").Result;
             CheckJsonStringResponse(response);
         }
 
@@ -381,12 +381,12 @@ namespace BasicTests.Integration.NsRest
         {
             var externalid = TestCustomerGuid;
             var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
-            var response = baseService.SearchJsonString("partner", filters, scriptKey: "search");
+            var response = baseService.SearchJson("partner", filters, scriptKey: "search");
             CheckJsonStringResponse(response);
 
             var r = JArray.Parse(response.ResponseData);
             var id = r[0].Value<string>("id");
-            response = baseService.GetJsonStringById(id, "partner", "crud");
+            response = baseService.GetJsonById(id, "partner", "crud");
             CheckJsonStringResponse(response);
         }
 
@@ -399,7 +399,7 @@ namespace BasicTests.Integration.NsRest
             dynamic ro = response.ResponseData.First();
             CheckDynamicListResponse(response);
 
-            var response2 = baseService.GetJsonStringById(ro.id, "partner", "crud");
+            var response2 = baseService.GetJsonById(ro.id, "partner", "crud");
             CheckJsonStringResponse(response2);
         }
 
@@ -416,7 +416,7 @@ namespace BasicTests.Integration.NsRest
             dynamic ro = response.ResponseData.First();
             CheckDynamicListResponse(response);
 
-            var response2 = baseService.GetJsonStringById(ro.id, "partner", "crud");
+            var response2 = baseService.GetJsonById(ro.id, "partner", "crud");
             CheckJsonStringResponse(response2);
         }
 
@@ -503,7 +503,7 @@ namespace BasicTests.Integration.NsRest
             //string json = JObject.FromObject(o).ToString();
             string json = JsonExpandoStringSerialization.ToJsonString(o);
 
-            var response = baseService.CreateByJsonString("customer", json, "crud");
+            var response = baseService.CreateByJson("customer", json, "crud");
             CheckJsonStringResponse(response);
         }
 

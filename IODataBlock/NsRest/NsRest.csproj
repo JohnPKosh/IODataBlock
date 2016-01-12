@@ -86,6 +86,7 @@
     <Compile Include="Search\SearchStringFieldOperatorType.cs" />
     <Compile Include="Search\SearchTextNumberFieldOperatorType.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\CreditCardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

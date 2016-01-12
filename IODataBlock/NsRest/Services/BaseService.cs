@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.GenericResponses;
-using Flurl;
-using Flurl.Http;
+﻿using Business.Common.GenericResponses;
 using Newtonsoft.Json.Linq;
 using NsRest.Search;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Threading.Tasks;
 
 namespace NsRest.Services
 {
@@ -40,9 +36,9 @@ namespace NsRest.Services
         public static BaseService Create(string baseUrl, string nsAccount, string nsEmail, string nsPassword, string nsRole, IDictionary<string, INetSuiteScriptSetting> scriptSettings = null)
         {
             return new BaseService(baseUrl, nsAccount, nsEmail, nsPassword, nsRole, scriptSettings);
-        } 
+        }
 
-        #endregion
+        #endregion Factory Methods
 
         #endregion Class Initialization
 
@@ -55,8 +51,6 @@ namespace NsRest.Services
         public INetSuiteLogin Login { get; set; }
 
         #endregion Fields and Properties
-
-        #region Raw API Implementation
 
         #region Create / Update / Delete
 
@@ -79,52 +73,8 @@ namespace NsRest.Services
             }
         }
 
-        public IResponseObject<string, string> CreateByJsonString(string typeName, string requestBody, string scriptKey = "crud")
-        {
-            return Create(typeName, JObject.Parse(requestBody), scriptKey);
-        }
+        public async Task<IResponseObject<string, string>> CreateAsync(string typeName, object requestBody, string scriptKey = "crud") => await Task.Run(() => Create(typeName, requestBody, scriptKey));
 
-        //public IResponseObject<string, string> CreateByDynamic(string typeName, dynamic requestBody, string scriptKey = "crud")
-        //{
-        //    var ro = new ResponseObject<string, string>();
-        //    try
-        //    {
-        //        var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", requestBody } };
-        //        var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-        //        var rv = restlet.ExecuteToJsonStringAsync(parameters);
-        //        ro.ResponseData = rv.Result;
-        //        if (rv.Exception != null) throw rv.Exception;
-        //        return ro;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ro.AddException(ex);
-        //        return ro;
-        //    }
-        //}
-        
-        public IResponseObject<string, bool> DeleteById(string id, string typeName, string scriptKey = "crud")
-        {
-            var ro = new ResponseObject<string, bool>();
-            try
-            {
-                var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.DelAsync(typeName, id);
-                var result = rv.Result;
-                if (result.IsSuccessStatusCode) ro.ResponseData = true;
-                else ro.AddException(new Exception(result.ReasonPhrase));
-                if (rv.Exception != null) throw rv.Exception;
-                return ro;
-            }
-            catch (Exception ex)
-            {
-                ro.AddException(ex);
-                return ro;
-            }
-        }
-
-        public async Task<IResponseObject<string, bool>> DeleteByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => DeleteById(id, typeName, scriptKey));
-        
         public IResponseObject<string, string> Update(string id, string typeName, object requestBody, string scriptKey = "crud")
         {
             var ro = new ResponseObject<string, string>();
@@ -147,16 +97,16 @@ namespace NsRest.Services
 
         public async Task<IResponseObject<string, string>> UpdateAsync(string id, string typeName, object requestBody, string scriptKey = "crud") => await Task.Run(() => Update(id, typeName, requestBody, scriptKey));
 
-
-        public IResponseObject<string, string> UpdateByDynamic(string id, string typeName, dynamic requestBody, string scriptKey = "crud")
+        public IResponseObject<string, bool> DeleteById(string id, string typeName, string scriptKey = "crud")
         {
-            var ro = new ResponseObject<string, string>();
+            var ro = new ResponseObject<string, bool>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
-                var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
-                ro.ResponseData = rv.Result;
+                var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.DelAsync(typeName, id);
+                var result = rv.Result;
+                if (result.IsSuccessStatusCode) ro.ResponseData = true;
+                else ro.AddException(new Exception(result.ReasonPhrase));
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
             }
@@ -167,15 +117,46 @@ namespace NsRest.Services
             }
         }
 
-        public async Task<IResponseObject<string, string>> UpdateByDynamicAsync(string id, string typeName, dynamic requestBody, string scriptKey = "crud") => await Task.Run(() => UpdateByDynamic(id, typeName, requestBody, scriptKey));
+        public async Task<IResponseObject<string, bool>> DeleteByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => DeleteById(id, typeName, scriptKey));
 
-        #endregion
+        #region JSON Overloads
 
-        #region Read Objects
+        public IResponseObject<string, string> CreateByJson(string typeName, string requestBody, string scriptKey = "crud")
+        {
+            return Create(typeName, JObject.Parse(requestBody), scriptKey);
+        }
+
+        public async Task<IResponseObject<string, string>> CreateByJsonAsync(string typeName, string requestBody, string scriptKey = "crud") => await Task.Run(() => CreateByJson(typeName, requestBody, scriptKey));
+
+        public IResponseObject<string, string> UpdateByJson(string id, string typeName, string requestBody, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", JObject.Parse(requestBody) } };
+                var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+                ro.ResponseData = result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public async Task<IResponseObject<string, string>> UpdateByJsonAsync(string id, string typeName, string requestBody, string scriptKey = "crud") => await Task.Run(() => UpdateByJson(id, typeName, requestBody, scriptKey));
+
+        #endregion JSON Overloads
+
+        #endregion Create / Update / Delete
 
         #region Get Methods
 
-        public IResponseObject<string, string> GetJsonStringById(string id, string typeName, string scriptKey = "crud")
+        public IResponseObject<string, string> GetJsonById(string id, string typeName, string scriptKey = "crud")
         {
             var ro = new ResponseObject<string, string>();
             try
@@ -194,7 +175,7 @@ namespace NsRest.Services
             }
         }
 
-        public async Task<IResponseObject<string, string>> GetJsonStringByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => GetJsonStringById(id, typeName, scriptKey));
+        public async Task<IResponseObject<string, string>> GetJsonByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => GetJsonById(id, typeName, scriptKey));
 
         public IResponseObject<string, JObject> GetJobjectById(string id, string typeName, string scriptKey = "crud")
         {
@@ -210,7 +191,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
@@ -232,14 +212,13 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
         }
 
         public async Task<IResponseObject<string, dynamic>> GetDynamicByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => GetDynamicById(id, typeName, scriptKey));
-        
+
         public IResponseObject<string, T> GetById<T>(string id, string typeName, string scriptKey = "crud")
         {
             var ro = new ResponseObject<string, T>();
@@ -254,7 +233,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
@@ -276,19 +254,18 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
         }
 
         public async Task<IResponseObject<string, T>> GetAndPopulateByIdAsync<T>(T target, string id, string typeName, string scriptKey = "crud") => await Task.Run(() => GetAndPopulateById<T>(target, id, typeName, scriptKey));
-        
-        #endregion
+
+        #endregion Get Methods
 
         #region Search Methods
 
-        public IResponseObject<string, string> SearchJsonString(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search")
+        public IResponseObject<string, string> SearchJson(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search")
         {
             var ro = new ResponseObject<string, string>();
             try
@@ -307,7 +284,7 @@ namespace NsRest.Services
             }
         }
 
-        public async Task<IResponseObject<string, string>> SearchJsonStringAsync(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search") => await Task.Run(() => SearchJsonString(typeName, filters, columns, savedSearch, scriptKey));
+        public async Task<IResponseObject<string, string>> SearchJsonAsync(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search") => await Task.Run(() => SearchJson(typeName, filters, columns, savedSearch, scriptKey));
 
         public IResponseObject<string, IList<ExpandoObject>> SearchDynamicList(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search")
         {
@@ -326,7 +303,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
@@ -348,7 +324,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
@@ -372,7 +347,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                
                 ro.AddException(ex);
                 return ro;
             }
@@ -380,8 +354,49 @@ namespace NsRest.Services
 
         public async Task<IResponseObject<string, IEnumerable<JObject>>> SearchJObjectsAsync(string typeName, IEnumerable<NsSearchFilter> filters, IEnumerable<string> columns = null, string savedSearch = null, string scriptKey = "search") => await Task.Run(() => SearchJObjects(typeName, filters, columns, savedSearch, scriptKey));
 
+        #endregion Search Methods
 
-        #endregion
+        #region Unused
+
+        //public IResponseObject<string, string> CreateByDynamic(string typeName, dynamic requestBody, string scriptKey = "crud")
+        //{
+        //    var ro = new ResponseObject<string, string>();
+        //    try
+        //    {
+        //        var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", requestBody } };
+        //        var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+        //        var rv = restlet.ExecuteToJsonStringAsync(parameters);
+        //        ro.ResponseData = rv.Result;
+        //        if (rv.Exception != null) throw rv.Exception;
+        //        return ro;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ro.AddException(ex);
+        //        return ro;
+        //    }
+        //}
+
+        //public IResponseObject<string, string> UpdateByDynamic(string id, string typeName, dynamic requestBody, string scriptKey = "crud")
+        //{
+        //    var ro = new ResponseObject<string, string>();
+        //    try
+        //    {
+        //        var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
+        //        var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+        //        var rv = restlet.ExecuteToJsonStringAsync(parameters);
+        //        ro.ResponseData = rv.Result;
+        //        if (rv.Exception != null) throw rv.Exception;
+        //        return ro;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ro.AddException(ex);
+        //        return ro;
+        //    }
+        //}
+
+        //public async Task<IResponseObject<string, string>> UpdateByDynamicAsync(string id, string typeName, dynamic requestBody, string scriptKey = "crud") => await Task.Run(() => UpdateByDynamic(id, typeName, requestBody, scriptKey));
 
         //public IResponseObject<string, string> FindIdByExternalId(string externalId, string typeName, string scriptKey = "search")
         //{
@@ -402,15 +417,6 @@ namespace NsRest.Services
         //    }
         //}
 
-        #endregion
-
-        #region Private Utility Methods
-
-
-
-        #endregion
-
-        #endregion
-
+        #endregion Unused
     }
 }
