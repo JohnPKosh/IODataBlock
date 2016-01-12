@@ -400,7 +400,7 @@ namespace BasicTests.Integration.NsRest
         {
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", "22334" }, { "method", "READ" } };
+                var parameters = new Dictionary<string, object> { { "externalid", "76dddbbc-b42b-4a08-bc30-2383a9170e60" }, { "method", "READ" } };
 
                 var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
@@ -792,8 +792,8 @@ namespace BasicTests.Integration.NsRest
 
         #region NS Login helpers
 
-        public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
-        //public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
+        //public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
+        public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
 
         public NetSuiteScriptSetting GetScriptSetting()
         {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Common.GenericResponses;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NsRest.Search;
 
@@ -51,6 +52,10 @@ namespace NsRest.Services
         public IDictionary<string, INetSuiteScriptSetting> ScriptSettings { get; set; }
 
         public INetSuiteLogin Login { get; set; }
+
+        public bool UseExternalId { get; set; }
+
+        private string IdColumnName => UseExternalId ? "externalid": "id";
 
         #endregion Fields and Properties
 
@@ -123,12 +128,95 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, string>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", id }, { "method", method } };
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "method", method } };
                 if (requestBody != null) parameters.Add("request_body", requestBody);
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, IList<ExpandoObject>> ExecuteMethodToDynamicList(string id, object requestBody = null, string method = "READ", string scriptKey = "cc_crud")
+        {
+            var ro = new ResponseObject<string, IList<ExpandoObject>>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "method", method } };
+                if (requestBody != null) parameters.Add("request_body", requestBody);
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToDynamicListAsync(parameters);
+                ro.ResponseData = rv.Result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, JArray> ExecuteMethodToJArray(string id, object requestBody = null, string method = "READ", string scriptKey = "cc_crud")
+        {
+            var ro = new ResponseObject<string, JArray>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "method", method } };
+                if (requestBody != null) parameters.Add("request_body", requestBody);
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJArrayAsync(parameters);
+                var result = rv.Result;
+                if (result.HasValues) ro.ResponseData = result;
+                else ro.ResponseData = new JArray();
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, IList<JObject>> ExecuteMethodToJObjectList(string id, object requestBody = null, string method = "READ", string scriptKey = "cc_crud")
+        {
+            var ro = new ResponseObject<string, IList<JObject>>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "method", method } };
+                if (requestBody != null) parameters.Add("request_body", requestBody);
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJArrayAsync(parameters);
+                var result = rv.Result;
+                if (result.HasValues) ro.ResponseData = result.Children<JObject>().ToList();
+                else ro.ResponseData = new List<JObject>();
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public IResponseObject<string, IList<T>> ExecuteMethodTo<T>(string id, object requestBody = null, string method = "READ", string scriptKey = "cc_crud")
+        {
+            var ro = new ResponseObject<string, IList<T>>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "method", method } };
+                if (requestBody != null) parameters.Add("request_body", requestBody);
+                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJArrayAsync(parameters);
+                var result = rv.Result;
+                if (result.HasValues) ro.ResponseData = result.Children<JObject>().Select(x=> x.ToObject<T>()).ToList();
+                else ro.ResponseData = new List<T>();
                 return ro;
             }
             catch (Exception ex)

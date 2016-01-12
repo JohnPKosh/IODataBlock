@@ -50,6 +50,10 @@ namespace NsRest.Services
 
         public INetSuiteLogin Login { get; set; }
 
+        public bool UseExternalId { get; set; }
+
+        private string IdColumnName => UseExternalId ? "externalid" : "id";
+
         #endregion Fields and Properties
 
         #region Create / Update / Delete

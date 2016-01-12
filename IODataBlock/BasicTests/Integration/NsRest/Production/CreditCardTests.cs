@@ -22,8 +22,8 @@ namespace BasicTests.Integration.NsRest.Production
         public CreditCardTests()
         {
             configMgr = new ConfigMgr();
-            NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
-            //NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
+            //NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
+            NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
             NsAccount = configMgr.GetAppSetting("nsaccount");
             NsEmail = configMgr.GetAppSetting("nsemail");
             NsPassword = configMgr.GetAppSetting("nspassword");
@@ -37,9 +37,9 @@ namespace BasicTests.Integration.NsRest.Production
             };
             baseService = CreditCardService.Create(NsBaseUrl, NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole), scriptSettings);
 
-            TestGuid = "952bf0d0-fdf8-4011-9493-8df388313b95";
+            TestGuid = "76dddbbc-b42b-4a08-bc30-2383a9170e60";
             TestId = "6";
-            TestCreditCardId = "1115";
+            TestCreditCardId = "2512";
             TypeName = "customer";
         }
 
@@ -61,144 +61,6 @@ namespace BasicTests.Integration.NsRest.Production
         #endregion
 
         #region Test Methods
-
-        //#region Read
-
-        //[TestMethod]
-        //public void GetJsonById_Test()
-        //{
-        //    var response = baseService.GetJsonById(TestId, TypeName, "crud");
-        //    CheckJsonResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void GetJsonByIdAsync_Test()
-        //{
-        //    var response = baseService.GetJsonByIdAsync(TestId, TypeName, "crud").Result;
-        //    CheckJsonResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void GetDynamicById_Test()
-        //{
-        //    var response = baseService.GetDynamicById(TestId, TypeName, "crud");
-        //    CheckDynamicResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void GetDynamicByIdAsync_Test()
-        //{
-        //    var response = baseService.GetDynamicByIdAsync(TestId, TypeName, "crud").Result;
-        //    CheckDynamicResponse(response);
-        //}
-
-        //#endregion
-
-        //#region Search
-
-        //[TestMethod]
-        //public void SearchJsonWithoutFilters_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var columns = new[] { "companyname", "custentity_cr_ext_cross_id" };
-        //    //var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJson(TypeName, null, columns, scriptKey: "search");
-        //    CheckJsonResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchJson_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var columns = new[] { "companyname", "custentity_cr_ext_cross_id" };
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJson(TypeName, null, columns, scriptKey: "search");
-        //    CheckJsonResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchJsonByExternalId_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJson(TypeName, filters, scriptKey: "search");
-        //    CheckJsonResponse(response);
-
-        //    var r = JArray.Parse(response.ResponseData);
-        //    var id = r[0].Value<string>("id");
-        //    response = baseService.GetJsonById(id, TypeName, "crud");
-        //    CheckJsonResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchDynamicListByExternalId_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchDynamicList(TypeName, filters, scriptKey: "search");
-        //    dynamic ro = response.ResponseData.First();
-        //    CheckDynamicListResponse(response);
-
-        //    var response2 = baseService.GetJsonById(ro.id, TypeName, "crud");
-        //    CheckJsonResponse(response2);
-        //}
-
-        //[TestMethod]
-        //public void SearchJsonByExternalId_Test3()
-        //{
-        //    var externalid = TestGuid;
-        //    var columns = new[] { "custentity_cr_ext_cross_id" };
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchDynamicList(TypeName, filters, columns, scriptKey: "search");
-
-        //    if (response.HasExceptions) Assert.Fail(response.ExceptionList.ToJson(true));
-        //    if (response.ResponseData == null) Assert.Fail("No records found!");
-        //    dynamic ro = response.ResponseData.First();
-        //    CheckDynamicListResponse(response);
-
-        //    var response2 = baseService.GetJsonById(ro.id, TypeName, "crud");
-        //    CheckJsonResponse(response2);
-        //}
-
-        //[TestMethod]
-        //public void SearchJArrayByExternalId_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJArrayAsync(TypeName, filters, scriptKey: "search").Result;
-        //    CheckJArrayResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchJArrayByExternalId_Test2()
-        //{
-        //    var externalid = TestGuid;
-        //    var columns = new[] { "custentity_cr_ext_cross_id" };
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJArrayAsync(TypeName, filters, columns, scriptKey: "search").Result;
-        //    CheckJArrayResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchJObjectsByExternalId_Test()
-        //{
-        //    var externalid = TestGuid;
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJObjectsAsync(TypeName, filters, scriptKey: "search").Result;
-        //    CheckJObjectsResponse(response);
-        //}
-
-        //[TestMethod]
-        //public void SearchJObjectsByExternalId_Test2()
-        //{
-        //    var externalid = TestGuid;
-        //    var columns = new[] { "custentity_cr_ext_cross_id" };
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJObjectsAsync(TypeName, filters, columns, scriptKey: "search").Result;
-        //    CheckJObjectsResponse(response);
-        //}
-
-        //#endregion
 
         #region Create
 
@@ -273,24 +135,24 @@ namespace BasicTests.Integration.NsRest.Production
         {
             var response = baseService.ReadByJsonAsync(TestId, null, "cc_crud").Result;
             CheckJsonResponse(response);
+
+            var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
+            CheckJArrayResponse(JArrayResponse);
+            
         }
 
-        //[TestMethod]
-        //public void ReadByExternalId_Test()
-        //{
-        //    var id = GetIdByExternalId(TestGuid);
+        [TestMethod]
+        public void ReadAllByExternalId_Test()
+        {
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.ReadByJsonAsync(TestGuid, null, "cc_crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
 
-        //    dynamic o = new ExpandoObject();
-        //    var ccs = new List<dynamic>();
+            var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
+            CheckJArrayResponse(JArrayResponse);
 
-        //    dynamic cc1 = new ExpandoObject();
-        //    cc1.internalid = TestCreditCardId;
-        //    ccs.Add(cc1);
-        //    o.creditcards = ccs;
-
-        //    var response = baseService.Read(id, o, "cc_crud");
-        //    CheckJsonResponse(response);
-        //}
+        }
 
         #endregion
 
@@ -318,34 +180,29 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        //[TestMethod]
-        //public void UpdateByExternalId_Test()
-        //{
-        //    var id = GetIdByExternalId(TestGuid);
-        //    if (!string.IsNullOrWhiteSpace(id))
-        //    {
-        //        dynamic o = new ExpandoObject();
-        //        var ccs = new List<dynamic>();
+        [TestMethod]
+        public void UpdateByExternalId_Test()
+        {
+            dynamic o = new ExpandoObject();
+            var ccs = new List<dynamic>();
 
-        //        dynamic cc1 = new ExpandoObject();
-        //        cc1.internalid = 815;
-        //        cc1.ccdefault = "T";
-        //        cc1.ccexpiredate = "08/2027";
-        //        cc1.ccname = "Test Rest Update";
-        //        cc1.ccnumber = "4242424242424242";
-        //        cc1.customercode = "377";
-        //        cc1.ccsecuritycode = "378";
-        //        ccs.Add(cc1);
-        //        o.creditcards = ccs;
+            dynamic cc1 = new ExpandoObject();
+            cc1.internalid = TestCreditCardId;
+            cc1.ccdefault = "F";
+            cc1.ccexpiredate = "7/2017";
+            cc1.ccname = "Vasiliy Popovich";
+            cc1.ccnumber = "4242424242424242";
+            cc1.customercode = "377";
+            cc1.ccsecuritycode = "378";
+            ccs.Add(cc1);
+            o.creditcards = ccs;
 
-        //        var response = baseService.Update(id, o, "crud");
-        //        CheckJsonResponse(response);
-        //    }
-        //    else
-        //    {
-        //        Assert.Fail();
-        //    }
-        //}
+            string json = JsonExpandoStringSerialization.ToJsonString(o);
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.UpdateByJsonAsync(TestGuid, json, "cc_crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
+        }
 
         #endregion
 
@@ -368,22 +225,23 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        //[TestMethod]
-        //public void DeleteByExternalId_Test()
-        //{
-        //    var id = GetIdByExternalId(TestGuid);
+        [TestMethod]
+        public void DeleteByExternalId_Test()
+        {
+            dynamic o = new ExpandoObject();
+            var ccs = new List<dynamic>();
 
-        //    dynamic o = new ExpandoObject();
-        //    var ccs = new List<dynamic>();
+            dynamic cc1 = new ExpandoObject();
+            cc1.internalid = TestCreditCardId;
+            ccs.Add(cc1);
+            o.creditcards = ccs;
 
-        //    dynamic cc1 = new ExpandoObject();
-        //    cc1.internalid = TestCreditCardId;
-        //    ccs.Add(cc1);
-        //    o.creditcards = ccs;
-
-        //    var response = baseService.Delete(id, o, "cc_crud");
-        //    CheckJsonResponse(response);
-        //}
+            string json = JsonExpandoStringSerialization.ToJsonString(o);
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.DeleteByJsonAsync(TestId, json, "cc_crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
+        }
 
         #endregion
 
@@ -450,16 +308,6 @@ namespace BasicTests.Integration.NsRest.Production
             }
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
-
-        //private string GetIdByExternalId(string externalid)
-        //{
-        //    var filters = new[] { NsSearchFilter.NewStringFilter("custentity_cr_ext_cross_id", SearchStringFieldOperatorType.Is, externalid) };
-        //    var response = baseService.SearchJObjectsAsync(TypeName, filters, scriptKey: "search").Result;
-        //    var responseData = response.ResponseData.ToList();
-        //    if (!responseData.Any()) return null;
-        //    if (responseData.Count() > 1) throw new Exception("Duplicated Records Found!");
-        //    return responseData[0].Value<string>("id");
-        //}
 
         #endregion
 
