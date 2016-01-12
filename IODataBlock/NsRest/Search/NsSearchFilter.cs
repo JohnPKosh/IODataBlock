@@ -78,6 +78,28 @@ namespace NsRest.Search
                 value1 = value.GetNsValue()
             };
         }
+        
+        public static NsSearchFilter NewMultiSelectFilter(string field, SearchMultiSelectFieldOperatorType op, string value1, string value2 = null)
+        {
+            return new NsSearchFilter
+            {
+                field = field,
+                op = op.GetNsValue(),
+                value1 = value1,
+                value2 = value2
+            };
+        }
+
+        public static NsSearchFilter NewEnumMultiSelectFilter(string field, SearchEnumMultiSelectFieldOperatorType op, string value1, string value2 = null)
+        {
+            return new NsSearchFilter
+            {
+                field = field,
+                op = op.GetNsValue(),
+                value1 = value1,
+                value2 = value2
+            };
+        }
 
         /* TODO: implement other filters */
 

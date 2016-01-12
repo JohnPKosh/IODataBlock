@@ -60,28 +60,7 @@ namespace NsRest.Services
 
         #region Create / Update / Delete
 
-        public IResponseObject<string, string> CreateByJsonString(string typeName, string requestBody, string scriptKey = "crud")
-        {
-            var ro = new ResponseObject<string, string>();
-            try
-            {
-                var o = JObject.Parse(requestBody);
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", o } };
-                var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
-                ro.ResponseData = rv.Result;
-                if (rv.Exception != null) throw rv.Exception;
-                return ro;
-            }
-            catch (Exception ex)
-            {
-                //ro.ExceptionList.Add(ex);
-                ro.AddException(ex);
-                return ro;
-            }
-        }
-
-        public IResponseObject<string, string> CreateByDynamic(string typeName, dynamic requestBody, string scriptKey = "crud")
+        public IResponseObject<string, string> Create(string typeName, object requestBody, string scriptKey = "crud")
         {
             var ro = new ResponseObject<string, string>();
             try
@@ -95,11 +74,34 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
                 ro.AddException(ex);
                 return ro;
             }
         }
+
+        public IResponseObject<string, string> CreateByJsonString(string typeName, string requestBody, string scriptKey = "crud")
+        {
+            return Create(typeName, JObject.Parse(requestBody), scriptKey);
+        }
+
+        //public IResponseObject<string, string> CreateByDynamic(string typeName, dynamic requestBody, string scriptKey = "crud")
+        //{
+        //    var ro = new ResponseObject<string, string>();
+        //    try
+        //    {
+        //        var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", requestBody } };
+        //        var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+        //        var rv = restlet.ExecuteToJsonStringAsync(parameters);
+        //        ro.ResponseData = rv.Result;
+        //        if (rv.Exception != null) throw rv.Exception;
+        //        return ro;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ro.AddException(ex);
+        //        return ro;
+        //    }
+        //}
         
         public IResponseObject<string, bool> DeleteById(string id, string typeName, string scriptKey = "crud")
         {
@@ -116,13 +118,35 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
                 ro.AddException(ex);
                 return ro;
             }
         }
 
         public async Task<IResponseObject<string, bool>> DeleteByIdAsync(string id, string typeName, string scriptKey = "crud") => await Task.Run(() => DeleteById(id, typeName, scriptKey));
+        
+        public IResponseObject<string, string> Update(string id, string typeName, object requestBody, string scriptKey = "crud")
+        {
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
+                var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+                ro.ResponseData = result;
+                if (rv.Exception != null) throw rv.Exception;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        public async Task<IResponseObject<string, string>> UpdateAsync(string id, string typeName, object requestBody, string scriptKey = "crud") => await Task.Run(() => Update(id, typeName, requestBody, scriptKey));
+
 
         public IResponseObject<string, string> UpdateByDynamic(string id, string typeName, dynamic requestBody, string scriptKey = "crud")
         {
@@ -138,7 +162,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
                 ro.AddException(ex);
                 return ro;
             }
@@ -166,7 +189,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
                 ro.AddException(ex);
                 return ro;
             }
@@ -188,7 +210,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -210,7 +232,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -232,7 +254,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -254,7 +276,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -280,7 +302,6 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
                 ro.AddException(ex);
                 return ro;
             }
@@ -305,7 +326,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -327,7 +348,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -351,7 +372,7 @@ namespace NsRest.Services
             }
             catch (Exception ex)
             {
-                //ro.ExceptionList.Add(ex);
+                
                 ro.AddException(ex);
                 return ro;
             }
@@ -362,6 +383,24 @@ namespace NsRest.Services
 
         #endregion
 
+        //public IResponseObject<string, string> FindIdByExternalId(string externalId, string typeName, string scriptKey = "search")
+        //{
+        //    var ro = new ResponseObject<string, string>();
+        //    try
+        //    {
+        //        var filters = new[] { NsSearchFilter.NewStringFilter("externalid", SearchStringFieldOperatorType.Is, externalId) };
+        //        var response = SearchDynamicList("customer", filters, scriptKey: scriptKey);
+        //        if(response.HasExceptions)response
+        //        dynamic rv = response.ResponseData.First();
+
+        //        var response2 = baseService.GetJsonStringById(rv.id, "customer", "crud");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ro.AddException(ex);
+        //        return ro;
+        //    }
+        //}
 
         #endregion
 

@@ -361,6 +361,40 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
+
+        [TestMethod]
+        public void InsertCreditCardTestProduction()
+        {
+            try
+            {
+                dynamic o = new ExpandoObject();
+                var ccs = new List<dynamic>();
+
+                dynamic cc1 = new ExpandoObject();
+
+                /* Add Credit Card Info */
+                cc1.ccdefault = "T";
+                cc1.ccexpiredate = "07/2027";
+                cc1.ccname = "Test Rest4";
+                cc1.ccnumber = "4242424242424242";
+                cc1.customercode = "378";
+                cc1.ccsecuritycode = "378";
+
+                ccs.Add(cc1);
+                o.creditcards = ccs;
+                var parameters = new Dictionary<string, object> { { "id", "28481" }, { "method", "CREATE" }, { "request_body", o } };
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         [TestMethod]
         public void ReadAllCreditCardsTest()
         {
@@ -379,6 +413,27 @@ namespace BasicTests.Integration.NsRest
                 throw;
             }
         }
+
+
+        [TestMethod]
+        public void ReadAllCreditCardsTestProduction()
+        {
+            try
+            {
+                var parameters = new Dictionary<string, object> { { "id", "28481" }, { "method", "READ" } };
+
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
         [TestMethod]
         public void ReadSpecificCreditCardTest()
@@ -421,9 +476,9 @@ namespace BasicTests.Integration.NsRest
                 var ccs = new List<dynamic>();
 
                 dynamic cc1 = new ExpandoObject();
-                cc1.internalid = 1613;
+                cc1.internalid = 2312;
                 cc1.ccdefault = "T";
-                cc1.ccexpiredate = "08/2020";
+                cc1.ccexpiredate = "08/2029";
                 cc1.ccname = "Test Rest Update";
                 cc1.ccnumber = "4242424242424242";
                 cc1.customercode = "378";
@@ -444,6 +499,42 @@ namespace BasicTests.Integration.NsRest
                 throw;
             }
         }
+
+
+        [TestMethod]
+        public void UpdateCreditCardTestProduction()
+        {
+            try
+            {
+                dynamic o = new ExpandoObject();
+                var ccs = new List<dynamic>();
+
+                dynamic cc1 = new ExpandoObject();
+                cc1.internalid = 715;
+                cc1.ccdefault = "T";
+                cc1.ccexpiredate = "08/2029";
+                cc1.ccname = "Test Rest Update";
+                cc1.ccnumber = "4242424242424242";
+                cc1.customercode = "null";
+                cc1.ccsecuritycode = "378";
+                ccs.Add(cc1);
+                o.creditcards = ccs;
+
+                var parameters = new Dictionary<string, object> { { "id", "28481" }, { "method", "UPDATE" }, { "request_body", o } };
+
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
 
         [TestMethod]
         public void DeleteCreditCardTest()
@@ -486,6 +577,38 @@ namespace BasicTests.Integration.NsRest
 
                 var restlet = DelRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
                 var rv = restlet.DelAsync(parameters);
+                var result = rv.Result;
+
+                Assert.IsNotNull(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void DeleteCreditCardTestProduction()
+        {
+            try
+            {
+                dynamic o = new ExpandoObject();
+                var ccs = new List<dynamic>();
+
+                dynamic cc1 = new ExpandoObject();
+                cc1.internalid = 715;
+                ccs.Add(cc1);
+
+                //dynamic cc2 = new ExpandoObject();
+                //cc2.internalid = 1112;
+                //ccs.Add(cc2);
+
+                o.creditcards = ccs;
+
+                var parameters = new Dictionary<string, object> { { "id", "28481" }, { "method", "DELETE" }, { "request_body", o } };
+
+                var restlet = PostRestletBase.Create(BaseUrl, GetCCScriptSetting(), GetLogin());
+                var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 var result = rv.Result;
 
                 Assert.IsNotNull(result);
@@ -669,8 +792,8 @@ namespace BasicTests.Integration.NsRest
 
         #region NS Login helpers
 
-        //public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
-        public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
+        public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
+        //public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
 
         public NetSuiteScriptSetting GetScriptSetting()
         {

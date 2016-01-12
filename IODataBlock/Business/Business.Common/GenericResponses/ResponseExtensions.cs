@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI.WebControls;
 using Business.Common.Exceptions;
 using Business.Common.Responses;
 
@@ -27,6 +28,29 @@ namespace Business.Common.GenericResponses
         public static IResponseObject<TIn, TOut> ToFailedGenericResponse<TIn, TOut>(this TIn requestData, TOut responseData, IExceptionObjectList exceptionObjectList, IResponseCode responseCode = null, string correlationId = null)
         {
             return new ResponseObject<TIn, TOut> { RequestData = requestData, ResponseCode = responseCode, CorrelationId = correlationId, ExceptionList = exceptionObjectList, ResponseData = responseData };
+        }
+
+        public static IResponseObject<TIn, TNew> TransformResponseData<TIn, TOut, TNew>(this IResponseObject<TIn, TOut> value, Func<TOut, TNew> transformFunc, bool throwOnException = false)
+        {
+            var rv = new ResponseObject<TIn, TNew>
+            {
+                ExceptionList = value.ExceptionList,
+                CorrelationId = value.CorrelationId,
+                RequestData = value.RequestData,
+                ResponseCode = value.ResponseCode
+            };
+
+            if (value.ResponseData == null) return rv;
+            try
+            {
+                rv.ResponseData = transformFunc(value.ResponseData);
+            }
+            catch (Exception ex)
+            {
+                rv.AddException(ex);
+                if (throwOnException) throw;
+            }
+            return rv;
         }
     }
 }

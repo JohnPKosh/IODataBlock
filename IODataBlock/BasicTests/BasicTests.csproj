@@ -131,6 +131,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Integration\NsRest\recordCRUD.js" />
     <Content Include="Templates\template01.html" />
   </ItemGroup>
   <Choose>
