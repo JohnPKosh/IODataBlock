@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using NsRest;
-using NsRest.Search;
 using NsRest.Services;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
 
 namespace BasicTests.Integration.NsRest.Production
 {
@@ -58,7 +55,7 @@ namespace BasicTests.Integration.NsRest.Production
         private string TestCreditCardId { get; set; }
         private string TypeName { get; set; }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Test Methods
 
@@ -110,7 +107,7 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        #endregion
+        #endregion Create
 
         #region Read
 
@@ -138,7 +135,6 @@ namespace BasicTests.Integration.NsRest.Production
 
             var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
             CheckJArrayResponse(JArrayResponse);
-            
         }
 
         [TestMethod]
@@ -151,10 +147,9 @@ namespace BasicTests.Integration.NsRest.Production
 
             var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
             CheckJArrayResponse(JArrayResponse);
-
         }
 
-        #endregion
+        #endregion Read
 
         #region Update
 
@@ -204,7 +199,7 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        #endregion
+        #endregion Update
 
         #region Delete
 
@@ -243,9 +238,9 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        #endregion
+        #endregion Delete
 
-        #endregion
+        #endregion Test Methods
 
         #region Private Utility Methods
 
@@ -309,7 +304,6 @@ namespace BasicTests.Integration.NsRest.Production
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
 
-        #endregion
-
+        #endregion Private Utility Methods
     }
 }

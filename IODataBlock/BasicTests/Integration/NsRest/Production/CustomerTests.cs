@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using NsRest;
 using NsRest.Search;
 using NsRest.Services;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace BasicTests.Integration.NsRest.Production
 {
@@ -32,13 +31,13 @@ namespace BasicTests.Integration.NsRest.Production
             scriptSettings = new Dictionary<string, INetSuiteScriptSetting>
             {
                 {"crud", NetSuiteScriptSetting.Create("customscript_record_crud", "customdeploy_record_crud")},
-                {"cc_crud", NetSuiteScriptSetting.Create("customscript_cr_cc_crud", "customdeploy_cr_cc_crud")},
+                //{"cc_crud", NetSuiteScriptSetting.Create("customscript_cr_cc_crud", "customdeploy_cr_cc_crud")},
                 {"search", NetSuiteScriptSetting.Create("customscript_record_search", "customdeploy_record_search")}
             };
             baseService = BaseService.Create(NsBaseUrl, NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole), scriptSettings);
 
-            TestGuid = "952bf0d0-fdf8-4011-9493-8df388313b95";
-            TestId = "6";
+            TestGuid = "00000000-0000-0000-0000-000000000000";
+            TestId = "28686";
             TypeName = "customer";
         }
 
@@ -56,7 +55,7 @@ namespace BasicTests.Integration.NsRest.Production
         private string TestId { get; set; }
         private string TypeName { get; set; }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Test Methods
 
@@ -90,7 +89,43 @@ namespace BasicTests.Integration.NsRest.Production
             CheckDynamicResponse(response);
         }
 
-        #endregion
+        [TestMethod]
+        public void GetJsonByExternalId_Test()
+        {
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.GetJsonById(TestGuid, TypeName, "crud");
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
+        }
+
+        [TestMethod]
+        public void GetJsonByExternalIdAsync_Test()
+        {
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.GetJsonByIdAsync(TestGuid, TypeName, "crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
+        }
+
+        [TestMethod]
+        public void GetDynamicByExternalId_Test()
+        {
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.GetDynamicById(TestGuid, TypeName, "crud");
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckDynamicResponse(response);
+        }
+
+        [TestMethod]
+        public void GetDynamicByExternalIdAsync_Test()
+        {
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.GetDynamicByIdAsync(TestGuid, TypeName, "crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckDynamicResponse(response);
+        }
+
+        #endregion Read
 
         #region Search
 
@@ -196,7 +231,7 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJObjectsResponse(response);
         }
 
-        #endregion
+        #endregion Search
 
         #region Create
 
@@ -207,20 +242,19 @@ namespace BasicTests.Integration.NsRest.Production
             o.phone = "2163734600";
             o.mobilephone = "2165132288";
             o.recordtype = TypeName;
-            o.email = "jkosh@broadvox.com";
+            o.email = "jkosh@myco.com";
             o.companyname = "MYCO";
-            o.url = "http://www.nfl.com";
+            o.url = "http://www.myco.com";
             o.subsidiary = "2";
-            o.category = "1"; /* TODO: Add customer and partner category items to sandbox from production */
+            o.category = "6"; /* TODO: Add customer and partner category items to sandbox from production */
             o.isperson = "F";
-            o.partner = "352";
+            //o.partner = "352";
             o.entitystatus = "13";
             //o.externalid = TestGuid;
 
             var response = baseService.Create(TypeName, o, "crud");
             CheckJsonResponse(response);
         }
-
 
         [TestMethod]
         public void PostJson_Test()
@@ -233,10 +267,11 @@ namespace BasicTests.Integration.NsRest.Production
             o.companyname = "mytestorg";
             o.url = "http://www.mytestorg.com";
             o.subsidiary = "2";
-            o.category = "1"; /* TODO: Add customer and partner category items to sandbox from production */
+            o.category = "6"; /* TODO: Add customer and partner category items to sandbox from production */
             o.isperson = "F";
-            o.partner = "352";
+            //o.partner = "352";
             o.entitystatus = "13";
+            o.custentity_cr_ext_cross_id = TestGuid;
             //o.externalid = TestGuid;
             //string json = JObject.FromObject(o).ToString();
             string json = JsonExpandoStringSerialization.ToJsonString(o);
@@ -245,7 +280,7 @@ namespace BasicTests.Integration.NsRest.Production
             CheckJsonResponse(response);
         }
 
-        #endregion
+        #endregion Create
 
         #region Update
 
@@ -253,7 +288,7 @@ namespace BasicTests.Integration.NsRest.Production
         public void Put_Test()
         {
             dynamic o = new ExpandoObject();
-            o.comments = "blah blah blah";
+            o.comments = "null";
             var response = baseService.Update(TestId, TypeName, o, "crud");
             CheckJsonResponse(response);
         }
@@ -261,22 +296,16 @@ namespace BasicTests.Integration.NsRest.Production
         [TestMethod]
         public void PutByExternalId_Test()
         {
-            var id = GetIdByExternalId(TestGuid);
-            if (!string.IsNullOrWhiteSpace(id))
-            {
-                dynamic o = new ExpandoObject();
-                o.comments = "null";
-                //o.phone = "2163734624";
-                var response = baseService.Update(id, TypeName, o, "crud");
-                CheckJsonResponse(response);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            dynamic o = new ExpandoObject();
+            o.comments = "Test Customer";
+            //o.custentity_cr_ext_cross_id = "null";
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.Update(TestGuid, TypeName, o, "crud");
+            baseService.UseExternalId = false; /* Use NS ID */
+            CheckJsonResponse(response);
         }
 
-        #endregion
+        #endregion Update
 
         #region Delete
 
@@ -290,14 +319,16 @@ namespace BasicTests.Integration.NsRest.Production
         [TestMethod]
         public void DelByExternalId_Test()
         {
-            var id = GetIdByExternalId(TestGuid);
-            var response = baseService.DeleteByIdAsync(id, TypeName, "crud").Result;
+            baseService.UseExternalId = true; /* Use External CROSS ID */
+            var response = baseService.DeleteByIdAsync(TestGuid, TypeName, "crud").Result;
+            baseService.UseExternalId = false; /* Use NS ID */
+
             CheckBooleanResponse(response);
         }
 
-        #endregion
+        #endregion Delete
 
-        #endregion
+        #endregion Test Methods
 
         #region Private Utility Methods
 
@@ -371,7 +402,6 @@ namespace BasicTests.Integration.NsRest.Production
             return responseData[0].Value<string>("id");
         }
 
-        #endregion
-
+        #endregion Private Utility Methods
     }
 }

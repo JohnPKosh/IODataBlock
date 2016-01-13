@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Business.Common.GenericResponses;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Business.Common.GenericResponses;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NsRest.Search;
 
 namespace NsRest.Services
 {
@@ -55,7 +52,7 @@ namespace NsRest.Services
 
         public bool UseExternalId { get; set; }
 
-        private string IdColumnName => UseExternalId ? "externalid": "id";
+        private string IdColumnName => UseExternalId ? "externalid" : "id";
 
         #endregion Fields and Properties
 
@@ -100,7 +97,7 @@ namespace NsRest.Services
 
         public IResponseObject<string, string> ReadByJson(string id, string requestBody = null, string scriptKey = "crud")
         {
-            return Read(id, string.IsNullOrWhiteSpace(requestBody)? null : JObject.Parse(requestBody), scriptKey);
+            return Read(id, string.IsNullOrWhiteSpace(requestBody) ? null : JObject.Parse(requestBody), scriptKey);
         }
 
         public async Task<IResponseObject<string, string>> ReadByJsonAsync(string id, string requestBody = null, string scriptKey = "crud") => await ReadAsync(id, string.IsNullOrWhiteSpace(requestBody) ? null : JObject.Parse(requestBody), scriptKey);
@@ -110,7 +107,7 @@ namespace NsRest.Services
             return Update(id, JObject.Parse(requestBody), scriptKey);
         }
 
-        public async Task<IResponseObject<string, string>> UpdateByJsonAsync(string id,  string requestBody, string scriptKey = "crud") => await UpdateAsync(id, JObject.Parse(requestBody), scriptKey);
+        public async Task<IResponseObject<string, string>> UpdateByJsonAsync(string id, string requestBody, string scriptKey = "crud") => await UpdateAsync(id, JObject.Parse(requestBody), scriptKey);
 
         public IResponseObject<string, string> DeleteByJson(string id, string typeName, string requestBody, string scriptKey = "crud")
         {
@@ -122,6 +119,8 @@ namespace NsRest.Services
         #endregion JSON Overloads
 
         #endregion Create / Read / Update / Delete
+
+        #region Utility Methods
 
         public IResponseObject<string, string> ExecuteMethod(string id, object requestBody = null, string method = "READ", string scriptKey = "cc_crud")
         {
@@ -215,7 +214,7 @@ namespace NsRest.Services
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJArrayAsync(parameters);
                 var result = rv.Result;
-                if (result.HasValues) ro.ResponseData = result.Children<JObject>().Select(x=> x.ToObject<T>()).ToList();
+                if (result.HasValues) ro.ResponseData = result.Children<JObject>().Select(x => x.ToObject<T>()).ToList();
                 else ro.ResponseData = new List<T>();
                 return ro;
             }
@@ -225,6 +224,7 @@ namespace NsRest.Services
                 return ro;
             }
         }
-
+         
+        #endregion
     }
 }

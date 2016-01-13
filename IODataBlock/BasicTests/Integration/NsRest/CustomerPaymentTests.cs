@@ -4,11 +4,11 @@ using HubSpot.Models.Properties;
 using HubSpot.Services;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NsRest;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using NsRest;
 
 namespace BasicTests.Integration.NsRest
 {
@@ -361,7 +361,6 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
-
         [TestMethod]
         public void InsertCreditCardTestProduction()
         {
@@ -414,7 +413,6 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
-
         [TestMethod]
         public void ReadAllCreditCardsTestProduction()
         {
@@ -433,7 +431,6 @@ namespace BasicTests.Integration.NsRest
                 throw;
             }
         }
-
 
         [TestMethod]
         public void ReadSpecificCreditCardTest()
@@ -500,7 +497,6 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
-
         [TestMethod]
         public void UpdateCreditCardTestProduction()
         {
@@ -533,8 +529,6 @@ namespace BasicTests.Integration.NsRest
                 throw;
             }
         }
-
-
 
         [TestMethod]
         public void DeleteCreditCardTest()

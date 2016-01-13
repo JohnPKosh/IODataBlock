@@ -84,7 +84,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, string>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName }, { "request_body", requestBody } };
                 var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 var result = rv.Result;
@@ -107,7 +107,8 @@ namespace NsRest.Services
             try
             {
                 var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.DelAsync(typeName, id);
+                var input = new Dictionary<string, object> {{IdColumnName, id}, {"type", typeName}};
+                var rv = restlet.DelAsync(input);
                 var result = rv.Result;
                 if (result.IsSuccessStatusCode) ro.ResponseData = true;
                 else ro.AddException(new Exception(result.ReasonPhrase));
@@ -137,7 +138,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, string>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", JObject.Parse(requestBody) } };
+                var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName }, { "request_body", JObject.Parse(requestBody) } };
                 var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 var result = rv.Result;
@@ -165,7 +166,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, string>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "id", id } };
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 ro.ResponseData = rv.Result;
@@ -186,7 +187,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, JObject>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "id", id } };
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJsonStringAsync(parameters);
                 ro.ResponseData = JObject.Parse(rv.Result);
@@ -207,7 +208,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, dynamic>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "id", id } };
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToDynamicAsync(parameters);
                 ro.ResponseData = rv.Result;
@@ -228,7 +229,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, T>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "id", id } };
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToAsync<T>(parameters);
                 ro.ResponseData = rv.Result;
@@ -249,7 +250,7 @@ namespace NsRest.Services
             var ro = new ResponseObject<string, T>();
             try
             {
-                var parameters = new Dictionary<string, object> { { "type", typeName }, { "id", id } };
+                var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteAndPopulateAsync<T>(target, parameters);
                 ro.ResponseData = rv.Result;
@@ -386,7 +387,7 @@ namespace NsRest.Services
         //    var ro = new ResponseObject<string, string>();
         //    try
         //    {
-        //        var parameters = new Dictionary<string, object> { { "id", id }, { "type", typeName }, { "request_body", requestBody } };
+        //        var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName }, { "request_body", requestBody } };
         //        var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
         //        var rv = restlet.ExecuteToJsonStringAsync(parameters);
         //        ro.ResponseData = rv.Result;
