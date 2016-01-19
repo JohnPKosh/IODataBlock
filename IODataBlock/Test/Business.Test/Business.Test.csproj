@@ -232,13 +232,18 @@
     </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\allCompanyPropertiesDto.json" />
+    <None Include="Junk\allCompanyPropertiesDynamic.json" />
     <None Include="Junk\allContacts.json" />
+    <None Include="Junk\allContactsOld.json" />
     <None Include="Junk\allContactsdynamic.json" />
     <None Include="Junk\allpagedcontacts.json" />
     <None Include="Junk\allpagedcontactsleadstatus.json" />
     <None Include="Junk\allpagedcontactsleadstatus2.json" />
     <None Include="Junk\allPropertiesDto.json" />
     <None Include="Junk\allPropertiesDynamic.json" />
+    <None Include="Junk\Companypropnames.json" />
+    <None Include="Junk\Companyproptypes.json" />
     <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\contactByIdDynamic.json" />
     <None Include="Junk\ContactPropertyList.json" />
@@ -252,6 +257,7 @@
     </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\ContactViewModels_Forms.json" />
+    <None Include="Junk\customer19617.json" />
     <None Include="Junk\customerCCList.json" />
     <None Include="Junk\customerCCListSpecific.json" />
     <None Include="Junk\customerWithCcProduction.json" />
@@ -260,6 +266,7 @@
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
     <None Include="Junk\formlist.json" />
+    <None Include="Junk\forms.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\RawContactProperties.json" />

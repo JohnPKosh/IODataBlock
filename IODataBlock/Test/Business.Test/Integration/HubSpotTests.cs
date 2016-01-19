@@ -17,6 +17,7 @@ using HubSpot.Services;
 using Business.Common.Extensions;
 using Business.Common.System;
 using HubSpot.Models.Contacts;
+using HubSpot.Services.ModeTypes;
 using Version = HubSpot.Models.Properties.PropertyVersion;
 
 namespace Business.Test.Integration
@@ -175,7 +176,31 @@ namespace Business.Test.Integration
             }
         }
 
+        [TestMethod]
+        public void SaveAllContacts()
+        {
+            var contacts = GetAllContactViewModels(100, propertyMode: PropertyModeType.value_only);
 
+            contacts.WriteJsonToFile(new FileInfo(@"SampleResults\allContacts.json"));
+        }
+
+        [TestMethod]
+        public void LoadAllContacts()
+        {
+            var contacts = new FileInfo(@"SampleResults\allContacts.json").ReadJsonFile<IList<ContactViewModel>>();
+            var forms = contacts.Where(x => x.form_submissions.Any()).Select(f => f.form_submissions);
+            var formids = new HashSet<Tuple<string,string>>();
+            foreach (var form in forms)
+            {
+                foreach (var f in form)
+                {
+                    var formId = f.Value<string>("form-id");
+                    var title = f.Value<string>("title");
+                    formids.Add(new Tuple<string, string>(formId, title));
+                }
+            }
+            formids.WriteJsonToFile(new FileInfo(@"SampleResults\forms.json"));
+        }
 
         // mkanell@ajc.com
         // mfratto@nwc.co
@@ -203,7 +228,13 @@ namespace Business.Test.Integration
         //    }
         //}
 
-
+        public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+            {
+                var service = new ContactService(_hapiKey);
+                return service.GetAllContactViewModels(count, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships).ToList();
+            }
 
 
     }

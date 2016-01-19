@@ -37,7 +37,7 @@ namespace BasicTests.Integration.NsRest.Production
             baseService = BaseService.Create(NsBaseUrl, NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole), scriptSettings);
 
             TestGuid = "00000000-0000-0000-0000-000000000000";
-            TestId = "28686";
+            TestId = "19617";
             TypeName = "customer";
         }
 
