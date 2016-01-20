@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="Models\Contacts\ContactExtensions.cs" />
     <Compile Include="Models\Contacts\ContactModel.cs" />
-    <Compile Include="Models\Contacts\ContactModelBase.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Contacts\ContactModelList.cs" />
     <Compile Include="Models\Contacts\ContactUpdateModel.cs" />
     <Compile Include="Models\Properties\IPropertyValue.cs" />

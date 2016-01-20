@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HubSpot.Models.Contacts
 {
-    public class ContactModel : ContactModelBase<ContactModel>
+    public class ContactModel : ModelBase<ContactModel>
     {
         #region Class Initialization
 

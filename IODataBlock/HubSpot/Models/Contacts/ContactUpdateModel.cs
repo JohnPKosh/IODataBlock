@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace HubSpot.Models.Contacts
 {
-    public class ContactUpdateModel : ContactModelBase<ContactUpdateModel>
+    public class ContactUpdateModel : ModelBase<ContactUpdateModel>
     {
 
         public ContactUpdateModel()
