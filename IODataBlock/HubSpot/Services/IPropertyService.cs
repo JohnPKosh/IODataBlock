@@ -8,11 +8,8 @@ using Business.Common.Responses;
 
 namespace HubSpot.Services
 {
-    public interface IFormsService
+    public interface IPropertyService
     {
-
-        IResponseObject<string, string> GetForms();
-
-
+        IResponseObject<string, string> GetAllProperties();
     }
 }

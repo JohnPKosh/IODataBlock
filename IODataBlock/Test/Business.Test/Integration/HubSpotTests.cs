@@ -17,6 +17,7 @@ using HubSpot.Services;
 using Business.Common.Extensions;
 using Business.Common.System;
 using HubSpot.Models.Contacts;
+using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Version = HubSpot.Models.Properties.PropertyVersion;
 

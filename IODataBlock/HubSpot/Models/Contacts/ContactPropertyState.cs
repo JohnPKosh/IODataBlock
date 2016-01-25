@@ -1,18 +1,19 @@
 ﻿using Business.Common.System.States;
+using HubSpot.Models.Properties;
 
-namespace HubSpot.Models.Properties
+namespace HubSpot.Models.Contacts
 {
-    public class PropertyState : IPropertyState
+    public class ContactPropertyState : IPropertyState
     {
-        private static PropertyState _instance = new PropertyState();
+        private static ContactPropertyState _instance = new ContactPropertyState();
 
-        private PropertyState()
+        private ContactPropertyState()
         {
         }
 
-        public static PropertyState Instance
+        public static IPropertyState Instance
         {
-            get { return _instance ?? (_instance = new PropertyState()); }
+            get { return _instance ?? (_instance = new ContactPropertyState()); }
         }
 
         private PropertyTypeListModel _value = null;

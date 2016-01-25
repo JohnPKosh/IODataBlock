@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
-using Business.Common.Configuration;
-using Business.Common.Exceptions;
-using Flurl;
-using Flurl.Http;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using HubSpot.Models;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
-using Business.Common.Responses;
+using Business.Common.IO;
+using Business.Common.System.States;
+using Flurl;
+using Flurl.Http;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services.ModeTypes;
-using Version = HubSpot.Models.Properties.PropertyVersion;
+using Newtonsoft.Json;
 
-namespace HubSpot.Services
+namespace HubSpot.Services.Contacts
 {
     public class ContactService : IContactService
     {
@@ -35,8 +25,8 @@ namespace HubSpot.Services
             //var configMgr = new ConfigMgr();
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
-
-            var propertyManager = new PropertyManager(_hapiKey);
+            var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
+            var propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 

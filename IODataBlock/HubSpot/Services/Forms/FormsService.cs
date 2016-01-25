@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business.Common.GenericResponses;
-using Business.Common.Responses;
 using Flurl;
 using Flurl.Http;
 
-namespace HubSpot.Services
+namespace HubSpot.Services.Forms
 {
     public class FormsService : IFormsService
     {

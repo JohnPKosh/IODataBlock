@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using Business.Common.GenericResponses;
-using Business.Common.Responses;
-using HubSpot.Models;
-using HubSpot.Models.Contacts;
-using HubSpot.Models.Properties;
 using HubSpot.Services.ModeTypes;
 
-namespace HubSpot.Services
+namespace HubSpot.Services.Contacts
 {
     /* http://developers.hubspot.com/docs/methods/contacts/contacts-overview */
 

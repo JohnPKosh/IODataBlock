@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Business.Common.Configuration;
+using Business.Common.IO;
 using Business.Common.System;
+using Business.Common.System.States;
 using HubSpot.Models.Properties;
+using HubSpot.Services;
+using HubSpot.Services.Contacts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,7 +23,8 @@ namespace HubSpot.Models.Contacts
             // TODO: determine if string hapikey needs added to class signature.
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
-            var propertyManager = new PropertyManager(_hapiKey);
+            var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
+            var propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using HubSpot.Services.Contacts;
 
 namespace BasicTests.Integration.NsRest
 {

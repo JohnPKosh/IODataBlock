@@ -76,11 +76,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Companies\CompanyModel.cs" />
     <Compile Include="Models\Contacts\ContactExtensions.cs" />
     <Compile Include="Models\Contacts\ContactModel.cs" />
+    <Compile Include="Models\Contacts\ContactPropertyManager.cs" />
+    <Compile Include="Models\Contacts\ContactPropertyState.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Contacts\ContactModelList.cs" />
     <Compile Include="Models\Contacts\ContactUpdateModel.cs" />
+    <Compile Include="Models\Properties\IPropertyManager.cs" />
+    <Compile Include="Models\Properties\IPropertyState.cs" />
     <Compile Include="Models\Properties\IPropertyValue.cs" />
     <Compile Include="Models\Properties\PropertyUpdateValueExtensions.cs" />
     <Compile Include="Models\Contacts\ContactViewModel.cs" />
@@ -103,12 +108,12 @@
     <Compile Include="Services\ModeTypes\PropertyModeType.cs" />
     <None Include="Models\Unused\StringItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ContactPropertyService.cs" />
-    <Compile Include="Services\ContactService.cs" />
-    <Compile Include="Services\FormsService.cs" />
-    <Compile Include="Services\IContactPropertyService.cs" />
-    <Compile Include="Services\IContactService.cs" />
-    <Compile Include="Services\IFormsService.cs" />
+    <Compile Include="Services\Contacts\ContactPropertyService.cs" />
+    <Compile Include="Services\Contacts\ContactService.cs" />
+    <Compile Include="Services\Forms\FormsService.cs" />
+    <Compile Include="Services\IPropertyService.cs" />
+    <Compile Include="Services\Contacts\IContactService.cs" />
+    <Compile Include="Services\Forms\IFormsService.cs" />
     <None Include="SampleResults\allCompanyPropertiesDto.json" />
     <None Include="SampleResults\allCompanyPropertiesDynamic.json" />
     <None Include="SampleResults\Companypropnames.json" />
@@ -141,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\Companies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

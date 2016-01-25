@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using HubSpot.Services.Contacts;
 using NsRest;
 
 namespace Business.Test.Integration

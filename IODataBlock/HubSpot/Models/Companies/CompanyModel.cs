@@ -12,18 +12,18 @@ using HubSpot.Services.Contacts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace HubSpot.Models.Contacts
+namespace HubSpot.Models.Companies
 {
-    public class ContactModel : ModelBase<ContactModel>
+    public class CompanyModel: ModelBase<CompanyModel>
     {
         #region Class Initialization
 
-        public ContactModel()
+        public CompanyModel()
         {
             // TODO: determine if string hapikey needs added to class signature.
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
-            var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
+            var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"CompanyPropertyList.json");
             var propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
@@ -63,15 +63,15 @@ namespace HubSpot.Models.Contacts
 
         [JsonProperty("properties")]
         public JObject Properties { get; set; }
-        
+
         [JsonProperty("form-submissions")]
         public List<JObject> form_submissions { get; set; }
 
-        [JsonProperty("list-memberships")]
-        public List<ListMembership> list_memberships { get; set; }
+        //[JsonProperty("list-memberships")]
+        //public List<ListMembership> list_memberships { get; set; }
 
-        [JsonProperty("identity-profiles")]
-        public List<IdentityProfile> identity_profiles { get; set; }
+        //[JsonProperty("identity-profiles")]
+        //public List<IdentityProfile> identity_profiles { get; set; }
 
         [JsonProperty("merge-audits")]
         public List<JObject> merge_audits { get; set; }
@@ -81,46 +81,48 @@ namespace HubSpot.Models.Contacts
 
         #region Conversion Operators
 
-        static public implicit operator ContactViewModel(ContactModel value)
-        {
-            var rv = new ContactViewModel { Properties = new HashSet<PropertyValue>(),
-                vid = value.vid,
-                addedAt = value.addedAt,
-                canonical_vid = value.canonical_vid,
-                form_submissions = value.form_submissions,
-                identity_profiles = value.identity_profiles,
-                is_contact = value.is_contact,
-                list_memberships = value.list_memberships,
-                merge_audits = value.merge_audits,
-                merged_vids = value.merged_vids,
-                portal_id = value.portal_id,
-                profile_token = value.profile_token,
-                profile_url = value.profile_url,
-                ManagedProperties = value.ManagedProperties
-            };
-            foreach (var p in value.ManagedProperties)
-            {
-                JToken token;
-                if (value.Properties.TryGetValue(p.name, StringComparison.InvariantCulture, out token))
-                {
-                    var versions = (JArray)token["versions"];
-                    if (versions != null)
-                    {
-                        var ver = versions.ToObject<List<PropertyVersion>>();
-                        rv.Properties.Add(new PropertyValue(p.name, token.Value<string>("value"), new HashSet<PropertyVersion>(ver), p));
-                    }
-                    else
-                    {
-                        rv.Properties.Add(new PropertyValue(p.name, token.Value<string>("value"), null, p));
-                    }
-                }
-                else
-                {
-                    rv.Properties.Add(new PropertyValue(p.name, null, null, p));
-                }
-            }
-            return rv;
-        }
+        //static public implicit operator ContactViewModel(ContactModel value)
+        //{
+        //    var rv = new ContactViewModel
+        //    {
+        //        Properties = new HashSet<PropertyValue>(),
+        //        vid = value.vid,
+        //        addedAt = value.addedAt,
+        //        canonical_vid = value.canonical_vid,
+        //        form_submissions = value.form_submissions,
+        //        identity_profiles = value.identity_profiles,
+        //        is_contact = value.is_contact,
+        //        list_memberships = value.list_memberships,
+        //        merge_audits = value.merge_audits,
+        //        merged_vids = value.merged_vids,
+        //        portal_id = value.portal_id,
+        //        profile_token = value.profile_token,
+        //        profile_url = value.profile_url,
+        //        ManagedProperties = value.ManagedProperties
+        //    };
+        //    foreach (var p in value.ManagedProperties)
+        //    {
+        //        JToken token;
+        //        if (value.Properties.TryGetValue(p.name, StringComparison.InvariantCulture, out token))
+        //        {
+        //            var versions = (JArray)token["versions"];
+        //            if (versions != null)
+        //            {
+        //                var ver = versions.ToObject<List<PropertyVersion>>();
+        //                rv.Properties.Add(new PropertyValue(p.name, token.Value<string>("value"), new HashSet<PropertyVersion>(ver), p));
+        //            }
+        //            else
+        //            {
+        //                rv.Properties.Add(new PropertyValue(p.name, token.Value<string>("value"), null, p));
+        //            }
+        //        }
+        //        else
+        //        {
+        //            rv.Properties.Add(new PropertyValue(p.name, null, null, p));
+        //        }
+        //    }
+        //    return rv;
+        //}
 
         //static public implicit operator ContactUpdateModel(ContactModel value)
         //{

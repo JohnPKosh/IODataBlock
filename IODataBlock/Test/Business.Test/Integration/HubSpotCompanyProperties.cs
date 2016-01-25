@@ -7,11 +7,14 @@ using System.Linq;
 using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.IO;
+using Business.Common.System.States;
 using Flurl;
 using Flurl.Http;
 using HubSpot.Models;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
+using HubSpot.Services;
+using HubSpot.Services.Contacts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -27,7 +30,7 @@ namespace Business.Test.Integration
 
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
-            _propertyManager = new PropertyManager(_hapiKey, jsonFilePath);
+            _propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
         }
 
         private readonly string _hapiKey;

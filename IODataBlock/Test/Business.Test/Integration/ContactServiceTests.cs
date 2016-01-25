@@ -10,6 +10,7 @@ using HubSpot.Models;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services;
+using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
