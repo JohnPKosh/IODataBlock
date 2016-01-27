@@ -77,6 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Companies\CompanyModel.cs" />
+    <Compile Include="Models\Companies\CompanyModelList.cs" />
+    <Compile Include="Models\Companies\CompanyUpdateModel.cs" />
+    <Compile Include="Models\Companies\CompanyContactIdViewModel.cs" />
+    <Compile Include="Models\Companies\CompanyViewModel.cs" />
+    <Compile Include="Models\Companies\CompanyPropertyState.cs" />
+    <Compile Include="Models\Companies\CompanyPropertyManager.cs" />
+    <Compile Include="Models\Companies\ContactExtensions.cs" />
     <Compile Include="Models\Contacts\ContactExtensions.cs" />
     <Compile Include="Models\Contacts\ContactModel.cs" />
     <Compile Include="Models\Contacts\ContactPropertyManager.cs" />
@@ -104,6 +111,9 @@
     <Compile Include="Models\Properties\PropertyManager.cs" />
     <Compile Include="Models\Properties\PropertyState.cs" />
     <Compile Include="Models\Properties\PropertyVersion.cs" />
+    <Compile Include="Services\Companies\CompanyService.cs" />
+    <Compile Include="Services\Companies\CompanyPropertyService.cs" />
+    <Compile Include="Services\Companies\ICompanyService.cs" />
     <Compile Include="Services\ModeTypes\FormSubmissionModeType.cs" />
     <Compile Include="Services\ModeTypes\PropertyModeType.cs" />
     <None Include="Models\Unused\StringItem.cs" />
@@ -146,7 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\Companies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

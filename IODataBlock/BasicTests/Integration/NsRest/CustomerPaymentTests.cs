@@ -772,7 +772,7 @@ namespace BasicTests.Integration.NsRest
 
             var contactstring = service.GetContactUpdateString(c);
 
-            var ro = service.UpdateContact(contactstring, c.vid);
+            var ro = service.Update(contactstring, c.vid);
             if (ro.HasExceptions)
             {
                 Assert.Fail();

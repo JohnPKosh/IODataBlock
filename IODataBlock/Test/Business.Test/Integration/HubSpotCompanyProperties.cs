@@ -14,6 +14,7 @@ using HubSpot.Models;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services;
+using HubSpot.Services.Companies;
 using HubSpot.Services.Contacts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace Business.Test.Integration
 
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
-            _propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
+            _propertyManager = new PropertyManager(new CompanyPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
         }
 
         private readonly string _hapiKey;
@@ -70,7 +71,7 @@ namespace Business.Test.Integration
         [TestMethod]
         public void GetAllPropertiesTest()
         {
-            /* https://api.hubapi.com/contacts/v2/properties?hapikey=demo */
+            /* https://api.hubapi.com/companies/v2/properties?hapikey=demo&portalId=62515 */
 
             var result = "https://api.hubapi.com/companies/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
@@ -86,7 +87,7 @@ namespace Business.Test.Integration
         [TestMethod]
         public void GetAllPropertiesTest2()
         {
-            /* https://api.hubapi.com/contacts/v2/properties?hapikey=demo */
+            /* https://api.hubapi.com/companies/v2/properties?hapikey=demo&portalId=62515 */
 
             var result = "https://api.hubapi.com/companies/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
@@ -107,7 +108,7 @@ namespace Business.Test.Integration
         [TestMethod]
         public void GetAllPropertyTypes()
         {
-            /* https://api.hubapi.com/contacts/v2/properties?hapikey=demo */
+            /* https://api.hubapi.com/companies/v2/properties?hapikey=demo&portalId=62515 */
 
             var result = "https://api.hubapi.com/companies/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)

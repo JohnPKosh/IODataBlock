@@ -307,6 +307,8 @@ namespace Business.Test.Integration
                 o.custentity_cr_hs_profile_url = c.profile_url;
                 //o.email = updateModel.Properties.FirstOrDefault(x => x.Key == "email");
                 o.email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
+                o.isperson = "F";
+                o.companyname = c.Properties.First(x => x.Key == "company").Value;
 
                 o.subsidiary = "2";
                 o.category = "1";
@@ -355,7 +357,7 @@ namespace Business.Test.Integration
 
             var contactstring = service.GetContactUpdateString(c);
 
-            var ro = service.UpdateContact(contactstring, c.vid);
+            var ro = service.Update(contactstring, c.vid);
             if (ro.HasExceptions)
             {
                 Assert.Fail();

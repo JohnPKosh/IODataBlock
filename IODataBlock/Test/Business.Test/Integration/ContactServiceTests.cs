@@ -37,7 +37,7 @@ namespace Business.Test.Integration
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
 
-            var ro = service.GetAllContacts(propertyMode: PropertyModeType.value_and_history);
+            var ro = service.SearchAll(propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -63,7 +63,7 @@ namespace Business.Test.Integration
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
 
-            var ro = service.GetAllContacts(propertyMode: PropertyModeType.value_and_history);
+            var ro = service.SearchAll(propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -92,7 +92,7 @@ namespace Business.Test.Integration
 
             while (moreResults)
             {
-                var ro = service.GetAllContacts(100, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode:FormSubmissionModeType.All, showListMemberships:true);
+                var ro = service.SearchAll(100, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode:FormSubmissionModeType.All, showListMemberships:true);
                 if (ro.HasExceptions)
                 {
                     Assert.Fail();
@@ -224,7 +224,7 @@ namespace Business.Test.Integration
 
             //UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
             UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now);
-            var ro = service.GetRecentContacts(10, null,null, props, propertyMode: PropertyModeType.value_and_history);
+            var ro = service.SearchRecent(10, null,null, props, propertyMode: PropertyModeType.value_and_history);
             //var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
@@ -254,7 +254,7 @@ namespace Business.Test.Integration
 
             while (moreResults)
             {
-                var ro = service.GetRecentContacts(100, timeOffsetDate, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode: FormSubmissionModeType.All, showListMemberships: true);
+                var ro = service.SearchRecent(100, timeOffsetDate, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode: FormSubmissionModeType.All, showListMemberships: true);
                 if (ro.HasExceptions)
                 {
                     Assert.Fail();
@@ -303,7 +303,7 @@ namespace Business.Test.Integration
 
 
             //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
-            var ro = service.GetContactById(4181, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
+            var ro = service.GetById(4181, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -328,7 +328,7 @@ namespace Business.Test.Integration
         {
             var service = new ContactService(_hapiKey);
             var contactstring = File.ReadAllText(@"Junk\ContactUpdate.json");
-            var ro = service.CreateContact(contactstring);
+            var ro = service.Create(contactstring);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -344,7 +344,7 @@ namespace Business.Test.Integration
         {
             var service = new ContactService(_hapiKey);
             var contactstring = File.ReadAllText(@"Junk\ContactUpdate2.json");
-            var ro = service.UpdateContact(contactstring, 4098);
+            var ro = service.Update(contactstring, 4098);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -359,7 +359,7 @@ namespace Business.Test.Integration
         public void DeleteContactTest()
         {
             var service = new ContactService(_hapiKey);
-            var ro = service.DeleteContact(4098);
+            var ro = service.Delete(4098);
             if (ro.HasExceptions)
             {
                 Assert.Fail();

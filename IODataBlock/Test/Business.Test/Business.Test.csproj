@@ -172,6 +172,8 @@
     <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="Integration\CompanyServiceTests.cs" />
+    <Compile Include="Integration\CompanySyncToNSTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
     <Compile Include="Integration\CustomerPaymentProductionTests.cs" />
     <Compile Include="Integration\CustomerPaymentTests.cs" />
@@ -242,6 +244,15 @@
     <None Include="Junk\allpagedcontactsleadstatus2.json" />
     <None Include="Junk\allPropertiesDto.json" />
     <None Include="Junk\allPropertiesDynamic.json" />
+    <None Include="Junk\companyByDomain_Microsoft.json" />
+    <None Include="Junk\companyByDomain_myforefronttech.json" />
+    <None Include="Junk\companyById_92251969.json" />
+    <None Include="Junk\companyContactIds_myforefronttech.json" />
+    <None Include="Junk\companycontacts.json" />
+    <None Include="Junk\companyContacts_myforefronttech.json" />
+    <None Include="Junk\companyContactViewModels_broadvox.json" />
+    <None Include="Junk\companyContactViewModels_microsoft.json" />
+    <None Include="Junk\companyContactViewModels_myforefronttech.json" />
     <None Include="Junk\Companypropnames.json" />
     <None Include="Junk\Companyproptypes.json" />
     <None Include="Junk\contactByIdClone.json" />
