@@ -241,6 +241,23 @@ namespace Business.Test.Integration
 
         }
 
+        [TestMethod]
+        public void SearchNSTargetLeadTest()
+        {
+            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
+            var email = "lwitter@teligencepartners.com";
+            var nsleads = SearchPreSalesContactEmails();
+            if (nsleads != null)
+            {
+                // get NS id 
+                foreach (var o in nsleads)
+                {
+
+                }
+            }
+
+        }
+
         #region Utility Methods
 
         private List<ContactViewModel> GetAllContacts(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
@@ -280,6 +297,16 @@ namespace Business.Test.Integration
         {
             var parameters = new Dictionary<string, object> { { "type", "customer" }, { "field", "email" }, { "op", "is" }, { "value1", email }, { "columns", columns ?? columns.ToArray() } };
             var restlet = GetRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
+            var rv = restlet.ExecuteToDynamicListAsync(parameters);
+            if (rv.Exception != null) throw rv.Exception;
+            return rv.Result;
+        }
+
+        private IEnumerable<dynamic> SearchPreSalesContactEmails()
+        {
+            //customsearch_cr_presales_contact_emails
+            var parameters = new Dictionary<string, object> { { "type", "contact" }, {"savedsearch", "customsearch_cr_presales_contact_emails" }, {"columns", null} };
+            var restlet = PostRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
             var rv = restlet.ExecuteToDynamicListAsync(parameters);
             if (rv.Exception != null) throw rv.Exception;
             return rv.Result;

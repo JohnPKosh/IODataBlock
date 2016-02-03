@@ -186,6 +186,27 @@ namespace Business.Test.Integration
             //});
         }
 
+
+
+        [TestMethod]
+        public void GetListContactsPagingTest4()
+        {
+            var service = new ContactService(_hapiKey);
+            //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
+
+            var contacts = service.GetContactsInListViewModels("139",100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
+
+            var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\contacts.xlsx"));
+
+            //var formContacts = contacts.Where(x => x.form_submissions.Count > 1);
+
+            //formContacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels_Forms.json", new JsonSerializerSettings()
+            //{
+            //    NullValueHandling = NullValueHandling.Ignore,
+            //    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+            //});
+        }
+
         [TestMethod]
         public void GetContactByEmail()
         {
@@ -303,7 +324,7 @@ namespace Business.Test.Integration
 
 
             //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
-            var ro = service.GetById(4181, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
+            var ro = service.GetById(208878, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
             if (ro.HasExceptions)
             {
                 Assert.Fail();
@@ -327,7 +348,19 @@ namespace Business.Test.Integration
         public void CreateContactTest()
         {
             var service = new ContactService(_hapiKey);
-            var contactstring = File.ReadAllText(@"Junk\ContactUpdate.json");
+            //var contactstring = File.ReadAllText(@"Junk\ContactUpdate.json");
+
+            ContactUpdateModel model = new ContactUpdateModel();
+            model.Properties = new HashSet<PropertyUpdateValue>();
+            model.Properties.Add(new PropertyUpdateValue("firstname", "Nala"));
+            model.Properties.Add(new PropertyUpdateValue("lastname", "Kosh"));
+            model.Properties.Add(new PropertyUpdateValue("email", "nala@cloudroute.com"));
+            model.Properties.Add(new PropertyUpdateValue("company", "CloudRoute"));
+            model.Properties.Add(new PropertyUpdateValue("website", "www.cloudroute.com"));
+            model.Properties.Add(new PropertyUpdateValue("phone", "3306329194"));
+            //model.Properties.Add(new PropertyUpdateValue("list-memberships", "139"));
+            var contactstring = model.ToJson();
+
             var ro = service.Create(contactstring);
             if (ro.HasExceptions)
             {
@@ -338,6 +371,28 @@ namespace Business.Test.Integration
                 var data = ro.ResponseData;
             }
         }
+
+        [TestMethod]
+        public void AddContactToListTest()
+        {
+            var service = new ContactService(_hapiKey);
+            //var contactstring = File.ReadAllText(@"Junk\ContactUpdate.json");
+
+            //var contactstring = @"{""vids"": [209028]}";
+            dynamic o = new ExpandoObject();
+            o.vids = new[] { 209028 };
+
+            var ro = service.AddToList(139, o);
+            if (ro.HasExceptions)
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                var data = ro.ResponseData;
+            }
+        }
+
 
         [TestMethod]
         public void UpdateContactTest()

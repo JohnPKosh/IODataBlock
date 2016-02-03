@@ -23,7 +23,7 @@ namespace HubSpot.Models.Companies
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
             var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"CompanyPropertyList.json");
-            var propertyManager = new PropertyManager(new CompanyPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
+            var propertyManager = new CompanyPropertyManager(new CompanyPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 
@@ -32,12 +32,13 @@ namespace HubSpot.Models.Companies
         #region Private Fields and Properties
 
         private readonly string _hapiKey;
-        internal List<PropertyTypeModel> ManagedProperties;
 
         #endregion
 
         #region Public Properties
 
+        [JsonIgnore]
+        public List<PropertyTypeModel> ManagedProperties;
 
         [JsonProperty("companyId")]
         public int companyId { get; set; }

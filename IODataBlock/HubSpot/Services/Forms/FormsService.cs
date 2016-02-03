@@ -28,7 +28,7 @@ namespace HubSpot.Services.Forms
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }

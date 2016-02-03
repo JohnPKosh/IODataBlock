@@ -83,7 +83,7 @@
     <Compile Include="Models\Companies\CompanyViewModel.cs" />
     <Compile Include="Models\Companies\CompanyPropertyState.cs" />
     <Compile Include="Models\Companies\CompanyPropertyManager.cs" />
-    <Compile Include="Models\Companies\ContactExtensions.cs" />
+    <Compile Include="Models\Companies\CompanyExtensions.cs" />
     <Compile Include="Models\Contacts\ContactExtensions.cs" />
     <Compile Include="Models\Contacts\ContactModel.cs" />
     <Compile Include="Models\Contacts\ContactPropertyManager.cs" />

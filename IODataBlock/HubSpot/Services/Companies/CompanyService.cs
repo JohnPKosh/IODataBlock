@@ -7,6 +7,7 @@ using System.Net.Http;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Business.Common.IO;
+using Business.Common.System;
 using Business.Common.System.States;
 using Flurl;
 using Flurl.Http;
@@ -29,7 +30,7 @@ namespace HubSpot.Services.Companies
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
             var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"CompanyPropertyList.json");
-            var propertyManager = new PropertyManager(new CompanyPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
+            var propertyManager = new CompanyPropertyManager(new CompanyPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 
@@ -64,7 +65,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -86,7 +87,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -108,7 +109,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -130,7 +131,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -152,7 +153,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -171,7 +172,7 @@ namespace HubSpot.Services.Companies
             {
                 var path = "https://api.hubapi.com/companies/v2/companies/recent/created";
                 if (count.HasValue) path = path.SetQueryParam("count", count.Value);
-                if (timeOffset.HasValue) path = path.SetQueryParam("timeOffset", timeOffset.Value);
+                if (timeOffset.HasValue) path = path.SetQueryParam("offset", timeOffset.Value);
                 path = path.SetQueryParam("hapikey", _hapiKey);
 
                 ro.RequestData = path;
@@ -181,7 +182,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -196,7 +197,7 @@ namespace HubSpot.Services.Companies
             {
                 var path = "https://api.hubapi.com/companies/v2/companies/recent/modified";
                 if (count.HasValue) path = path.SetQueryParam("count", count.Value);
-                if (timeOffset.HasValue) path = path.SetQueryParam("timeOffset", timeOffset.Value);
+                if (timeOffset.HasValue) path = path.SetQueryParam("offset", timeOffset.Value);
                 path = path.SetQueryParam("hapikey", _hapiKey);
 
                 ro.RequestData = path;
@@ -206,7 +207,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -227,7 +228,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -248,7 +249,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -273,7 +274,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -298,7 +299,7 @@ namespace HubSpot.Services.Companies
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -400,7 +401,6 @@ namespace HubSpot.Services.Companies
             return contacts;
         }
 
-
         public IEnumerable<dynamic> GetAllContactIdsDynamic(int companyId, int? count = null, int? vidOffset = null)
         {
             var moreResults = true;
@@ -476,6 +476,118 @@ namespace HubSpot.Services.Companies
                 throw new Exception(ro.ExceptionList.Exceptions.First().Message);
             }
         }
+
+
+        public IEnumerable<CompanyViewModel> GetChangesCompanyViewModels(int? count = null, long? maxTimeOffset = null, long? minTimeOffset = null)
+        {
+            var moreResults = true;
+            var contacts = new List<CompanyViewModel>();
+            //if (properties == null) properties = ManagedProperties.Select(x => x.name);
+            //long? timeOffset = maxTimeOffset;
+            //int? vidOffset = maxVidOffset;
+            while (moreResults)
+            {
+                var ro = SearchRecentlyCreated(count, maxTimeOffset);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<CompanyModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    //maxVidOffset = dto.vid_offset;
+                    //maxTimeOffset = dto.offset;
+                    
+                    var currentList = dto.results.Select(c => (CompanyViewModel)c).ToList();
+                    
+                    if (minTimeOffset.HasValue)
+                    {
+                        //if (!minVidOffset.HasValue) minVidOffset = 0;
+                        if (!minTimeOffset.HasValue) minTimeOffset = 0;
+                        contacts.AddRange(currentList.Where(x => long.Parse(x.Properties.First(y=> y.Key == "createdate").Value) >= minTimeOffset.Value));
+                        if (maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value) break;
+                        //moreResults = false;
+                    }
+                    else
+                    {
+                        contacts.AddRange(currentList);
+                        //moreResults = dto.has_more;
+                    }
+                    var min = (DateTime?)(new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "createdate").Value)));
+                    var max = (DateTime?)(new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "createdate").Value)));
+                    maxTimeOffset = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "createdate").Value));
+                    //moreResults = dto.has_more;
+                }
+            }
+            return contacts;
+        }
+
+
+        public IEnumerable<CompanyViewModel> GetRecentCompanyViewModels(int? count = null, long? timeOffset = null)
+        {
+            var moreResults = true;
+            var companies = new List<CompanyViewModel>();
+            while (moreResults)
+            {
+                var ro = SearchRecentlyCreated(count, timeOffset);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<CompanyModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    moreResults = dto.has_more;
+                    timeOffset = dto.offset;
+                    companies.AddRange(dto.results.Select(c => (CompanyViewModel)c));
+                }
+            }
+            return companies;
+        }
+
+
+
+        public IEnumerable<CompanyViewModel> GetAllCompanyViewModels(int? count = null, long? offset = null)
+        {
+            var moreResults = true;
+            var companies = new List<CompanyViewModel>();
+            while (moreResults)
+            {
+                var ro = SearchRecentlyCreated(count, offset);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<CompanyModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    offset = dto.offset;
+                    companies.AddRange(dto.results.Select(c => (CompanyViewModel)c));
+                    moreResults = dto.has_more;
+                }
+            }
+            return companies;
+        }
+
+
 
         //public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
         //    PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,

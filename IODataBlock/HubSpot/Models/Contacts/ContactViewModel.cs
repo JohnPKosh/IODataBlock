@@ -24,7 +24,7 @@ namespace HubSpot.Models.Contacts
             var configMgr = new ConfigMgr();
             _hapiKey = configMgr.GetAppSetting("hapikey");
             var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
-            var propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
+            var propertyManager = new ContactPropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 
@@ -33,11 +33,13 @@ namespace HubSpot.Models.Contacts
         #region Private Fields and Properties
 
         private readonly string _hapiKey;
-        internal List<PropertyTypeModel> ManagedProperties;
 
         #endregion
 
         #region Public Properties
+
+        [JsonIgnore]
+        public List<PropertyTypeModel> ManagedProperties;
 
         public UnixMsTimestamp addedAt { get; set; }
 

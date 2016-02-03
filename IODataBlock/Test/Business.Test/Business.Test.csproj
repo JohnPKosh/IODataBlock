@@ -47,7 +47,7 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.14\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Common.1.0.15\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Excel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -116,7 +116,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NsRest, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NsRest.1.0.2\lib\net452\NsRest.dll</HintPath>
+      <HintPath>..\..\packages\NsRest.1.0.3\lib\net452\NsRest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
@@ -182,6 +182,7 @@
     <Compile Include="Integration\HubSpotCompanyProperties.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
+    <Compile Include="Integration\New\ContactTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
@@ -234,6 +235,7 @@
     </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\allcompanies.json" />
     <None Include="Junk\allCompanyPropertiesDto.json" />
     <None Include="Junk\allCompanyPropertiesDynamic.json" />
     <None Include="Junk\allContacts.json" />
@@ -255,6 +257,7 @@
     <None Include="Junk\companyContactViewModels_myforefronttech.json" />
     <None Include="Junk\Companypropnames.json" />
     <None Include="Junk\Companyproptypes.json" />
+    <None Include="Junk\contactAddedToHs.json" />
     <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\contactByIdDynamic.json" />
     <None Include="Junk\ContactPropertyList.json" />

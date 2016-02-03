@@ -8,7 +8,7 @@ namespace HubSpot.Models.Companies
         [JsonProperty("results")]
         public List<CompanyModel> results { get; set; }
 
-        [JsonProperty("has-more")]
+        [JsonProperty("hasMore")]
         public bool has_more { get; set; }
 
         [JsonProperty("offset")]

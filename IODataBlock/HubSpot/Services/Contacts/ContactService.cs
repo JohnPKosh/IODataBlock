@@ -26,7 +26,7 @@ namespace HubSpot.Services.Contacts
             //_hapiKey = configMgr.GetAppSetting("hapikey");
             _hapiKey = hapikey;
             var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
-            var propertyManager = new PropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
+            var propertyManager = new ContactPropertyManager(new ContactPropertyService(_hapiKey), new JsonFileLoader(new FileInfo(jsonFilePath)));
             ManagedProperties = propertyManager.Properties;
         }
 
@@ -61,7 +61,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -83,7 +83,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -105,7 +105,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -132,7 +132,30 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+        //209028
+        public IResponseObject<string, string> AddToList(int id, object value)
+        {
+            /* http://developers.hubspot.com/docs/methods/contacts/create_contact */
+            /* Example URL to POST to:  https://api.hubapi.com/contacts/v1/contact/?hapikey=demo */
+
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                var path = "https://api.hubapi.com/contacts/v1/lists/".AppendPathSegment(id.ToString()).AppendPathSegment("add").SetQueryParam("hapikey", _hapiKey);
+                ro.RequestData = path;
+                HttpResponseMessage result = path.ConfigureHttpClient(http => http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json")).PostJsonAsync(value).Result;
+                result.EnsureSuccessStatusCode();
+                ro.ResponseData = result.Content.ReadAsStringAsync().Result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -174,7 +197,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -213,7 +236,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -249,7 +272,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -287,7 +310,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -320,7 +343,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -355,7 +378,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -389,7 +412,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -424,7 +447,7 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -455,7 +478,47 @@ namespace HubSpot.Services.Contacts
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
+                return ro;
+            }
+        }
+
+
+        public IResponseObject<string, string> SearchContactsInList(string listId, int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            /* http://developers.hubspot.com/docs/methods/lists/get_list_contacts */
+            /* Example URL:  https://api.hubapi.com/contacts/v1/lists/139/contacts/all?hapikey=demo */
+
+            if (properties == null) properties = new List<string>();
+            var propertyList = properties as IList<string> ?? properties.ToList();
+            var ro = new ResponseObject<string, string>();
+            try
+            {
+                //var path = "https://api.hubapi.com/contacts/v1/lists/all/contacts/all";
+                var path = "https://api.hubapi.com/contacts/v1/lists".AppendPathSegment(listId).AppendPathSegment(@"contacts/all");
+
+                var mergeList = new List<string>();
+                mergeList.AddRange(GetPropertyQueryParams(propertyList));
+                if (mergeList.Any()) path += "?" + string.Join("&", mergeList);
+
+                if (count.HasValue) path = path.SetQueryParam("count", count.Value);
+                if (vidOffset.HasValue) path = path.SetQueryParam("vidOffset", vidOffset.Value);
+
+                if (propertyMode != PropertyModeType.value_only) path = path.SetQueryParam("propertyMode", propertyMode.AsStringLower());
+                if (formSubmissionMode != FormSubmissionModeType.Newest) path = path.SetQueryParam("formSubmissionMode", formSubmissionMode.AsStringLower());
+                if (showListMemberships) path = path.SetQueryParam("showListMemberships", showListMemberships.ToString().ToLowerInvariant());
+                path = path.SetQueryParam("hapikey", _hapiKey);
+
+                ro.RequestData = path;
+                var result = path.GetStringAsync().Result;
+                ro.ResponseData = result;
+                return ro;
+            }
+            catch (Exception ex)
+            {
+                ro.AddException(ex);
                 return ro;
             }
         }
@@ -498,19 +561,26 @@ namespace HubSpot.Services.Contacts
         {
             if (properties == null) properties = ManagedProperties.Select(x => x.name);
 
-            var ro = GetByEmail(email, properties, propertyMode, formSubmissionMode, showListMemberships);
-            if (ro.HasExceptions)
+            try
             {
-                throw new Exception(ro.ExceptionList.Exceptions.First().Message);
-            }
-            var data = ro.ResponseData;
-            var dto = ClassExtensions.CreateFromJson<ContactModel>(data,
-                new JsonSerializerSettings()
+               var ro = GetByEmail(email, properties, propertyMode, formSubmissionMode, showListMemberships);
+                if (ro.HasExceptions)
                 {
-                    NullValueHandling = NullValueHandling.Include,
-                    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
-                });
-            return (ContactViewModel)dto;
+                    return null;
+                }
+                var data = ro.ResponseData;
+                var dto = ClassExtensions.CreateFromJson<ContactModel>(data,
+                    new JsonSerializerSettings()
+                    {
+                        NullValueHandling = NullValueHandling.Include,
+                        DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                    });
+                return (ContactViewModel)dto;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
@@ -622,6 +692,40 @@ namespace HubSpot.Services.Contacts
                     moreResults = dto.has_more;
                     vidOffset = dto.vid_offset;
                     timeOffset = dto.time_offset;
+                    contacts.AddRange(dto.contacts.Select(c => (ContactViewModel)c));
+                }
+            }
+            return contacts;
+        }
+
+        public IEnumerable<ContactViewModel> GetContactsInListViewModels(string listId, int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
+            PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
+            bool showListMemberships = false)
+        {
+            var moreResults = true;
+            var contacts = new List<ContactViewModel>();
+            if (properties == null) properties = ManagedProperties.Select(x => x.name);
+
+            while (moreResults)
+            {
+                var ro = SearchContactsInList(listId, count, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships);
+                if (ro.HasExceptions)
+                {
+                    throw new Exception(ro.ExceptionList.Exceptions.First().Message);
+                }
+                else if (string.IsNullOrWhiteSpace(ro.ResponseData))
+                    moreResults = false;
+                else
+                {
+                    var data = ro.ResponseData;
+                    var dto = ClassExtensions.CreateFromJson<ContactModelList>(data,
+                        new JsonSerializerSettings()
+                        {
+                            NullValueHandling = NullValueHandling.Include,
+                            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
+                        });
+                    moreResults = dto.has_more;
+                    vidOffset = dto.vid_offset;
                     contacts.AddRange(dto.contacts.Select(c => (ContactViewModel)c));
                 }
             }
