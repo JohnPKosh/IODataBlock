@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Business.Common.Requests
+namespace Business.Common.GenericRequests
 {
     public class RequestObject<T> : IRequestObject<T>
     {

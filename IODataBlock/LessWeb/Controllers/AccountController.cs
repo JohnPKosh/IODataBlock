@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using LessWeb.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using ASP.NET_MVC5_Bootstrap3_3_1_LESS.Models;
 
-namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS.Controllers
+namespace LessWeb.Controllers
 {
     [Authorize]
     public class AccountController : Controller

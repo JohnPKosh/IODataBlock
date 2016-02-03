@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Responses;
+using Business.Common.GenericResponses;
 using Flurl;
 using Flurl.Http;
-using HubSpot.Models.Contacts;
 
-namespace HubSpot.Services
+namespace HubSpot.Services.Companies
 {
-    public class ContactPropertyService: IContactPropertyService
+    public class CompanyPropertyService : IPropertyService
     {
-        public ContactPropertyService(string hapikey)
+        public CompanyPropertyService(string hapikey)
         {
             _hapiKey = hapikey;
         }
@@ -24,7 +19,7 @@ namespace HubSpot.Services
             var ro = new ResponseObject<string, string>();
             try
             {
-                var path = "https://api.hubapi.com/contacts/v2/properties".SetQueryParam("hapikey", _hapiKey);
+                var path = "https://api.hubapi.com/companies/v2/properties".SetQueryParam("hapikey", _hapiKey);
                 ro.RequestData = path;
                 var result = path.GetStringAsync().Result;
                 ro.ResponseData = result;
@@ -32,7 +27,7 @@ namespace HubSpot.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }

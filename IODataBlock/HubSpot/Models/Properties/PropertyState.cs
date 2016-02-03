@@ -2,7 +2,7 @@
 
 namespace HubSpot.Models.Properties
 {
-    public class PropertyState
+    public class PropertyState : IPropertyState
     {
         private static PropertyState _instance = new PropertyState();
 

@@ -1,12 +1,8 @@
-﻿using RazorEngine.Templating;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RazorEngine.Templating;
 
-namespace UnitTests_01
+namespace BasicTests.TemplateTests
 {
     public class TestMessage
     {

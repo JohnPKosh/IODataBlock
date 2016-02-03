@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 
 namespace HubSpot.Services
 {
-    public interface IFormsService
+    public interface IPropertyService
     {
-
-        IResponseObject<string, string> GetForms();
-
-
+        IResponseObject<string, string> GetAllProperties();
     }
 }

@@ -1,7 +1,7 @@
-using Business.Common.Requests;
-using Business.Common.Responses;
+using Business.Common.GenericRequests;
+using Business.Common.GenericResponses;
 
-namespace Business.Common.System
+namespace Business.Common.Generic
 {
     public interface ICommandObjectParser<TIn, TOut>
     {

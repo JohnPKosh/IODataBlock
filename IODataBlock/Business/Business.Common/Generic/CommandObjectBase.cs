@@ -1,10 +1,11 @@
 ﻿using System;
 using Business.Common.Exceptions;
-using Business.Common.Requests;
+using Business.Common.GenericRequests;
+using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using Fasterflect;
 
-namespace Business.Common.System
+namespace Business.Common.Generic
 {
     public abstract class CommandObjectBase<TIn, TOut> : ICommandObject<TIn, TOut>, ICommandObjectFactory<TIn, TOut>
     {

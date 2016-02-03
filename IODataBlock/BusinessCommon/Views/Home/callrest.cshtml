@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "callrest";
+}
+
+<h2>callrest</h2>
+
+<form id="ContactForm" onsubmit="return submitForm();">
+    Customer ID: <input type="text" name="id" value="22334" /><br />
+    <br /><br />
+    <input type="submit" name="submit" value="Submit" /><br />
+    <div class="form_result"> </div>
+</form>
+
+<script>
+
+    function submitForm() {
+        alert("hello");
+
+        var url = "https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl?script=customscript_record_crud&deploy=customdeploy_record_crud&type=customer&id=22334&callback=?";
+        //var url = "https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl?script=customscript_record_crud&deploy=customdeploy_record_crud&type=customer";
+        $.ajax({
+            url: url,
+            //dataType: "jsonp",
+            headers: { "Authorization": "NLAuth nlauth_account=3594758,nlauth_email=jkosh@cloudroute.com,nlauth_signature=iLike269%21,nlauth_role=3" },
+            type: 'GET',
+            contentType: "application/json",
+
+            //data: {"request_body":{"id": "22334"}},
+            //data: { "id": "22334" },
+
+            success: function (data) {
+                alert("hello");
+                $('#ContactForm').find('.form_result').html(response);
+            },
+            error: function (data, errorThrown) {
+                alert(3);
+            }
+        });
+        return false;
+    }
+
+</script>

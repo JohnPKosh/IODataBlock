@@ -4,7 +4,6 @@ using System.Linq;
 using Business.Templates.deprecated;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
-using UnitTests_01;
 
 namespace BasicTests.TemplateTests
 {

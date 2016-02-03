@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Business.Templates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
-using UnitTests_01;
 
 
 namespace BasicTests.TemplateTests

@@ -11,9 +11,10 @@ using Fasterflect;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services;
+using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NetSuite.RESTlet.Integration;
+using NsRest;
 
 namespace Business.Test.Integration
 {
@@ -240,6 +241,23 @@ namespace Business.Test.Integration
 
         }
 
+        [TestMethod]
+        public void SearchNSTargetLeadTest()
+        {
+            var nscolumns = new string[] { "entitystatus", "email", "balance", "stage" };
+            var email = "lwitter@teligencepartners.com";
+            var nsleads = SearchPreSalesContactEmails();
+            if (nsleads != null)
+            {
+                // get NS id 
+                foreach (var o in nsleads)
+                {
+
+                }
+            }
+
+        }
+
         #region Utility Methods
 
         private List<ContactViewModel> GetAllContacts(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
@@ -284,6 +302,16 @@ namespace Business.Test.Integration
             return rv.Result;
         }
 
+        private IEnumerable<dynamic> SearchPreSalesContactEmails()
+        {
+            //customsearch_cr_presales_contact_emails
+            var parameters = new Dictionary<string, object> { { "type", "contact" }, {"savedsearch", "customsearch_cr_presales_contact_emails" }, {"columns", null} };
+            var restlet = PostRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
+            var rv = restlet.ExecuteToDynamicListAsync(parameters);
+            if (rv.Exception != null) throw rv.Exception;
+            return rv.Result;
+        }
+
         private bool DeleteNs(string type, string id)
         {
             var restlet = DelRestletBase.Create(BaseUrl, GetScriptSetting(), GetLogin());
@@ -306,6 +334,8 @@ namespace Business.Test.Integration
                 o.custentity_cr_hs_profile_url = c.profile_url;
                 //o.email = updateModel.Properties.FirstOrDefault(x => x.Key == "email");
                 o.email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
+                o.isperson = "F";
+                o.companyname = c.Properties.First(x => x.Key == "company").Value;
 
                 o.subsidiary = "2";
                 o.category = "1";
@@ -354,7 +384,7 @@ namespace Business.Test.Integration
 
             var contactstring = service.GetContactUpdateString(c);
 
-            var ro = service.UpdateContact(contactstring, c.vid);
+            var ro = service.Update(contactstring, c.vid);
             if (ro.HasExceptions)
             {
                 Assert.Fail();

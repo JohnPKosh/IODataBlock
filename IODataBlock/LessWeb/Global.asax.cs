@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
+namespace LessWeb
 {
     public class MvcApplication : System.Web.HttpApplication
     {

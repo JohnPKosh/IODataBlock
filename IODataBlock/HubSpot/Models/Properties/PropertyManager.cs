@@ -9,14 +9,15 @@ using HubSpot.Services;
 
 namespace HubSpot.Models.Properties
 {
-    public class PropertyManager
+    public class PropertyManager : IPropertyManager
     {
-        public PropertyManager(string hapikey, string jsonFilePath = null, TimeSpan? ttl = null)
+        public PropertyManager(IPropertyService propertyService, IStateLoader stateLoader, TimeSpan? ttl = null)
         {
-            _hapiKey = hapikey;
-            if (string.IsNullOrWhiteSpace(jsonFilePath)) jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
-            _ttl = ttl ?? TimeSpan.FromHours(1); 
-            _stateLoader = new JsonFileLoader(new FileInfo(jsonFilePath));
+            _propertyService = propertyService;
+            //if (string.IsNullOrWhiteSpace(jsonFilePath)) jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"ContactPropertyList.json");
+            _ttl = ttl ?? TimeSpan.FromHours(1);
+            //_stateLoader = new JsonFileLoader(new FileInfo(jsonFilePath));
+            _stateLoader = stateLoader;
             _loadProperties();
         }
 
@@ -45,8 +46,8 @@ namespace HubSpot.Models.Properties
 
         private void SetPropertyState()
         {
-            var service = new ContactPropertyService(_hapiKey);
-            var result = service.GetAllProperties();
+            //var service = new ContactPropertyService(_hapiKey);
+            var result = _propertyService.GetAllProperties();
             if(result.HasExceptions)throw new Exception(result.ExceptionList.Exceptions.First().Message);
             var data = result.ResponseData.ConvertJson<List<PropertyTypeModel>>();
             PropertyState.Instance.Value = new PropertyTypeListModel
@@ -75,9 +76,7 @@ namespace HubSpot.Models.Properties
 
         private readonly TimeSpan _ttl;
 
-        private readonly string _hapiKey;
-
-        //public ContactPropertyListDto PropertyList => PropertyState.Instance.Value;
+        private readonly IPropertyService _propertyService;
 
         public DateTime? LastUpdated => PropertyState.Instance.Value.LastUpdated;
 

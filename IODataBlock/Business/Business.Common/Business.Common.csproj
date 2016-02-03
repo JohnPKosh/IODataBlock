@@ -99,7 +99,9 @@
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensionBase.cs" />
     <Compile Include="Extensions\StringFilterExtensions.cs" />
+    <Compile Include="Extensions\TplExtensions.cs" />
     <Compile Include="GenericRequests\IRequestObject.cs" />
+    <Compile Include="GenericRequests\RequestExtensions.cs" />
     <Compile Include="GenericRequests\RequestObject.cs" />
     <Compile Include="GenericResponses\IResponseObject.cs" />
     <Compile Include="GenericResponses\ResponseExtensions.cs" />

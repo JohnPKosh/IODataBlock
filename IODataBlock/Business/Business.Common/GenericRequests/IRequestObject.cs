@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Business.Common.Requests
+namespace Business.Common.GenericRequests
 {
     public interface IRequestObject<T>
     {

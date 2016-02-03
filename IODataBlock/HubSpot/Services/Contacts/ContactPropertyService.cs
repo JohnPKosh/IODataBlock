@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Responses;
+using Business.Common.GenericResponses;
 using Flurl;
 using Flurl.Http;
 
-namespace HubSpot.Services
+namespace HubSpot.Services.Contacts
 {
-    public class FormsService : IFormsService
+    public class ContactPropertyService: IPropertyService
     {
-        public FormsService(string hapikey)
+        public ContactPropertyService(string hapikey)
         {
             _hapiKey = hapikey;
         }
 
         private readonly string _hapiKey;
 
-
-        public IResponseObject<string, string> GetForms()
+        public IResponseObject<string, string> GetAllProperties()
         {
             var ro = new ResponseObject<string, string>();
             try
             {
-                var path = "https://api.hubapi.com/forms/v2/forms".SetQueryParam("hapikey", _hapiKey);
+                var path = "https://api.hubapi.com/contacts/v2/properties".SetQueryParam("hapikey", _hapiKey);
                 ro.RequestData = path;
                 var result = path.GetStringAsync().Result;
                 ro.ResponseData = result;
@@ -32,7 +27,7 @@ namespace HubSpot.Services
             }
             catch (Exception ex)
             {
-                ro.ExceptionList.Add(ex);
+                ro.AddException(ex);
                 return ro;
             }
         }

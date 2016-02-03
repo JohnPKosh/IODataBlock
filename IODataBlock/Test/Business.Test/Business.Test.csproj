@@ -47,7 +47,7 @@
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Business.Common.1.0.12\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\..\packages\Business.Common.1.0.15\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Excel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -82,12 +82,12 @@
       <HintPath>..\..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Flurl, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.1.0.8\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+    <Reference Include="Flurl, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.1.0.10\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Flurl.Http, Version=0.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.Http.0.6.2\lib\net45\Flurl.Http.dll</HintPath>
+    <Reference Include="Flurl.Http, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Http.0.7.0\lib\net45\Flurl.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -107,16 +107,16 @@
       <HintPath>..\..\packages\NetSuite.RESTlet.Dto.1.0.0\lib\net452\NetSuite.RESTlet.Dto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NetSuite.RESTlet.Integration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\NetSuite.RESTlet.Integration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql, Version=3.0.1.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Npgsql.3.0.1\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NsRest, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NsRest.1.0.3\lib\net452\NsRest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
@@ -136,10 +136,7 @@
       <HintPath>..\..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NetSuite.RESTlet.Integration.1.0.0\lib\net452\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
@@ -175,11 +172,17 @@
     <Compile Include="Data\SqlBulkTests.cs" />
     <Compile Include="Email\SendEmailTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="Integration\CompanyServiceTests.cs" />
+    <Compile Include="Integration\CompanySyncToNSTests.cs" />
     <Compile Include="Integration\ContactServiceTests.cs" />
+    <Compile Include="Integration\CustomerPaymentProductionTests.cs" />
+    <Compile Include="Integration\CustomerPaymentTests.cs" />
     <Compile Include="Integration\ContactSyncToNSTests.cs" />
     <Compile Include="Integration\FormsServiceTests.cs" />
+    <Compile Include="Integration\HubSpotCompanyProperties.cs" />
     <Compile Include="Integration\HubSpotContactProperties.cs" />
     <Compile Include="Integration\HubSpotTests.cs" />
+    <Compile Include="Integration\New\ContactTests.cs" />
     <Compile Include="IO\BsonFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoMapperTests.cs" />
@@ -232,13 +235,29 @@
     </None>
     <None Include="Junk\2015-06-05 173448.json" />
     <None Include="Junk\2015-06-05 175452.json" />
+    <None Include="Junk\allcompanies.json" />
+    <None Include="Junk\allCompanyPropertiesDto.json" />
+    <None Include="Junk\allCompanyPropertiesDynamic.json" />
     <None Include="Junk\allContacts.json" />
+    <None Include="Junk\allContactsOld.json" />
     <None Include="Junk\allContactsdynamic.json" />
     <None Include="Junk\allpagedcontacts.json" />
     <None Include="Junk\allpagedcontactsleadstatus.json" />
     <None Include="Junk\allpagedcontactsleadstatus2.json" />
     <None Include="Junk\allPropertiesDto.json" />
     <None Include="Junk\allPropertiesDynamic.json" />
+    <None Include="Junk\companyByDomain_Microsoft.json" />
+    <None Include="Junk\companyByDomain_myforefronttech.json" />
+    <None Include="Junk\companyById_92251969.json" />
+    <None Include="Junk\companyContactIds_myforefronttech.json" />
+    <None Include="Junk\companycontacts.json" />
+    <None Include="Junk\companyContacts_myforefronttech.json" />
+    <None Include="Junk\companyContactViewModels_broadvox.json" />
+    <None Include="Junk\companyContactViewModels_microsoft.json" />
+    <None Include="Junk\companyContactViewModels_myforefronttech.json" />
+    <None Include="Junk\Companypropnames.json" />
+    <None Include="Junk\Companyproptypes.json" />
+    <None Include="Junk\contactAddedToHs.json" />
     <None Include="Junk\contactByIdClone.json" />
     <None Include="Junk\contactByIdDynamic.json" />
     <None Include="Junk\ContactPropertyList.json" />
@@ -252,10 +271,16 @@
     </None>
     <None Include="Junk\ContactViewModels.json" />
     <None Include="Junk\ContactViewModels_Forms.json" />
+    <None Include="Junk\customer19617.json" />
+    <None Include="Junk\customerCCList.json" />
+    <None Include="Junk\customerCCListSpecific.json" />
+    <None Include="Junk\customerWithCcProduction.json" />
+    <None Include="Junk\customerWithCc.json" />
     <None Include="Junk\data.bson" />
     <None Include="Junk\data.json" />
     <None Include="Junk\data2.json" />
     <None Include="Junk\formlist.json" />
+    <None Include="Junk\forms.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\RawContactProperties.json" />
@@ -264,6 +289,7 @@
     <None Include="Junk\rawtestcontactupdatemodel.json" />
     <None Include="Junk\recentCompanies.json" />
     <None Include="Junk\Response.json" />
+    <None Include="Junk\salesreps.json" />
     <None Include="Junk\sample.md" />
     <None Include="Junk\sample2.md" />
     <None Include="Junk\schema.json" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IODataBlock.Database", "IODataBlock.Database\IODataBlock.Database.sqlproj", "{CC96992D-DE3F-4A18-8B6D-88B29C7467B3}"
 EndProject
@@ -89,6 +89,10 @@ EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Business.Templates", "Nuget\Business.Templates\Business.Templates.nuproj", "{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.EWS", "Business.EWS\Business.EWS.csproj", "{656D1DDD-951D-497A-A034-996ADDAD1D91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsRest", "NsRest\NsRest.csproj", "{EC78B123-006D-4D55-8957-BEDE6EF8B06C}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NsRest", "Nuget\NsRest\NsRest.nuproj", "{EA6BD221-6827-48B2-95EA-51764028E3E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -386,6 +390,30 @@ Global
 		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|x86.ActiveCfg = Release|Any CPU
 		{656D1DDD-951D-497A-A034-996ADDAD1D91}.Release|x86.Build.0 = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C}.Release|x86.Build.0 = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -422,6 +450,8 @@ Global
 		{0AF1052C-38CE-4ED6-9EB4-D87287A1B948} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
 		{71EEC9AE-F045-4B44-A6B2-6A7A1835DAFC} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
 		{656D1DDD-951D-497A-A034-996ADDAD1D91} = {E833F9E3-D458-4A2B-8A02-5A1E62631024}
+		{EC78B123-006D-4D55-8957-BEDE6EF8B06C} = {9B2E958B-D9DB-4AA4-BC8C-2CD61AF129E2}
+		{EA6BD221-6827-48B2-95EA-51764028E3E7} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45

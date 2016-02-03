@@ -14,5 +14,10 @@ namespace BusinessCommon.Controllers
 
             return View();
         }
+
+        public ActionResult callrest()
+        {
+            return View();
+        }
     }
 }

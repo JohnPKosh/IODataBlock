@@ -1,9 +1,8 @@
-﻿using BundleTransformer.Core.Bundles;
+﻿using System.Web.Optimization;
 using BundleTransformer.Core.Orderers;
 using BundleTransformer.Core.Transformers;
-using System.Web.Optimization;
 
-namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
+namespace LessWeb
 {
     public class BundleConfig
     {
