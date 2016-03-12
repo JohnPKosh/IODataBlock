@@ -258,6 +258,17 @@ namespace Business.Test.Integration
 
         }
 
+        [TestMethod]
+        public void deleteNsInitialTargets()
+        {
+            var targets = ExecuteNsSavedSearch("customer", "customsearch_initialtarget");
+            foreach (var target in targets)
+            {
+                var id = target.id;
+            }
+
+        }
+
         #region Utility Methods
 
         private List<ContactViewModel> GetAllContacts(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
@@ -306,6 +317,15 @@ namespace Business.Test.Integration
         {
             //customsearch_cr_presales_contact_emails
             var parameters = new Dictionary<string, object> { { "type", "contact" }, {"savedsearch", "customsearch_cr_presales_contact_emails" }, {"columns", null} };
+            var restlet = PostRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
+            var rv = restlet.ExecuteToDynamicListAsync(parameters);
+            if (rv.Exception != null) throw rv.Exception;
+            return rv.Result;
+        }
+
+        private IEnumerable<dynamic> ExecuteNsSavedSearch(string type, string savedSearch)
+        {
+            var parameters = new Dictionary<string, object> { { "type", type }, { "savedsearch", savedSearch }, { "columns", null } };
             var restlet = PostRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
             var rv = restlet.ExecuteToDynamicListAsync(parameters);
             if (rv.Exception != null) throw rv.Exception;

@@ -1,0 +1,71 @@
+﻿
+:connect CLEHBSQL0301
+
+
+USE [@Model.name]
+GO
+DBCC SHRINKDATABASE(N'@Model.name', 10, TRUNCATEONLY)
+GO
+
+BACKUP DATABASE [@Model.name]
+TO DISK = N'E:\CLESQL03\FullBackup\@{@Model.name}_backup.bak'
+WITH COPY_ONLY
+, NOFORMAT
+, INIT
+, NAME = N'@{@Model.name}-Full Database Backup'
+, SKIP
+, NOREWIND
+, NOUNLOAD
+, STATS = 10
+GO
+/*
+declare @@backupSetId as int
+select @@backupSetId = position from msdb..backupset where database_name=N'@Model.name' and backup_set_id=(select max(backup_set_id) from msdb..backupset where database_name=N'@Model.name' )
+if @@backupSetId is null begin raiserror(N'Verify failed. Backup information for database ''@Model.name'' not found.', 16, 1) end
+RESTORE VERIFYONLY FROM  DISK = N'E:\CLESQL03\FullBackup\@{@Model.name}_backup.bak' WITH  FILE = @@backupSetId,  NOUNLOAD,  NOREWIND
+GO
+*/
+
+USE [db_manager]
+GO
+
+EXECUTE [db_manager].[dbo].[DEL_File] @@filepath = N'\\172.16.5.82\e$\SqlMigration\FullBackup\@{@Model.name}_backup.bak'
+GO
+
+EXECUTE [db_manager].[dbo].[COPY_File]
+@@fromfilepath = N'E:\CLESQL03\FullBackup\@{@Model.name}_backup.bak'
+,@@tofilepath = N'\\172.16.5.82\e$\SqlMigration\FullBackup\@{@Model.name}_backup.bak'
+GO
+
+
+
+:connect 172.16.5.82
+
+
+IF EXISTS(SELECT [name] FROM sys.databases WHERE [name] = N'@{@Model.name}')
+BEGIN
+    PRINT(N'Removing backup history for @{@Model.name}')
+    EXEC msdb.dbo.sp_delete_database_backuphistory @@database_name = N'@{@Model.name}'
+END
+GO
+
+USE [master]
+GO
+IF EXISTS(SELECT [name] FROM sys.databases WHERE [name] = N'@{@Model.name}')
+BEGIN
+    PRINT(N'DROP Database @{@Model.name}')
+    DROP DATABASE [@{@Model.name}]
+END
+GO
+
+
+RESTORE DATABASE [@{@Model.name}] FROM  DISK = N'E:\SqlMigration\FullBackup\@{@Model.name}_backup.bak' WITH  FILE = 1
+,  MOVE N'@Model.dataFileName' TO N'I:\Database\@{@Model.name}_Data.mdf'
+,  MOVE N'@Model.logFileName' TO N'G:\Database\@{@Model.name}_Log.ldf'
+,  NOUNLOAD
+,  REPLACE
+,  STATS = 10
+GO
+
+
+

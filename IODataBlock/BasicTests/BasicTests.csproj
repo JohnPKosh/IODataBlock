@@ -86,17 +86,23 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbExtensionsTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
+    <Compile Include="HtmlCleaner\CleanerTests01.cs" />
     <Compile Include="HttpClient\ApiUrlTests.cs" />
     <Compile Include="Integration\NsRest\CustomerPaymentTests.cs" />
     <Compile Include="Integration\NsRest\NsRestServiceTests.cs" />
     <Compile Include="Integration\NsRest\Production\CreditCardTests.cs" />
     <Compile Include="Integration\NsRest\Production\CustomerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateTests\bak\sqltest.cs" />
     <Compile Include="TemplateTests\NewTemplateTests.cs" />
     <Compile Include="TemplateTests\TemplatesTest.cs" />
     <Compile Include="TemplateTests\TestMessage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business.EWS\Business.EWS.csproj">
+      <Project>{656d1ddd-951d-497a-a034-996addad1d91}</Project>
+      <Name>Business.EWS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Business.HttpClient\Business.HttpClient.csproj">
       <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
       <Name>Business.HttpClient</Name>
@@ -131,6 +137,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="TemplateTests\bak\checkdb.cshtml" />
+    <None Include="TemplateTests\bak\dropNewDbs.cshtml" />
+    <None Include="TemplateTests\bak\sqlcmd.cshtml" />
+    <None Include="TemplateTests\bak\sql.cshtml" />
+    <None Include="TemplateTests\bak\sqlcmd_dropNewDbs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\NsRest\recordCRUD.js" />

@@ -1,0 +1,14 @@
+﻿:connect CLEHBSQL0301
+
+
+@foreach (string s in Model.items)
+{
+    <text>
+
+USE [@{@s}]
+GO
+DBCC CHECKDB(N'@{@s}')  WITH NO_INFOMSGS
+GO
+DBCC UPDATEUSAGE (@{@s}) WITH NO_INFOMSGS;
+GO</text>
+    }
