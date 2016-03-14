@@ -65,7 +65,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "request_body", requestBody } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -86,7 +86,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName }, { "request_body", requestBody } };
                 var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 var result = rv.Result;
                 ro.ResponseData = result;
                 if (rv.Exception != null) throw rv.Exception;
@@ -108,7 +108,7 @@ namespace NsRest.Services
             {
                 var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var input = new Dictionary<string, object> {{IdColumnName, id}, {"type", typeName}};
-                var rv = restlet.DelAsync(input);
+                var rv = Task.Run(() => restlet.DelAsync(input));
                 var result = rv.Result;
                 if (result.IsSuccessStatusCode) ro.ResponseData = true;
                 else ro.AddException(new Exception(result.ReasonPhrase));
@@ -140,7 +140,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName }, { "request_body", JObject.Parse(requestBody) } };
                 var restlet = PutRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 var result = rv.Result;
                 ro.ResponseData = result;
                 if (rv.Exception != null) throw rv.Exception;
@@ -168,7 +168,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -189,7 +189,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 ro.ResponseData = JObject.Parse(rv.Result);
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -210,7 +210,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToDynamicAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToDynamicAsync(parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -231,7 +231,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToAsync<T>(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToAsync<T>(parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -252,7 +252,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { IdColumnName, id } };
                 var restlet = GetRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteAndPopulateAsync<T>(target, parameters);
+                var rv = Task.Run(() => restlet.ExecuteAndPopulateAsync<T>(target, parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -277,9 +277,8 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJsonStringAsync(parameters);
+                var rv = Task.Run(()=> restlet.ExecuteToJsonStringAsync(parameters));
                 ro.ResponseData = rv.Result;
-                if (rv.Exception != null) throw rv.Exception;
                 return ro;
             }
             catch (Exception ex)
@@ -298,7 +297,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToDynamicListAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToDynamicListAsync(parameters));
                 //ro.ResponseData = rv.Result;
                 var result = rv.Result;
                 if (result != null) ro.ResponseData = result;
@@ -322,7 +321,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJArrayAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJArrayAsync(parameters));
                 ro.ResponseData = rv.Result;
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
@@ -343,7 +342,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = restlet.ExecuteToJArrayAsync(parameters);
+                var rv = Task.Run(() => restlet.ExecuteToJArrayAsync(parameters));
                 var result = rv.Result;
                 if (result.HasValues) ro.ResponseData = result.Children<JObject>();
                 else ro.ResponseData = new List<JObject>();

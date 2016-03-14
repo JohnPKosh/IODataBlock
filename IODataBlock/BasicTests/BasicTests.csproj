@@ -92,6 +92,8 @@
     <Compile Include="Integration\NsRest\NsRestServiceTests.cs" />
     <Compile Include="Integration\NsRest\Production\CreditCardTests.cs" />
     <Compile Include="Integration\NsRest\Production\CustomerTests.cs" />
+    <Compile Include="Integration\NsRest\Sandbox\ContactTests.cs" />
+    <Compile Include="Integration\NsRest\Sandbox\NsRestContactHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateTests\bak\sqltest.cs" />
     <Compile Include="TemplateTests\NewTemplateTests.cs" />
@@ -147,9 +149,7 @@
     <Content Include="Integration\NsRest\recordCRUD.js" />
     <Content Include="Templates\template01.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Integration\NsRest\Sandbox\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
