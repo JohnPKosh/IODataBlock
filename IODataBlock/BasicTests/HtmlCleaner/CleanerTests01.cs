@@ -23,7 +23,14 @@ namespace BasicTests.HtmlCleaner
             var email = File.ReadAllText(@"C:\junk\email2.html");
             var body = MailCleaner.CleanBody(email);
             Assert.IsNotNull(body);
+        }
 
+
+        [TestMethod]
+        public void LoadWebPageTest()
+        {
+            var body = MailCleaner.LoadWebPage(@"http://www.cloudroute.com");
+            Assert.IsNotNull(body);
         }
     }
 }

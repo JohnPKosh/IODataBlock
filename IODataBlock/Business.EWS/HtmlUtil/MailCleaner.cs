@@ -60,6 +60,13 @@ namespace Business.EWS.HtmlUtil
             return doc.DocumentNode.OuterHtml;
         }
 
+        public static string LoadWebPage(string path)
+        {
+            var web = new HtmlWeb();
+            var doc = web.Load(path);
+            return doc.DocumentNode.OuterHtml;
+        }
+
 
     }
 }

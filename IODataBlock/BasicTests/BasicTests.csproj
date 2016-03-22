@@ -37,6 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.13.5.0\lib\net40-client\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DbExtensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=6b3b4f54da52bca4, processorArchitecture=MSIL">
       <HintPath>..\packages\DbExtensions.5.0.0\lib\net40\DbExtensions.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +51,10 @@
     </Reference>
     <Reference Include="Flurl.Http, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Flurl.Http.0.7.0\lib\net45\Flurl.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LINQtoCSV, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LINQtoCSV.1.5.0.0\lib\net35\LINQtoCSV.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +94,7 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbExtensionsTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
+    <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="HtmlCleaner\CleanerTests01.cs" />
     <Compile Include="HttpClient\ApiUrlTests.cs" />
     <Compile Include="Integration\NsRest\CustomerPaymentTests.cs" />
