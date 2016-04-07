@@ -94,6 +94,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsRest", "NsRest\NsRest.csp
 EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NsRest", "Nuget\NsRest\NsRest.nuproj", "{EA6BD221-6827-48B2-95EA-51764028E3E7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC4", "MVC4", "{B7D9BD4A-5458-4C50-B432-FE13B3A4AB92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsRestWeb", "NsRestWeb\NsRestWeb.csproj", "{E121D40A-0359-40B4-ACEF-5527820B427D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsRestWeb.Tests", "NsRestWeb.Tests\NsRestWeb.Tests.csproj", "{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -414,6 +420,30 @@ Global
 		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA6BD221-6827-48B2-95EA-51764028E3E7}.Release|x86.Build.0 = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Debug|x86.Build.0 = Debug|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|x86.ActiveCfg = Release|Any CPU
+		{E121D40A-0359-40B4-ACEF-5527820B427D}.Release|x86.Build.0 = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Debug|x86.Build.0 = Debug|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|x86.ActiveCfg = Release|Any CPU
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -452,6 +482,9 @@ Global
 		{656D1DDD-951D-497A-A034-996ADDAD1D91} = {E833F9E3-D458-4A2B-8A02-5A1E62631024}
 		{EC78B123-006D-4D55-8957-BEDE6EF8B06C} = {9B2E958B-D9DB-4AA4-BC8C-2CD61AF129E2}
 		{EA6BD221-6827-48B2-95EA-51764028E3E7} = {286D89F7-1FA3-4124-AB10-26BF011A4967}
+		{B7D9BD4A-5458-4C50-B432-FE13B3A4AB92} = {8859DA4D-91DE-44F8-A167-E2D7ECE30F3E}
+		{E121D40A-0359-40B4-ACEF-5527820B427D} = {B7D9BD4A-5458-4C50-B432-FE13B3A4AB92}
+		{89680F5C-5ABD-4E1F-AC5A-B5192AFE3E75} = {B7D9BD4A-5458-4C50-B432-FE13B3A4AB92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45

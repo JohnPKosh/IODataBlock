@@ -978,31 +978,72 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<string[]> Lines(this StringReader sr, string delimiter = "\t", Int32 firstrow = 1)
+        public static IEnumerable<string[]> Lines(this StringReader sr, string delimiter = "\t", int firstrow = 1, string textQualifier = null)
         {
-            String line;
+            string line;
             while (firstrow > 1 && sr.ReadLine() != null)
             {
                 firstrow--;
             }
-            while ((line = sr.ReadLine()) != null)
+            if (!string.IsNullOrWhiteSpace(textQualifier))
             {
-                yield return line.Replace("\0", "").Trim().Split(delimiter.ToCharArray());
+                var csvParser = SeperatedLineParser(delimiter, textQualifier);
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(delimiter)) continue;
+                    yield return csvParser.Split(line).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
+                }
+            }
+            else
+            {
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(delimiter)) continue;
+                    yield return line.Replace("\0", "").Trim().Split(delimiter.ToCharArray());
+                }
             }
         }
 
-        public static IEnumerable<string[]> Lines(this StreamReader sr, string delimiter = "\t", Int32 firstrow = 1)
+        public static IEnumerable<string[]> Lines(this StreamReader sr, string delimiter = "\t", int firstrow = 1, string textQualifier = null)
         {
-            String line;
+            string line;
             while (firstrow > 1 && sr.ReadLine() != null)
             {
                 firstrow--;
             }
-            while ((line = sr.ReadLine()) != null)
+            if (!string.IsNullOrWhiteSpace(textQualifier))
             {
-                yield return line.Replace("\0", "").Trim().Split(delimiter.ToCharArray());
+                var csvParser = SeperatedLineParser(delimiter, textQualifier);
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(delimiter)) continue;
+                    yield return csvParser.Split(line.Replace(", ",",")).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
+                }
+            }
+            else
+            {
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(delimiter)) continue;
+                    yield return line.Replace("\0", "").Trim().Split(delimiter.ToCharArray());
+                }
             }
         }
+
+        /* TODO - Add SeperatedLineParser to above methods */
+
+        private static Regex SeperatedLineParser(String delimiter, String textQualifier)
+        {
+            //var regexPattern = String.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", delimiter, textQualifier);
+            //var regexPattern = String.Format("((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))", delimiter, textQualifier);
+            var regexPattern = "((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))";
+            return new Regex(regexPattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant);
+
+            // alternative http://www.schiffhauer.com/c-split-csv-values-with-a-regular-expression/
+            // ((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))
+            // ((?<=\")[^\"]*(?=\"(\t|$)+)|(?<=\t|^)[^\t\"]*(?=\t|$))
+        }
+
 
         public static IEnumerable<string[]> Lines(this string stringdata, IEnumerable<Int32> columnWidths, Int32 firstrow = 1)
         {

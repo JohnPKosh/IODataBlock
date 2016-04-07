@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>CF86240D606326E13411240ED409F8859616E0FD</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4BBD6567A011224922F36BB97A4E9C01FBBD7F89</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SocialImage_TemporaryKey.pfx</ManifestKeyFile>

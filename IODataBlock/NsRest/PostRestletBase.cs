@@ -19,7 +19,7 @@ namespace NsRest
             BaseUrl = baseUrl;
             ScriptSetting = scriptSetting;
             Login = login;
-            HttpMethodType = HttpMethodType.Get;
+            HttpMethodType = HttpMethodType.Post;
         }
 
         public static PostRestletBase Create(String baseUrl, INetSuiteScriptSetting scriptSetting, INetSuiteLogin login)
@@ -42,6 +42,14 @@ namespace NsRest
         #endregion Fields and Properties
 
         #region Public Methods
+
+        //public string ExecuteToJsonString(IDictionary<string, object> input)
+        //{
+        //    var result = BuildUrl(input)
+        //        .ConfigureHttpClient(http => http.DefaultRequestHeaders.TryAddWithoutValidation(@"Authorization", GetAuthorizationHeaders(Login)))
+        //        .PostJsonAsync(input).ReceiveString();
+        //    return result.Result;
+        //}
 
         public async Task<string> ExecuteToJsonStringAsync(IDictionary<string, object> input)
         {

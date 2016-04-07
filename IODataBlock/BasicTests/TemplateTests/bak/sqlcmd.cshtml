@@ -1,0 +1,11 @@
+﻿:connect CLEHBSQL0301
+
+:SETVAR Path "C:\Users\sqlsvc\Documents\SQL Server Management Studio\Projects\Migration\"
+
+@foreach (string s in Model.items)
+{
+    <text>
+
+:SETVAR ScriptToExecute "@{@s}.sql"
+:R $(Path)$(ScriptToExecute)</text>
+}

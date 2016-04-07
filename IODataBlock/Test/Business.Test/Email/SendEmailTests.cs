@@ -100,6 +100,43 @@ namespace Business.Test.Email
             }
         }
 
+        [TestMethod]
+        public void TestMethod3()
+        {
+            var mailer = new ExchangeEmailSender(Url, Email, Password);
+            try
+            {
+                MessageBody msg = new MessageBody(BodyType.Text, "Test TempId Email message");
+                var toAddresses = new List<EmailAddress>();
+                var emailto = new EmailAddress { Address = "jkosh@cloudroute.com" };
+                toAddresses.Add(emailto);
+                mailer.Send("Test TempId Email message", msg, toAddresses);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            var mailer = new ExchangeEmailSender(Url, Email, Password);
+            try
+            {
+                MessageBody msg = new MessageBody(BodyType.Text, "Test TempId Email message");
+                var toAddresses = new List<EmailAddress>();
+                var emailto = new EmailAddress { Address = "jkosh@cloudroute.com" };
+                toAddresses.Add(emailto);
+                mailer.SendAtSpecificTime("Test TempId Email message", msg, toAddresses, DateTime.Now.AddMinutes(5));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         //EmailAddress
     }
 }

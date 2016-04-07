@@ -1,0 +1,11 @@
+﻿:connect 172.16.5.82
+
+:SETVAR Path "E:\SqlMigration\deletes\"
+
+@foreach (string s in Model.items)
+{
+    <text>
+
+        :SETVAR ScriptToExecute "@{@s}.sql"
+        :R $(Path)$(ScriptToExecute)</text>
+    }

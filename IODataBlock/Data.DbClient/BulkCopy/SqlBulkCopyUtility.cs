@@ -866,7 +866,7 @@ namespace Data.DbClient.BulkCopy
                 
             //}
             var regexPattern = String.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", fieldSeperator, textQualifier);
-            return new Regex(regexPattern, RegexOptions.IgnorePatternWhitespace);
+            return new Regex(regexPattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant);
 
             // alternative http://www.schiffhauer.com/c-split-csv-values-with-a-regular-expression/
             // ((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))
