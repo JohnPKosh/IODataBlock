@@ -177,3 +177,5 @@ $RECYCLE.BIN/
 /IODataBlock/.vs/config/applicationhost.config
 /IODataBlock/packages
 /IODataBlock/BasicTests/Configuration
+/IODataBlock/NsRestWeb/Configuration/appSettings.config
+/IODataBlock/NsRestWeb/Configuration/appSettingsJKOSH.config
