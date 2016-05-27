@@ -19,12 +19,18 @@ namespace Business.Test.Data
     [TestClass]
     public class DbClientTests
     {
+        #region Class Initialization
+
         public DbClientTests()
         {
             _npgsqlConnectionString = _configMgr.GetConnectionString("qixlrn");
             _mySqlConnectionString = _configMgr.GetConnectionString("mysql_local");
             _oracleConnectionString = _configMgr.GetConnectionString("oracle");
-        }
+        } 
+
+        #endregion
+
+        #region Fields and Properties
 
         private readonly ConfigMgr _configMgr = new ConfigMgr();
 
@@ -58,7 +64,9 @@ namespace Business.Test.Data
             }
         }
 
-        private readonly string _oracleConnectionString;
+        private readonly string _oracleConnectionString; 
+
+        #endregion
 
         #region Npgsql
 
