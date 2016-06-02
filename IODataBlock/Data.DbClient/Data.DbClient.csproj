@@ -109,7 +109,6 @@
     <Compile Include="Fluent\Select\Enums.cs" />
     <Compile Include="Fluent\Select\IQueryBuilder.cs" />
     <Compile Include="Fluent\Select\MsSqlQueryBuilder.cs" />
-    <Compile Include="Fluent\Select\SoqlQueryBuilder.cs" />
     <Compile Include="Fluent\Select\SqlLiteral.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />

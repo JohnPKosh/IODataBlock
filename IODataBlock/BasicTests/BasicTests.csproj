@@ -95,7 +95,9 @@
     <Compile Include="Data\DbExtensionsTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\DbSqlQueryBuilderTests.cs" />
+    <Compile Include="Data\DnInsert.cs" />
     <Compile Include="Data\MsSqlQueryBuilderTests.cs" />
+    <Compile Include="Data\SqlBulkCopyTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="HtmlCleaner\CleanerTests01.cs" />
     <Compile Include="HttpClient\ApiUrlTests.cs" />
