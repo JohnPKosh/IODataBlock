@@ -94,6 +94,8 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbExtensionsTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
+    <Compile Include="Data\DbSqlQueryBuilderTests.cs" />
+    <Compile Include="Data\MsSqlQueryBuilderTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="HtmlCleaner\CleanerTests01.cs" />
     <Compile Include="HttpClient\ApiUrlTests.cs" />
@@ -155,6 +157,7 @@
     <None Include="TemplateTests\bak\sqlcmd_dropNewDbs.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\junk.sql" />
     <Content Include="Integration\NsRest\recordCRUD.js" />
     <Content Include="Templates\template01.html" />
   </ItemGroup>

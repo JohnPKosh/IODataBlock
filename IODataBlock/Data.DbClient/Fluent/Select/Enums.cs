@@ -16,7 +16,8 @@
         GreaterOrEquals,
         LessThan,
         LessOrEquals,
-        In
+        In,
+        NotIn
     }
 
     public enum JoinType

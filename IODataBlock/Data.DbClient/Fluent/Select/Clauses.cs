@@ -2,11 +2,11 @@
 
 namespace Data.DbClient.Fluent.Select
 {
-    internal interface IWhereClause
+    public interface IWhereClause
     {
     }
 
-    internal abstract class FilterClause
+    public abstract class FilterClause
     {
         public string FieldName { get; set; }
         public Comparison ComparisonOperator { get; set; }
@@ -22,7 +22,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class HavingClause : FilterClause
+    public class HavingClause : FilterClause
     {
         public HavingClause(string field, Comparison compareOperator, object compareValue, LogicOperator logicOperator = LogicOperator.Or)
             : base(field, compareOperator, compareValue, logicOperator)
@@ -30,7 +30,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class WhereClause : FilterClause, IWhereClause
+    public class WhereClause : FilterClause, IWhereClause
     {
         public WhereClause(string field, Comparison compareOperator, object compareValue, LogicOperator logicOperator = LogicOperator.Or)
             : base(field, compareOperator, compareValue, logicOperator)
@@ -38,7 +38,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class GroupWhereClause : IWhereClause
+    public class GroupWhereClause : IWhereClause
     {
         public List<WhereClause> WhereClauses { get; set; }
         public LogicOperator LogicOperator { get; set; }
@@ -50,7 +50,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class JoinClause
+    public class JoinClause
     {
         public JoinType JoinType { get; set; }
         public string FromTable { get; set; }
@@ -70,7 +70,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class OrderClause
+    public class OrderClause
     {
         public string Column { get; set; }
         public Order Sorting { get; set; }
@@ -82,7 +82,7 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class GroupByClause
+    public class GroupByClause
     {
         public string Column { get; set; }
 
@@ -92,13 +92,33 @@ namespace Data.DbClient.Fluent.Select
         }
     }
 
-    internal class TopClause
+    public class TopClause
     {
         public int Quantity { get; set; }
 
         public TopClause(int quantity)
         {
             Quantity = quantity;
+        }
+    }
+
+    public class LimitClause
+    {
+        public int Take { get; set; }
+
+        public LimitClause(int take)
+        {
+            Take = take;
+        }
+    }
+
+    public class OffsetClause
+    {
+        public int Skip { get; set; }
+
+        public OffsetClause(int skip)
+        {
+            Skip = skip;
         }
     }
 }
