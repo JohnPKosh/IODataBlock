@@ -12,33 +12,35 @@ namespace BasicTests.Integration.NsRest.Sandbox
     {
         public NsRestContactHelper()
         {
-            configMgr = new ConfigMgr();
-            //NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
-            NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
-            NsAccount = configMgr.GetAppSetting("nsaccount");
-            NsEmail = configMgr.GetAppSetting("nsemail");
-            NsPassword = configMgr.GetAppSetting("nspassword");
-            NsRole = configMgr.GetAppSetting("nsrole");
+            //configMgr = new ConfigMgr();
+            ////NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
+            //NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
+            //NsAccount = configMgr.GetAppSetting("nsaccount");
+            //NsEmail = configMgr.GetAppSetting("nsemail");
+            //NsPassword = configMgr.GetAppSetting("nspassword");
+            //NsRole = configMgr.GetAppSetting("nsrole");
 
-            scriptSettings = new Dictionary<string, INetSuiteScriptSetting>
-            {
-                {"crud", NetSuiteScriptSetting.Create("customscript_record_crud", "customdeploy_record_crud")},
-                {"search", NetSuiteScriptSetting.Create("customscript_record_search", "customdeploy_record_search")}
-            };
-            baseService = BaseService.Create(NsBaseUrl, NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole), scriptSettings);
+            //scriptSettings = new Dictionary<string, INetSuiteScriptSetting>
+            //{
+            //    {"crud", NetSuiteScriptSetting.Create("customscript_record_crud", "customdeploy_record_crud")},
+            //    {"search", NetSuiteScriptSetting.Create("customscript_record_search", "customdeploy_record_search")}
+            //};
+            //baseService = BaseService.Create(NsBaseUrl, NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole), scriptSettings);
+
+            baseService = BaseService.Create(true);
             TypeName = "contact";
 
         }
 
-        private ConfigMgr configMgr { get; set; }
+        //private ConfigMgr configMgr { get; set; }
 
-        private string NsBaseUrl { get; set; }
-        private string NsAccount { get; set; }
-        private string NsEmail { get; set; }
-        private string NsRole { get; set; }
-        private string NsPassword { get; set; }
+        //private string NsBaseUrl { get; set; }
+        //private string NsAccount { get; set; }
+        //private string NsEmail { get; set; }
+        //private string NsRole { get; set; }
+        //private string NsPassword { get; set; }
         private BaseService baseService { get; set; }
-        private IDictionary<string, INetSuiteScriptSetting> scriptSettings { get; set; }
+        //private IDictionary<string, INetSuiteScriptSetting> scriptSettings { get; set; }
         private string TypeName { get; set; }
 
         public JObject SearchJObjectsByEmail(string emailAddress)
