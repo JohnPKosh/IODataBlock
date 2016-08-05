@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 
 // ReSharper disable once CheckNamespace
-namespace ExBaseDataUtil
+namespace Data.DbClient
 {
     public class SqlTableCreator
     {

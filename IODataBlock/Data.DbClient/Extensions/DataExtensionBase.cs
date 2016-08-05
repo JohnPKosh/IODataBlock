@@ -15,13 +15,10 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Business.Common.Extensions;
 using Business.Common.System.Args;
-//using ExBaseArguments;
-//using ExBaseCollectionUtil;
-//using System.Data.EntityClient;
-//using System.Data.Objects;
+
 
 // ReSharper disable once CheckNamespace
-namespace ExBaseDataUtil
+namespace Data.DbClient
 {
     public static class DataExtensionBase
     {
