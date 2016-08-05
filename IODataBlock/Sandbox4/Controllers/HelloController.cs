@@ -51,7 +51,6 @@ namespace Sandbox4.Controllers
 
         private string TestDbClient()
         {
-            //Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu
 
             #region sql
 
@@ -90,7 +89,6 @@ ORDER BY [ORDINAL_POSITION]
             try
             {
                 var data = Database.Query(@"Data Source=.\EXP14;Initial Catalog=LERG;Integrated Security=True;", "System.Data.SqlClient", sql, 120, "LERG%");
-                //var data = Database.Query(@"Data Source=CLEHBDB01;Initial Catalog=LERG_Data_2015-09-01;User ID=servermgr;Password=defr3sTu", "System.Data.SqlClient", sql, 120, "LERG%");
                 if (data.Any())
                 {
                     return data.Count().ToString();

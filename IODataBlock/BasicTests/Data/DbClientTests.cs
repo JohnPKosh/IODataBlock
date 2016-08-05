@@ -101,9 +101,8 @@ namespace BasicTests.Data
         public void NpgsqlScalarTest()
         {
             var sql = @"select MAX(cr_date) from porteddids";
-            var constr = "Server=172.16.5.110;Port=5432;User Id=qixlrn;Database=qixlrn;Password=qixlrn;";
 
-            using (var db = Database.OpenConnectionString(constr, "Npgsql"))
+            using (var db = Database.OpenConnectionString(_npgsqlConnectionString, "Npgsql"))
             {
                 var data = db.QueryValue(sql, 120);
                 Assert.IsNotNull(data);
