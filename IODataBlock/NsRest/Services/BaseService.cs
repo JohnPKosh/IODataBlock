@@ -5,12 +5,32 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
+using Business.Common.Configuration;
 
 namespace NsRest.Services
 {
     public class BaseService
     {
         #region Class Initialization
+
+        public BaseService(bool useSandbox = false)
+        {
+            configMgr = new ConfigMgr();
+            BaseUrl = configMgr.GetAppSetting(useSandbox ? "nssandboxurl" : "nsbaseurl");
+
+            ScriptSettings = new Dictionary<string, INetSuiteScriptSetting>
+            {
+                {"crud", NetSuiteScriptSetting.Create("customscript_record_crud", "customdeploy_record_crud")},
+                {"cc_crud", NetSuiteScriptSetting.Create("customscript_cr_cc_crud", "customdeploy_cr_cc_crud")},
+                {"search", NetSuiteScriptSetting.Create("customscript_record_search", "customdeploy_record_search")}
+            };
+
+            var NsAccount = configMgr.GetAppSetting("nsaccount");
+            var NsEmail = configMgr.GetAppSetting("nsemail");
+            var NsPassword = configMgr.GetAppSetting("nspassword");
+            var NsRole = configMgr.GetAppSetting("nsrole");
+            Login = NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, NsRole);
+        }
 
         public BaseService(string baseUrl, INetSuiteLogin login, IDictionary<string, INetSuiteScriptSetting> scriptSettings = null)
         {
@@ -27,6 +47,11 @@ namespace NsRest.Services
         }
 
         #region Factory Methods
+
+        public static BaseService Create(bool useSandbox = false)
+        {
+            return new BaseService(useSandbox);
+        }
 
         public static BaseService Create(string baseUrl, INetSuiteLogin login, IDictionary<string, INetSuiteScriptSetting> scriptSettings = null)
         {
@@ -53,6 +78,10 @@ namespace NsRest.Services
         public bool UseExternalId { get; set; }
 
         private string IdColumnName => UseExternalId ? "externalid" : "id";
+
+        public IDictionary<string, INetSuiteScriptSetting> scriptSettings { get; set; }
+
+        private ConfigMgr configMgr { get; set; }
 
         #endregion Fields and Properties
 

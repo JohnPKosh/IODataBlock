@@ -179,3 +179,5 @@ $RECYCLE.BIN/
 /IODataBlock/BasicTests/Configuration
 /IODataBlock/NsRestWeb/Configuration/appSettings.config
 /IODataBlock/NsRestWeb/Configuration/appSettingsJKOSH.config
+/IODataBlock/BusinessCommon/Configuration/appSettings.config
+/IODataBlock/BusinessCommon/Configuration/connectionStrings.config

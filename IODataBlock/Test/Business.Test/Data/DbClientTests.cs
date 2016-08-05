@@ -19,12 +19,19 @@ namespace Business.Test.Data
     [TestClass]
     public class DbClientTests
     {
+        #region Class Initialization
+
         public DbClientTests()
         {
             _npgsqlConnectionString = _configMgr.GetConnectionString("qixlrn");
             _mySqlConnectionString = _configMgr.GetConnectionString("mysql_local");
             _oracleConnectionString = _configMgr.GetConnectionString("oracle");
-        }
+            _LERG_localConnectionString = _configMgr.GetConnectionString("LERG_local");
+        } 
+
+        #endregion
+
+        #region Fields and Properties
 
         private readonly ConfigMgr _configMgr = new ConfigMgr();
 
@@ -48,6 +55,8 @@ namespace Business.Test.Data
 
         private readonly string _npgsqlConnectionString;
 
+        private readonly string _LERG_localConnectionString;
+
         private const string SqliteFile = "sqliteTest.sl3";
 
         private static string SqliteConnectionString
@@ -58,7 +67,9 @@ namespace Business.Test.Data
             }
         }
 
-        private readonly string _oracleConnectionString;
+        private readonly string _oracleConnectionString; 
+
+        #endregion
 
         #region Npgsql
 
@@ -175,7 +186,6 @@ ORDER BY [ORDINAL_POSITION]
         }
         private string TestDbClient()
         {
-            //Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu
 
             #region sql
 
@@ -213,7 +223,7 @@ ORDER BY [ORDINAL_POSITION]
 
             try
             {
-                var data = Database.Query(@"Data Source=.\EXP14;Initial Catalog=LERG;User ID=servermgr;Password=defr3sTu", "System.Data.SqlClient", sql, 120, "LERG%");
+                var data = Database.Query(_LERG_localConnectionString, "System.Data.SqlClient", sql, 120, "LERG%");
                 if (!data.Any())
                 {
                     return data.Count().ToString();

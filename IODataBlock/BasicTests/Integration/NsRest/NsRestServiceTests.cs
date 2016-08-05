@@ -22,8 +22,8 @@ namespace BasicTests.Integration.NsRest
         public NsRestServiceTests()
         {
             configMgr = new ConfigMgr();
-            NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
-            //NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
+            //NsBaseUrl = configMgr.GetAppSetting("nsbaseurl");
+            NsBaseUrl = configMgr.GetAppSetting("nssandboxurl");
             NsAccount = configMgr.GetAppSetting("nsaccount");
             NsEmail = configMgr.GetAppSetting("nsemail");
             NsPassword = configMgr.GetAppSetting("nspassword");
@@ -65,7 +65,7 @@ namespace BasicTests.Integration.NsRest
         [TestMethod]
         public void GetCustomerJsonStringById_Test()
         {
-            var response = baseService.GetJsonById("29838", "customer", "crud");
+            var response = baseService.GetJsonById("206876", "lead", "crud");
             CheckJsonStringResponse(response);
         }
 
@@ -88,6 +88,13 @@ namespace BasicTests.Integration.NsRest
         {
             var response = baseService.GetDynamicByIdAsync("22334", "customer", "crud").Result;
             CheckDynamicResponse(response);
+        }
+
+        [TestMethod]
+        public void GetItemJsonStringById_Test()
+        {
+            var response = baseService.GetJsonById("133", "noninventoryitem", "crud");
+            CheckJsonStringResponse(response);
         }
 
         #endregion
@@ -292,9 +299,29 @@ namespace BasicTests.Integration.NsRest
         {
             dynamic o = new ExpandoObject();
             o.comments = "blah blah blah";
-            var response = baseService.Update("28481", "customer", o, "crud");
+            var response = baseService.Update("212901", "customer", o, "crud");
             CheckJsonStringResponse(response);
         }
+
+        [TestMethod]
+        public void PutLead_Test()
+        {
+            dynamic o = new ExpandoObject();
+            o.comments = "blah blah blah";
+            var response = baseService.Update("206876", "lead", o, "crud");
+            CheckJsonStringResponse(response);
+        }
+
+        [TestMethod]
+        public void PutPartner_Test()
+        {
+            dynamic o = new ExpandoObject();
+            o.comments = "blah blah blah";
+            var response = baseService.Update("213407", "partner", o, "crud");
+            CheckJsonStringResponse(response);
+        }
+
+
 
         [TestMethod]
         public void PutCustomerByExternalId_Test()

@@ -84,7 +84,7 @@ namespace HubSpot.Models.Contacts
 
         #region Conversion Operators
 
-        static public implicit operator ContactUpdateModel(ContactViewModel value)
+        public static implicit operator ContactUpdateModel(ContactViewModel value)
         {
             var rv = new ContactUpdateModel { Properties = new HashSet<PropertyUpdateValue>() };
             foreach (var p in value.Properties)
@@ -97,7 +97,7 @@ namespace HubSpot.Models.Contacts
             return rv;
         }
 
-        static public implicit operator Dictionary<string, object>(ContactViewModel value)
+        public static implicit operator Dictionary<string, object>(ContactViewModel value)
         {
             string email = null;
             string leadGuid = null;

@@ -1,7 +1,9 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using Data.DbClient;
 using Data.DbClient.Fluent;
+using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BasicTests.Data
@@ -136,5 +138,6 @@ ORDER BY [ORDINAL_POSITION]
                 Assert.Fail();
             }
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using Business.Common.Configuration;
 using Data.DbClient.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Database = Data.DbClient.Database;
@@ -14,10 +15,18 @@ namespace Business.Test.Data
         //private const string SqlServer = @"(localdb)\ProjectsV12";
         //private const string SqlServerDatabase = @"IODataBlock.Database";
 
-        private const string SqlServer = @".\EXP14";
-        private const string SqlServerDatabase = @"LERG";
+        public DbQueryBuilderTests()
+        {
+            //TestData
+            _TestDataConnectionString = _configMgr.GetConnectionString("TestData_local");
+        }
 
-        
+        private readonly ConfigMgr _configMgr = new ConfigMgr();
+
+        private const string SqlServer = @".\EXP14";
+        private const string SqlServerDatabase = @"TestData";
+        private readonly string _TestDataConnectionString;
+
 
         private static string SqlServerConnectionString
         {
@@ -177,7 +186,7 @@ ORDER BY [ORDINAL_POSITION]
         [TestMethod]
         public void SimpleDbQueryBuilderTest6()
         {
-            var db = new dbe.Database(new SqlConnection(Database.CreateSqlConnectionString("CLEHBDB02", "CDR_Stat_Ref", "servermgr", "defr3sTu")));
+            var db = new dbe.Database(new SqlConnection(_TestDataConnectionString));
 
             var sqlb = new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
             var q = db.From(sqlb).Skip(10).Take(10).ToString();

@@ -104,6 +104,12 @@
     <Compile Include="Extensions\SqlTableCreator.cs" />
     <Compile Include="Fluent\DbQuery.cs" />
     <Compile Include="Fluent\DbQueryBuilder.cs" />
+    <Compile Include="Fluent\Select\Clauses.cs" />
+    <Compile Include="Fluent\Select\DbSqlQueryBuilder.cs" />
+    <Compile Include="Fluent\Select\Enums.cs" />
+    <Compile Include="Fluent\Select\IQueryBuilder.cs" />
+    <Compile Include="Fluent\Select\MsSqlQueryBuilder.cs" />
+    <Compile Include="Fluent\Select\SqlLiteral.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />
     <Compile Include="Interfaces\IDbFileHandler.cs" />
