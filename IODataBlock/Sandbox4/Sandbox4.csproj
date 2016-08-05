@@ -3109,10 +3109,6 @@
     <Folder Include="Areas\SiteDemo\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessCommon\BusinessCommon.csproj">
-      <Project>{48ffe2ed-99c2-44d2-893e-8b2a16a49b82}</Project>
-      <Name>BusinessCommon</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data.DbClient\Data.DbClient.csproj">
       <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
       <Name>Data.DbClient</Name>
