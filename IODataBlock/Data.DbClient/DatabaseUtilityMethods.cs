@@ -604,7 +604,7 @@ FROM
 
         #endregion
 
-        #region SQL Server Script Utilities
+        #region Oracle Script Utilities
 
         public static String CreateOracleBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
         {

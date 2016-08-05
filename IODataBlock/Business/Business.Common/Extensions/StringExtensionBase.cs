@@ -504,6 +504,33 @@ namespace Business.Common.Extensions
             return !missing && enumerable.Any();
         }
 
+        public static string GetDomainName(this string value)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(value)) return null;
+                var pos = value.IndexOf("://", StringComparison.Ordinal);
+                if (pos == -1 || pos > 5) value = "http://" + value;
+                //return new Uri(value).Host;
+                var uri = new Uri(value);
+
+                var domainParts = uri.Host.Split('.');
+                if (domainParts.Length == 3)
+                {
+                    var topLevel = domainParts[domainParts.Length - 1];
+                    var hostBody = domainParts[domainParts.Length - 2];
+                    var hostHeader = domainParts[domainParts.Length - 3];
+                    var domain = string.Format("{0}.{1}", hostBody, topLevel);
+                    return domain;
+                }
+                return uri.Host;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         #endregion Basic Methods
 
         #region Regex Formatting
