@@ -165,7 +165,8 @@ namespace Data.DbClient.Fluent.Select
 
         private string ApplyJoins(string query)
         {
-            return JoinClauses.Aggregate(query, (current, joinClause) => current + string.Format(" {0} {1} ON {2}.{3} {4} {5}.{6}", GetJoinType(joinClause.JoinType), joinClause.ToTable, joinClause.FromTable, joinClause.FromColumn, GetComparisonOperator(joinClause.ComparisonOperator), joinClause.ToTable, joinClause.ToColumn));
+            return JoinClauses.Aggregate(query, (current, joinClause) => current +
+                                                                         $" {GetJoinType(joinClause.JoinType)} {joinClause.ToTable} ON {joinClause.FromTable}.{joinClause.FromColumn} {GetComparisonOperator(joinClause.ComparisonOperator)} {joinClause.ToTable}.{joinClause.ToColumn}");
         }
 
         private string CompileWhereSegment()
@@ -276,7 +277,7 @@ namespace Data.DbClient.Fluent.Select
             var output = "";
             foreach (var clause in filterClauses)
             {
-                output = output + (GetComparisonClause(clause));
+                output = output + GetComparisonClause(clause);
                 if (ignoreCheckLastClause || !clause.Equals(filterClauses.Last()))
                 {
                     output += $" {GetLogicOperator(clause.LogicOperator)} ";

@@ -11,7 +11,7 @@ namespace Data.DbClient.BulkCopy
     {
         public BulkInsertEventArgs(IEnumerable<T> items)
         {
-            if (items == null) throw new ArgumentNullException("items");
+            if (items == null) throw new ArgumentException("items is NULL!");
             Items = items.ToArray();
         }
 
@@ -30,15 +30,14 @@ namespace Data.DbClient.BulkCopy
         public void OnPreBulkInsert(BulkInsertEventArgs<T> e)
         {
             var handler = PreBulkInsert;
-            if (handler != null) handler(this, e);
+            handler?.Invoke(this, e);
         }
 
         public event EventHandler<BulkInsertEventArgs<T>> PostBulkInsert;
 
         public void OnPostBulkInsert(BulkInsertEventArgs<T> e)
         {
-            var handler = PostBulkInsert;
-            if (handler != null) handler(this, e);
+            PostBulkInsert?.Invoke(this, e);
         }
 
         #endregion Event Handling
@@ -47,7 +46,7 @@ namespace Data.DbClient.BulkCopy
 
         private readonly int _bufferSize;
 
-        public int BufferSize { get { return _bufferSize; } }
+        public int BufferSize => _bufferSize;
 
         private readonly SqlConnection _connection;
         private readonly Lazy<Dictionary<string, MemberGetter>> _props = new Lazy<Dictionary<string, MemberGetter>>(GetPropertyInformation);
@@ -63,8 +62,8 @@ namespace Data.DbClient.BulkCopy
         /// <param name="bufferSize">Number of rows to bulk insert at a time. The default is 10000.</param>
         public BulkInserter(SqlConnection connection, SqlBulkCopy sqlBulkCopy, int bufferSize = 10000)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (sqlBulkCopy == null) throw new ArgumentNullException("sqlBulkCopy");
+            if (connection == null) throw new ArgumentException("connection is NULL!");
+            if (sqlBulkCopy == null) throw new ArgumentException("sqlBulkCopy is NULL!");
 
             _bufferSize = bufferSize;
             _connection = connection;
@@ -91,7 +90,7 @@ namespace Data.DbClient.BulkCopy
         /// <param name="items">The items to be inserted.</param>
         public void Insert(IEnumerable<T> items)
         {
-            if (items == null) throw new ArgumentNullException("items");
+            if (items == null) throw new ArgumentException("items is NULL!");
 
             var dt = CreateDataTable();
 
@@ -132,7 +131,7 @@ namespace Data.DbClient.BulkCopy
         /// <param name="item">The item to be inserted.</param>
         public void Insert(T item)
         {
-            if (item == null) throw new ArgumentNullException("item");
+            if (item == null) throw new ArgumentException("item is NULL!");
             _queue.Add(item);
             if (_queue.Count == _bufferSize) Flush();
         }
@@ -153,7 +152,7 @@ namespace Data.DbClient.BulkCopy
 
         private DataTable CreateDataTable()
         {
-            var commandText = string.Format("select top 0 * from {0}", _sbc.DestinationTableName);
+            var commandText = $"select top 0 * from {_sbc.DestinationTableName}";
             return Database.FillSchemaDataTable(_connection.ConnectionString, "System.Data.SqlClient", commandText, _sbc.DestinationTableName);
 
             //var dt = new DataTable();

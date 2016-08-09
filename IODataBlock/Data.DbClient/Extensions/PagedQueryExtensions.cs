@@ -6,7 +6,7 @@ namespace Data.DbClient.Extensions
 {
     public static class PagedQueryExtensions
     {
-        public static DbCommand SetPagingOptions(this DbCommand command, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        public static DbCommand SetPagingOptions(this DbCommand command, int batchNumber, int batchSize, string rowOrderBy)
         {
             switch (GetDbCommandProviderName(command))
             {

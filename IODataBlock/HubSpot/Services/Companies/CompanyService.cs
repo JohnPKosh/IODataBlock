@@ -508,8 +508,6 @@ namespace HubSpot.Services.Companies
                     
                     if (minTimeOffset.HasValue)
                     {
-                        //if (!minVidOffset.HasValue) minVidOffset = 0;
-                        if (!minTimeOffset.HasValue) minTimeOffset = 0;
                         contacts.AddRange(currentList.Where(x => long.Parse(x.Properties.First(y=> y.Key == "createdate").Value) >= minTimeOffset.Value));
                         if (maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value) break;
                         //moreResults = false;

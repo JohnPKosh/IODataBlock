@@ -20,7 +20,7 @@ namespace Data.DbClient.Fluent
             _parameters = query.Parameters;
         }
 
-        public DbQueryBuilder(DbConnection connection, String commandText, Int32 commandTimeout, object[] parameters)
+        public DbQueryBuilder(DbConnection connection, string commandText, int commandTimeout, object[] parameters)
         {
             _connection = connection;
             _commandText = commandText;
@@ -33,9 +33,9 @@ namespace Data.DbClient.Fluent
         #region Fields and Properties
 
         private DbConnection _connection;
-        private String _commandText;
-        private Int32 _commandTimeout = 120;
-        private object[] _parameters = null;
+        private string _commandText;
+        private int _commandTimeout = 120;
+        private object[] _parameters;
 
         #endregion
 
@@ -60,13 +60,13 @@ namespace Data.DbClient.Fluent
             return this;
         }
 
-        public DbQueryBuilder WithCommand(String commandText)
+        public DbQueryBuilder WithCommand(string commandText)
         {
             _commandText = commandText;
             return this;
         }
 
-        public DbQueryBuilder TimeoutAfter(Int32 commandTimeout)
+        public DbQueryBuilder TimeoutAfter(int commandTimeout)
         {
             _commandTimeout = commandTimeout;
             return this;
@@ -80,8 +80,8 @@ namespace Data.DbClient.Fluent
 
         public IEnumerable<dynamic> Query()
         {
-            if (_connection == null) throw new ArgumentNullException("Connection");
-            if (string.IsNullOrEmpty(_commandText)) throw new ArgumentNullException("CommandText");
+            if (_connection == null) throw new ArgumentException("Connection is NULL!");
+            if (string.IsNullOrEmpty(_commandText)) throw new ArgumentException("CommandText is NULL!");
             using (var db = new Database(() => _connection))
             {
                 return db.Query(_commandText, _commandTimeout, _parameters);

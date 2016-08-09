@@ -8,7 +8,7 @@ namespace Data.DbClient.Extensions
     {
         public static void JsonDbQuery(this Stream stream, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonSerializerSettings settings = null, params object[] parameters)
         {
-            var provider = String.IsNullOrWhiteSpace(providerName) ? "System.Data.SqlClient" : providerName;
+            var provider = string.IsNullOrWhiteSpace(providerName) ? "System.Data.SqlClient" : providerName;
             using (var db = Database.OpenConnectionString(connectionString, provider))
             {
                 if (stream.CanWrite) stream.SetLength(0);  // set length back to 0 on serialization.
@@ -24,14 +24,14 @@ namespace Data.DbClient.Extensions
 
         public static void JsonDbQuery(this Stream stream, string commandText, string connectionString, string providerName = null, int commandTimeout = 60, JsonConverter[] converters = null, params object[] parameters)
         {
-            var provider = String.IsNullOrWhiteSpace(providerName) ? "System.Data.SqlClient" : providerName;
+            var provider = string.IsNullOrWhiteSpace(providerName) ? "System.Data.SqlClient" : providerName;
             using (var db = Database.OpenConnectionString(connectionString, provider))
             {
                 if (stream.CanWrite) stream.SetLength(0);  // set length back to 0 on serialization.
                 var sw = new StreamWriter(stream);
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                    var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
                     serializer.Serialize(writer, db.QueryToJObjects(commandText, commandTimeout, parameters));
                 }

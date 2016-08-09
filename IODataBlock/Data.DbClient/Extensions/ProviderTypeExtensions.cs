@@ -1,5 +1,4 @@
-﻿using System;
-using Data.DbClient.Commands;
+﻿using Data.DbClient.Commands;
 
 namespace Data.DbClient.Extensions
 {
@@ -24,9 +23,9 @@ namespace Data.DbClient.Extensions
             }
         }
 
-        public static ProviderType GetProviderTypeByString(String providerInvariant)
+        public static ProviderType GetProviderTypeByString(string providerInvariant)
         {
-            if (String.IsNullOrWhiteSpace(providerInvariant)) return ProviderType.SqlServer;
+            if (string.IsNullOrWhiteSpace(providerInvariant)) return ProviderType.SqlServer;
             switch (providerInvariant)
             {
                 case @"System.Data.SqlClient":

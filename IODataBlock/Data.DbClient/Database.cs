@@ -47,7 +47,7 @@ namespace Data.DbClient
 
         #region Fields and Props
 
-        private readonly static IConfigurationManager ConfigurationManager;
+        private static readonly IConfigurationManager ConfigurationManager;
 
         private DbConnection _connection;
 
@@ -55,10 +55,7 @@ namespace Data.DbClient
 
         internal static string DataDirectory;
 
-        public DbConnection Connection
-        {
-            get { return _connection ?? (_connection = _connectionFactory()); }
-        }
+        public DbConnection Connection => _connection ?? (_connection = _connectionFactory());
 
         public static Boolean IsWebAssembly
         {
@@ -69,13 +66,7 @@ namespace Data.DbClient
             }
         }
 
-        public static String AssemblyDirectoryPath
-        {
-            get
-            {
-                return Path.GetDirectoryName(IsWebAssembly ? Assembly.GetCallingAssembly().Location : Assembly.GetEntryAssembly().Location);
-            }
-        }
+        public static string AssemblyDirectoryPath => Path.GetDirectoryName(IsWebAssembly ? Assembly.GetCallingAssembly().Location : Assembly.GetEntryAssembly().Location);
 
         #endregion Fields and Props
 
@@ -108,7 +99,7 @@ namespace Data.DbClient
             return str;
         }
 
-        public String GetConnectionProviderName()
+        public string GetConnectionProviderName()
         {
             var fullname = Connection.GetType().FullName;
             var providerName = fullname.Substring(0, fullname.Length - (fullname.Length - fullname.LastIndexOf('.')));
@@ -128,7 +119,7 @@ namespace Data.DbClient
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, UnableToDetermineDatabase, fileName));
             }
-            return dbFileHandler != null ? dbFileHandler.GetConnectionConfiguration(fileName) : null;
+            return dbFileHandler?.GetConnectionConfiguration(fileName);
         }
 
         public dynamic GetLastInsertId()
@@ -188,7 +179,7 @@ namespace Data.DbClient
             {
                 return OpenNamedConnection(name, ConfigurationManager);
             }
-            throw new ArgumentNullException("name");
+            throw new ArgumentException("name  is NULL!");
         }
 
         private static Database OpenConnectionInternal(IConnectionConfiguration connectionConfig)
@@ -221,7 +212,7 @@ namespace Data.DbClient
             {
                 return OpenConnectionStringInternal(new DbProviderFactoryWrapper(providerName), connectionString);
             }
-            throw new ArgumentNullException(@"connectionString");
+            throw new ArgumentException(@"connectionString is NULL!");
         }
 
         internal static Database OpenConnectionStringInternal(IDbProviderFactory providerFactory, string connectionString)
@@ -249,7 +240,7 @@ namespace Data.DbClient
 
         public int Execute(string commandText, int commandTimeout = 0, params object[] parameters)
         {
-            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
@@ -263,7 +254,7 @@ namespace Data.DbClient
             return num;
         }
 
-        public static int ExecuteNonQuery(string connectionString, String providerName, String commandText, Int32 commandTimeout = 0, params object[] parameters)
+        public static int ExecuteNonQuery(string connectionString, string providerName, string commandText, int commandTimeout = 0, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -271,7 +262,7 @@ namespace Data.DbClient
             }
         }
 
-        public static int ExecuteNonQuery(DbConnection connection, String commandText, Int32 commandTimeout = 0, params object[] parameters)
+        public static int ExecuteNonQuery(DbConnection connection, string commandText, int commandTimeout = 0, params object[] parameters)
         {
             using (var db = OpenDbConnection(connection))
             {
@@ -291,10 +282,10 @@ namespace Data.DbClient
                 //return QueryInternal(commandText, commandTimeout, parameters).ToList<object>().AsReadOnly();
                 return QueryInternal(commandText, commandTimeout, parameters);
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static IEnumerable<dynamic> Query(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static IEnumerable<dynamic> Query(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -317,10 +308,10 @@ namespace Data.DbClient
                 return QueryInternalJObjectsAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static IEnumerable<JObject> QueryToJObjects(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static IEnumerable<JObject> QueryToJObjects(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -343,10 +334,10 @@ namespace Data.DbClient
                 return QueryInternalTransformToAsync(commandText, function, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static IEnumerable<T> QueryTransformEach<T>(string connectionString, String providerName, string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
+        public static IEnumerable<T> QueryTransformEach<T>(string connectionString, string providerName, string commandText, Func<JObject, T> function, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -369,10 +360,10 @@ namespace Data.DbClient
                 return QueryInternalBsonAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static Stream QueryToBson(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static Stream QueryToBson(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -395,10 +386,10 @@ namespace Data.DbClient
                 return QueryInternalJObjectWriterAsync(commandText, CancellationToken.None, commandTimeout, parameters).Result;
                 //return QueryInternalJObjects(commandText, commandTimeout, parameters);
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static Stream QueryToJsonStream(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static Stream QueryToJsonStream(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -416,7 +407,7 @@ namespace Data.DbClient
 
         public DataTable QueryToDataTable(string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
-            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
@@ -434,7 +425,7 @@ namespace Data.DbClient
             return dt;
         }
 
-        public static DataTable QueryToDataTable(string connectionString, String providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
+        public static DataTable QueryToDataTable(string connectionString, string providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -525,7 +516,7 @@ namespace Data.DbClient
 
         public DbDataReader QueryToDataReader(string commandText, int commandTimeout = 60, params object[] parameters)
         {
-            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
@@ -552,7 +543,7 @@ namespace Data.DbClient
 
         public async Task<DbDataReader> QueryToDataReaderAsync(string commandText, CommandBehavior commandBehavior, CancellationToken cancellationToken, int commandTimeout = 60, params object[] parameters)
         {
-            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             //await EnsureConnectionOpenAsync();
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
@@ -622,10 +613,10 @@ namespace Data.DbClient
             {
                 return QueryInternal(commandText, commandTimeout, args).FirstOrDefault<object>();
             }
-            throw new ArgumentNullException("commandText");
+            throw new ArgumentException("commandText is NULL!");
         }
 
-        public static dynamic QuerySingle(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static dynamic QuerySingle(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {
@@ -643,7 +634,7 @@ namespace Data.DbClient
 
         public dynamic QueryValue(string commandText, int commandTimeout = 0, params object[] args)
         {
-            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException("commandText");
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
@@ -657,7 +648,7 @@ namespace Data.DbClient
             return obj;
         }
 
-        public static dynamic QueryValue(string connectionString, String providerName, string commandText, int commandTimeout = 60, params object[] parameters)
+        public static dynamic QueryValue(string connectionString, string providerName, string commandText, int commandTimeout = 60, params object[] parameters)
         {
             using (var db = OpenConnectionString(connectionString, providerName))
             {

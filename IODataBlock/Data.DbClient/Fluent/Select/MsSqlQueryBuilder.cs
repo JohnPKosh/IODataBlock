@@ -249,7 +249,7 @@ namespace Data.DbClient.Fluent.Select
             var output = "";
             foreach (var clause in filterClauses)
             {
-                output = output + (GetComparisonClause(clause));
+                output = output + GetComparisonClause(clause);
                 if (ignoreCheckLastClause || !clause.Equals(filterClauses.Last()))
                 {
                     output += $" {GetLogicOperator(clause.LogicOperator)} ";

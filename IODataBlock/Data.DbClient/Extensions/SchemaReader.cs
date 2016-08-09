@@ -31,7 +31,7 @@ namespace Data.DbClient.Extensions
         /// </param>
         public SchemaReader(string connectionString)
         {
-            if (String.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connectionString must not be empty");
 
             _connectionString = connectionString;
@@ -49,10 +49,10 @@ namespace Data.DbClient.Extensions
         /// </param>
         public SchemaReader(string connectionString, string providerName)
         {
-            if (String.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connectionString must not be empty");
 
-            if (String.IsNullOrEmpty(providerName))
+            if (string.IsNullOrEmpty(providerName))
                 throw new ArgumentException("providerName must not be empty");
 
             _connectionString = connectionString;
@@ -68,7 +68,7 @@ namespace Data.DbClient.Extensions
             get { return _connectionString; }
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("connectionString must not be empty");
 
                 _connectionString = value;
@@ -84,7 +84,7 @@ namespace Data.DbClient.Extensions
             get { return _providerName; }
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("providerName must not be empty");
 
                 _providerName = value;
@@ -94,14 +94,8 @@ namespace Data.DbClient.Extensions
         /// <summary>
         /// There are a number of special-cases for Oracle, so we check the provider string
         /// </summary>
-        internal bool IsOracle
-        {
-            get
-            {
-                return ProviderName.Equals("System.Data.OracleClient", StringComparison.OrdinalIgnoreCase) ||
-                    ProviderName.Equals("Oracle.DataAccess.Client", StringComparison.OrdinalIgnoreCase);
-            }
-        }
+        internal bool IsOracle => ProviderName.Equals("System.Data.OracleClient", StringComparison.OrdinalIgnoreCase) ||
+                                  ProviderName.Equals("Oracle.DataAccess.Client", StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// Gets or sets the owner (for Oracle) /schema (for SqlServer). Always set it with Oracle;
