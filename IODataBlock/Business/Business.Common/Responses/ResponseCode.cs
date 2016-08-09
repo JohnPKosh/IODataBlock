@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Business.Common.Responses
+﻿namespace Business.Common.Responses
 {
     public class ResponseCode : IResponseCode
     {

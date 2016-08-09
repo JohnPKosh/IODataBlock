@@ -9,7 +9,6 @@ using Business.Common.System.States;
 using HubSpot.Models.Properties;
 using HubSpot.Services.Companies;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace HubSpot.Models.Companies
 {

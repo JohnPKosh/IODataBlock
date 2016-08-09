@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+﻿using System.Web.Mvc;
 using Sandbox4.Models.Content;
 
 namespace Sandbox4.Areas.SiteDemo.Controllers

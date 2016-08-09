@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using System.Linq;
 using Newtonsoft.Json.Linq;
-using NsRest;
 using NsRest.Search;
 using NsRest.Services;
 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
+﻿using System.IO;
 using System.Text;
-using System.Collections.Generic;
-using System.Threading;
 using Business.Common.Configuration;
-using Business.Common.Extensions;
-using Business.Common.IO;
 using Business.Common.Security.Aes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

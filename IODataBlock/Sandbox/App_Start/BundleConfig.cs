@@ -1,5 +1,4 @@
-﻿using BundleTransformer.Core.Bundles;
-using BundleTransformer.Core.Orderers;
+﻿using BundleTransformer.Core.Orderers;
 using BundleTransformer.Core.Transformers;
 using System.Web.Optimization;
 

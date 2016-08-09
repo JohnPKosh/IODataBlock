@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using Newtonsoft.Json;
 
 namespace Business.Common.System

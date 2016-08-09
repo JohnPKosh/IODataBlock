@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using Business.Common.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Business.EWS.Mail;
-using Fasterflect;
 using Microsoft.Exchange.WebServices.Data;
 
 namespace Business.Test.Email

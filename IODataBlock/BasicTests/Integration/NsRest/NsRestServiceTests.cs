@@ -6,7 +6,6 @@ using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using NsRest;
 using NsRest.Search;

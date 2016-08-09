@@ -10,7 +10,6 @@ using System.Windows.Threading;
 using Business.Common.System.Processes;
 using MahApps.Metro.Controls;
 using Simple.ImageResizer;
-using Business.Wpf.Imaging;
 
 namespace SocialImage
 {

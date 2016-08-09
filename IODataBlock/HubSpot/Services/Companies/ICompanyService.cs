@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Business.Common.GenericResponses;
-using HubSpot.Services.ModeTypes;
+﻿using Business.Common.GenericResponses;
 
 namespace HubSpot.Services.Companies
 {

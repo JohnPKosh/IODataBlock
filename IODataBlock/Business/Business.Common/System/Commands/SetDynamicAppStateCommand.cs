@@ -1,6 +1,5 @@
 ﻿using System;
 using Business.Common.Requests;
-using Business.Common.Responses;
 using Business.Common.System.App;
 
 namespace Business.Common.System.Commands

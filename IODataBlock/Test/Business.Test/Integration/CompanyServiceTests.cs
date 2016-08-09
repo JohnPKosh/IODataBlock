@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using HubSpot.Services.Companies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Business.Common.Extensions;
-using Newtonsoft.Json;
 
 namespace Business.Common.System
 {

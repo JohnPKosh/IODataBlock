@@ -1,7 +1,6 @@
 ﻿using Business.Common.Configuration;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
-using HubSpot.Services;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

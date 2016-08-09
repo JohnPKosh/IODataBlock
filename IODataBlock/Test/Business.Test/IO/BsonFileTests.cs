@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Business.Common.Extensions;

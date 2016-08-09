@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
+﻿using System.Dynamic;
 using Business.Templates.deprecated;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;

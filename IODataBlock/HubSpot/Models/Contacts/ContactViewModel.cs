@@ -7,7 +7,6 @@ using Business.Common.IO;
 using Business.Common.System;
 using Business.Common.System.States;
 using HubSpot.Models.Properties;
-using HubSpot.Services;
 using HubSpot.Services.Contacts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

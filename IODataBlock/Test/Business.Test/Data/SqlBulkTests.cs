@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
-using Data.DbClient;
+﻿using Data.DbClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Data

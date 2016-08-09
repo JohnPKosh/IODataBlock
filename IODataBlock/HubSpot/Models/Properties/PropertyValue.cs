@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.System;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace HubSpot.Models.Properties

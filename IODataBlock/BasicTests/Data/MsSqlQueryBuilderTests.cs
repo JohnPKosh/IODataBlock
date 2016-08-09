@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Sandbox.Models;
 
 namespace Sandbox.Controllers
 {

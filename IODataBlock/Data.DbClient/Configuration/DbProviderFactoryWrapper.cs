@@ -2,7 +2,6 @@ using System.Data.Common;
 using System.Data.SQLite;
 using MySql.Data.MySqlClient;
 using Npgsql;
-using Oracle;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Data.DbClient.Configuration

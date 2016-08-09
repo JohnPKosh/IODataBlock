@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -10,12 +8,8 @@ using Business.Common.IO;
 using Business.Common.System.States;
 using Flurl;
 using Flurl.Http;
-using HubSpot.Models;
-using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
-using HubSpot.Services;
 using HubSpot.Services.Companies;
-using HubSpot.Services.Contacts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 

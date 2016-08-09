@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Business.Common.System.App;
 using Flurl;
-using Flurl.Http;
 
 namespace SelfHostWebApiRelay.api
 {

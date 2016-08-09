@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
 using Business.Common.Configuration;
 using Data.DbClient.Fluent;
