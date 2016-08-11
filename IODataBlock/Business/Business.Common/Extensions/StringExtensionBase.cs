@@ -697,6 +697,11 @@ namespace Business.Common.Extensions
             return rx.Replace(destination, sourceMatch, 1);
         }
 
+        public static bool IsRegexLike(this string s, string likePattern)
+        {
+            return s.IsRegexMatch(Regex.Escape(likePattern).Replace("%", ".*"));
+        }
+
         #endregion Regex Formatting
 
         #region Advanced Parsing
