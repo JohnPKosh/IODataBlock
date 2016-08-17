@@ -6,7 +6,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace Data.DbClient.Configuration
 {
-    internal class DbProviderFactoryWrapper : IDbProviderFactory
+    public class DbProviderFactoryWrapper : IDbProviderFactory
     {
         private DbProviderFactory _providerFactory;
 

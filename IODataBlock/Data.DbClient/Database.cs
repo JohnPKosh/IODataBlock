@@ -38,7 +38,7 @@ namespace Data.DbClient
             ConfigurationManager = new ConfigurationManagerWrapper(strs);
         }
 
-        internal Database(Func<DbConnection> connectionFactory)
+        protected internal Database(Func<DbConnection> connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
@@ -670,7 +670,7 @@ namespace Data.DbClient
 
         #region Private Query Methods
 
-        private IEnumerable<dynamic> QueryInternal(string commandText, int commandTimeout = 60, params object[] parameters)
+        protected IEnumerable<dynamic> QueryInternal(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();

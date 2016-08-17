@@ -371,14 +371,14 @@ namespace Data.MsAccess
             var inserttable = ddl.GetInsertTableCmd(accessTableName, dt);
 
             var accesscon = String.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Persist Security Info=False;", AccessFile.FullName);
-            using (var accessdb = Database.OpenConnectionString(accesscon, "System.Data.OleDb"))
+            using (var accessdb = AccessDatabase.OpenConnectionString(accesscon, "System.Data.OleDb"))
             {
                 try
                 {
                     accessdb.Execute(droptable, 60);
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // do nothing
                 }
@@ -408,6 +408,8 @@ namespace Data.MsAccess
         }
 
         #endregion "Methods"
+
+
 
         #region "Error Handling / Logging"
 

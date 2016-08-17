@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessDatabase.cs" />
     <Compile Include="CreateAccessDDLUtil.cs" />
     <Compile Include="MsAccessExtensionBase.cs" />
     <Compile Include="MsAccessFactory.cs" />
@@ -49,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MsAccessTemplates\blank.accdb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
