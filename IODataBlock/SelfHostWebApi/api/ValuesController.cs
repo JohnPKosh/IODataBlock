@@ -42,7 +42,7 @@ namespace SelfHostWebApi.api
 
 
         [HttpPost]
-        public string PostBody(JObject value)
+        public string PostBody(JObject value) /* Captures: location, document, links elements of Post */
         {
             var html = value.GetValue("document").Value<string>();
             var links = value.GetValue("links").Value<JArray>().Select(x => x.Value<string>());
