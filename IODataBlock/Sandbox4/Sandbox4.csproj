@@ -2874,8 +2874,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\charts.js" />
     <Content Include="Scripts\admin-dashboard.js" />
-    <None Include="Properties\PublishProfiles\johnkoshtest02 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\johnkoshtest02 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
