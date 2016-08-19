@@ -44,7 +44,10 @@ namespace Business.Web.Scrape.Services
             return FirstHref("twitter.com/");
         }
 
-        public string GetTwitterCompanyPhotoUrl()
+
+
+        #region LinkedIn Methods
+        public string GetLinkedInCompanyPhotoUrl()
         {
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
@@ -73,7 +76,7 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public string GetTwitterCompanyName()
+        public string GetLinkedInCompanyName()
         {
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
@@ -89,7 +92,7 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public string GetTwitterFollowersCount()
+        public string GetLinkedInFollowersCount()
         {
             //<p class="followers-count">204 followers</p>
             if (!HasDocument) return null;
@@ -106,7 +109,7 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public string GetTwitterCompanyId()
+        public string GetLinkedInCompanyId()
         {
             //<a class="follow-start" href="https://www.linkedin.com/company/follow/submit?id=999585&amp;fl=start&amp;ft=0_Y3kiyf9HWAmYDU6VAEIvRVAObMxlNM_IGCvo1b5lkvTF_k9D5fA1WjmaCTx-TCZL&amp;csrfToken=ajax%3A8554679308426727204&amp;trk=co_followed-start" role="button">Follow</a>
             if (!HasDocument) return null;
@@ -124,7 +127,7 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public string GetTwitterCompanyDescription()
+        public string GetLinkedInCompanyDescription()
         {
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
@@ -140,9 +143,9 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public dynamic GetTwitterCompanyAboutSection()
+        public dynamic GetLinkedInCompanyAboutSection()
         {
-            
+
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
             try
@@ -174,7 +177,7 @@ namespace Business.Web.Scrape.Services
                     {
                         var streetAddress = string.Empty;
                         var sn = vcard.SelectNodes("//span[@class='street-address']");
-                        if(sn != null) streetAddress = string.Join(" ", sn.Select(x=> x.InnerText));
+                        if (sn != null) streetAddress = string.Join(" ", sn.Select(x => x.InnerText));
                         rv.streetAddress = streetAddress;
                         var locality = vcard.SelectSingleNode("//span[@class='locality']")?.InnerText.Trim();
                         if (!string.IsNullOrWhiteSpace(locality))
@@ -209,6 +212,8 @@ namespace Business.Web.Scrape.Services
             }
             catch { }
             return null;
-        }
+        } 
+
+        #endregion
     }
 }

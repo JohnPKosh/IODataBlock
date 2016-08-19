@@ -10,19 +10,29 @@ using Newtonsoft.Json.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
-    public class TwitterCompanyPageReader
+    public class LinkedInCompanyPageReader
     {
 
-        public TwitterCompanyPageReader(JObject value)
+        #region Class Initialization
+
+        public LinkedInCompanyPageReader(JObject value)
         {
             Input = value;
         }
+
+        #endregion
+
+        #region Fields and Props
 
         public JObject Input { get; }
         public string Location => TryReadUrlLocation();
         public IEnumerable<string> Links => TryReadLinkStrings();
         public string Document => TryReadDocument();
         public dynamic ScrapeData => TryScrapeData();
+        public string ApiKey => TryReadApiKey();
+        public string UserName => TryReadUserName();
+
+        #endregion
 
         #region Try Read Data Methods
 
@@ -77,12 +87,12 @@ namespace Business.Web.Scrape.HtmlReaders
                 rv.companyid = string.Empty;
                 rv.followUrl = string.Empty;
 
-                rv.twitterPhotoUrl = htmlUtility.GetTwitterCompanyPhotoUrl();
-                rv.twitterCompanyName = htmlUtility.GetTwitterCompanyName();
-                rv.twitterFollowersCount = htmlUtility.GetTwitterFollowersCount();
-                rv.twitterCompanyId = htmlUtility.GetTwitterCompanyId();
-                rv.twitterCompanyDescription = htmlUtility.GetTwitterCompanyDescription();
-                rv.twitterCompanyAbout = htmlUtility.GetTwitterCompanyAboutSection();
+                rv.twitterPhotoUrl = htmlUtility.GetLinkedInCompanyPhotoUrl();
+                rv.twitterCompanyName = htmlUtility.GetLinkedInCompanyName();
+                rv.twitterFollowersCount = htmlUtility.GetLinkedInFollowersCount();
+                rv.twitterCompanyId = htmlUtility.GetLinkedInCompanyId();
+                rv.twitterCompanyDescription = htmlUtility.GetLinkedInCompanyDescription();
+                rv.twitterCompanyAbout = htmlUtility.GetLinkedInCompanyAboutSection();
 
                 foreach (var link in links)
                 {
@@ -106,6 +116,30 @@ namespace Business.Web.Scrape.HtmlReaders
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        private string TryReadApiKey()
+        {
+            try
+            {
+                return Input.GetValue("apiKey").Value<string>();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        private string TryReadUserName()
+        {
+            try
+            {
+                return Input.GetValue("userName").Value<string>();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
 
