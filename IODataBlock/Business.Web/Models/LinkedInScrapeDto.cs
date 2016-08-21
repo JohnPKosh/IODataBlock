@@ -9,7 +9,7 @@ namespace Business.Web.Models
     public class LinkedInScrapeDto
     {
         public string LocationUrl { get; set; }
-        public double Companyid { get; set; }
+        public double CompanyId { get; set; }
         public string CompanyName { get; set; }
         public string DomainName { get; set; }
         public string Specialties { get; set; }

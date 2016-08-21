@@ -4,142 +4,109 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Web.Models;
 using Business.Web.Scrape.Services;
 using Flurl;
 using Newtonsoft.Json.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
-    public class LinkedInCompanyPageReader
+    public class LinkedInCompanyPageReader : PageReaderBase<LinkedInScrapeDto>
     {
 
         #region Class Initialization
 
-        public LinkedInCompanyPageReader(JObject value)
+        public LinkedInCompanyPageReader(JObject value) : base(value)
         {
-            Input = value;
         }
 
         #endregion
 
         #region Fields and Props
 
-        public JObject Input { get; }
-        public string Location => TryReadUrlLocation();
-        public IEnumerable<string> Links => TryReadLinkStrings();
-        public string Document => TryReadDocument();
-        public dynamic ScrapeData => TryScrapeData();
-        public string ApiKey => TryReadApiKey();
-        public string UserName => TryReadUserName();
-
         #endregion
 
         #region Try Read Data Methods
 
-        private string TryReadUrlLocation()
+        protected override LinkedInScrapeDto TryGetDto()
         {
             try
             {
-                return Input.GetValue("location").Value<string>();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
-        private IEnumerable<string> TryReadLinkStrings()
-        {
-            try
-            {
-                return Input.GetValue("links").Value<JArray>().Select(x => x.Value<string>());
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        private string TryReadDocument()
-        {
-            try
-            {
-                return Input.GetValue("document").Value<string>();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
-        private dynamic TryScrapeData()
-        {
-            try
-            {
-                dynamic rv = new ExpandoObject();
-                if(Document == null)return null;
+                var rv = new LinkedInScrapeDto();
+                if (Document == null) return null;
                 var html = Document;
                 var htmlUtility = new HtmlDocumentUtility(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();
+                rv.CompanyUrls = new HashSet<string>();
+                rv.PeopleToInvite = new HashSet<string>();
+                rv.FollowUrl = string.Empty;
+                rv.PhotoUrl = htmlUtility.GetLinkedInCompanyPhotoUrl();
+                rv.CompanyName = htmlUtility.GetLinkedInCompanyName();
+                rv.FollowersText = htmlUtility.GetLinkedInFollowersCount();
+                int followers;
+                if (!string.IsNullOrWhiteSpace(rv.FollowersText) && int.TryParse(rv.FollowersText.Replace("followers", string.Empty).Replace(",", string.Empty).Trim(), out followers))
+                {
+                    rv.Followers = followers;
+                }
+                else
+                {
+                    rv.Followers = -1;
+                }
 
-                rv.companyUrls = new HashSet<string>();
-                rv.peopleToInvite = new HashSet<string>();
-                rv.companyid = string.Empty;
-                rv.followUrl = string.Empty;
-
-                rv.twitterPhotoUrl = htmlUtility.GetLinkedInCompanyPhotoUrl();
-                rv.twitterCompanyName = htmlUtility.GetLinkedInCompanyName();
-                rv.twitterFollowersCount = htmlUtility.GetLinkedInFollowersCount();
-                rv.twitterCompanyId = htmlUtility.GetLinkedInCompanyId();
-                rv.twitterCompanyDescription = htmlUtility.GetLinkedInCompanyDescription();
-                rv.twitterCompanyAbout = htmlUtility.GetLinkedInCompanyAboutSection();
+                var companyidstring = htmlUtility.GetLinkedInCompanyId();
+                double companyid;
+                if (!string.IsNullOrWhiteSpace(companyidstring) && double.TryParse(companyidstring, out companyid))
+                {
+                    rv.CompanyId = companyid;
+                }
+                else
+                {
+                    rv.CompanyId = -1;
+                }
+                
+                rv.CompanyDescription = htmlUtility.GetLinkedInCompanyDescription();
+                var about = htmlUtility.GetLinkedInCompanyAboutSection();
+                if (about != null)
+                {
+                    rv.DomainName = about.website;
+                    rv.Specialties = about.specialties;
+                    rv.StreetAddress = about.streetAddress;
+                    rv.Locality = about.locality;
+                    rv.Region = about.region;
+                    rv.PostalCode = about.postalCode;
+                    rv.CountryName = about.countryName;
+                    rv.Website = about.website;
+                    rv.Industry = about.industry;
+                    rv.Type = about.type;
+                    rv.CompanySize = about.companySize;
+                    rv.Founded = about.founded;
+                }
 
                 foreach (var link in links)
                 {
                     var url = new Url(link);
                     if (link.Contains("linkedin.com/people/invite"))
                     {
-                        rv.peopleToInvite.Add(link);
+                        rv.PeopleToInvite.Add(link);
                     }
                     if (link.Contains("linkedin.com/company/follow/submit?") && url.QueryParams.ContainsKey("id"))
                     {
-                        rv.followUrl = link;
-                        rv.companyid = url.QueryParams["id"].ToString();
-                        rv.companyUrls.Add("https://www.linkedin.com/company/" + rv.companyid);
+                        rv.FollowUrl = link;
+                        rv.CompanyUrls.Add("https://linkedin.com/company/" + url.QueryParams["id"]);
                     }
                     if (!link.Contains("linkedin.com/company/") || (!link.Contains("trk=company_logo") && !link.Contains("trk=top_nav_home"))) continue;
                     url.QueryParams.Clear();
-                    rv.companyUrls.Add(url.ToString());
+                    rv.CompanyUrls.Add(url.ToString());
                 }
+                /* TODO set LocationUrl here temporarily - needs review */
+                var locurl = rv.CompanyUrls.OrderByDescending(x => x).FirstOrDefault();
+                if (string.IsNullOrWhiteSpace(locurl)) locurl = Location;
+                rv.LocationUrl = locurl;
                 return rv;
             }
             catch (Exception)
             {
                 return null;
-            }
-        }
-
-        private string TryReadApiKey()
-        {
-            try
-            {
-                return Input.GetValue("apiKey").Value<string>();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
-        private string TryReadUserName()
-        {
-            try
-            {
-                return Input.GetValue("userName").Value<string>();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
             }
         }
 

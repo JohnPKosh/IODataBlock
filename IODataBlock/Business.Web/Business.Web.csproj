@@ -59,6 +59,7 @@
     <Compile Include="Models\LinkedInScrapeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scrape\HtmlReaders\LinkedInCompanyPageReader.cs" />
+    <Compile Include="Scrape\HtmlReaders\PageReaderBase.cs" />
     <Compile Include="Scrape\Services\HtmlDocBase.cs" />
     <Compile Include="Scrape\Services\HtmlDocumentUtility.cs" />
     <Compile Include="System\Extensions.cs" />
