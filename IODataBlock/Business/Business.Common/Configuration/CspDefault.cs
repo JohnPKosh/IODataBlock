@@ -10,7 +10,7 @@ namespace Business.Common.Configuration
         public static bool TryLoad(out CspDefault value, bool deleteOnLoad = true)
         {
             var fi = new FileInfo(Location);
-            if (fi.Directory != null && (fi.Directory.Exists && fi.Exists))
+            if (fi.Directory != null && fi.Directory.Exists && fi.Exists)
             {
                 try
                 {

@@ -15,13 +15,13 @@ namespace Business.Common.Extensions
 
 	public class GenericListDataReader<T> : IDataReader
 	{
-		private IEnumerator<T> list = null;
-		private List<PropertyInfo> properties = new List<PropertyInfo>();
-		private Dictionary<string, int> nameLookup = new Dictionary<string, int>();
+		private readonly IEnumerator<T> _list;
+		private readonly List<PropertyInfo> properties = new List<PropertyInfo>();
+		private readonly Dictionary<string, int> nameLookup = new Dictionary<string, int>();
 
 		public GenericListDataReader(IEnumerable<T> list)
 		{
-			this.list = list.GetEnumerator();
+			_list = list.GetEnumerator();
 
 			properties.AddRange(
 				typeof(T)
@@ -32,7 +32,7 @@ namespace Business.Common.Extensions
 					BindingFlags.DeclaredOnly
 					));
 
-			for (int i = 0; i < properties.Count; i++)
+			for (var i = 0; i < properties.Count; i++)
 			{
 				nameLookup[properties[i].Name] = i;
 			}
@@ -42,7 +42,7 @@ namespace Business.Common.Extensions
 
 		public void Close()
 		{
-			list.Dispose();
+			_list.Dispose();
 		}
 
 		public int Depth
@@ -67,7 +67,7 @@ namespace Business.Common.Extensions
 
 		public bool Read()
 		{
-			return list.MoveNext();
+			return _list.MoveNext();
 		}
 
 		public int RecordsAffected
@@ -88,12 +88,9 @@ namespace Business.Common.Extensions
 
 		#region IDataRecord Members
 
-		public int FieldCount
-		{
-			get { return properties.Count; }
-		}
+		public int FieldCount => properties.Count;
 
-		public bool GetBoolean(int i)
+	    public bool GetBoolean(int i)
 		{
 			return (bool)GetValue(i);
 		}
@@ -197,14 +194,14 @@ namespace Business.Common.Extensions
 
 		public object GetValue(int i)
 		{
-			return properties[i].GetValue(list.Current, null);
+			return properties[i].GetValue(_list.Current, null);
 		}
 
 		public int GetValues(object[] values)
 		{
-			int getValues = Math.Max(FieldCount, values.Length);
+			var getValues = Math.Max(FieldCount, values.Length);
 
-			for (int i = 0; i < getValues; i++)
+			for (var i = 0; i < getValues; i++)
 			{
 				values[i] = GetValue(i);
 			}
@@ -217,22 +214,10 @@ namespace Business.Common.Extensions
 			return GetValue(i) == null;
 		}
 
-		public object this[string name]
-		{
-			get
-			{
-				return GetValue(GetOrdinal(name));
-			}
-		}
+		public object this[string name] => GetValue(GetOrdinal(name));
 
-		public object this[int i]
-		{
-			get
-			{
-				return GetValue(i);
-			}
-		}
+	    public object this[int i] => GetValue(i);
 
-		#endregion
+	    #endregion
 	}
 }

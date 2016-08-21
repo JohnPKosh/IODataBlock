@@ -8,12 +8,6 @@ namespace Business.Common.Responses
     {
         #region Class Inititalization
 
-        public ResponseObject()
-        {
-            //ExceptionList = new ExceptionListBase();
-            //Success = false;
-        }
-
         #endregion Class Inititalization
 
         #region Fields and Properties
@@ -26,15 +20,9 @@ namespace Business.Common.Responses
 
         public IResponseCode ResponseCode { get; set; }
 
-        public bool HasExceptions
-        {
-            get { return ExceptionCount != 0; }
-        }
+        public bool HasExceptions => ExceptionCount != 0;
 
-        public int ExceptionCount
-        {
-            get { return ExceptionList == null ? 0 : ExceptionList.Exceptions.Count; }
-        }
+        public int ExceptionCount => ExceptionList?.Exceptions.Count ?? 0;
 
         public IExceptionObjectList ExceptionList { get; set; }
 

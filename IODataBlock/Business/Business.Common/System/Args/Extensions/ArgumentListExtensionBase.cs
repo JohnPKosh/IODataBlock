@@ -20,8 +20,8 @@ namespace ExBaseArguments
         #region ArgumentList File Serialization Extensions
 
         public static FileInfo WriteXml(this ArgumentList value,
-            String filePath,
-            Int32 lockWaitMs = 60000,
+            string filePath,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null)
@@ -31,7 +31,7 @@ namespace ExBaseArguments
 
         public static FileInfo WriteXml(this ArgumentList value,
             FileInfo fileInfo,
-            Int32 lockWaitMs = 60000,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null)
@@ -43,7 +43,7 @@ namespace ExBaseArguments
 
         #region ArgumentList to Byte[] Serialization Extensions
 
-        public static Byte[] WriteXmlToBytes(this ArgumentList value,
+        public static byte[] WriteXmlToBytes(this ArgumentList value,
         XmlWriterSettings settings = null,
         Encoding encodingType = null)
         {
@@ -54,7 +54,7 @@ namespace ExBaseArguments
 
         #region ArgumentList String Serialization Extensions
 
-        public static String WriteXmlToString(this ArgumentList value,
+        public static string WriteXmlToString(this ArgumentList value,
         XmlWriterSettings settings = null,
         Encoding encodingType = null)
         {
@@ -77,8 +77,8 @@ namespace ExBaseArguments
         #region ArgumentList File GZip Serialization Extensions
 
         public static FileInfo WriteGZipXml(this ArgumentList value,
-            String filePath,
-            Int32 lockWaitMs = 60000,
+            string filePath,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null)
@@ -88,7 +88,7 @@ namespace ExBaseArguments
 
         public static FileInfo WriteGZipXml(this ArgumentList value,
             FileInfo fileInfo,
-            Int32 lockWaitMs = 60000,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null)
@@ -100,7 +100,7 @@ namespace ExBaseArguments
 
         #region ArgumentList Base64String GZipSerialization Extensions
 
-        public static String WriteGZipXmlToBase64String(this ArgumentList value,
+        public static string WriteGZipXmlToBase64String(this ArgumentList value,
         XmlWriterSettings settings = null,
         Encoding encodingType = null)
         {

@@ -8,10 +8,7 @@ namespace Business.Common.System.Commands
 {
     public class SaveDynamicAppStateCommand : CommandObjectBase
     {
-        public override string Description
-        {
-            get { return "SaveDynamicAppState - Saves the current app state."; }
-        }
+        public override string Description => "SaveDynamicAppState - Saves the current app state.";
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }
 

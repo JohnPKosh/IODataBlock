@@ -12,53 +12,53 @@ namespace Business.Common.GenericRequests
         T RequestData { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String CorrelationId { get; set; }
+        string CorrelationId { get; set; }
 
         DateTime DateCreatedUtc { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String Title { get; set; }
+        string Title { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String Description { get; set; }
+        string Description { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String ExceptionGroup { get; set; }
+        string ExceptionGroup { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String HostComputerName { get; set; }
+        string HostComputerName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String HostUserName { get; set; }
+        string HostUserName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String HostUserDomain { get; set; }
+        string HostUserDomain { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String ExecutingAssemblyFullName { get; set; }
+        string ExecutingAssemblyFullName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String CallingAssemblyFullName { get; set; }
+        string CallingAssemblyFullName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String EntryAssemblyFullName { get; set; }
+        string EntryAssemblyFullName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String TypeName { get; set; }
+        string TypeName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String MemberName { get; set; }
+        string MemberName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String ParentName { get; set; }
+        string ParentName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String AppId { get; set; }
+        string AppId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String ClientName { get; set; }
+        string ClientName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String ClientIp { get; set; }
+        string ClientIp { get; set; }
     }
 }

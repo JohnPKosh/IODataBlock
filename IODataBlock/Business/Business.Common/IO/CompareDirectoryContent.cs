@@ -7,9 +7,9 @@ namespace Business.Common.IO
 {
     public class CompareDirectoryContent
     {
-        public delegate IList<String> DirectoryComparer(String sourceDirectory, String destinationDirectory);
+        public delegate IList<string> DirectoryComparer(string sourceDirectory, string destinationDirectory);
 
-        public IList<String> CompareDirectories(String sourceDirectory, String destinationDirectory, DirectoryComparer comparer)
+        public IList<string> CompareDirectories(string sourceDirectory, string destinationDirectory, DirectoryComparer comparer)
         {
             return comparer(sourceDirectory, destinationDirectory);
         }
@@ -24,7 +24,7 @@ namespace Business.Common.IO
 
             var srcfiles = sourceDirectory.GetFiles();
             return destinationDirectory.GetFiles()
-                    .Where(f => srcfiles.Any(x => String.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
+                    .Where(f => srcfiles.Any(x => string.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public IEnumerable<FileInfo> GetUnMatchedDestinationItems(DirectoryInfo sourceDirectory, DirectoryInfo destinationDirectory)
@@ -34,7 +34,7 @@ namespace Business.Common.IO
 
             var srcfiles = sourceDirectory.GetFiles();
             return destinationDirectory.GetFiles()
-                    .Where(f => srcfiles.All(x => !String.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
+                    .Where(f => srcfiles.All(x => !string.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public IEnumerable<FileInfo> GetUnMatchedSourceItems(DirectoryInfo sourceDirectory, DirectoryInfo destinationDirectory)
@@ -44,7 +44,7 @@ namespace Business.Common.IO
 
             var destfiles = destinationDirectory.GetFiles();
             return sourceDirectory.GetFiles()
-                    .Where(f => destfiles.All(x => !String.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
+                    .Where(f => destfiles.All(x => !string.Equals(x.Name, f.Name, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         //public List<String> GetMatchedItems(String sourceDirectory, String destinationDirectory)
@@ -95,25 +95,25 @@ namespace Business.Common.IO
 
     public static class FileNameComparer
     {
-        public delegate Boolean FileMatcher(FileInfo local, IEnumerable<FileInfo> remotefiles);
+        public delegate bool FileMatcher(FileInfo local, IEnumerable<FileInfo> remotefiles);
 
         public static FileMatcher NameAndExtMatch =
             (local, remotefiles) => remotefiles.Any(remote => local.Name == remote.Name);
 
-        public static IEnumerable<FileInfo> GetLocalMatchingFiles(String localDirectory, String remoteDirectory)
+        public static IEnumerable<FileInfo> GetLocalMatchingFiles(string localDirectory, string remoteDirectory)
         {
             return GetLocalMatchingFiles(localDirectory, remoteDirectory, NameAndExtMatch);
         }
 
-        public static IEnumerable<FileInfo> GetLocalMatchingFiles(String localDirectory, String remoteDirectory, String extension)
+        public static IEnumerable<FileInfo> GetLocalMatchingFiles(string localDirectory, string remoteDirectory, string extension)
         {
-            Func<String, Boolean> ext = x => x.EndsWith(extension);
+            Func<string, bool> ext = x => x.EndsWith(extension);
             //Func<String, Boolean> ext2 = x => x.EndsWith(Extension + ".gz");
             var criteria = new List<Func<string, bool>> { ext };
             return GetLocalMatchingFiles(localDirectory, remoteDirectory, criteria);
         }
 
-        public static IEnumerable<FileInfo> GetLocalMatchingFiles(String localDirectory, String remoteDirectory, FileMatcher matcher)
+        public static IEnumerable<FileInfo> GetLocalMatchingFiles(string localDirectory, string remoteDirectory, FileMatcher matcher)
         {
             var local = new DirectoryInfo(localDirectory).GetFiles().ToList();
             var remote = new DirectoryInfo(remoteDirectory).GetFiles().ToList();
@@ -121,7 +121,7 @@ namespace Business.Common.IO
             return local.Where(f => matcher(f, remote));
         }
 
-        public static IEnumerable<FileInfo> GetLocalMatchingFiles(String localDirectory, String remoteDirectory, IEnumerable<Func<String, Boolean>> fileNameCriteria)
+        public static IEnumerable<FileInfo> GetLocalMatchingFiles(string localDirectory, string remoteDirectory, IEnumerable<Func<string, bool>> fileNameCriteria)
         {
             var local = new DirectoryInfo(localDirectory).GetFiles().ToList();
             var remote = new DirectoryInfo(remoteDirectory).GetFiles().ToList();

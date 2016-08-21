@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Dynamic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Fasterflect;
 
@@ -13,9 +12,9 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public static Boolean IsAnonymousType(this Type type)
+        public static bool IsAnonymousType(this Type type)
         {
-            var hasCompilerGeneratedAttribute = type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() > 0;
+            var hasCompilerGeneratedAttribute = type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Length <= 0;
             var nameContainsAnonymousType = type.FullName.Contains("AnonymousType");
             var isAnonymousType = hasCompilerGeneratedAttribute && nameContainsAnonymousType;
             return isAnonymousType;
@@ -26,7 +25,7 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public static Boolean IsDynamicType(this Type type)
+        public static bool IsDynamicType(this Type type)
         {
             return type.InheritsOrImplements<IDynamicMetaObjectProvider>();
         }
@@ -36,7 +35,7 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Boolean IsAnonymousType(this object value)
+        public static bool IsAnonymousType(this object value)
         {
             return value.GetType().IsAnonymousType();
         }
@@ -46,7 +45,7 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Boolean IsDynamicType(this object value)
+        public static bool IsDynamicType(this object value)
         {
             return value.GetType().IsDynamicType();
         }
@@ -56,7 +55,7 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public static Boolean IsAnonymousOrDynamicType(this Type type)
+        public static bool IsAnonymousOrDynamicType(this Type type)
         {
             return type.IsAnonymousType() || type.IsDynamicType();
         }
@@ -66,7 +65,7 @@ namespace Business.Common.Reflection
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Boolean IsAnonymousOrDynamicType(this object value)
+        public static bool IsAnonymousOrDynamicType(this object value)
         {
             return value.GetType().IsAnonymousOrDynamicType();
         }

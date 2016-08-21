@@ -4,7 +4,8 @@ namespace Business.Common.Exceptions
 {
     public class CommandNameNotFoundException : Exception
     {
-        public CommandNameNotFoundException(): base() { }
+        public CommandNameNotFoundException()
+        { }
 
         public CommandNameNotFoundException(string message): base(message) { }
 

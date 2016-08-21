@@ -18,11 +18,11 @@ namespace Business.Wpf.Data
         public ReportDataTable()
         {
             var idval = DateTime.Now.Ticks.ToString();
-            this._Id = idval;
-            this._Dt = new DataTable(idval);
-            this._Dv = new DataView(_Dt);
-            this.CreatedDate = DateTime.Now;
-            this.DvIsEmpty = true;
+            _Id = idval;
+            _Dt = new DataTable(idval);
+            _Dv = new DataView(_Dt);
+            CreatedDate = DateTime.Now;
+            DvIsEmpty = true;
         }
 
         #endregion Class Initialization
@@ -35,22 +35,22 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._Dt;
+                return _Dt;
             }
             set
             {
-                if (this._Dt == value) return;
-                this._Dt = value;
-                this._Dv = new DataView(_Dt);
-                this._Dv.Sort = this.Sort;
-                this._Dv.RowFilter = this.RowFilter;
-                this.DvIsEmpty = this.Dv.Count > 0 ? false : true;
-                this.Id = DateTime.Now.Ticks.ToString();
-                this.CreatedDate = DateTime.Now;
-                if (this.PropertyChanged != null)
+                if (_Dt == value) return;
+                _Dt = value;
+                _Dv = new DataView(_Dt);
+                _Dv.Sort = Sort;
+                _Dv.RowFilter = RowFilter;
+                DvIsEmpty = Dv.Count > 0 ? false : true;
+                Id = DateTime.Now.Ticks.ToString();
+                CreatedDate = DateTime.Now;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
 
                     //this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
                 }
@@ -63,15 +63,15 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._Dv;
+                return _Dv;
             }
             set
             {
-                if (this._Dv == value) return;
-                this._Dv = value;
-                this.DvIsEmpty = this.Dv.Count > 0 ? false : true;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                if (_Dv == value) return;
+                _Dv = value;
+                DvIsEmpty = Dv.Count > 0 ? false : true;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
@@ -81,14 +81,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._GroupId;
+                return _GroupId;
             }
             set
             {
-                if (this._GroupId == value) return;
-                this._GroupId = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("GroupId"));
+                if (_GroupId == value) return;
+                _GroupId = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("GroupId"));
             }
         }
 
@@ -98,14 +98,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._Id;
+                return _Id;
             }
             set
             {
-                if (this._Id == value && !String.IsNullOrWhiteSpace(value)) return;
-                this._Id = String.IsNullOrWhiteSpace(value) ? DateTime.Now.Ticks.ToString() : value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Id"));
+                if (_Id == value && !String.IsNullOrWhiteSpace(value)) return;
+                _Id = String.IsNullOrWhiteSpace(value) ? DateTime.Now.Ticks.ToString() : value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("Id"));
             }
         }
 
@@ -115,14 +115,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._ReportName;
+                return _ReportName;
             }
             set
             {
-                if (this._ReportName == value) return;
-                this._ReportName = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ReportName"));
+                if (_ReportName == value) return;
+                _ReportName = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("ReportName"));
             }
         }
 
@@ -132,18 +132,18 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._RowFilter;
+                return _RowFilter;
             }
             set
             {
-                if (this._RowFilter == value) return;
-                this._RowFilter = value;
-                this._Dv.RowFilter = value;
-                this.DvIsEmpty = this.Dv.Count > 0 ? false : true;
-                if (this.PropertyChanged != null)
+                if (_RowFilter == value) return;
+                _RowFilter = value;
+                _Dv.RowFilter = value;
+                DvIsEmpty = Dv.Count > 0 ? false : true;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("RowFilter"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("RowFilter"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
                 }
             }
         }
@@ -154,17 +154,17 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._Sort;
+                return _Sort;
             }
             set
             {
-                if (this._Sort == value) return;
-                this._Sort = value;
-                this._Dv.Sort = value;
-                if (this.PropertyChanged != null)
+                if (_Sort == value) return;
+                _Sort = value;
+                _Dv.Sort = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Sort"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Sort"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
                 }
             }
         }
@@ -181,10 +181,10 @@ namespace Business.Wpf.Data
             {
                 if (value == _DvIsEmpty) return;
                 _DvIsEmpty = value;
-                if (this.PropertyChanged != null)
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsNotEmpty"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("DvIsNotEmpty"));
                 }
             }
         }
@@ -199,10 +199,10 @@ namespace Business.Wpf.Data
             {
                 if (value != _DvIsEmpty) return;
                 _DvIsEmpty = !value;
-                if (this.PropertyChanged != null)
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsNotEmpty"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("DvIsNotEmpty"));
                 }
             }
         }
@@ -213,14 +213,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._CreatedDate;
+                return _CreatedDate;
             }
             set
             {
-                if (this._CreatedDate == value) return;
-                this._CreatedDate = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("CreatedDate"));
+                if (_CreatedDate == value) return;
+                _CreatedDate = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("CreatedDate"));
             }
         }
 
@@ -230,14 +230,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._CurrentBatchNumber;
+                return _CurrentBatchNumber;
             }
             set
             {
-                if (this._CurrentBatchNumber == value) return;
-                this._CurrentBatchNumber = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("CurrentBatchNumber"));
+                if (_CurrentBatchNumber == value) return;
+                _CurrentBatchNumber = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentBatchNumber"));
             }
         }
 
@@ -247,14 +247,14 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._CurrentBatchSize;
+                return _CurrentBatchSize;
             }
             set
             {
-                if (this._CurrentBatchSize == value) return;
-                this._CurrentBatchSize = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("CurrentBatchSize"));
+                if (_CurrentBatchSize == value) return;
+                _CurrentBatchSize = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentBatchSize"));
             }
         }
 
@@ -264,15 +264,15 @@ namespace Business.Wpf.Data
         {
             get
             {
-                return this._CurrentRowOrderBy;
+                return _CurrentRowOrderBy;
             }
             set
             {
-                if (this._CurrentRowOrderBy == value) return;
-                this._CurrentRowOrderBy = value;
-                if (this.PropertyChanged != null)
+                if (_CurrentRowOrderBy == value) return;
+                _CurrentRowOrderBy = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("CurrentRowOrderBy"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentRowOrderBy"));
                 }
             }
         }
@@ -287,9 +287,9 @@ namespace Business.Wpf.Data
         {
             this.RowFilter = RowFilter;
             this.Sort = Sort;
-            this.DvIsEmpty = this.Dv.Count > 0 ? false : true;
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+            DvIsEmpty = Dv.Count > 0 ? false : true;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
         }
 
         #endregion DataView Utility Methods
@@ -298,12 +298,12 @@ namespace Business.Wpf.Data
 
         public void ClearData()
         {
-            this.Dt.Clear();
-            if (this.PropertyChanged != null)
+            Dt.Clear();
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("DvIsEmpty"));
             }
         }
 
@@ -348,19 +348,19 @@ namespace Business.Wpf.Data
         public void LoadFromDataTable(DataTable dt)
         {
             Dt = dt;
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
         public void LoadFromQuery(string connectionString, String providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
             Dt = Database.QueryToDataTable(connectionString, providerName, commandText, tableName, commandTimeout, commandTimeout, parameters);
-            if (this.PropertyChanged == null) return;
-            this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+            PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
         }
 
         //public void LoadFromSql(String selectCommandText
@@ -396,9 +396,9 @@ namespace Business.Wpf.Data
         {
             commandText = Database.CreateSqlServer2008BatchSelect(commandText, batchNumber, batchSize, rowOrderBy);
             Dt = Database.QueryToDataTable(connectionString, providerName, commandText, tableName, commandTimeout, commandTimeout, parameters);
-            if (this.PropertyChanged == null) return;
-            this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+            PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
         }
 
         //public void LoadBatchFromSql(String selectCommandText
@@ -453,10 +453,10 @@ namespace Business.Wpf.Data
         {
             Dt = (stringdata.Lines(delimiter, firstrow, quotedNewLineReplacement, quotedDelimiterReplacement, trimChars))
                 .LinesToDataTable(template, useFirstRowAsColumnNames, columnNames, columnDataTypes);
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
@@ -467,10 +467,10 @@ namespace Business.Wpf.Data
         public void LoadSchemaOnly(string connectionString, String providerName, string commandText, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
             Dt = Database.FillSchemaDataTable(connectionString, providerName, commandText, tableName, commandTimeout, parameters);
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
@@ -529,10 +529,10 @@ namespace Business.Wpf.Data
             }
             Dt.AcceptChanges();
 
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
@@ -543,10 +543,10 @@ namespace Business.Wpf.Data
                 if (c.ColumnName == ColumnName)
                 {
                     Dt.Columns.Remove(ColumnName);
-                    if (this.PropertyChanged != null)
+                    if (PropertyChanged != null)
                     {
-                        this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                        this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
                     }
                     break;
                 }
@@ -556,20 +556,20 @@ namespace Business.Wpf.Data
         public void DeleteColumnAt(int Position)
         {
             Dt.Columns.RemoveAt(Position);
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
         public void RenameColumn(String CurrentColumnName, String NewColumnName)
         {
             if (Dt.Columns[CurrentColumnName] != null) Dt.Columns[CurrentColumnName].ColumnName = NewColumnName;
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
             }
         }
 
@@ -609,10 +609,10 @@ namespace Business.Wpf.Data
                     }
                 }
                 Dt.AcceptChanges();
-                if (this.PropertyChanged != null)
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dt"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Dv"));
                 }
             }
             else
@@ -644,20 +644,20 @@ namespace Business.Wpf.Data
 
         public void WriteXmlFromDt(String FilePath)
         {
-            if (String.IsNullOrWhiteSpace(this.Dt.TableName)) this.Dt.TableName = @"Data";
-            this.Dt.WriteXml(FilePath);
+            if (String.IsNullOrWhiteSpace(Dt.TableName)) Dt.TableName = @"Data";
+            Dt.WriteXml(FilePath);
         }
 
         public void WriteXmlSchemaFromDt(String FilePath)
         {
-            if (String.IsNullOrWhiteSpace(this.Dt.TableName)) this.Dt.TableName = @"Data";
-            this.Dt.WriteXmlSchema(FilePath);
+            if (String.IsNullOrWhiteSpace(Dt.TableName)) Dt.TableName = @"Data";
+            Dt.WriteXmlSchema(FilePath);
         }
 
         public void WriteExcelFromDt(String FilePath)
         {
             ExcelDynamicObjects eo = new ExcelDynamicObjects();
-            eo.CreateExcelFileFromDataTable(new System.IO.FileInfo(FilePath), this.Dt, IOUtility.DefaultFolderPath, overWrite: true);
+            eo.CreateExcelFileFromDataTable(new FileInfo(FilePath), Dt, IOUtility.DefaultFolderPath, overWrite: true);
         }
 
         public void WriteSeperatedTxtFileFromDataTable(FileInfo file,
@@ -679,7 +679,7 @@ namespace Business.Wpf.Data
             String NewLineChar = "\r\n",
             String NullValue = "")
         {
-            StringExtensionBase.CreateSeperatedTxtFileFromDataTable(new System.IO.FileInfo(FilePath), Data, ColHeaders, FieldSeperator, TextQualifier, NewLineChar, NullValue);
+            StringExtensionBase.CreateSeperatedTxtFileFromDataTable(new FileInfo(FilePath), Data, ColHeaders, FieldSeperator, TextQualifier, NewLineChar, NullValue);
         }
 
         #endregion Write Data Methods
@@ -692,8 +692,8 @@ namespace Business.Wpf.Data
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion INotifyPropertyChanged Section

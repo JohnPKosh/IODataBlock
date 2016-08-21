@@ -17,26 +17,26 @@ namespace Business.Common.Extensions
             return rv;
         }
 
-        public static void SampleTaskQueue(IEnumerable<string> values, int queueSize = 4)
-        {
-            var tasks = new Queue<Task>();
-            foreach (var value in values)
-            {
-                var t = Task.Run(() =>
-                {
-                    // do work
-                });
-                tasks.Enqueue(t);
+        //public static void SampleTaskQueue(IEnumerable<string> values, int queueSize = 4)
+        //{
+        //    var tasks = new Queue<Task>();
+        //    foreach (var value in values)
+        //    {
+        //        var t = Task.Run(() =>
+        //        {
+        //            // do work
+        //        });
+        //        tasks.Enqueue(t);
 
-                if (tasks.Count != queueSize) continue;
-                for (var i = 0; i < queueSize; i++)
-                {
-                    Task.WaitAll(tasks.ToArray());
-                    tasks.Clear();
-                }
-            }
-            if (tasks.Count > 0) Task.WaitAll(tasks.ToArray());
-        }
+        //        if (tasks.Count != queueSize) continue;
+        //        for (var i = 0; i < queueSize; i++)
+        //        {
+        //            Task.WaitAll(tasks.ToArray());
+        //            tasks.Clear();
+        //        }
+        //    }
+        //    if (tasks.Count > 0) Task.WaitAll(tasks.ToArray());
+        //}
 
 
 

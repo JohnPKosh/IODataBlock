@@ -17,19 +17,19 @@ namespace Business.Common.IO
     {
         #region "Properties"
 
-        public static Boolean IsWebAssembly()
+        public static bool IsWebAssembly()
         {
             var entry = Assembly.GetEntryAssembly();
             return entry == null || Assembly.GetCallingAssembly().FullName.Contains(@"App_");
         }
 
-        public static String AssemblyNameStr
+        public static string AssemblyNameStr
         {
             get
             {
                 if (IsWebAssembly())
                 {
-                    var pvtAssemblyNameStr = String.Empty;
+                    var pvtAssemblyNameStr = string.Empty;
                     pvtAssemblyNameStr += Assembly.GetCallingAssembly().GetName().Name;
                     pvtAssemblyNameStr += " (";
                     pvtAssemblyNameStr += Assembly.GetExecutingAssembly().GetName().Name;
@@ -40,7 +40,7 @@ namespace Business.Common.IO
                 }
                 else
                 {
-                    var pvtAssemblyNameStr = String.Empty;
+                    var pvtAssemblyNameStr = string.Empty;
                     pvtAssemblyNameStr += Assembly.GetEntryAssembly().GetName().Name;
                     pvtAssemblyNameStr += " (";
                     pvtAssemblyNameStr += Assembly.GetExecutingAssembly().GetName().Name;
@@ -51,18 +51,11 @@ namespace Business.Common.IO
         }
 
         // System.Reflection.Assembly.GetEntryAssembly().Location OR Directory.GetCurrentDirectory()
-        public static String AssemblyFilePath
-        {
-            get
-            {
-                return IsWebAssembly() ? Assembly.GetCallingAssembly().Location : Assembly.GetEntryAssembly().Location;
-                // HostingEnvironment.ApplicationPhysicalPath;
-            }
-        }
+        public static string AssemblyFilePath => IsWebAssembly() ? Assembly.GetCallingAssembly().Location : Assembly.GetEntryAssembly().Location;
 
-        private static String _pvtDefaultFolderPath = String.Empty;
+        private static string _pvtDefaultFolderPath = string.Empty;
 
-        public static String DefaultFolderPath
+        public static string DefaultFolderPath
         {
             get
             {
@@ -74,7 +67,7 @@ namespace Business.Common.IO
             set { _pvtDefaultFolderPath = value; }
         }
 
-        private static String _pvtAppDataFolderPath = String.Empty;
+        private static string _pvtAppDataFolderPath = string.Empty;
 
         public static string AppDataFolderPath
         {
@@ -88,9 +81,9 @@ namespace Business.Common.IO
             set { _pvtAppDataFolderPath = value; }
         }
 
-        private static String _pvtDefaultLogFolderPath = String.Empty;
+        private static string _pvtDefaultLogFolderPath = string.Empty;
 
-        public static String DefaultLogFolderPath
+        public static string DefaultLogFolderPath
         {
             get
             {
@@ -102,9 +95,9 @@ namespace Business.Common.IO
             set { _pvtDefaultLogFolderPath = value; }
         }
 
-        private static String _pvtDefaultConfigPath;// = EntryAssemblyPath;
+        private static string _pvtDefaultConfigPath;// = EntryAssemblyPath;
 
-        public static String DefaultConfigPath
+        public static string DefaultConfigPath
         {
             get
             {
@@ -117,9 +110,9 @@ namespace Business.Common.IO
             set { _pvtDefaultAssemblyPath = value; }
         }
 
-        private static String _pvtDefaultAssemblyPath;// = EntryAssemblyPath;
+        private static string _pvtDefaultAssemblyPath;// = EntryAssemblyPath;
 
-        public static String DefaultAssemblyPath
+        public static string DefaultAssemblyPath
         {
             get
             {
@@ -136,7 +129,7 @@ namespace Business.Common.IO
 
         #region "Methods"
 
-        public static Boolean CompareFiles(String file1, String file2)
+        public static bool CompareFiles(string file1, string file2)
         {
             if (!File.Exists(file1) || !File.Exists(file2)) return false;
             var fileInfo1 = new FileInfo(file1);
@@ -164,7 +157,7 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean SetFileAsHidden(String filePathStr)
+        public static bool SetFileAsHidden(string filePathStr)
         {
             if (File.Exists(filePathStr))
             {
@@ -174,7 +167,7 @@ namespace Business.Common.IO
             return result;
         }
 
-        public static Boolean SetFileAsArchive(String filePathStr)
+        public static bool SetFileAsArchive(string filePathStr)
         {
             if (File.Exists(filePathStr))
             {
@@ -183,7 +176,7 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean SetFileAsReadOnly(String filePathStr)
+        public static bool SetFileAsReadOnly(string filePathStr)
         {
             if (File.Exists(filePathStr))
             {
@@ -192,7 +185,7 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean SetFileAsNormal(String filePathStr)
+        public static bool SetFileAsNormal(string filePathStr)
         {
             if (File.Exists(filePathStr))
             {
@@ -201,7 +194,7 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean SetFileAsCompressed(String filePathStr)
+        public static bool SetFileAsCompressed(string filePathStr)
         {
             if (File.Exists(filePathStr))
             {
@@ -210,49 +203,49 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean IsFileArchive(String filePathStr)
+        public static bool IsFileArchive(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.Archive) == FileAttributes.Archive;
             return result;
         }
 
-        public static Boolean IsFileCompressed(String filePathStr)
+        public static bool IsFileCompressed(string filePathStr)
         {
             var results = (File.GetAttributes(filePathStr) & FileAttributes.Compressed) == FileAttributes.Compressed;
             return results;
         }
 
-        public static Boolean IsFileEncrypted(String filePathStr)
+        public static bool IsFileEncrypted(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.Encrypted) == FileAttributes.Encrypted;
             return result;
         }
 
-        public static Boolean IsFileHidden(String filePathStr)
+        public static bool IsFileHidden(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.Hidden) == FileAttributes.Hidden;
             return result;
         }
 
-        public static Boolean IsFileReadOnly(String filePathStr)
+        public static bool IsFileReadOnly(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
             return result;
         }
 
-        public static Boolean IsFileSystem(String filePathStr)
+        public static bool IsFileSystem(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.System) == FileAttributes.System;
             return result;
         }
 
-        public static Boolean IsFileTemporary(String filePathStr)
+        public static bool IsFileTemporary(string filePathStr)
         {
             var result = (File.GetAttributes(filePathStr) & FileAttributes.Temporary) == FileAttributes.Temporary;
             return result;
         }
 
-        public static Boolean CopyDirectory(String src, String dst)
+        public static bool CopyDirectory(string src, string dst)
         {
             if (dst[dst.Length - 1] != Path.DirectorySeparatorChar)
                 dst += Path.DirectorySeparatorChar;
@@ -269,23 +262,23 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean CreateDirectory(String dirPathStr)
+        public static bool CreateDirectory(string dirPathStr)
         {
             Directory.CreateDirectory(dirPathStr);
             return true;
         }
 
-        public static Boolean DirectoryExists(String dirPathStr)
+        public static bool DirectoryExists(string dirPathStr)
         {
             return Directory.Exists(dirPathStr);
         }
 
-        public static String GetTempFile()
+        public static string GetTempFile()
         {
             return Path.GetTempFileName();
         }
 
-        public static Int64 FileSize(String filePathStr)
+        public static Int64 FileSize(string filePathStr)
         {
             Int64 result = 0;
             var fileinfo = new FileInfo(filePathStr);
@@ -296,13 +289,13 @@ namespace Business.Common.IO
             return result;
         }
 
-        public static DateTime GetFileCreationDate(String filePathStr)
+        public static DateTime GetFileCreationDate(string filePathStr)
         {
             var fi = new FileInfo(filePathStr);
             return fi.CreationTime;
         }
 
-        public static DateTime GetFileLastModifiedDate(String filePathStr)
+        public static DateTime GetFileLastModifiedDate(string filePathStr)
         {
             var modified = DateTime.Now;
             var fi = new FileInfo(filePathStr);
@@ -313,27 +306,27 @@ namespace Business.Common.IO
             return modified;
         }
 
-        public static String GetFileName(String filePathStr)
+        public static string GetFileName(string filePathStr)
         {
             return Path.GetFileName(filePathStr);
         }
 
-        public static String GetFileNameWithoutExtension(String filePathStr)
+        public static string GetFileNameWithoutExtension(string filePathStr)
         {
             return Path.GetFileNameWithoutExtension(filePathStr);
         }
 
-        public static String GetExtensionOnly(String filePathStr)
+        public static string GetExtensionOnly(string filePathStr)
         {
             return Path.GetExtension(filePathStr);
         }
 
-        public static String GetFullPath(String pathStr)
+        public static string GetFullPath(string pathStr)
         {
             return Path.GetFullPath(pathStr);
         }
 
-        public static List<String> GetFileListByExt(String directory, String ext)
+        public static List<string> GetFileListByExt(string directory, string ext)
         {
             var fileList = new List<string>();
             var fileArray = Directory.GetFiles(directory, ext, SearchOption.TopDirectoryOnly);
@@ -341,7 +334,7 @@ namespace Business.Common.IO
             return fileList;
         }
 
-        public static List<String> GetDirectories(String pathStr)
+        public static List<string> GetDirectories(string pathStr)
         {
             return Directory.GetDirectories(pathStr).ToList();
         }
@@ -356,7 +349,7 @@ namespace Business.Common.IO
             return DriveInfo.GetDrives().Where(drive => drive.DriveType == DriveType.Fixed).ToList();
         }
 
-        public static String GetWindowsDrive()
+        public static string GetWindowsDrive()
         {
             var value = @"C:\";
             var specialFolder = EnvironmentSpecialFolders.FirstOrDefault(x => x.Key == "Windows");
@@ -372,7 +365,7 @@ namespace Business.Common.IO
             return DriveInfo.GetDrives().Where(drive => drive.DriveType == DriveType.CDRom).ToList();
         }
 
-        public static Int64 DriveCapacity(String driveLetter)
+        public static Int64 DriveCapacity(string driveLetter)
         {
             Int64 capacity = 0;
             foreach (var drive in DriveInfo.GetDrives().Where(drive => drive.Name == driveLetter))
@@ -382,7 +375,7 @@ namespace Business.Common.IO
             return capacity;
         }
 
-        public static Int64 DriveFreeSpace(String driveLetter)
+        public static Int64 DriveFreeSpace(string driveLetter)
         {
             Int64 capacity = 0;
             foreach (var drive in DriveInfo.GetDrives().Where(drive => drive.Name == driveLetter))
@@ -395,7 +388,7 @@ namespace Business.Common.IO
         /// <summary>
         /// Creates default FolderDS and filenames DataTable
         /// </summary>
-        public static DataTable GetFileDtFull(String folderPath, String dataTablename, String ext, SearchOption searchOption)
+        public static DataTable GetFileDtFull(string folderPath, string dataTablename, string ext, SearchOption searchOption)
         {
             var di = new DirectoryInfo(folderPath);
             var fileDt = new DataTable(dataTablename);
@@ -404,10 +397,10 @@ namespace Business.Common.IO
             fileDt.Columns.Add("CreationTimeUtc", typeof(DateTime));
             fileDt.Columns.Add("Directory");
             fileDt.Columns.Add("DirectoryName");
-            fileDt.Columns.Add("Exists", typeof(Boolean));
+            fileDt.Columns.Add("Exists", typeof(bool));
             fileDt.Columns.Add("Extension");
             fileDt.Columns.Add("FullName");
-            fileDt.Columns.Add("IsReadOnly", typeof(Boolean));
+            fileDt.Columns.Add("IsReadOnly", typeof(bool));
             fileDt.Columns.Add("LastAccessTime", typeof(DateTime));
             fileDt.Columns.Add("LastAccessTimeUtc", typeof(DateTime));
             fileDt.Columns.Add("LastWriteTime", typeof(DateTime));
@@ -415,14 +408,14 @@ namespace Business.Common.IO
             fileDt.Columns.Add("Length", typeof(Int64));
             fileDt.Columns.Add("Name");
 
-            fileDt.Columns.Add("IsArchive", typeof(Boolean)).DefaultValue = false;
-            fileDt.Columns.Add("IsCompressed", typeof(Boolean)).DefaultValue = false;
-            fileDt.Columns.Add("IsEncrypted", typeof(Boolean)).DefaultValue = false;
-            fileDt.Columns.Add("IsHidden", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsArchive", typeof(bool)).DefaultValue = false;
+            fileDt.Columns.Add("IsCompressed", typeof(bool)).DefaultValue = false;
+            fileDt.Columns.Add("IsEncrypted", typeof(bool)).DefaultValue = false;
+            fileDt.Columns.Add("IsHidden", typeof(bool)).DefaultValue = false;
 
             //fileDT.Columns.Add("IsReadOnly", typeof(Boolean)).DefaultValue = false;
-            fileDt.Columns.Add("IsSystem", typeof(Boolean)).DefaultValue = false;
-            fileDt.Columns.Add("IsTemporary", typeof(Boolean)).DefaultValue = false;
+            fileDt.Columns.Add("IsSystem", typeof(bool)).DefaultValue = false;
+            fileDt.Columns.Add("IsTemporary", typeof(bool)).DefaultValue = false;
 
             var files = di.GetFiles(ext, searchOption);
             foreach (var fil in files)
@@ -481,7 +474,7 @@ namespace Business.Common.IO
         /// <summary>
         /// Creates default FolderDS and filenames DataTable to bind to FileGrid.
         /// </summary>
-        public static DataTable GetFileDt(String folderPath, String dataTablename, String ext, SearchOption searchOption)
+        public static DataTable GetFileDt(string folderPath, string dataTablename, string ext, SearchOption searchOption)
         {
             var di = new DirectoryInfo(folderPath);
             var fileDt = new DataTable(dataTablename);
@@ -505,9 +498,9 @@ namespace Business.Common.IO
 
         /* http://msdn.microsoft.com/en-us/library/system.environment.specialfolder.aspx */
 
-        private static Dictionary<String, String> _environmentSpecialFolders;
+        private static Dictionary<string, string> _environmentSpecialFolders;
 
-        public static Dictionary<String, String> EnvironmentSpecialFolders
+        public static Dictionary<string, string> EnvironmentSpecialFolders
         {
             get
             {
@@ -516,15 +509,15 @@ namespace Business.Common.IO
                 foreach (var value in Enum.GetNames(typeof(Environment.SpecialFolder)))
                 {
                     var path = Environment.GetFolderPath((Environment.SpecialFolder)Enum.Parse(typeof(Environment.SpecialFolder), value));
-                    if (!String.IsNullOrWhiteSpace(path)) _environmentSpecialFolders.Add(value, path);
+                    if (!string.IsNullOrWhiteSpace(path)) _environmentSpecialFolders.Add(value, path);
                 }
                 return _environmentSpecialFolders;
             }
         }
 
-        private static Dictionary<String, DirectoryInfo> _environmentSpecialFolderDirectories;
+        private static Dictionary<string, DirectoryInfo> _environmentSpecialFolderDirectories;
 
-        public static Dictionary<String, DirectoryInfo> EnvironmentSpecialFolderDirectories
+        public static Dictionary<string, DirectoryInfo> EnvironmentSpecialFolderDirectories
         {
             get
             {
@@ -533,29 +526,29 @@ namespace Business.Common.IO
                 foreach (var value in Enum.GetNames(typeof(Environment.SpecialFolder)))
                 {
                     var path = Environment.GetFolderPath((Environment.SpecialFolder)Enum.Parse(typeof(Environment.SpecialFolder), value));
-                    if (!String.IsNullOrWhiteSpace(path)) _environmentSpecialFolderDirectories.Add(value, new DirectoryInfo(path));
+                    if (!string.IsNullOrWhiteSpace(path)) _environmentSpecialFolderDirectories.Add(value, new DirectoryInfo(path));
                 }
                 return _environmentSpecialFolderDirectories;
             }
         }
 
-        public static String GetEnvironmentSpecialFolder(String enumName)
+        public static string GetEnvironmentSpecialFolder(string enumName)
         {
             Environment.SpecialFolder value;
             return Enum.TryParse(enumName, true, out value) ? Environment.GetFolderPath(value) : Environment.GetFolderPath(value);
         }
 
-        public static DirectoryInfo GetEnvironmentSpecialFolderDirectory(String enumName)
+        public static DirectoryInfo GetEnvironmentSpecialFolderDirectory(string enumName)
         {
             return new DirectoryInfo(GetEnvironmentSpecialFolder(enumName));
         }
 
-        public static Boolean TryGetEnvironmentSpecialFolder(String enumName, out Environment.SpecialFolder folder)
+        public static bool TryGetEnvironmentSpecialFolder(string enumName, out Environment.SpecialFolder folder)
         {
             return Enum.TryParse(enumName, true, out folder);
         }
 
-        public static Boolean TryGetEnvironmentSpecialFolderFullName(String enumName, out String fullName)
+        public static bool TryGetEnvironmentSpecialFolderFullName(string enumName, out string fullName)
         {
             Environment.SpecialFolder specialFolder;
             if (TryGetEnvironmentSpecialFolder(enumName, out specialFolder))
@@ -567,7 +560,7 @@ namespace Business.Common.IO
             return false;
         }
 
-        public static Boolean TryGetEnvironmentSpecialFolderDirectory(String enumName, out DirectoryInfo directory)
+        public static bool TryGetEnvironmentSpecialFolderDirectory(string enumName, out DirectoryInfo directory)
         {
             Environment.SpecialFolder specialFolder;
             if (TryGetEnvironmentSpecialFolder(enumName, out specialFolder))
@@ -579,10 +572,10 @@ namespace Business.Common.IO
             return false;
         }
 
-        public static String GetInitialDirectoryOrSpecialFolder(String value)
+        public static string GetInitialDirectoryOrSpecialFolder(string value)
         {
             /* return DefaultFolderPath if no path is supplied */
-            if (String.IsNullOrWhiteSpace(value) || value == @"\") return DefaultFolderPath;
+            if (string.IsNullOrWhiteSpace(value) || value == @"\") return DefaultFolderPath;
 
             if (value == "MyComputer") return "";
             if (value == "WindowsDrive") return GetWindowsDrive();
@@ -614,10 +607,10 @@ namespace Business.Common.IO
             throw new DirectoryNotFoundException("Directory or Special Folder Not Found!");
         }
 
-        public static Boolean TryGetInitialDirectoryOrSpecialFolder(String value, out DirectoryInfo outDirectory)
+        public static bool TryGetInitialDirectoryOrSpecialFolder(string value, out DirectoryInfo outDirectory)
         {
             /* return DefaultFolderPath if no path is supplied */
-            if (String.IsNullOrWhiteSpace(value) || value == @"\")
+            if (string.IsNullOrWhiteSpace(value) || value == @"\")
             {
                 outDirectory = new DirectoryInfo(DefaultFolderPath);
                 return true;
@@ -662,10 +655,10 @@ namespace Business.Common.IO
             return false;
         }
 
-        public static Boolean TryGetInitialDirectoryOrSpecialFolder(String value, out String outDirectory)
+        public static bool TryGetInitialDirectoryOrSpecialFolder(string value, out string outDirectory)
         {
             /* return DefaultFolderPath if no path is supplied */
-            if (String.IsNullOrWhiteSpace(value) || value == @"\")
+            if (string.IsNullOrWhiteSpace(value) || value == @"\")
             {
                 outDirectory = new DirectoryInfo(DefaultFolderPath).FullName;
                 return true;
@@ -737,27 +730,27 @@ namespace Business.Common.IO
 
         // stream helper methods
 
-        public static MemoryStream ReadStringToMemoryStream(String inputString)
+        public static MemoryStream ReadStringToMemoryStream(string inputString)
         {
             return new MemoryStream(Encoding.Default.GetBytes(inputString));
         }
 
-        public static MemoryStream ReadStringToMemoryStream(String inputString, Encoding encoding)
+        public static MemoryStream ReadStringToMemoryStream(string inputString, Encoding encoding)
         {
             return new MemoryStream(encoding.GetBytes(inputString));
         }
 
-        public static MemoryStream ReadFileToMemoryStream(String filePathStr)
+        public static MemoryStream ReadFileToMemoryStream(string filePathStr)
         {
             return ReadFileToMemoryStream(filePathStr, FileMode.Open, FileShare.Read, FileAccess.Read, 4096);
         }
 
-        public static MemoryStream ReadFileToMemoryStream(String filePathStr, Int32 bufferSize)
+        public static MemoryStream ReadFileToMemoryStream(string filePathStr, int bufferSize)
         {
             return ReadFileToMemoryStream(filePathStr, FileMode.Open, FileShare.Read, FileAccess.Read, bufferSize);
         }
 
-        public static MemoryStream ReadFileToMemoryStream(String filePathStr, FileMode mode, FileShare share, FileAccess access, Int32 bufferSize)
+        public static MemoryStream ReadFileToMemoryStream(string filePathStr, FileMode mode, FileShare share, FileAccess access, int bufferSize)
         {
             var ms = new MemoryStream();
             if (!File.Exists(filePathStr)) return ms;
@@ -765,9 +758,9 @@ namespace Business.Common.IO
             {
                 using (var br = new BinaryReader(fs, Encoding.Default))
                 {
-                    const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
-                    var length = fs.Length < maxint ? (Int32)fs.Length : (Int32)maxint;
-                    Int32 buffersize;
+                    const long maxint = int.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
+                    var length = fs.Length < maxint ? (int)fs.Length : (int)maxint;
+                    int buffersize;
                     ms.Position = 0;
                     if (bufferSize > 0)
                     {
@@ -777,7 +770,7 @@ namespace Business.Common.IO
                     {
                         buffersize = length > 4096 ? 4096 : length;
                     }
-                    var bytes = new Byte[buffersize];
+                    var bytes = new byte[buffersize];
 
                     while (true) // Loops Rule!!!!!!!!
                     {
@@ -800,30 +793,30 @@ namespace Business.Common.IO
             return ms;
         }
 
-        public static Byte[] ReadStreamToBytes(Stream inputStream)
+        public static byte[] ReadStreamToBytes(Stream inputStream)
         {
             var ms = (MemoryStream)inputStream;
             return ms.ToArray();
         }
 
-        public static String ReadBytesToBase64(Byte[] inputBytes)
+        public static string ReadBytesToBase64(byte[] inputBytes)
         {
             return Convert.ToBase64String(inputBytes);
         }
 
-        public static String ReadStreamToBase64(MemoryStream inputStream)
+        public static string ReadStreamToBase64(MemoryStream inputStream)
         {
             return ReadBytesToBase64(inputStream.ToArray());
         }
 
-        public static Byte[] ReadBase64ToBytes(String inputString)
+        public static byte[] ReadBase64ToBytes(string inputString)
         {
             return Convert.FromBase64String(inputString);
         }
 
-        public static String ReadFile(String filePathStr)
+        public static string ReadFile(string filePathStr)
         {
-            var result = String.Empty;
+            var result = string.Empty;
             var fi = new FileInfo(filePathStr);
             if (fi.Exists)
             {
@@ -832,7 +825,7 @@ namespace Business.Common.IO
             return result;
         }
 
-        public static Boolean WriteFile(String fileInputStr, String filePathStr, Boolean append = false)
+        public static bool WriteFile(string fileInputStr, string filePathStr, bool append = false)
         {
             using (var sw = new StreamWriter(filePathStr, append))
             {
@@ -841,7 +834,7 @@ namespace Business.Common.IO
             return true;
         }
 
-        public static Boolean AppendFile(Byte[] input, String filePathStr, int bufferSize = 4096)
+        public static bool AppendFile(byte[] input, string filePathStr, int bufferSize = 4096)
         {
             var fi = new FileInfo(filePathStr);
             using (var fs = fi.OpenFileStream(FileMode.Append, FileAccess.Write, FileShare.None, bufferSize, 30000, false))

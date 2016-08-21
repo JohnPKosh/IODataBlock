@@ -10,12 +10,9 @@ namespace Business.Common.System.App
         {
         }
 
-        public static AppState Instance
-        {
-            get { return _instance ?? (_instance = new AppState()); }
-        }
+        public static AppState Instance => _instance ?? (_instance = new AppState());
 
-        private object _value = null;
+        private object _value;
 
         public object Value
         {
@@ -37,7 +34,7 @@ namespace Business.Common.System.App
         public bool TryLoad<T>(IStateLoader loader)
         {
             T newValue;
-            if (!loader.TryLoadState<T>(out newValue)) return false;
+            if (!loader.TryLoadState(out newValue)) return false;
             Value = newValue;
             return true;
         }

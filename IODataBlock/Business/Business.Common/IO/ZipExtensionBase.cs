@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -45,7 +44,7 @@ namespace Business.Common.IO
         {
             using (var zip = ZipFile.OpenRead(file.FullName))
             {
-                return (zip.Entries.Select(entry => entry.FullName)).ToList();
+                return zip.Entries.Select(entry => entry.FullName).ToList();
             }
         }
 
@@ -59,31 +58,24 @@ namespace Business.Common.IO
 
         public static FileInfo AddFileToZip(this FileInfo file, FileInfo InputFileInfo, string directoryPathInArchive = null)
         {
-            try
+            file.Refresh();
+            if (file.Exists)
             {
+                using (var archive = ZipFile.Open(file.FullName, ZipArchiveMode.Update))
+                {
+                    archive.CreateEntryFromFile(InputFileInfo.FullName, string.IsNullOrWhiteSpace(directoryPathInArchive) ? InputFileInfo.Name : Path.Combine(directoryPathInArchive, InputFileInfo.Name));
+                }
                 file.Refresh();
-                if (file.Exists)
-                {
-                    using (var archive = ZipFile.Open(file.FullName, ZipArchiveMode.Update))
-                    {
-                        archive.CreateEntryFromFile(InputFileInfo.FullName, string.IsNullOrWhiteSpace(directoryPathInArchive) ? InputFileInfo.Name : Path.Combine(directoryPathInArchive, InputFileInfo.Name));
-                    }
-                    file.Refresh();
-                    return file;
-                }
-                else
-                {
-                    using (var archive = ZipFile.Open(file.FullName, ZipArchiveMode.Create))
-                    {
-                        archive.CreateEntryFromFile(InputFileInfo.FullName, InputFileInfo.Name);
-                    }
-                    file.Refresh();
-                    return file;
-                }
+                return file;
             }
-            catch (Exception ex)
+            else
             {
-                throw;
+                using (var archive = ZipFile.Open(file.FullName, ZipArchiveMode.Create))
+                {
+                    archive.CreateEntryFromFile(InputFileInfo.FullName, InputFileInfo.Name);
+                }
+                file.Refresh();
+                return file;
             }
         }
 

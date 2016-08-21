@@ -24,7 +24,7 @@ namespace Business.Common.Extensions
             var sw = new StreamWriter(stream);
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                 var serializer = JsonSerializer.CreateDefault(settings);
                 serializer.Serialize(writer, value, typeof(T));
             }
@@ -59,28 +59,28 @@ namespace Business.Common.Extensions
             return ms;
         }
 
-        public static FileStream JsonSerializeToFileStream<T>(this T value, String filePath, JsonSerializerSettings settings = null) where T : class
+        public static FileStream JsonSerializeToFileStream<T>(this T value, string filePath, JsonSerializerSettings settings = null) where T : class
         {
             var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             fs.JsonSerialize(value, settings);
             return fs;
         }
 
-        public static FileStream JsonSerializeToFileStream<T>(this T value, String filePath, params JsonConverter[] converters) where T : class
+        public static FileStream JsonSerializeToFileStream<T>(this T value, string filePath, params JsonConverter[] converters) where T : class
         {
             var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             fs.JsonSerialize(value, converters);
             return fs;
         }
 
-        public static Byte[] JsonSerializeToBytes<T>(this T value, JsonSerializerSettings settings = null) where T : class
+        public static byte[] JsonSerializeToBytes<T>(this T value, JsonSerializerSettings settings = null) where T : class
         {
             var ms = new MemoryStream();
             ms.JsonSerialize(value, settings);
             return ms.ToArray();
         }
 
-        public static Byte[] JsonSerializeToBytes<T>(this T value, params JsonConverter[] converters) where T : class
+        public static byte[] JsonSerializeToBytes<T>(this T value, params JsonConverter[] converters) where T : class
         {
             var ms = new MemoryStream();
             ms.JsonSerialize(value, converters);
@@ -89,14 +89,14 @@ namespace Business.Common.Extensions
 
         /* Not exactly sure the usefulness of below methods but we will just leave for now. */
 
-        public static String JsonSerializeToBase64<T>(this T value, JsonSerializerSettings settings = null) where T : class
+        public static string JsonSerializeToBase64<T>(this T value, JsonSerializerSettings settings = null) where T : class
         {
             var ms = new MemoryStream();
             ms.JsonSerialize(value, settings);
             return Convert.ToBase64String(ms.ToArray());
         }
 
-        public static String JsonSerializeToBase64<T>(this T value, params JsonConverter[] converters) where T : class
+        public static string JsonSerializeToBase64<T>(this T value, params JsonConverter[] converters) where T : class
         {
             var ms = new MemoryStream();
             ms.JsonSerialize(value, converters);

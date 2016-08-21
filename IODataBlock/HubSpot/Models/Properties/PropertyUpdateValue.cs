@@ -9,17 +9,17 @@ namespace HubSpot.Models.Properties
     {
         public PropertyUpdateValue(string key, string value, PropertyTypeModel propertyType = null)
         {
-            this.Key = key;
-            this.Value = value;
-            this.PropertyType = propertyType;
+            Key = key;
+            Value = value;
+            PropertyType = propertyType;
         }
 
         public PropertyUpdateValue(string key, object value)
         {
-            this.Key = key;
+            Key = key;
             if (value == null) return;
-            if (value is DateTime) this.Value = new UnixMsTimestamp((DateTime)value).ToString();
-            else this.Value = value.ToString();
+            if (value is DateTime) Value = new UnixMsTimestamp((DateTime)value).ToString();
+            else Value = value.ToString();
         }
 
         [JsonProperty("property")]

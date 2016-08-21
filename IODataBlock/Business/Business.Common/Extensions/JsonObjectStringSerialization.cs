@@ -19,13 +19,13 @@ namespace Business.Common.Extensions
 
         public static string ToJsonString(this object value, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             return JsonConvert.SerializeObject(value, null, settings);
         }
 
         public static string ToJsonString(this object value, bool indented, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             return JsonConvert.SerializeObject(value, null, indented ? Formatting.Indented : Formatting.None, settings);
         }
 

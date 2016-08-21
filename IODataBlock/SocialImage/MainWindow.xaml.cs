@@ -426,7 +426,7 @@ namespace SocialImage
         {
             if (SourceBrowser.DirectoryExists)
             {
-                TargetBrowser.SelectedDirectory = System.IO.Path.Combine(SourceBrowser.SelectedDirectory, OpenSocialSiteCheckbox.Text);
+                TargetBrowser.SelectedDirectory = Path.Combine(SourceBrowser.SelectedDirectory, OpenSocialSiteCheckbox.Text);
             }
         }
 
@@ -556,7 +556,7 @@ namespace SocialImage
 
         private String GetFileSize()
         {
-            foreach (var child in this.StackFileSizes.Children)
+            foreach (var child in StackFileSizes.Children)
             {
                 if (child.GetType() == typeof(RadioButton))
                 {
@@ -572,7 +572,7 @@ namespace SocialImage
 
         private ImageEncoding GetImageQuality()
         {
-            foreach (var child in this.ImageQualityStackPanel.Children)
+            foreach (var child in ImageQualityStackPanel.Children)
             {
                 if (child.GetType() == typeof(RadioButton))
                 {

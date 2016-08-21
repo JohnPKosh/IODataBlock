@@ -25,7 +25,7 @@ namespace Business.Common.System.Args
         /// <param name="k">Key</param>
         /// <param name="v">Value</param>
         /// <returns>IEnumerable</returns>
-        public IEnumerable<Arguments> this[String k, String v]
+        public IEnumerable<Arguments> this[string k, string v]
         {
             get {
                 return Items.Where(arg => arg.ContainsKey(k) && arg[k] == v);
@@ -42,7 +42,7 @@ namespace Business.Common.System.Args
 
         #region Read String ArgumentList Methods
 
-        public static ArgumentList ReadStringCollectionFromFile(String collectionFilePath)
+        public static ArgumentList ReadStringCollectionFromFile(string collectionFilePath)
         {
             return ReadStringCollectionFromFile(new FileInfo(collectionFilePath));
         }
@@ -70,17 +70,16 @@ namespace Business.Common.System.Args
             }
             finally
             {
-                if (fs != null) fs.Dispose();
+                fs?.Dispose();
             }
-            throw new FileNotFoundException("Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
         }
 
-        public static ArgumentList ReadStringCollection(String lineArguments)
+        public static ArgumentList ReadStringCollection(string lineArguments)
         {
             using (var sr = new StringReader(lineArguments))
             {
                 var ac = new ArgumentList();
-                String line;
+                string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     ac.Items.Add(Arguments.CreateArguments(line.Trim()));
@@ -89,7 +88,7 @@ namespace Business.Common.System.Args
             }
         }
 
-        public static ArgumentList ReadCollectionFromFile(String collectionFilePath)
+        public static ArgumentList ReadCollectionFromFile(string collectionFilePath)
         {
             return new ArgumentList().Deserialize(new FileInfo(collectionFilePath));
         }
@@ -119,7 +118,7 @@ namespace Business.Common.System.Args
         #region File to ArgumentList Deserialization Extensions
 
         public static ArgumentList ReadXml(FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null)
         {
@@ -127,7 +126,7 @@ namespace Business.Common.System.Args
         }
 
         public static ArgumentList ReadXml(string filePath,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null)
         {
             return new ArgumentList().Deserialize(filePath, lockWaitMs, settings, new List<Type> { typeof(ArgumentList), typeof(Arguments) });
@@ -227,7 +226,7 @@ namespace Business.Common.System.Args
 
         #region Byte[] to ArgumentList Deserialization Extensions
 
-        public static ArgumentList ReadXmlFromBytes(Byte[] data,
+        public static ArgumentList ReadXmlFromBytes(byte[] data,
         XmlReaderSettings settings = null,
         Encoding encodingType = null)
         {
@@ -238,7 +237,7 @@ namespace Business.Common.System.Args
 
         #region String to ArgumentList Deserialization Extensions
 
-        public static ArgumentList ReadXmlFromString(String data,
+        public static ArgumentList ReadXmlFromString(string data,
         XmlReaderSettings settings = null)
         {
             return data.DeserializeString<ArgumentList>(settings, new List<Type> { typeof(ArgumentList), typeof(Arguments) });
@@ -259,7 +258,7 @@ namespace Business.Common.System.Args
         #region File to ArgumentList GZipDeserialization Extensions
 
         public static ArgumentList ReadGZipXml(FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null)
@@ -268,7 +267,7 @@ namespace Business.Common.System.Args
         }
 
         public static ArgumentList ReadGZipXml(string filePath,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null)
         {
@@ -279,7 +278,7 @@ namespace Business.Common.System.Args
 
         #region Base64String GZipDeserialization Extensions
 
-        public static ArgumentList ReadGZipXmlFromStringBase64String(String value,
+        public static ArgumentList ReadGZipXmlFromStringBase64String(string value,
         XmlReaderSettings settings = null,
         Encoding encodingType = null)
         {

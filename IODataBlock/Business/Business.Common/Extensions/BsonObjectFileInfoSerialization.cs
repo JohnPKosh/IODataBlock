@@ -27,7 +27,7 @@ namespace Business.Common.Extensions
             {
                 using (var writer = new BsonWriter(fs))
                 {
-                    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                    var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
                     serializer.Serialize(writer, value);
                 }
@@ -52,7 +52,7 @@ namespace Business.Common.Extensions
             {
                 using (var writer = new BsonWriter(fs))
                 {
-                    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                    var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
                     serializer.Serialize(writer, value, type);
                 }

@@ -28,7 +28,7 @@ namespace Business.Common.IO.Serialization
             Encoding encodingType = null,
             IEnumerable<Type> knownTypes = null) where T : class
         {
-            DataContractSerializer dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
+            var dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
             if (settings != null || encodingType != null)
             {
                 if (settings == null)
@@ -148,7 +148,7 @@ namespace Business.Common.IO.Serialization
 
         #region T Object to Byte[] GZipSerialization Extensions
 
-        public static Byte[] GZipSerializeToBytes<T>(this T obj,
+        public static byte[] GZipSerializeToBytes<T>(this T obj,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -162,7 +162,7 @@ namespace Business.Common.IO.Serialization
 
         #region Byte[] to T Object GZipDeserialization Extensions
 
-        public static T GZipDeserializeBytes<T>(this Byte[] data,
+        public static T GZipDeserializeBytes<T>(this byte[] data,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -177,7 +177,7 @@ namespace Business.Common.IO.Serialization
 
         #region Base64String GZipSerialization Extensions
 
-        public static String GZipSerializeToBase64String<T>(this T obj,
+        public static string GZipSerializeToBase64String<T>(this T obj,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -189,7 +189,7 @@ namespace Business.Common.IO.Serialization
 
         #region Base64String GZipDeserialization Extensions
 
-        public static T GZipDeserializeFromBase64String<T>(this String value,
+        public static T GZipDeserializeFromBase64String<T>(this string value,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -201,8 +201,8 @@ namespace Business.Common.IO.Serialization
 
         #region File GZip Serialization Extensions
 
-        public static FileInfo GZipSerialize<T>(this T obj, String filePath,
-        Int32 lockWaitMs = 60000,
+        public static FileInfo GZipSerialize<T>(this T obj, string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -212,7 +212,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo GZipSerialize<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -251,7 +251,7 @@ namespace Business.Common.IO.Serialization
         #region Private FileInfo GZip Serializer Methods
 
         private static FileInfo GZipSerializeNoRollback<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -271,7 +271,7 @@ namespace Business.Common.IO.Serialization
         }
 
         private static FileInfo GZipSerializeRollbackFromCopy<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -311,7 +311,7 @@ namespace Business.Common.IO.Serialization
         }
 
         private static FileInfo GZipSerializeRollbackInMemory<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -339,8 +339,8 @@ namespace Business.Common.IO.Serialization
 
         #region File GZip Deserialization Extensions
 
-        public static T GZipDeserialize<T>(this String filePath,
-        Int32 lockWaitMs = 60000,
+        public static T GZipDeserialize<T>(this string filePath,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -349,7 +349,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T GZipDeserialize<T>(this FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -367,7 +367,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T GZipDeserialize<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -376,7 +376,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T GZipDeserialize<T>(this T obj, string filePath,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class

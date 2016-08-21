@@ -41,7 +41,7 @@ namespace Business.Web.System
 
         public static string Current()
         {
-            return Extensions.GetCurrentRootPath();
+            return GetCurrentRootPath();
         }
 
         public static string Combine(string path1, string path2)

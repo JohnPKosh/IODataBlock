@@ -6,10 +6,7 @@ namespace Business.Common.System.Commands
 {
     public class GetDynamicAppStateCommand : CommandObjectBase
     {
-        public override string Description
-        {
-            get { return "GetDynamicAppState - Gets the current app state."; }
-        }
+        public override string Description => "GetDynamicAppState - Gets the current app state.";
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }
 

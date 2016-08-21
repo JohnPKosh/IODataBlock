@@ -33,7 +33,7 @@ namespace Business.Common.System
         //    return value.ToObject<ObjectBase<T>>();
         //}
 
-        static public implicit operator JObject(ObjectBase<T> value)
+        public static implicit operator JObject(ObjectBase<T> value)
         {
             return value.ToJObject();
         }

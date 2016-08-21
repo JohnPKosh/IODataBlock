@@ -7,10 +7,10 @@ namespace HubSpot.Models.Properties
     {
         public PropertyValue(string key, string value, HashSet<PropertyVersion> versions = null, PropertyTypeModel propertyType = null)
         {
-            this.Key = key;
-            this.Value = value;
-            this.Versions = versions;
-            this.PropertyType = propertyType;
+            Key = key;
+            Value = value;
+            Versions = versions;
+            PropertyType = propertyType;
         }
 
         //public PropertyValue(string key, object value, HashSet<PropertyVersion> versions = null)

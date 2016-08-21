@@ -8,10 +8,7 @@ namespace Business.Common.System.Commands
 {
     public class LoadDynamicAppStateCommand : CommandObjectBase
     {
-        public override string Description
-        {
-            get { return "LoadDynamicAppStateCommand - Loads the current app state."; }
-        }
+        public override string Description => "LoadDynamicAppStateCommand - Loads the current app state.";
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }
 

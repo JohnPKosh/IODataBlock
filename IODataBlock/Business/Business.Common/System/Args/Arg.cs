@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Business.Common.System.Args
 {
@@ -7,10 +6,10 @@ namespace Business.Common.System.Args
     public struct Arg
     {
         [DataMember]
-        public String K { get; set; }
+        public string K { get; set; }
 
         [DataMember]
-        public String V { get; set; }
+        public string V { get; set; }
 
         //public void SetValue(Object value, Func<Object, String> converter = null)
         //{

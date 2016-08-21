@@ -9,10 +9,7 @@
             Value = null;
         }
 
-        public static AppBag Data
-        {
-            get { return _data ?? (_data = new AppBag()); }
-        }
+        public static AppBag Data => _data ?? (_data = new AppBag());
 
         public dynamic Value { get; set; }
     }

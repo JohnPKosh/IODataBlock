@@ -19,7 +19,7 @@ namespace Business.Common.Exceptions
             Description = description;
             ExceptionGroup = exceptionGroup;
             LogLevel = logLevel;
-            Data = exception.Data as IDictionary<String, Object>;
+            Data = exception.Data as IDictionary<string, object>;
             HelpLink = exception.HelpLink;
             HResult = exception.HResult;
             InnerExceptionDetail = exception.InnerException == null ? null : new ExceptionObjectBase(exception.InnerException);
@@ -31,17 +31,17 @@ namespace Business.Common.Exceptions
         }
 
         public ExceptionObjectBase(
-            String message
+            string message
             , string title = null
             , string description = null
             , string exceptionGroup = null
             , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
-            , IDictionary<String, Object> data = null
-            , String helpLink = null
+            , IDictionary<string, object> data = null
+            , string helpLink = null
             , int hResult = 0
             , IExceptionObject innerExceptionDetail = null
-            , String source = null
-            , String stackTrace = null
+            , string source = null
+            , string stackTrace = null
             )
         {
             #region System.Exception properties
@@ -75,17 +75,17 @@ namespace Business.Common.Exceptions
         }
 
         public static ExceptionObjectBase Create(
-            String message
+            string message
             , string title = null
             , string description = null
             , string exceptionGroup = null
             , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
-            , IDictionary<String, Object> data = null
-            , String helpLink = null
+            , IDictionary<string, object> data = null
+            , string helpLink = null
             , int hResult = 0
             , IExceptionObject innerExceptionDetail = null
-            , String source = null
-            , String stackTrace = null
+            , string source = null
+            , string stackTrace = null
             )
         {
             return new ExceptionObjectBase(message, title, description, exceptionGroup, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace);
@@ -103,19 +103,19 @@ namespace Business.Common.Exceptions
 
         public ExceptionLogLevelType LogLevel { get; set; }
 
-        public IDictionary<String, Object> Data { get; set; }
+        public IDictionary<string, object> Data { get; set; }
 
-        public String HelpLink { get; set; }
+        public string HelpLink { get; set; }
 
         public int HResult { get; private set; }
 
         public IExceptionObject InnerExceptionDetail { get; private set; }
 
-        public String Message { get; set; }
+        public string Message { get; set; }
 
-        public String Source { get; set; }
+        public string Source { get; set; }
 
-        public String StackTrace { get; set; }
+        public string StackTrace { get; set; }
 
         #endregion System.Exception properties
     }

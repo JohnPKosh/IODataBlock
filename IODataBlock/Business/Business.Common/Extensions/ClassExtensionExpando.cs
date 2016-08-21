@@ -18,7 +18,7 @@ namespace Business.Common.Extensions
             try
             {
                 var p = source.AsDictionary();
-                if (String.IsNullOrWhiteSpace(key) || p.ContainsKey(key)) return false;
+                if (string.IsNullOrWhiteSpace(key) || p.ContainsKey(key)) return false;
                 p[key] = value;
             }
             catch (Exception)
@@ -77,7 +77,7 @@ namespace Business.Common.Extensions
         public static IDictionary<string, Type> GetMemberTypes(this ExpandoObject source)
         {
             // TODO: the value is null then what friggin type will it be? Can or should some type of non-nullable type be used?
-            var rv = source.AsDictionary().ToDictionary(o => o.Key, o => o.Value == null ? null : o.Value.GetType());
+            var rv = source.AsDictionary().ToDictionary(o => o.Key, o => o.Value?.GetType());
             return rv;
         }
 

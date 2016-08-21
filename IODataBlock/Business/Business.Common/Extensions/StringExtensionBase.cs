@@ -16,17 +16,17 @@ namespace Business.Common.Extensions
     {
         #region Conversion Methods
 
-        public static String EncodeToString(this Byte[] buffer, Encoding encodingType = null, Int32 index = -1, Int32 cnt = -1)
+        public static string EncodeToString(this byte[] buffer, Encoding encodingType = null, int index = -1, int cnt = -1)
         {
             if (index <= -1 && cnt <= -1)
-                return encodingType == null ? Encoding.Default.GetString(buffer) : encodingType.GetString(buffer);
+                return encodingType?.GetString(buffer) ?? Encoding.Default.GetString(buffer);
             if (index == -1) index = 0;
             if (cnt == -1) cnt = buffer.Length - index;
             if (cnt > buffer.Length - index) cnt = buffer.Length - index;
-            return encodingType == null ? Encoding.Default.GetString(buffer, index, cnt) : encodingType.GetString(buffer, index, cnt);
+            return encodingType?.GetString(buffer, index, cnt) ?? Encoding.Default.GetString(buffer, index, cnt);
         }
 
-        public static SecureString ConvertToSecureString(this String value)
+        public static SecureString ConvertToSecureString(this string value)
         {
             return new StringBuilder(value).ConvertToSecureString();
         }
@@ -39,7 +39,7 @@ namespace Business.Common.Extensions
         public static SecureString ConvertToSecureString(this StringBuilder value)
         {
             if (value == null)
-                throw new ArgumentNullException(@"value");
+                throw new ArgumentNullException(nameof(value));
 
             var secureValue = new SecureString();
             for (var i = 0; i < value.Length; i++)
@@ -57,9 +57,9 @@ namespace Business.Common.Extensions
 
         #region Basic Methods
 
-        public static StringBuilder AppendIEnumerable<T>(this StringBuilder buf, IEnumerable<T> values, Func<T, String> func, string delimiter)
+        public static StringBuilder AppendIEnumerable<T>(this StringBuilder buf, IEnumerable<T> values, Func<T, string> func, string delimiter)
         {
-            return buf.Append(String.Join(delimiter, values.Select(func).ToArray()));
+            return buf.Append(string.Join(delimiter, values.Select(func).ToArray()));
         }
 
         public static StringBuilder AppendIEnumerable<T>(this StringBuilder buf, string prefix, IEnumerable<T> values, string suffix, string delimiter)
@@ -123,10 +123,10 @@ namespace Business.Common.Extensions
         /// A lambda expression to select a string property of <typeparamref name="T" />
         /// </param>
         /// <param name="columnWidths"></param>
-        public static string ToFixedWidthString<T>(this IEnumerable<T> source, Func<T, string> selector, IEnumerable<Int32> columnWidths)
+        public static string ToFixedWidthString<T>(this IEnumerable<T> source, Func<T, string> selector, IEnumerable<int> columnWidths)
         {
             var clist = source.Select(selector).ToArray();
-            return String.Join(String.Empty, clist.Select((t, i) => t.PadRight(columnWidths.ToArray()[i])).ToArray());
+            return string.Join(string.Empty, clist.Select((t, i) => t.PadRight(columnWidths.ToArray()[i])).ToArray());
         }
 
         /// <summary>
@@ -138,9 +138,9 @@ namespace Business.Common.Extensions
         /// </param>
         /// <param name="columnWidths"></param>
         /// <param name="truncateLengths"></param>
-        public static string ToFixedWidthString<T>(this IEnumerable<T> source, Func<T, string> selector, IEnumerable<Int32> columnWidths, Boolean truncateLengths)
+        public static string ToFixedWidthString<T>(this IEnumerable<T> source, Func<T, string> selector, IEnumerable<int> columnWidths, bool truncateLengths)
         {
-            var rv = new List<String>();
+            var rv = new List<string>();
             var columnWidthsList = columnWidths.ToArray();
             var clist = source.Select(selector).ToArray();
             for (var i = 0; i < clist.Length; i++)
@@ -152,16 +152,16 @@ namespace Business.Common.Extensions
                     rv.Add(clist[i].PadRight(columnWidthsList[i]));
                 }
             }
-            return String.Join(String.Empty, rv.ToArray());
+            return string.Join(string.Empty, rv.ToArray());
         }
 
-        public static List<String> ParseFixedWidthLine(this String row, IEnumerable<Int32> columnWidths)
+        public static List<string> ParseFixedWidthLine(this string row, IEnumerable<int> columnWidths)
         {
-            var newlist = new List<String>();
+            var newlist = new List<string>();
             var curpos = 0;
             foreach (var w in columnWidths)
             {
-                newlist.Add((curpos + w) <= row.Length ? row.Substring(curpos, w).Trim() : row.Substring(curpos).Trim());
+                newlist.Add(curpos + w <= row.Length ? row.Substring(curpos, w).Trim() : row.Substring(curpos).Trim());
                 curpos += w;
             }
             return newlist;
@@ -209,15 +209,15 @@ namespace Business.Common.Extensions
 
         public static bool IsNotNullOrEmpty(this string s)
         {
-            return !String.IsNullOrEmpty(s);
+            return !string.IsNullOrEmpty(s);
         }
 
-        public static Boolean IsNullOrWhiteSpace(this String obj)
+        public static bool IsNullOrWhiteSpace(this string obj)
         {
-            return obj == null || obj.Trim() == String.Empty;
+            return obj == null || obj.Trim() == string.Empty;
         }
 
-        public static string TrimOrEmpty(this String val)
+        public static string TrimOrEmpty(this string val)
         {
             return string.IsNullOrWhiteSpace(val) ? string.Empty : val.Trim();
         }
@@ -248,7 +248,7 @@ namespace Business.Common.Extensions
         /// default value is false.
         /// </param>
         /// <returns></returns>
-        public static string Right(this string s, int len, Boolean trim)
+        public static string Right(this string s, int len, bool trim)
         {
             if (trim)
             {
@@ -264,10 +264,10 @@ namespace Business.Common.Extensions
             return pos == -1 ? s : s.Substring(pos + 1);
         }
 
-        public static string RightOfIndexOf(this string s, String characters)
+        public static string RightOfIndexOf(this string s, string characters)
         {
             var pos = s.IndexOf(characters, StringComparison.Ordinal);
-            return pos == -1 ? s : s.Substring(pos + (characters.Length + 1));
+            return pos == -1 ? s : s.Substring(pos + characters.Length + 1);
         }
 
         public static string RightOfLastIndexOf(this string s, char character)
@@ -277,10 +277,10 @@ namespace Business.Common.Extensions
             return s.Substring(pos + 1);
         }
 
-        public static string RightOfLastIndexOf(this string s, String characters)
+        public static string RightOfLastIndexOf(this string s, string characters)
         {
             var pos = s.LastIndexOf(characters, StringComparison.Ordinal);
-            return pos == -1 ? s : s.Substring(pos + (characters.Length + 1));
+            return pos == -1 ? s : s.Substring(pos + characters.Length + 1);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Business.Common.Extensions
         /// default value is false.
         /// </param>
         /// <returns></returns>
-        public static string Left(this string s, int len, Boolean trim)
+        public static string Left(this string s, int len, bool trim)
         {
             if (trim)
             {
@@ -325,7 +325,7 @@ namespace Business.Common.Extensions
             return pos >= 0 ? s.Substring(0, pos) : s;
         }
 
-        public static string LeftOfIndexOf(this string s, String characters)
+        public static string LeftOfIndexOf(this string s, string characters)
         {
             var pos = s.IndexOf(characters, StringComparison.Ordinal);
             return pos >= 0 ? s.Substring(0, pos) : s;
@@ -337,7 +337,7 @@ namespace Business.Common.Extensions
             return pos >= 0 ? s.Substring(0, pos) : s;
         }
 
-        public static string LeftOfLastIndexOf(this string s, String characters)
+        public static string LeftOfLastIndexOf(this string s, string characters)
         {
             var pos = s.LastIndexOf(characters, StringComparison.Ordinal);
             return pos >= 0 ? s.Substring(0, pos) : s;
@@ -415,7 +415,7 @@ namespace Business.Common.Extensions
         /// The end of string suffix to replace the last characters in the string with.
         /// </param>
         /// <returns>The truncated string result.</returns>
-        public static string Truncate(this string s, int len, String end)
+        public static string Truncate(this string s, int len, string end)
         {
             if (s.IsNullOrWhiteSpace() || s.Length <= len) return s;
             if (len - end.Length > 0) return s.Substring(0, len - end.Length) + end;
@@ -432,49 +432,49 @@ namespace Business.Common.Extensions
             return new CultureInfo("en-US").TextInfo.ToTitleCase(s);
         }
 
-        public static String PrefixZeros(this String value, Int32 totalWidth)
+        public static string PrefixZeros(this string value, int totalWidth)
         {
             return value.PadLeft(totalWidth, '0');
         }
 
-        public static String PrefixZeros(this Int16 value, Int32 totalWidth)
+        public static string PrefixZeros(this Int16 value, int totalWidth)
         {
             return value.ToString(CultureInfo.InvariantCulture).PrefixZeros(totalWidth);
         }
 
-        public static String PrefixZeros(this Int32 value, Int32 totalWidth)
+        public static string PrefixZeros(this int value, int totalWidth)
         {
             return value.ToString(CultureInfo.InvariantCulture).PrefixZeros(totalWidth);
         }
 
-        public static String PrefixZeros(this Int64 value, Int32 totalWidth)
+        public static string PrefixZeros(this Int64 value, int totalWidth)
         {
             return value.ToString(CultureInfo.InvariantCulture).PrefixZeros(totalWidth);
         }
 
-        public static String Wrap(this String value, String prefix, String suffix)
+        public static string Wrap(this string value, string prefix, string suffix)
         {
             return prefix + value + suffix;
         }
 
-        public static String WrapInTag(this String value, String tag)
+        public static string WrapInTag(this string value, string tag)
         {
             return "<" + tag + ">" + value + "</" + tag + ">";
         }
 
-        public static String Reverse(this String value)
+        public static string Reverse(this string value)
         {
             var charArray = value.ToCharArray();
             Array.Reverse(charArray);
             return new string(charArray);
         }
 
-        public static int CountWords(this String value)
+        public static int CountWords(this string value)
         {
             return Regex.Matches(value, @"[A-Za-z0-9\-]+").Count;
         }
 
-        public static int CountLines(this String value)
+        public static int CountLines(this string value)
         {
             var count = 1;
             var start = 0;
@@ -486,15 +486,15 @@ namespace Business.Common.Extensions
             return count;
         }
 
-        public static Boolean ContainsOneOfTheseArgs(this String value, IEnumerable<String> arglist)
+        public static bool ContainsOneOfTheseArgs(this string value, IEnumerable<string> arglist)
         {
             return arglist.Any(value.Contains);
         }
 
-        public static Boolean ContainsAllOfTheseArgs(this String value, IEnumerable<String> arglist)
+        public static bool ContainsAllOfTheseArgs(this string value, IEnumerable<string> arglist)
         {
             var missing = false;
-            var missinglist = new List<String>();
+            var missinglist = new List<string>();
             var enumerable = arglist as IList<string> ?? arglist.ToList();
             foreach (var a in enumerable.Where(a => !value.Contains(a)))
             {
@@ -520,7 +520,7 @@ namespace Business.Common.Extensions
                     var topLevel = domainParts[domainParts.Length - 1];
                     var hostBody = domainParts[domainParts.Length - 2];
                     var hostHeader = domainParts[domainParts.Length - 3];
-                    var domain = string.Format("{0}.{1}", hostBody, topLevel);
+                    var domain = $"{hostBody}.{topLevel}";
                     return domain;
                 }
                 return uri.Host;
@@ -540,7 +540,7 @@ namespace Business.Common.Extensions
             return s.IsUrl(false);
         }
 
-        public static bool IsUrl(this string s, Boolean ignoreSurroundingWhitespace)
+        public static bool IsUrl(this string s, bool ignoreSurroundingWhitespace)
         {
             if (s.IsNullOrWhiteSpace()) return false;
             var rx = new Regex(@"\A(?<Protocol>\w+):\/\/(?<Domain>[\w@][\w.:@]+)\/?[\w\.?=%&=\-@/$,]*\Z", RegexOptions.IgnoreCase);
@@ -559,7 +559,7 @@ namespace Business.Common.Extensions
             return s.IsEmail(false);
         }
 
-        public static bool IsEmail(this string s, Boolean ignoreSurroundingWhitespace)
+        public static bool IsEmail(this string s, bool ignoreSurroundingWhitespace)
         {
             if (s.IsNullOrWhiteSpace()) return false;
             var rx = new Regex(@"\A([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})\Z", RegexOptions.IgnoreCase);
@@ -578,7 +578,7 @@ namespace Business.Common.Extensions
             return s.IsStrongPassword(6);
         }
 
-        public static bool IsStrongPassword(this string s, Int32 minLength)
+        public static bool IsStrongPassword(this string s, int minLength)
         {
             return Regex.IsMatch(s, @"[\d]")
                 && Regex.IsMatch(s, @"[a-z]")
@@ -587,13 +587,12 @@ namespace Business.Common.Extensions
                 && s.Length >= minLength;
         }
 
-        public static bool IsStrongPassword(this string s, Int32 minLength, Int32 maxLength)
+        public static bool IsStrongPassword(this string s, int minLength, int maxLength)
         {
             return Regex.IsMatch(s, @"[\d]")
-                && Regex.IsMatch(s, @"[a-z]")
-                && Regex.IsMatch(s, @"[A-Z]")
-                && Regex.IsMatch(s, @"[\s~!@#\$%\^&\*\(\)\{\}\|\[\]\\:;'?,.`+=<>\/]")
-                && (s.Length >= minLength && s.Length <= maxLength);
+                   && Regex.IsMatch(s, @"[a-z]")
+                   && Regex.IsMatch(s, @"[A-Z]")
+                   && Regex.IsMatch(s, @"[\s~!@#\$%\^&\*\(\)\{\}\|\[\]\\:;'?,.`+=<>\/]") && s.Length >= minLength && s.Length <= maxLength;
         }
 
         public static bool IsMarkup(this string s)
@@ -601,7 +600,7 @@ namespace Business.Common.Extensions
             return s.IsMarkup(false);
         }
 
-        public static bool IsMarkup(this string s, Boolean ignoreSurroundingWhitespace)
+        public static bool IsMarkup(this string s, bool ignoreSurroundingWhitespace)
         {
             if (s.IsNullOrWhiteSpace()) return false;
             var rx = new Regex(@"<[a-z0-9]*>.*?</[a-z0-9]*>", RegexOptions.IgnoreCase);
@@ -615,68 +614,68 @@ namespace Business.Common.Extensions
             return rx.IsMatch(s);
         }
 
-        public static bool IsRegexMatch(this string s, String pattern)
+        public static bool IsRegexMatch(this string s, string pattern)
         {
             return s.IsRegexMatch(pattern, false);
         }
 
-        public static bool IsRegexMatch(this string s, String pattern, Boolean ignoreSurroundingWhitespace)
+        public static bool IsRegexMatch(this string s, string pattern, bool ignoreSurroundingWhitespace)
         {
             if (s.IsNullOrWhiteSpace() || pattern.IsNullOrWhiteSpace()) return false;
             var rx = new Regex(pattern);
             return rx.IsMatch(ignoreSurroundingWhitespace ? s.Trim() : s);
         }
 
-        public static bool IsRegexMatch(this string s, String pattern, RegexOptions regexOptions, Boolean ignoreSurroundingWhitespace)
+        public static bool IsRegexMatch(this string s, string pattern, RegexOptions regexOptions, bool ignoreSurroundingWhitespace)
         {
             if (s.IsNullOrWhiteSpace() || pattern.IsNullOrWhiteSpace()) return false;
             var rx = new Regex(pattern, regexOptions);
             return rx.IsMatch(ignoreSurroundingWhitespace ? s.Trim() : s);
         }
 
-        public static bool IsRegexMatchAny(this string s, params String[] patterns)
+        public static bool IsRegexMatchAny(this string s, params string[] patterns)
         {
             return s.IsRegexMatchAny(false, patterns);
         }
 
-        public static bool IsRegexMatchAny(this string s, Boolean ignoreSurroundingWhitespace, params String[] patterns)
+        public static bool IsRegexMatchAny(this string s, bool ignoreSurroundingWhitespace, params string[] patterns)
         {
             return patterns.Any(p => s.IsRegexMatch(p, ignoreSurroundingWhitespace));
         }
 
-        public static bool IsRegexMatchAny(this string s, RegexOptions regexOptions, Boolean ignoreSurroundingWhitespace, params String[] patterns)
+        public static bool IsRegexMatchAny(this string s, RegexOptions regexOptions, bool ignoreSurroundingWhitespace, params string[] patterns)
         {
             return patterns.Any(p => s.IsRegexMatch(p, regexOptions, ignoreSurroundingWhitespace));
         }
 
-        public static bool IsRegexMatchAll(this string s, params String[] patterns)
+        public static bool IsRegexMatchAll(this string s, params string[] patterns)
         {
             return s.IsRegexMatchAll(false, patterns);
         }
 
-        public static bool IsRegexMatchAll(this string s, Boolean ignoreSurroundingWhitespace, params String[] patterns)
+        public static bool IsRegexMatchAll(this string s, bool ignoreSurroundingWhitespace, params string[] patterns)
         {
             var rv = true;
             foreach (var p in patterns)
             {
-                rv = (s.IsRegexMatch(p, ignoreSurroundingWhitespace));
+                rv = s.IsRegexMatch(p, ignoreSurroundingWhitespace);
                 if (!rv) break;
             }
             return rv;
         }
 
-        public static bool IsRegexMatchAll(this string s, RegexOptions regexOptions, Boolean ignoreSurroundingWhitespace, params String[] patterns)
+        public static bool IsRegexMatchAll(this string s, RegexOptions regexOptions, bool ignoreSurroundingWhitespace, params string[] patterns)
         {
             var rv = true;
             foreach (var p in patterns)
             {
-                rv = (s.IsRegexMatch(p, regexOptions, ignoreSurroundingWhitespace));
+                rv = s.IsRegexMatch(p, regexOptions, ignoreSurroundingWhitespace);
                 if (!rv) break;
             }
             return rv;
         }
 
-        public static bool IsRegexWildcardMatch(this string s, string pattern, string wildcardCharacters = "*", RegexOptions regexOptions = RegexOptions.None, Boolean ignoreSurroundingWhitespace = true)
+        public static bool IsRegexWildcardMatch(this string s, string pattern, string wildcardCharacters = "*", RegexOptions regexOptions = RegexOptions.None, bool ignoreSurroundingWhitespace = true)
         {
             var wildcards = wildcardCharacters.ToCharArray();
             pattern = wildcards.Aggregate(pattern, (current, c) => current.Replace(c.ToString(CultureInfo.InvariantCulture), @"[\s\S]*"));
@@ -684,13 +683,13 @@ namespace Business.Common.Extensions
             return s.IsRegexMatch(pattern, regexOptions, ignoreSurroundingWhitespace);
         }
 
-        public static String RegexMatch(this string s, String pattern, RegexOptions regexOptions = RegexOptions.None, Boolean ignoreSurroundingWhitespace = false)
+        public static string RegexMatch(this string s, string pattern, RegexOptions regexOptions = RegexOptions.None, bool ignoreSurroundingWhitespace = false)
         {
             var rx = new Regex(pattern, regexOptions);
             return ignoreSurroundingWhitespace ? rx.Match(s.Trim()).ToString() : rx.Match(s).ToString();
         }
 
-        public static String RegexMatchThenReplaceInOther(this String s, String sourcePattern, String destination, String destinationPattern)
+        public static string RegexMatchThenReplaceInOther(this string s, string sourcePattern, string destination, string destinationPattern)
         {
             var rx = new Regex(destinationPattern, RegexOptions.None);
             var sourceMatch = s.RegexMatch(sourcePattern);
@@ -706,7 +705,7 @@ namespace Business.Common.Extensions
 
         #region Advanced Parsing
 
-        public static Boolean TryParseAsEnum<T>(this string value, out T result) where T : struct
+        public static bool TryParseAsEnum<T>(this string value, out T result) where T : struct
         {
             result = default(T);
             try
@@ -729,7 +728,7 @@ namespace Business.Common.Extensions
             return default(T);
         }
 
-        public static Boolean TryParseAs<T>(this string value, out T result)
+        public static bool TryParseAs<T>(this string value, out T result)
         {
             // Get default value for type so if string is empty then we can return default value.
             result = default(T);
@@ -808,7 +807,7 @@ namespace Business.Common.Extensions
         /// <param name="parameterSeparator"></param>
         /// <param name="valueSeparator"></param>
         /// <returns></returns>
-        public static NameValueCollection ParseAsNameValueCollection(this String s, Char parameterSeparator, Char valueSeparator)
+        public static NameValueCollection ParseAsNameValueCollection(this string s, Char parameterSeparator, Char valueSeparator)
         {
             NameValueCollection nvText = null;
             s = s.TrimEnd(parameterSeparator);
@@ -838,7 +837,7 @@ namespace Business.Common.Extensions
         /// <param name="parameterSeparator"></param>
         /// <param name="valueSeparator"></param>
         /// <returns></returns>
-        public static NameValueCollection ParseAsNameValueCollection(this String s, String parameterSeparator, String valueSeparator)
+        public static NameValueCollection ParseAsNameValueCollection(this string s, string parameterSeparator, string valueSeparator)
         {
             NameValueCollection nvText = null;
             if (parameterSeparator.IsNullOrWhiteSpace() || valueSeparator.IsNullOrWhiteSpace()) return null;
@@ -869,7 +868,7 @@ namespace Business.Common.Extensions
         /// <param name="parameterSeparator"></param>
         /// <param name="valueSeparator"></param>
         /// <returns></returns>
-        public static IEnumerable<Tuple<String, String>> ParseAsStringTuples(this String s, Char parameterSeparator, Char valueSeparator)
+        public static IEnumerable<Tuple<string, string>> ParseAsStringTuples(this string s, Char parameterSeparator, Char valueSeparator)
         {
             s = s.TrimEnd(parameterSeparator);
             if (s.IsNullOrWhiteSpace()) yield break;
@@ -879,7 +878,7 @@ namespace Business.Common.Extensions
                 var posSep = a.IndexOf(valueSeparator);
                 var name = a.Substring(0, posSep);
                 var value = a.Substring(posSep + 1);
-                yield return new Tuple<String, String>(name, value);
+                yield return new Tuple<string, string>(name, value);
             }
         }
 
@@ -924,11 +923,11 @@ namespace Business.Common.Extensions
 
         /* TODO - Add last row paramater logic */
 
-        public static IEnumerable<IEnumerable<String>> Lines(this string stringdata, string delimiter = "\t", Int32 firstrow = 1, String quotedNewLineReplacement = null, String quotedDelimiterReplacement = null, String trimChars = "\"' ")
+        public static IEnumerable<IEnumerable<string>> Lines(this string stringdata, string delimiter = "\t", int firstrow = 1, string quotedNewLineReplacement = null, string quotedDelimiterReplacement = null, string trimChars = "\"' ")
         {
             using (var sr = new StringReader(stringdata))
             {
-                String line;
+                string line;
                 while (firstrow > 1 && sr.ReadLine() != null)
                 {
                     firstrow--;
@@ -963,9 +962,9 @@ namespace Business.Common.Extensions
                         while ((line = sr.ReadLine()) != null)
                         {
                             /* fix broken rows here */
-                            while ((Regex.Matches(line, "\"").Count) % 2 != 0)
+                            while (Regex.Matches(line, "\"").Count % 2 != 0)
                             {
-                                String nextline;
+                                string nextline;
                                 if ((nextline = sr.ReadLine()) != null)
                                 {
                                     line += quotedNewLineReplacement + nextline;
@@ -985,9 +984,9 @@ namespace Business.Common.Extensions
                         while ((line = sr.ReadLine()) != null)
                         {
                             /* fix broken rows here */
-                            while ((Regex.Matches(line, "\"").Count) % 2 != 0)
+                            while (Regex.Matches(line, "\"").Count % 2 != 0)
                             {
-                                String nextline;
+                                string nextline;
                                 if ((nextline = sr.ReadLine()) != null)
                                 {
                                     line += quotedNewLineReplacement + nextline;
@@ -1064,7 +1063,7 @@ namespace Business.Common.Extensions
 
         /* TODO - Add SeperatedLineParser to above methods */
 
-        private static Regex SeperatedLineParser(String delimiter, String textQualifier)
+        private static Regex SeperatedLineParser(string delimiter, string textQualifier)
         {
             //var regexPattern = String.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", delimiter, textQualifier);
             //var regexPattern = String.Format("((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))", delimiter, textQualifier);
@@ -1077,12 +1076,12 @@ namespace Business.Common.Extensions
         }
 
 
-        public static IEnumerable<string[]> Lines(this string stringdata, IEnumerable<Int32> columnWidths, Int32 firstrow = 1)
+        public static IEnumerable<string[]> Lines(this string stringdata, IEnumerable<int> columnWidths, int firstrow = 1)
         {
             var columnWidthArray = columnWidths.ToArray();
             using (var sr = new StringReader(stringdata))
             {
-                String line;
+                string line;
                 while (firstrow > 1 && sr.ReadLine() != null)
                 {
                     firstrow--;
@@ -1094,9 +1093,9 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<string[]> Lines(this StringReader sr, IEnumerable<Int32> columnWidths, Int32 firstrow = 1)
+        public static IEnumerable<string[]> Lines(this StringReader sr, IEnumerable<int> columnWidths, int firstrow = 1)
         {
-            String line;
+            string line;
             var columnWidthArray = columnWidths.ToArray();
             while (firstrow > 1 && sr.ReadLine() != null)
             {
@@ -1108,9 +1107,9 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<string[]> Lines(this StreamReader sr, IEnumerable<Int32> columnWidths, Int32 firstrow = 1)
+        public static IEnumerable<string[]> Lines(this StreamReader sr, IEnumerable<int> columnWidths, int firstrow = 1)
         {
-            String line;
+            string line;
             var columnWidthArray = columnWidths.ToArray();
             while (firstrow > 1 && sr.ReadLine() != null)
             {
@@ -1126,7 +1125,7 @@ namespace Business.Common.Extensions
         {
             using (var sr = new StringReader(stringdata))
             {
-                String line;
+                string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     yield return line.Replace("\0", "").Trim();
@@ -1138,7 +1137,7 @@ namespace Business.Common.Extensions
 
         #region Seperated String Data methods
 
-        public static DataTable LinesToDataTable(this IEnumerable<IEnumerable<String>> lineData, DataTable template = null, Boolean useFirstRowAsColumnNames = false, IEnumerable<String> columnNames = null, IEnumerable<Type> columnDataTypes = null)
+        public static DataTable LinesToDataTable(this IEnumerable<IEnumerable<string>> lineData, DataTable template = null, bool useFirstRowAsColumnNames = false, IEnumerable<string> columnNames = null, IEnumerable<Type> columnDataTypes = null)
         {
             var rv = template ?? new DataTable();
             var columnsExist = template != null;
@@ -1147,28 +1146,28 @@ namespace Business.Common.Extensions
             {
                 if (isFirstRow)
                 {
-                    var firstrow = new List<String>(l);
+                    var firstrow = new List<string>(l);
                     isFirstRow = false;
                     if (!columnsExist)
                     {
                         /* Since there is now columns we need to create them here. */
 
                         /* create an array to hold the column names */
-                        var colnamearr = new String[firstrow.Count];
+                        var colnamearr = new string[firstrow.Count];
 
                         /* Use the first row values if UseFirstRowAsColumnNames == true */
                         if (useFirstRowAsColumnNames)
                         {
                             for (var i = 0; i < colnamearr.Length; i++)
                             {
-                                colnamearr[i] = i < firstrow.Count ? firstrow[i] : String.Format("Column{0}", i);
+                                colnamearr[i] = i < firstrow.Count ? firstrow[i] : $"Column{i}";
                             }
                         }
                         else
                         {
                             for (var i = 0; i < colnamearr.Length; i++)
                             {
-                                colnamearr[i] = String.Format("Column{0}", i);
+                                colnamearr[i] = $"Column{i}";
                             }
                         }
 
@@ -1185,7 +1184,7 @@ namespace Business.Common.Extensions
                                 }
                                 else if (colnamearr[i] == null)
                                 {
-                                    colnamearr[i] = String.Format("Column{0}", i.ToString(CultureInfo.InvariantCulture));
+                                    colnamearr[i] = $"Column{i.ToString(CultureInfo.InvariantCulture)}";
                                 }
                             }
                         }
@@ -1239,11 +1238,11 @@ namespace Business.Common.Extensions
 
         public static void DataTableAppendSeperatedTxtToStreamWriter(ref StreamWriter streamWriter,
             DataTable data,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "")
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "")
         {
             if (newLineChar.Contains(@"\"))
             {
@@ -1254,18 +1253,18 @@ namespace Business.Common.Extensions
                 fieldSeperator = fieldSeperator.Replace(@"\t", "\t");
             }
 
-            textQualifier = textQualifier ?? String.Empty; // just in case this is null
-            nullValue = nullValue ?? String.Empty; // just in case this is null
+            textQualifier = textQualifier ?? string.Empty; // just in case this is null
+            nullValue = nullValue ?? string.Empty; // just in case this is null
 
             streamWriter.NewLine = newLineChar;
 
             using (var dr = data.CreateDataReader())
             {
-                var tempobj = new Object[dr.FieldCount];
+                var tempobj = new object[dr.FieldCount];
                 if (!dr.HasRows) return;
                 if (colHeaders)
                 {
-                    streamWriter.WriteLine(String.Join(fieldSeperator, (from DataColumn c in data.Columns select c.ColumnName).ToArray()));
+                    streamWriter.WriteLine(string.Join(fieldSeperator, (from DataColumn c in data.Columns select c.ColumnName).ToArray()));
                 }
                 while (dr.Read())
                 {
@@ -1278,27 +1277,27 @@ namespace Business.Common.Extensions
                         {
                             rowdata.Add(((DateTime)o).ToString("yyyy-MM-dd HH:mm:ss"));
                         }
-                        else if (o is string && !String.IsNullOrWhiteSpace(textQualifier))
+                        else if (o is string && !string.IsNullOrWhiteSpace(textQualifier))
                         {
-                            rowdata.Add(String.Format("\"{0}\"", o == DBNull.Value ? nullValue : o));
+                            rowdata.Add($"\"{(o == DBNull.Value ? nullValue : o)}\"");
                         }
                         else
                         {
-                            rowdata.Add((o == null || o == DBNull.Value ? nullValue : o.ToString()));
+                            rowdata.Add(o == null || o == DBNull.Value ? nullValue : o.ToString());
                         }
                     }
-                    streamWriter.WriteLine(String.Join(fieldSeperator, rowdata.ToArray()));
+                    streamWriter.WriteLine(string.Join(fieldSeperator, rowdata.ToArray()));
                 }
             }
         }
 
         public static void CreateSeperatedTxtFileFromDataTable(FileInfo file,
             DataTable data,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "")
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "")
         {
             if (file.Exists) file.Delete();
             var sw = new StreamWriter(file.FullName);

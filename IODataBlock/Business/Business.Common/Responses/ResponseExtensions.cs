@@ -1,5 +1,4 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 
 namespace Business.Common.Responses
 {
@@ -8,7 +7,7 @@ namespace Business.Common.Responses
         public static IResponseObject ToUncompletedResponse(this object requestData, int? id, string code, string correlationId = null)
         {
             ResponseCode rc;
-            if (!id.HasValue && String.IsNullOrWhiteSpace(code)) rc = null;
+            if (!id.HasValue && string.IsNullOrWhiteSpace(code)) rc = null;
             else rc = new ResponseCode(id,code);
             return new ResponseObject { RequestData = requestData, ResponseCode = rc, CorrelationId = correlationId };
         }

@@ -7,24 +7,24 @@ namespace ExBaseStringUtil
     public interface IParameterTransformerByCollection
     {
 
-        String TransformTarget { get; set; }
+        string TransformTarget { get; set; }
 
-        String NamedArg { get; set; }
+        string NamedArg { get; set; }
 
-        IEnumerable<Object> Values { get; set; }
+        IEnumerable<object> Values { get; set; }
 
-        Func<IEnumerable<Object>, IEnumerable<String>> ValueFormatter { get; set; }
+        Func<IEnumerable<object>, IEnumerable<string>> ValueFormatter { get; set; }
 
-        String ValueSeperator { get; set; }
+        string ValueSeperator { get; set; }
 
-        Func<String, String> ReplacementFormatter { get; set; }
+        Func<string, string> ReplacementFormatter { get; set; }
 
-        String StartTag { get; set; }
+        string StartTag { get; set; }
 
-        String EndTag { get; set; }
+        string EndTag { get; set; }
 
-        String Result { get; }
+        string Result { get; }
 
-        IEnumerable<String> GetFormattedValues();
+        IEnumerable<string> GetFormattedValues();
     }
 }

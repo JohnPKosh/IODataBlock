@@ -18,7 +18,7 @@ namespace Business.Common.System
         {
             get
             {
-                return String.IsNullOrWhiteSpace(_commandName) ? this.GetType().Name() : _commandName;
+                return string.IsNullOrWhiteSpace(_commandName) ? GetType().Name() : _commandName;
             }
             set { _commandName = value; }
         }

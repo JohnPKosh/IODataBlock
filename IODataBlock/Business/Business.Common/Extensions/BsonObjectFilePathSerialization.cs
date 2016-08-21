@@ -9,7 +9,7 @@ namespace Business.Common.Extensions
     {
         #region WriteBsonToFilePath
 
-        public static void WriteBsonToFilePath(this object value, String filePath, JsonSerializerSettings settings = null)
+        public static void WriteBsonToFilePath(this object value, string filePath, JsonSerializerSettings settings = null)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
@@ -21,20 +21,20 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static void WriteBsonToFilePath(this object value, String filePath, params JsonConverter[] converters)
+        public static void WriteBsonToFilePath(this object value, string filePath, params JsonConverter[] converters)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
                 using (var writer = new BsonWriter(fs))
                 {
-                    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                    var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
                     serializer.Serialize(writer, value);
                 }
             }
         }
 
-        public static void WriteBsonToFilePath(this object value, String filePath, Type type, JsonSerializerSettings settings = null)
+        public static void WriteBsonToFilePath(this object value, string filePath, Type type, JsonSerializerSettings settings = null)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
@@ -46,13 +46,13 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static void WriteBsonToFilePath(this object value, String filePath, Type type, params JsonConverter[] converters)
+        public static void WriteBsonToFilePath(this object value, string filePath, Type type, params JsonConverter[] converters)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
                 using (var writer = new BsonWriter(fs))
                 {
-                    var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                    var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                     var serializer = JsonSerializer.CreateDefault(settings);
                     serializer.Serialize(writer, value, type);
                 }

@@ -48,14 +48,14 @@ namespace Business.Common.Extensions
             return new ObservableCollection<T>(values);
         }
 
-        public static IEnumerable<TSource> IEnumerableTop<TSource, TKey>(this IEnumerable<TSource> source, Int32 count, Func<TSource, TKey> orderBy)
+        public static IEnumerable<TSource> IEnumerableTop<TSource, TKey>(this IEnumerable<TSource> source, int count, Func<TSource, TKey> orderBy)
         {
             return source.OrderBy(orderBy).Take(count).AsEnumerable();
         }
 
         public static DataTable AsDataTable<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null)throw new ArgumentNullException("enumerable");
+            if (enumerable == null)throw new ArgumentNullException(nameof(enumerable));
             var input = enumerable.ToList();
 
 
@@ -99,9 +99,9 @@ namespace Business.Common.Extensions
 
 
         public static XElement IEnumerableToXElement<TSource>(this IEnumerable<TSource> list
-            , String filePath
-            , String itemName = @"Arg"
-            , String valueName = "V"
+            , string filePath
+            , string itemName = @"Arg"
+            , string valueName = "V"
             ) where TSource : IConvertible
         {
             var x = new XElement(itemName);
@@ -114,16 +114,16 @@ namespace Business.Common.Extensions
 
         public static IEnumerable<TSource> IEnumerableFromXElement<TSource>(
             XElement xml
-            , String valueName = "V"
+            , string valueName = "V"
             ) where TSource : IConvertible
         {
             return xml.Elements(valueName).Select(el => (TSource)Convert.ChangeType(el.Value, typeof(TSource)));
         }
 
         public static void IEnumerableToXElementToFile<TSource>(this IEnumerable<TSource> list
-            , String filePath
-            , String itemName = @"Arg"
-            , String valueName = "V"
+            , string filePath
+            , string itemName = @"Arg"
+            , string valueName = "V"
             ) where TSource : IConvertible
         {
             var x = new XElement(itemName);
@@ -135,8 +135,8 @@ namespace Business.Common.Extensions
         }
 
         public static IEnumerable<TSource> IEnumerableFromXElementFromFile<TSource>(
-            String filePath
-            , String valueName = "V"
+            string filePath
+            , string valueName = "V"
             ) where TSource : IConvertible
         {
             var x = XElement.Load(filePath);
@@ -173,22 +173,22 @@ namespace Business.Common.Extensions
             return source != null && source.Any(predicate);
         }
 
-        public static IEnumerable<T> SkipTake<T>(this IEnumerable<T> source, Int32 skip, Int32 take)
+        public static IEnumerable<T> SkipTake<T>(this IEnumerable<T> source, int skip, int take)
         {
             return source.Skip(skip).Take(take);
         }
 
-        public static IEnumerable<T> Page<T>(this IEnumerable<T> source, Int32 index, Int32 size)
+        public static IEnumerable<T> Page<T>(this IEnumerable<T> source, int index, int size)
         {
             return source.Skip(index * size).Take(size);
         }
 
-        public static IEnumerable<T> PageWhere<T>(this IEnumerable<T> source, Int32 index, Int32 size, Func<T, bool> predicate)
+        public static IEnumerable<T> PageWhere<T>(this IEnumerable<T> source, int index, int size, Func<T, bool> predicate)
         {
             return source.Where(predicate).Skip(index * size).Take(size);
         }
 
-        public static IEnumerable<T> PageWhere<T>(this IEnumerable<T> source, Int32 index, Int32 size, string predicate, params object[] values)
+        public static IEnumerable<T> PageWhere<T>(this IEnumerable<T> source, int index, int size, string predicate, params object[] values)
         {
             return source.AsQueryable().Where(predicate, values).Skip(index * size).Take(size);
         }
@@ -289,7 +289,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<IEnumerable<T>> Pages<T>(this IEnumerable<T> source, Int32 size)
+        public static IEnumerable<IEnumerable<T>> Pages<T>(this IEnumerable<T> source, int size)
         {
             var cnt = 0;
             while (true)
@@ -303,7 +303,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<IEnumerable<T>> PagesWhere<T>(this IEnumerable<T> source, Int32 size, Func<T, bool> predicate)
+        public static IEnumerable<IEnumerable<T>> PagesWhere<T>(this IEnumerable<T> source, int size, Func<T, bool> predicate)
         {
             var cnt = 0;
             while (true)
@@ -317,7 +317,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static IEnumerable<IEnumerable<T>> PagesWhere<T>(this IEnumerable<T> source, Int32 size, string predicate, params object[] values)
+        public static IEnumerable<IEnumerable<T>> PagesWhere<T>(this IEnumerable<T> source, int size, string predicate, params object[] values)
         {
             var cnt = 0;
             while (true)

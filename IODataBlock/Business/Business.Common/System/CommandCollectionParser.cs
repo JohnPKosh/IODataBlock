@@ -69,7 +69,7 @@ namespace Business.Common.System
         private ICommandObject Find(string collectionName, string commandName)
         {
             var commands = _commandObjectDictionary[collectionName];
-            return commands.FirstOrDefault(c => c.CommandName == String.Format(@"{0}Command", commandName));
+            return commands.FirstOrDefault(c => c.CommandName == $@"{commandName}Command");
         }
 
         #endregion private Utility methods

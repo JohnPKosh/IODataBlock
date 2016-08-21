@@ -20,13 +20,13 @@ namespace Sandbox4.Models
     {
         public ApplicationRole()
         {
-            this.Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
         }
 
         public ApplicationRole(string name)
             : this()
         {
-            this.Name = name;
+            Name = name;
         }
 
         // Add any custom Role properties/code here
@@ -37,7 +37,7 @@ namespace Sandbox4.Models
     {
         public ApplicationUser()
         {
-            this.Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
 
             // Add any custom User properties/code here
         }
@@ -91,7 +91,7 @@ namespace Sandbox4.Models
         public ApplicationUserStore()
             : this(new IdentityDbContext())
         {
-            base.DisposeContext = true;
+            DisposeContext = true;
         }
 
         public ApplicationUserStore(DbContext context)
@@ -109,7 +109,7 @@ namespace Sandbox4.Models
         public ApplicationRoleStore()
             : base(new IdentityDbContext())
         {
-            base.DisposeContext = true;
+            DisposeContext = true;
         }
 
         public ApplicationRoleStore(DbContext context)

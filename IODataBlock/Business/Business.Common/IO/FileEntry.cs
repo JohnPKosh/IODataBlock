@@ -57,7 +57,7 @@ namespace Business.Common.IO
             {
                 try
                 {
-                    return _fileInfo.Directory != null ? _fileInfo.Directory.Root.FullName : null;
+                    return _fileInfo.Directory?.Root.FullName;
                 }
                 catch (Exception ex)
                 {
