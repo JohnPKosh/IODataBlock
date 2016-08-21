@@ -1,7 +1,7 @@
-﻿using System.Configuration;
-using System.Web.Configuration;
-using Business.Common.IO;
+﻿using Business.Common.IO;
 using Business.Common.Security;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace Business.Common.Configuration
 {
@@ -130,7 +130,7 @@ namespace Business.Common.Configuration
                 return RngCrypto.GetTripleDesIvBytes(GetAppSettingByName("csppI"), GetAppSettingByName("cspsI"));
             }
 
-            #endregion
+            #endregion Methods
         }
     }
 }

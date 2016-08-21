@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Business.Common.Requests;
+using Business.Common.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Business.Common.Requests;
-using Business.Common.Responses;
 
 namespace Business.Common.System
 {

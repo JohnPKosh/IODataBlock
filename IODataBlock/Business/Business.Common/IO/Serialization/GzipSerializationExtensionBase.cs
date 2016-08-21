@@ -33,7 +33,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -141,7 +141,7 @@ namespace Business.Common.IO.Serialization
         {
             Stream ms = new MemoryStream();
             ms.GZipSerialize(obj, settings, encodingType, knownTypes);
-            return (MemoryStream) ms;
+            return (MemoryStream)ms;
         }
 
         #endregion T Object to MemoryStream GZipSerialization Extensions

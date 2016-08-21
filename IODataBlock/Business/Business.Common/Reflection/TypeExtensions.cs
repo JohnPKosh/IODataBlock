@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Fasterflect;
+using System;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
-using Fasterflect;
 
 namespace Business.Common.Reflection
 {

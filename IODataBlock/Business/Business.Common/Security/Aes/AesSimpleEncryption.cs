@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Business.Common.IO;
+using Business.Common.IO.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using Business.Common.IO;
-using Business.Common.IO.Serialization;
 
 namespace Business.Common.Security.Aes
 {
@@ -1020,7 +1020,5 @@ namespace Business.Common.Security.Aes
         #endregion File Serialization Extensions
 
         #endregion Serialization Extensions
-
-
     }
 }

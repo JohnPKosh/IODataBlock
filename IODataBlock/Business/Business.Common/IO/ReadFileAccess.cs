@@ -78,8 +78,6 @@ namespace Business.Common.IO
 
         public bool LockAcquired { get; set; }
 
-
-
         #endregion Fields and Properties
 
         #region Public Methods

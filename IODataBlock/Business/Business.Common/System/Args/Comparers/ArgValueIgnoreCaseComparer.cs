@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Business.Common.System.Args;
+using System;
 using System.Collections.Generic;
-using Business.Common.System.Args;
 
 // ReSharper disable once CheckNamespace
 namespace ExBaseArguments

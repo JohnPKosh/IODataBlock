@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.IO;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
-using Business.Common.Extensions;
-using Business.Common.IO;
 
 namespace Business.Common.Security.Aes
 {
@@ -359,7 +359,6 @@ namespace Business.Common.Security.Aes
             }
         }
 
-
         #endregion AesEncrypt FileInfo Extensions
 
         #region Stream AesDecrypt Extensions
@@ -467,7 +466,6 @@ namespace Business.Common.Security.Aes
             }
         }
 
-
         /// <summary>
         /// Decrypts a Stream and writes to a file.
         /// </summary>
@@ -556,7 +554,6 @@ namespace Business.Common.Security.Aes
                 }
             }
         }
-
 
         /// <summary>
         /// Decrypts an existing file and writes to the specified output file.

@@ -2,7 +2,9 @@
 {
     public class ResponseCode : IResponseCode
     {
-        public ResponseCode(){}
+        public ResponseCode()
+        {
+        }
 
         public ResponseCode(int? id, string code = null)
         {
@@ -21,6 +23,6 @@
             return Code;
         }
 
-        #endregion
+        #endregion IResponseCode Members
     }
 }

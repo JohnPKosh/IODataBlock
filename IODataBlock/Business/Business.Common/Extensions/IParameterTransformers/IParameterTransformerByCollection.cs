@@ -6,7 +6,6 @@ namespace ExBaseStringUtil
 {
     public interface IParameterTransformerByCollection
     {
-
         string TransformTarget { get; set; }
 
         string NamedArg { get; set; }

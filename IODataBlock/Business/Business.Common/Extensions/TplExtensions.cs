@@ -6,7 +6,6 @@ namespace Business.Common.Extensions
 {
     public static class TplExtensions
     {
-
         public static List<TDest> ParallelTransformEach<TDest, TSource>(this IEnumerable<TSource> values, Func<TSource, TDest> function, int maxDegreeOfParallelism = 4)
         {
             var rv = new List<TDest>();
@@ -37,8 +36,5 @@ namespace Business.Common.Extensions
         //    }
         //    if (tasks.Count > 0) Task.WaitAll(tasks.ToArray());
         //}
-
-
-
     }
 }

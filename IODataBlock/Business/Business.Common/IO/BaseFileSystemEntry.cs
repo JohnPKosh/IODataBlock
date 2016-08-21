@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Business.Common.Exceptions;
+using System;
 using System.IO;
 using System.Linq;
-using Business.Common.Exceptions;
 
 namespace Business.Common.IO
 {

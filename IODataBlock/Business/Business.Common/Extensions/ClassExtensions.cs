@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace Business.Common.Extensions
 {
@@ -239,7 +239,7 @@ namespace Business.Common.Extensions
         public static XmlDocument ToJObjectXml(this object value)
         {
             //return (JObject)JToken.FromObject(value);
-            return JsonConvert.DeserializeXmlNode(JToken.FromObject(value).ToString(),"Root");
+            return JsonConvert.DeserializeXmlNode(JToken.FromObject(value).ToString(), "Root");
         }
 
         #endregion Json.net JObject
@@ -359,7 +359,7 @@ namespace Business.Common.Extensions
         }
 
         /*
-        
+
         public static T CreateFromJson(string value)
         {
             return value.ConvertJson<T>();
@@ -387,6 +387,6 @@ namespace Business.Common.Extensions
 
         */
 
-        #endregion
+        #endregion From IObjectBase
     }
 }

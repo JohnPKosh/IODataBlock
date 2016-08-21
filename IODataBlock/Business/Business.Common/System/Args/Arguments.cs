@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Business.Common.IO.Serialization;
+using ExBaseArguments;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Business.Common.IO.Serialization;
-using ExBaseArguments;
 
 namespace Business.Common.System.Args
 {

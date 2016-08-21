@@ -2,7 +2,6 @@
 {
     public static class ExceptionObjectExtensions
     {
-
         //private void WriteToEventLog(String msg)
         //{
         //    //ActivationContext ac = AppDomain.CurrentDomain.ActivationContext;

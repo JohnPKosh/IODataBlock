@@ -4,6 +4,5 @@
 
     public static partial class ClassExtensions
     {
-
     }
 }

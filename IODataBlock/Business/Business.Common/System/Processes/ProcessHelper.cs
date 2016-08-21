@@ -13,7 +13,7 @@ namespace Business.Common.System.Processes
     /// StandardOutput and StandardError streams concurrently (this must be done with
     /// callbacks). See http://msdn2.microsoft.com/en-us/library/system.diagnostics.process.standarderror.aspx
     /// </summary>
-    public class ProcessHelper:IDisposable
+    public class ProcessHelper : IDisposable
     {
         private Process _mProcess = new Process();
         private TextWriter _mError = Console.Error;
@@ -75,7 +75,7 @@ namespace Business.Common.System.Processes
             {
                 pieces[0] = pieces[0].Substring(0, pieces[0].Length - 1);
             }
-            var result = new ProcessHelper {FileName = pieces[0], Arguments = pieces[1]};
+            var result = new ProcessHelper { FileName = pieces[0], Arguments = pieces[1] };
             return result;
         }
 
@@ -294,7 +294,7 @@ namespace Business.Common.System.Processes
         }
 
         /// <summary>
-        /// Starts with a timeout of 
+        /// Starts with a timeout of
         /// milliseconds and does not throw an exception when it sees an error, but returns
         /// the standard error and output.
         /// </summary>
@@ -458,7 +458,6 @@ namespace Business.Common.System.Processes
             return error;
         }
 
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing) return;
@@ -474,15 +473,10 @@ namespace Business.Common.System.Processes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
     }
 }
 
-
-
 /*  Sample code
-
 
         private static string StartProcessTask()
         {
@@ -498,13 +492,11 @@ namespace Business.Common.System.Processes
                 rv = p.StandardOutput;
             }
             catch (Exception ex)
-            {                
+            {
                 throw ex;
             }
-            
+
             return rv;
         }
 
-
 */
-

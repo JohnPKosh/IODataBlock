@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Business.Common.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace ExBaseStringUtil
@@ -38,7 +38,7 @@ namespace ExBaseStringUtil
 
         public IEnumerable<object> Values { get; set; }
 
-        public Func<IEnumerable<object>, IEnumerable<string>> ValueFormatter{ get; set; }
+        public Func<IEnumerable<object>, IEnumerable<string>> ValueFormatter { get; set; }
 
         public string ValueSeperator { get; set; }
 
@@ -55,6 +55,6 @@ namespace ExBaseStringUtil
             return ValueFormatter?.Invoke(Values);
         }
 
-        #endregion
+        #endregion Interface Implementation
     }
 }

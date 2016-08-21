@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-using Business.Common.Requests;
+﻿using Business.Common.Requests;
 using Business.Common.System.App;
 using Business.Common.System.States;
+using System;
+using System.IO;
 
 namespace Business.Common.System.Commands
 {

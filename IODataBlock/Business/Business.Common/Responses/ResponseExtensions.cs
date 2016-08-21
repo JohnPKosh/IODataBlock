@@ -8,7 +8,7 @@ namespace Business.Common.Responses
         {
             ResponseCode rc;
             if (!id.HasValue && string.IsNullOrWhiteSpace(code)) rc = null;
-            else rc = new ResponseCode(id,code);
+            else rc = new ResponseCode(id, code);
             return new ResponseObject { RequestData = requestData, ResponseCode = rc, CorrelationId = correlationId };
         }
 

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Business.Common.System;
+using Fasterflect;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Business.Common.System;
-using Fasterflect;
 
 namespace Business.Common.Reflection
 {

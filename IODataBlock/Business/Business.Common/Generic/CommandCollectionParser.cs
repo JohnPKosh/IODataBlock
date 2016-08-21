@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Common.Generic
 {
@@ -38,7 +38,6 @@ namespace Business.Common.Generic
             var command = Find(collectionName, commandName);
             return ((ICommandObjectFactory<TIn, TOut>)command).Create(requestObject);
         }
-
 
         public bool TryParse(string collectionName, IRequestObject<TIn> requestObject, out ICommandObject<TIn, TOut> commandObject)
         {

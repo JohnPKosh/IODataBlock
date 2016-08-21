@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using System;
+using System.IO;
 
 namespace Business.Common.Extensions
 {
@@ -115,7 +115,6 @@ namespace Business.Common.Extensions
             ms.BsonSerialize(value, converters);
             return ms.ToArray();
         }
-
 
         public static byte[] BsonSerializeToBytes<T>(this T value, Type type, params JsonConverter[] converters) where T : class
         {

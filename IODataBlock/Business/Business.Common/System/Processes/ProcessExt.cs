@@ -33,6 +33,5 @@ namespace Business.Common.System.Processes
             var rv = processes.Select(x => x.ProcessName);
             return rv;
         }
-
     }
 }

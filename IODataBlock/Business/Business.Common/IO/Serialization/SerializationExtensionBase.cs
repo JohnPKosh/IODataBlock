@@ -59,7 +59,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -216,7 +216,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -305,7 +305,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -449,7 +449,7 @@ namespace Business.Common.IO.Serialization
         {
             fileInfo.Refresh();
             if (fileInfo.Directory == null || !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
-// ReSharper disable once AssignNullToNotNullAttribute
+            // ReSharper disable once AssignNullToNotNullAttribute
             var tempfileinfo = new FileInfo(Path.Combine(fileInfo.DirectoryName, Path.GetRandomFileName()));
             try
             {

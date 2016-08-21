@@ -55,9 +55,8 @@ namespace Business.Common.Extensions
 
         public static DataTable AsDataTable<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null)throw new ArgumentNullException(nameof(enumerable));
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
             var input = enumerable.ToList();
-
 
             var table = new DataTable();
             if (!input.Any()) return table;
@@ -94,9 +93,6 @@ namespace Business.Common.Extensions
 
             return table;
         }
-
-
-
 
         public static XElement IEnumerableToXElement<TSource>(this IEnumerable<TSource> list
             , string filePath
@@ -345,8 +341,6 @@ namespace Business.Common.Extensions
             if (buffer.Count > 0)
                 yield return buffer.ToArray();
         }
-
-
 
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> values)
         {

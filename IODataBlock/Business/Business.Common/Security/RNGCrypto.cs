@@ -52,7 +52,7 @@ namespace Business.Common.Security
             var derivedBytes = GetDerivedBytes(pwd, Convert.FromBase64String(salt), iterations);
             return derivedBytes.GetBytes(length);
         }
-        
+
         #region TripleDesCryptoServiceProvider Methods
 
         public static byte[] GetTripleDesKeyBytes(string pwd, byte[] salt, int length = 24, int iterations = 1000)

@@ -10,5 +10,4 @@ namespace Business.Common.System
 
         void PopulateFromJson(string value, JsonSerializerSettings settings);
     }
-
 }

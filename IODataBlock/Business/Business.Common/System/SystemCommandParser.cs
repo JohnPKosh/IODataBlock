@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Business.Common.Responses;
+﻿using Business.Common.Responses;
 using Business.Common.System.Commands;
+using System.Collections.Generic;
 
 namespace Business.Common.System
 {

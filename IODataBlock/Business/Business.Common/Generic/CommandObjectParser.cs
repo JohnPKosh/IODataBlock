@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Common.Generic
 {

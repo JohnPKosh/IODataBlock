@@ -1,16 +1,12 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Responses;
 using Newtonsoft.Json;
+using System;
 
 namespace Business.Common.GenericResponses
 {
     public class ResponseObject<TIn, TOut> : IResponseObject<TIn, TOut>
     {
-        #region Class Inititalization
-
-        #endregion Class Inititalization
-
         #region Fields and Properties
 
         public TIn RequestData { get; set; }

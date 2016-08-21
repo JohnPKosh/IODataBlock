@@ -1177,7 +1177,7 @@ namespace Business.Common.IO.Serialization
         public static int CountInSerializedString<T, K>(this T obj,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1190,7 +1190,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1203,7 +1203,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1216,7 +1216,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1229,7 +1229,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1243,7 +1243,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1258,7 +1258,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1271,7 +1271,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1284,7 +1284,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1298,7 +1298,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1313,7 +1313,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1342,7 +1342,7 @@ namespace Business.Common.IO.Serialization
         int count,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1486,7 +1486,7 @@ namespace Business.Common.IO.Serialization
         Predicate<K> match,
         string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };

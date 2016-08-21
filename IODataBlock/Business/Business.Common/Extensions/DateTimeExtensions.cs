@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-
 namespace Business.Common.Extensions
 {
     /// <summary>
@@ -170,12 +169,12 @@ namespace Business.Common.Extensions
             if (endDateTime > value)
             {
                 var tspan = endDateTime.Subtract(value);
-                return $"{(tspan.Hours > 24 ? tspan.Days*24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
+                return $"{(tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
             }
             else
             {
                 var tspan = value.Subtract(endDateTime);
-                return $"-{(tspan.Hours > 24 ? tspan.Days*24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
+                return $"-{(tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
             }
         }
 
@@ -2637,7 +2636,6 @@ namespace Business.Common.Extensions
 
         #endregion List Methods
 
-
         #region IEnumerable Methods
 
         /// <summary>
@@ -2675,7 +2673,6 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static IEnumerable<DateTime> GetMinutesFromToIEnumerable(DateTime startMinute, DateTime endMinute) // helper method
         {
-            
             if (endMinute > startMinute)
             {
                 var tempdt = startMinute.StartOfMinute().AddMinutes(-1);
@@ -2698,8 +2695,6 @@ namespace Business.Common.Extensions
             }
         }
 
-
-
         /// <summary>
         /// Gets the minutes in hour IEnumerable.
         /// </summary>
@@ -2709,7 +2704,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static IEnumerable<DateTime> GetMinutesInHourIEnumerable(this DateTime value, bool excludeFutureDates = false, bool excludePastDates = false)
         {
-            var tempdt = excludePastDates ? value.StartOfMinute().AddMinutes(-1): value.StartOfHour().AddMinutes(-1);
+            var tempdt = excludePastDates ? value.StartOfMinute().AddMinutes(-1) : value.StartOfHour().AddMinutes(-1);
             while (tempdt <= value.EndOfHour())
             {
                 tempdt = tempdt.AddMinutes(1);

@@ -1,7 +1,7 @@
-﻿using System;
-using Business.Common.Requests;
+﻿using Business.Common.Requests;
 using Business.Common.Responses;
 using Newtonsoft.Json;
+using System;
 
 namespace Business.Common.System
 {

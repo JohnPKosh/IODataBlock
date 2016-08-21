@@ -1048,7 +1048,7 @@ namespace Business.Common.Extensions
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (!line.Contains(delimiter)) continue;
-                    yield return csvParser.Split(line.Replace(", ",",")).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
+                    yield return csvParser.Split(line.Replace(", ", ",")).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
                 }
             }
             else
@@ -1074,7 +1074,6 @@ namespace Business.Common.Extensions
             // ((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))
             // ((?<=\")[^\"]*(?=\"(\t|$)+)|(?<=\t|^)[^\t\"]*(?=\t|$))
         }
-
 
         public static IEnumerable<string[]> Lines(this string stringdata, IEnumerable<int> columnWidths, int firstrow = 1)
         {

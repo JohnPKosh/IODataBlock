@@ -1,5 +1,5 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
+using System;
 
 namespace Business.Common.IO
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using Business.Common.Requests;
+﻿using Business.Common.Requests;
 using Business.Common.System.App;
+using System;
 
 namespace Business.Common.System.Commands
 {

@@ -1,6 +1,6 @@
-﻿using System.Configuration;
+﻿using Business.Common.IO;
+using System.Configuration;
 using System.Web.Configuration;
-using Business.Common.IO;
 
 namespace Business.Common.Configuration
 {
@@ -103,10 +103,6 @@ namespace Business.Common.Configuration
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
-
-
-
-
 
             #endregion "Methods"
         }

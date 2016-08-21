@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.IO;
+using System;
+using System.IO;
 
 namespace Business.Common.System.States
 {

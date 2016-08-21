@@ -1,9 +1,9 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using Fasterflect;
+using System;
 
 namespace Business.Common.Generic
 {

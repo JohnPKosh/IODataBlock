@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
+using System.IO;
 
 namespace Business.Common.Configuration
 {
@@ -15,11 +15,11 @@ namespace Business.Common.Configuration
                 try
                 {
                     value = fi.BsonDeserialize<CspDefault>();
-                    if(deleteOnLoad)fi.Delete();
+                    if (deleteOnLoad) fi.Delete();
                     return true;
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
-                catch{}
+                catch { }
             }
             value = null;
             return false;

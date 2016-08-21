@@ -1,15 +1,11 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Newtonsoft.Json;
+using System;
 
 namespace Business.Common.Responses
 {
     public class ResponseObject : IResponseObject
     {
-        #region Class Inititalization
-
-        #endregion Class Inititalization
-
         #region Fields and Properties
 
         public object RequestData { get; set; }

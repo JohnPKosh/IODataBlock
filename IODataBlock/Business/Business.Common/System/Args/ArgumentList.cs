@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Business.Common.IO.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Business.Common.IO.Serialization;
 
 namespace Business.Common.System.Args
 {
@@ -27,7 +27,8 @@ namespace Business.Common.System.Args
         /// <returns>IEnumerable</returns>
         public IEnumerable<Arguments> this[string k, string v]
         {
-            get {
+            get
+            {
                 return Items.Where(arg => arg.ContainsKey(k) && arg[k] == v);
             }
         }

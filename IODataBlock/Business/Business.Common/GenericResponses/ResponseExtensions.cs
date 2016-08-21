@@ -1,6 +1,6 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Responses;
+using System;
 
 namespace Business.Common.GenericResponses
 {
@@ -10,7 +10,7 @@ namespace Business.Common.GenericResponses
         {
             ResponseCode rc;
             if (!id.HasValue && string.IsNullOrWhiteSpace(code)) rc = null;
-            else rc = new ResponseCode(id,code);
+            else rc = new ResponseCode(id, code);
             return new ResponseObject<TIn, TOut> { RequestData = requestData, ResponseCode = rc, CorrelationId = correlationId };
         }
 
