@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Flurl;
 using System.Dynamic;
 using System.Linq;
-using Flurl;
-using HtmlAgilityPack;
 
 namespace Business.Web.Scrape.Services
 {
     public class HtmlDocumentUtility : HtmlDocBase
     {
-
         public HtmlDocumentUtility(string content) : base(content)
         {
         }
@@ -44,9 +40,8 @@ namespace Business.Web.Scrape.Services
             return FirstHref("twitter.com/");
         }
 
-
-
         #region LinkedIn Methods
+
         public string GetLinkedInCompanyPhotoUrl()
         {
             if (!HasDocument) return null;
@@ -145,7 +140,6 @@ namespace Business.Web.Scrape.Services
 
         public dynamic GetLinkedInCompanyAboutSection()
         {
-
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
             try
@@ -212,8 +206,8 @@ namespace Business.Web.Scrape.Services
             }
             catch { }
             return null;
-        } 
+        }
 
-        #endregion
+        #endregion LinkedIn Methods
     }
 }

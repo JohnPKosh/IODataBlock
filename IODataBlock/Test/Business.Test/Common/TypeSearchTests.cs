@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using Business.Common.Reflection;
+﻿using Business.Common.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace Business.Test.Common
 {

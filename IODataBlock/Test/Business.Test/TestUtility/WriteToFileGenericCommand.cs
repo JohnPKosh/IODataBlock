@@ -1,10 +1,9 @@
-﻿using System;
-using Business.Common.Generic;
+﻿using Business.Common.Generic;
 using Business.Common.GenericRequests;
+using System;
 
 namespace Business.Test.TestUtility
 {
-
     public class WriteToFileGenericCommand : CommandObjectBase<string, string>
     {
         public override string Description
@@ -39,7 +38,6 @@ namespace Business.Test.TestUtility
                             //    ResponseCode = new ResponseCode(200, "OK"),
                             //    ResponseData = rv
                             //};
-
                         }
                         catch (Exception ex)
                         {

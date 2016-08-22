@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Text;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Security.Aes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Text;
 
 namespace Business.Test.Security
 {
@@ -38,6 +38,7 @@ namespace Business.Test.Security
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -49,7 +50,7 @@ namespace Business.Test.Security
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -57,7 +58,8 @@ namespace Business.Test.Security
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void ReadWriteFile()
@@ -72,7 +74,7 @@ namespace Business.Test.Security
             var inputstr = File.ReadAllText(input.FullName);
             var outputstr = File.ReadAllText(output.FullName);
 
-            Assert.AreEqual(inputstr,outputstr);
+            Assert.AreEqual(inputstr, outputstr);
 
             //AesEncryption.AesEncryptFileToFile();
         }
@@ -204,7 +206,6 @@ namespace Business.Test.Security
             Assert.AreEqual(inputstr, outputstr);
         }
 
-
         [TestMethod]
         public void ReadWriteFile6()
         {
@@ -228,7 +229,6 @@ namespace Business.Test.Security
         [TestMethod]
         public void DecryptAppConfigTest()
         {
-
             var cfg = new ConfigMgr();
             cfg.UnProtectAppSettings();
         }

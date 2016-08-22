@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Data.MsAccess;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using Data.MsAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BasicTests.Data
 {
@@ -25,10 +25,8 @@ namespace BasicTests.Data
             {
                 try
                 {
-
-                    var tables = new List<string> {"TargetListExport"};
+                    var tables = new List<string> { "TargetListExport" };
                     //tables.Add("LinkedInCompanyScrapeImport3");
-
 
                     var isfirst = true;
                     foreach (var table in tables)
@@ -67,10 +65,8 @@ namespace BasicTests.Data
             {
                 try
                 {
-
                     var tables = new List<string> { "TargetListExport" };
                     //tables.Add("LinkedInCompanyScrapeImport3");
-
 
                     var isfirst = true;
                     foreach (var table in tables)
@@ -103,17 +99,14 @@ namespace BasicTests.Data
             }
         }
 
-
         private static void ExportDataWithNvarcharMax()
         {
             using (var dbf = new MsAccessFactory(new FileInfo(@"C:\Users\jkosh\Documents\LinkedInCompanyScrapeImport3.accdb")))
             {
                 try
                 {
-
                     var tables = new List<string> { "LinkedInCompanyScrapeImport3" };
                     //tables.Add("LinkedInCompanyScrapeImport3");
-
 
                     var isfirst = true;
                     foreach (var table in tables)
@@ -146,17 +139,14 @@ namespace BasicTests.Data
             }
         }
 
-
         private static void ExportLinkedInCompaniesWithNvarcharMax()
         {
             using (var dbf = new MsAccessFactory(new FileInfo(@"C:\Users\jkosh\Documents\LinkedInCompany.accdb")))
             {
                 try
                 {
-
                     var tables = new List<string> { "LinkedInCompany" };
                     //tables.Add("LinkedInCompanyScrapeImport3");
-
 
                     var isfirst = true;
                     foreach (var table in tables)

@@ -1,25 +1,23 @@
-﻿using System;
+﻿using Business.Common.Configuration;
+using Business.Common.Extensions;
+using Flurl;
+using Flurl.Http;
+using HubSpot.Models.Contacts;
+using HubSpot.Services.Contacts;
+using HubSpot.Services.ModeTypes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using Business.Common.Configuration;
-using Flurl;
-using Flurl.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Business.Common.Extensions;
-using HubSpot.Models.Contacts;
-using HubSpot.Services.Contacts;
-using HubSpot.Services.ModeTypes;
-using Version = HubSpot.Models.Properties.PropertyVersion;
 
 namespace Business.Test.Integration
 {
     [TestClass]
     public class HubSpotTests
     {
-
         public HubSpotTests()
         {
             var configMgr = new ConfigMgr();
@@ -27,7 +25,6 @@ namespace Business.Test.Integration
         }
 
         private readonly string _hapiKey;
-
 
         //[TestMethod]
         //public void ReadWriteContact()
@@ -55,13 +52,11 @@ namespace Business.Test.Integration
         //public void ReadWriteContactList()
         //{
         //    var contact = File.ReadAllText(@"SampleResults\contactListAll.json").ConvertJson<ContactListDto>();
-            
+
         //    Assert.IsNotNull(contact);
 
         //    contact.WriteJsonToFilePath(@"SampleResults\contactListAllClone.json");
         //}
-
-
 
         //[TestMethod]
         //public void ReadWriteContactListQuery()
@@ -72,7 +67,6 @@ namespace Business.Test.Integration
 
         //    contact.WriteJsonToFilePath(@"SampleResults\contactListQueryClone.json");
         //}
-
 
         //[TestMethod]
         //public void GetWithFlurl()
@@ -93,7 +87,6 @@ namespace Business.Test.Integration
         //        result.WriteJsonToFilePath(@"SampleResults\contactByIdClone.json", new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate});
         //    }
         //}
-
 
         //[TestMethod]
         //public void GetAllContacts()
@@ -130,7 +123,6 @@ namespace Business.Test.Integration
                 result.WriteJsonToFilePath(@"SampleResults\allContactsdynamic.json", new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate });
             }
         }
-
 
         //[TestMethod]
         //public void GetContactDynamic()
@@ -183,7 +175,7 @@ namespace Business.Test.Integration
         {
             var contacts = new FileInfo(@"SampleResults\allContacts.json").ReadJsonFile<IList<ContactViewModel>>();
             var forms = contacts.Where(x => x.form_submissions.Any()).Select(f => f.form_submissions);
-            var formids = new HashSet<Tuple<string,string>>();
+            var formids = new HashSet<Tuple<string, string>>();
             foreach (var form in forms)
             {
                 foreach (var f in form)
@@ -205,7 +197,6 @@ namespace Business.Test.Integration
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> {"lastname", "firstname", "hs_email_optout_636817"};
 
-
         //    var ro = service.GetContactByEmail(@"ssalerno@ami-partners.com", props);
         //    if (ro.HasExceptions)
         //    {
@@ -225,11 +216,9 @@ namespace Business.Test.Integration
         public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
             PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
             bool showListMemberships = false)
-            {
-                var service = new ContactService(_hapiKey);
-                return service.GetAllContactViewModels(count, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships).ToList();
-            }
-
-
+        {
+            var service = new ContactService(_hapiKey);
+            return service.GetAllContactViewModels(count, vidOffset, properties, propertyMode, formSubmissionMode, showListMemberships).ToList();
+        }
     }
 }

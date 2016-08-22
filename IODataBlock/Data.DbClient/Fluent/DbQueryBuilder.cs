@@ -28,7 +28,7 @@ namespace Data.DbClient.Fluent
             _parameters = parameters;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Properties
 
@@ -37,7 +37,7 @@ namespace Data.DbClient.Fluent
         private int _commandTimeout = 120;
         private object[] _parameters;
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Static Factory Methods
 
@@ -50,9 +50,9 @@ namespace Data.DbClient.Fluent
         public static DbQueryBuilder CreateFrom(DbQuery query)
         {
             return new DbQueryBuilder(query);
-        } 
+        }
 
-        #endregion
+        #endregion Static Factory Methods
 
         public DbQueryBuilder FromConnection(DbConnection connection)
         {

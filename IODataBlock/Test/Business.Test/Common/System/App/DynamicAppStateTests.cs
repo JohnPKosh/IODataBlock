@@ -1,10 +1,10 @@
-﻿using System;
-using System.Dynamic;
-using System.IO;
-using Business.Common.System;
+﻿using Business.Common.System;
 using Business.Common.System.App;
 using Business.Common.System.States;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Dynamic;
+using System.IO;
 
 namespace Business.Test.Common.System.App
 {
@@ -39,7 +39,6 @@ namespace Business.Test.Common.System.App
             Assert.IsTrue(_appState.hello == @"hello world");
         }
 
-
         [TestMethod]
         public void CanSaveStateWithBsonConfigLoader()
         {
@@ -56,9 +55,6 @@ namespace Business.Test.Common.System.App
             _appState = _dynamicBsonLoader.Load();
             Assert.IsTrue(_appState.hello == @"hello world");
         }
-
-
-
 
         [TestMethod]
         public void CanSaveState()
@@ -175,7 +171,7 @@ namespace Business.Test.Common.System.App
 
             // Can we set the app state data?
             workingdata.LastUpdated = DateTime.Now;
-            workingdata.StringValues = new[] {"hello", "world"};
+            workingdata.StringValues = new[] { "hello", "world" };
             var setResponse = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "SetDynamicAppState", workingdata, NewGuid());
             Assert.IsFalse(setResponse.HasExceptions);
 

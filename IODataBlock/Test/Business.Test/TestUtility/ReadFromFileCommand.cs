@@ -1,8 +1,8 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
 using Business.Common.System;
+using System;
 
 namespace Business.Test.TestUtility
 {
@@ -31,7 +31,6 @@ namespace Business.Test.TestUtility
 
                         var rv = "Did some fake work!";
 
-
                         //temporarily adding exception
                         // ReSharper disable once ConvertToConstant.Local
                         var my0 = 0;
@@ -50,7 +49,6 @@ namespace Business.Test.TestUtility
                             // TODO: update extenstion method to return validation exceptions etc.
                             return o.ToUncompletedResponse(UncompletedResponseCode, o.CorrelationId);
                         }
-                        
                     }
                     catch (Exception ex)
                     {
@@ -69,7 +67,6 @@ namespace Business.Test.TestUtility
             };
         }
     }
-
 
     //public class ReadFromFileCommand : CommandObjectBase
     //{

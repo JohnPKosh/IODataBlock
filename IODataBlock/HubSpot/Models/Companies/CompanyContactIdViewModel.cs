@@ -4,7 +4,6 @@ namespace HubSpot.Models.Companies
 {
     public class CompanyContactIdViewModel : ModelBase<CompanyContactIdViewModel>
     {
-
         #region Public Properties
 
         [JsonProperty("vidOffset")]
@@ -16,7 +15,6 @@ namespace HubSpot.Models.Companies
         [JsonProperty("hasMore")]
         public bool hasMore { get; set; }
 
-        #endregion
-
+        #endregion Public Properties
     }
 }

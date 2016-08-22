@@ -91,13 +91,13 @@ namespace Data.DbClient
 
         #region Static Methods
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string GetCreateSQL(string tableName, DataTable schema, int[] primaryKeys)
         {
             var sql = "CREATE TABLE " + tableName + " (\n";
 
             // columns
-// ReSharper disable once LoopCanBeConvertedToQuery
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (DataRow column in schema.Rows)
             {
                 if (!(schema.Columns.Contains("IsHidden") && (bool)column["IsHidden"]))
@@ -129,7 +129,7 @@ namespace Data.DbClient
             return sql;
         }
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string GetCreateFromDataTableSQL(string tableName, DataTable table, int defaultStringColumnSize = -1)
         {
             var sql = tableName.Contains("[") ? "CREATE TABLE " + tableName + " (\n" : "CREATE TABLE [" + tableName + "] (\n";
@@ -155,11 +155,11 @@ namespace Data.DbClient
 
         public static string[] GetPrimaryKeys(DataTable schema)
         {
-            return (from DataRow column in schema.Rows where schema.Columns.Contains("IsKey") && (bool) column["IsKey"] select column["ColumnName"].ToString()).ToArray();
+            return (from DataRow column in schema.Rows where schema.Columns.Contains("IsKey") && (bool)column["IsKey"] select column["ColumnName"].ToString()).ToArray();
         }
 
         // Return T-SQL data type definition, based on schema definition for a column
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetType(object type, int columnSize, int numericPrecision, int numericScale)
         {
             switch (type.ToString())
@@ -207,7 +207,7 @@ namespace Data.DbClient
             }
         }
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetTypeFromDataColumn(DataColumn column, int defaultStringColumnSize = -1)
         {
             var nullsuffix = column.AllowDBNull ? " NULL" : " NOT NULL";
@@ -271,7 +271,7 @@ namespace Data.DbClient
         }
 
         // Overload based on row from schema table
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetType(DataRow schemaRow)
         {
             return SQLGetType(schemaRow["DataType"],
@@ -281,7 +281,7 @@ namespace Data.DbClient
         }
 
         // Overload based on DataColumn from DataTable type
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetType(DataColumn column, int defaultStringColumnSize = -1)
         {
             //return SQLGetType(column.DataType, column.MaxLength, 10, 2);

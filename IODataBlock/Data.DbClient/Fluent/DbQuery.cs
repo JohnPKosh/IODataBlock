@@ -28,7 +28,7 @@ namespace Data.DbClient.Fluent
 
         public object[] Parameters { get; set; }
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Public Methods
 
@@ -40,8 +40,8 @@ namespace Data.DbClient.Fluent
             {
                 return db.Query(CommandText, CommandTimeout, Parameters);
             }
-        } 
+        }
 
-        #endregion
+        #endregion Public Methods
     }
 }

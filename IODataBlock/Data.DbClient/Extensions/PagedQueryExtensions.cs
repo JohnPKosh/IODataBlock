@@ -13,18 +13,23 @@ namespace Data.DbClient.Extensions
                 case "System.Data.SqlClient":
                     command.CommandText = Database.CreateSqlServer2008BatchSelect(command.CommandText, batchNumber, batchSize, rowOrderBy);
                     break;
+
                 case "Npgsql":
                     command.CommandText = Database.CreatePostgreSqlBatchSelect(command.CommandText, batchNumber, batchSize, rowOrderBy);
                     break;
+
                 case "System.Data.SQLite":
                     command.CommandText = Database.CreateSqliteBatchSelect(command.CommandText, batchNumber, batchSize, rowOrderBy);
                     break;
+
                 case "MySql.Data.MySqlClient":
                     command.CommandText = Database.CreateMySqlBatchSelect(command.CommandText, batchNumber, batchSize, rowOrderBy);
                     break;
+
                 case "Oracle.ManagedDataAccess.Client":
                     command.CommandText = Database.CreateMySqlBatchSelect(command.CommandText, batchNumber, batchSize, rowOrderBy);
                     break;
+
                 default:
                     throw new NotImplementedException("This data provider does not support paging!");
             }
@@ -43,7 +48,7 @@ namespace Data.DbClient.Extensions
             }
             return providerName;
         }
-        
+
         private static bool IsWebAssembly
         {
             get

@@ -31,17 +31,17 @@ namespace SocialImage
 
         #region ProgressLabel Dependency Property
 
-        public String ProgressLabel
+        public string ProgressLabel
         {
             get
             {
-                return (String)GetValue(ProgressLabelProperty);
+                return (string)GetValue(ProgressLabelProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(ProgressLabelProperty, value);
                     }
@@ -68,7 +68,7 @@ namespace SocialImage
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty ProgressLabelProperty =
-            DependencyProperty.Register("ProgressLabel", typeof(String), typeof(MainWindow), ProgressLabelMetaData, new ValidateValueCallback(ProgressLabel_Validate));
+            DependencyProperty.Register("ProgressLabel", typeof(string), typeof(MainWindow), ProgressLabelMetaData, new ValidateValueCallback(ProgressLabel_Validate));
 
         private static void ProgressLabel_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -96,17 +96,17 @@ namespace SocialImage
 
         #region IsProcessRunning Dependency Property
 
-        public Boolean IsProcessRunning
+        public bool IsProcessRunning
         {
             get
             {
-                return (Boolean)GetValue(IsProcessRunningProperty);
+                return (bool)GetValue(IsProcessRunningProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(IsProcessRunningProperty, value);
                     }
@@ -133,7 +133,7 @@ namespace SocialImage
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty IsProcessRunningProperty =
-            DependencyProperty.Register("IsProcessRunning", typeof(Boolean), typeof(MainWindow), IsProcessRunningMetaData, new ValidateValueCallback(IsProcessRunning_Validate));
+            DependencyProperty.Register("IsProcessRunning", typeof(bool), typeof(MainWindow), IsProcessRunningMetaData, new ValidateValueCallback(IsProcessRunning_Validate));
 
         private static void IsProcessRunning_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -161,17 +161,17 @@ namespace SocialImage
 
         #region SourceDirectory Dependency Property
 
-        public String SourceDirectory
+        public string SourceDirectory
         {
             get
             {
-                return (String)GetValue(SourceDirectoryProperty);
+                return (string)GetValue(SourceDirectoryProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(SourceDirectoryProperty, value);
                     }
@@ -198,7 +198,7 @@ namespace SocialImage
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty SourceDirectoryProperty =
-            DependencyProperty.Register("SourceDirectory", typeof(String), typeof(MainWindow), SourceDirectoryMetaData, new ValidateValueCallback(SourceDirectory_Validate));
+            DependencyProperty.Register("SourceDirectory", typeof(string), typeof(MainWindow), SourceDirectoryMetaData, new ValidateValueCallback(SourceDirectory_Validate));
 
         private static void SourceDirectory_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -226,17 +226,17 @@ namespace SocialImage
 
         #region TargetDirectory Dependency Property
 
-        public String TargetDirectory
+        public string TargetDirectory
         {
             get
             {
-                return (String)GetValue(TargetDirectoryProperty);
+                return (string)GetValue(TargetDirectoryProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(TargetDirectoryProperty, value);
                     }
@@ -263,7 +263,7 @@ namespace SocialImage
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty TargetDirectoryProperty =
-            DependencyProperty.Register("TargetDirectory", typeof(String), typeof(MainWindow), TargetDirectoryMetaData, new ValidateValueCallback(TargetDirectory_Validate));
+            DependencyProperty.Register("TargetDirectory", typeof(string), typeof(MainWindow), TargetDirectoryMetaData, new ValidateValueCallback(TargetDirectory_Validate));
 
         private static void TargetDirectory_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -291,17 +291,17 @@ namespace SocialImage
 
         #region PercentComplete Dependency Property
 
-        public Double PercentComplete
+        public double PercentComplete
         {
             get
             {
-                return (Double)GetValue(PercentCompleteProperty);
+                return (double)GetValue(PercentCompleteProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(PercentCompleteProperty, value);
                     }
@@ -328,7 +328,7 @@ namespace SocialImage
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty PercentCompleteProperty =
-            DependencyProperty.Register("PercentComplete", typeof(Double), typeof(MainWindow), PercentCompleteMetaData, new ValidateValueCallback(PercentComplete_Validate));
+            DependencyProperty.Register("PercentComplete", typeof(double), typeof(MainWindow), PercentCompleteMetaData, new ValidateValueCallback(PercentComplete_Validate));
 
         private static void PercentComplete_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -430,13 +430,13 @@ namespace SocialImage
             }
         }
 
-        private void GenerateOutput(String sourceDirectory, String targetDirectory, String sizeString, ImageEncoding imageEncoding, Boolean renameToDate)
+        private void GenerateOutput(string sourceDirectory, string targetDirectory, string sizeString, ImageEncoding imageEncoding, bool renameToDate)
         {
             var files = Directory.EnumerateFiles(sourceDirectory, "*.jpg", SearchOption.TopDirectoryOnly).ToList();
             //var sizeString = GetFileSize();
 
-            var queueSize = Int32.Parse(sizeString) > 1024 ? 1: 4;
-            var fileCount = (Double)files.Count;
+            var queueSize = int.Parse(sizeString) > 1024 ? 1: 4;
+            var fileCount = (double)files.Count;
             var currentCount = 0D;
             //var percentDone = 0D;
 
@@ -444,38 +444,40 @@ namespace SocialImage
             foreach (var file in files)
             {
                 //var targetDirectory = TargetBrowser.SelectedDirectory;
-                Task t = Task.Run(() =>
+                var t = Task.Run(() =>
                 {
                     var inputFile = file;
                     var inputFileInfo = new FileInfo(inputFile);
                     var inputFileNameWithoutExtension = Path.GetFileNameWithoutExtension(inputFile.ToUpperInvariant());
                     var extension = Path.GetExtension(inputFile);
                     var creationTime = inputFileInfo.CreationTime;
-                    var outputFile = String.Empty;
+                    var outputFile = string.Empty;
                     if (renameToDate)
                     {
-                        outputFile = Path.Combine(targetDirectory, String.Format(@"{0}{1}.{2}.{3}px_wide{4}", creationTime.ToString(@"yyyy-MM-dd_HHmmss"), creationTime.Millisecond.ToString("0000"), inputFileNameWithoutExtension, sizeString, extension));
+                        outputFile = Path.Combine(targetDirectory,
+                            $@"{creationTime.ToString(@"yyyy-MM-dd_HHmmss")}{creationTime.Millisecond.ToString("0000")}.{inputFileNameWithoutExtension}.{sizeString}px_wide{extension}");
                     }
                     else
                     {
-                        outputFile = Path.Combine(targetDirectory, String.Format(@"{0}.{1}px_wide{2}", inputFileNameWithoutExtension, sizeString, extension));
+                        outputFile = Path.Combine(targetDirectory,
+                            $@"{inputFileNameWithoutExtension}.{sizeString}px_wide{extension}");
                     }
                     if (!File.Exists(outputFile))
                     {
                         using (var resizer = new ImageResizer(inputFile))
                         {
-                            File.WriteAllBytes(outputFile, resizer.Resize(Int32.Parse(sizeString), imageEncoding));
+                            File.WriteAllBytes(outputFile, resizer.Resize(int.Parse(sizeString), imageEncoding));
                         }
                         currentCount++;
                         SetPercentComplete(currentCount / fileCount);
-                        SetProgressLabel(String.Format(@"{0} of {1} Complete", (int)currentCount, (int)fileCount));
+                        SetProgressLabel($@"{(int) currentCount} of {(int) fileCount} Complete");
                     }
                 });
                 tasks.Enqueue(t);
 
                 if (tasks.Count == queueSize)
                 {
-                    for (int i = 0; i < queueSize; i++)
+                    for (var i = 0; i < queueSize; i++)
                     {
                         Task.WaitAll(tasks.ToArray());
                         tasks.Clear();
@@ -554,7 +556,7 @@ namespace SocialImage
         //    }, null);
         //}
 
-        private String GetFileSize()
+        private string GetFileSize()
         {
             foreach (var child in StackFileSizes.Children)
             {
@@ -563,7 +565,7 @@ namespace SocialImage
                     var radio = (RadioButton)child;
                     if (radio.IsChecked.HasValue && radio.IsChecked.Value)
                     {
-                        return radio.Tag as String;
+                        return radio.Tag as string;
                     }
                 }
             }
@@ -579,7 +581,7 @@ namespace SocialImage
                     var radio = (RadioButton)child;
                     if (radio.IsChecked.HasValue && radio.IsChecked.Value)
                     {
-                        switch (radio.Tag as String)
+                        switch (radio.Tag as string)
                         {
                             case "90":
                                 return ImageEncoding.Jpg90;
@@ -624,11 +626,11 @@ namespace SocialImage
 
         #region Set StatusBar methods
 
-        public void SetStatusBarRunningOn(String LabelContent = "Running...")
+        public void SetStatusBarRunningOn(string LabelContent = "Running...")
         {
             try
             {
-                if (this.Dispatcher.CheckAccess())
+                if (Dispatcher.CheckAccess())
                 {
                     MainGrid.IsEnabled = false;
                     ProgressLabel = LabelContent;
@@ -656,10 +658,10 @@ namespace SocialImage
         {
             try
             {
-                if (this.Dispatcher.CheckAccess())
+                if (Dispatcher.CheckAccess())
                 {
                     MainGrid.IsEnabled = true;
-                    ProgressLabel = String.Empty;
+                    ProgressLabel = string.Empty;
                     IsProcessRunning = false;
                 }
                 else
@@ -667,7 +669,7 @@ namespace SocialImage
                     Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
                     {
                         MainGrid.IsEnabled = true;
-                        ProgressLabel = String.Empty;
+                        ProgressLabel = string.Empty;
                         IsProcessRunning = false;
                     }, null);
                 }
@@ -678,11 +680,11 @@ namespace SocialImage
             }
         }
 
-        public void SetProgressLabel(String LabelContent)
+        public void SetProgressLabel(string LabelContent)
         {
             try
             {
-                if (this.Dispatcher.CheckAccess())
+                if (Dispatcher.CheckAccess())
                 {
                     ProgressLabel = LabelContent;
                 }
@@ -700,11 +702,11 @@ namespace SocialImage
             }
         }
 
-        public void SetPercentComplete(Double value)
+        public void SetPercentComplete(double value)
         {
             try
             {
-                if (this.Dispatcher.CheckAccess())
+                if (Dispatcher.CheckAccess())
                 {
                     PercentComplete = value * 100;
                     CoerceValue(PercentCompleteProperty);

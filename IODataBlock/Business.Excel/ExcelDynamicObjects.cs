@@ -1,5 +1,8 @@
 ﻿//using ExBaseData;
 
+using Data.DbClient;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,15 +11,12 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Data.DbClient;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
 
 namespace Business.Excel
 {
     public class ExcelDynamicObjects
     {
-        public Stream GetExcelStreamFromDynamicObjects(IEnumerable<dynamic> objectCollection, String workSheetName = "Results", dynamic officeProperties = null)
+        public Stream GetExcelStreamFromDynamicObjects(IEnumerable<dynamic> objectCollection, string workSheetName = "Results", dynamic officeProperties = null)
         {
             // ReSharper disable PossibleMultipleEnumeration
             var rowcnt = objectCollection.Count() + 1;
@@ -42,7 +42,7 @@ namespace Business.Excel
                                 row++;
                                 isExpando = true;
                                 var i = 0;
-                                foreach (var c in (IDictionary<String, Object>)r)
+                                foreach (var c in (IDictionary<string, Object>)r)
                                 {
                                     i++;
                                     worksheet.Cells[row, i].Value = c.Key;
@@ -55,7 +55,7 @@ namespace Business.Excel
                             }
                             row++;
                             var j = 0;
-                            foreach (var c in (IDictionary<String, Object>)r)
+                            foreach (var c in (IDictionary<string, Object>)r)
                             {
                                 j++;
                                 worksheet.Cells[row, j].Value = c.Value;
@@ -128,7 +128,7 @@ namespace Business.Excel
 
                         if (officeProperties.CustomPropertyValues != null)
                         {
-                            foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<String, Object>>)
+                            foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<string, Object>>)
                             {
                                 xlPackage.Workbook.Properties.SetCustomPropertyValue(p.Item1, p.Item2);
                             }
@@ -148,7 +148,7 @@ namespace Business.Excel
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public Byte[] GetExcelFromDynamicObjects(IEnumerable<dynamic> objectCollection, String workSheetName = "Results", dynamic officeProperties = null)
+        public byte[] GetExcelFromDynamicObjects(IEnumerable<dynamic> objectCollection, string workSheetName = "Results", dynamic officeProperties = null)
         {
             // ReSharper disable PossibleMultipleEnumeration
             var rowcnt = objectCollection.Count() + 1;
@@ -172,7 +172,7 @@ namespace Business.Excel
                         row++;
                         isExpando = true;
                         var i = 0;
-                        foreach (var c in (IDictionary<String, Object>)r)
+                        foreach (var c in (IDictionary<string, Object>)r)
                         {
                             i++;
                             worksheet.Cells[row, i].Value = c.Key;
@@ -185,7 +185,7 @@ namespace Business.Excel
                     }
                     row++;
                     var j = 0;
-                    foreach (var c in (IDictionary<String, Object>)r)
+                    foreach (var c in (IDictionary<string, Object>)r)
                     {
                         j++;
                         worksheet.Cells[row, j].Value = c.Value;
@@ -258,7 +258,7 @@ namespace Business.Excel
 
                 if (officeProperties.CustomPropertyValues != null)
                 {
-                    foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<String, Object>>)
+                    foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<string, Object>>)
                     {
                         xlPackage.Workbook.Properties.SetCustomPropertyValue(p.Item1, p.Item2);
                     }
@@ -272,7 +272,7 @@ namespace Business.Excel
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public Byte[] GetExcelFromDynamicCollections(IEnumerable<IEnumerable<dynamic>> objectCollection, IEnumerable<String> workSheetNames = null, String workBookTitle = "", dynamic officeProperties = null)
+        public byte[] GetExcelFromDynamicCollections(IEnumerable<IEnumerable<dynamic>> objectCollection, IEnumerable<string> workSheetNames = null, string workBookTitle = "", dynamic officeProperties = null)
         {
             var xlPackage = new ExcelPackage();
             var names = new List<string>();
@@ -280,7 +280,7 @@ namespace Business.Excel
             var index = 0;
             foreach (var c in objectCollection)
             {
-                if (index == names.Count) names.Add(String.Format(@"Sheet{0}", index + 1));
+                if (index == names.Count) names.Add($@"Sheet{index + 1}");
                 AddWorksheetFromDynamicObjects(ref xlPackage, c, names[index]);
                 index++;
             }
@@ -289,7 +289,7 @@ namespace Business.Excel
             return xlPackage.GetAsByteArray();
         }
 
-        public Byte[] GetExcelFromQuery(String selectQuery, String connectionStringName, String workSheetName = "Results", dynamic officeProperties = null)
+        public byte[] GetExcelFromQuery(string selectQuery, string connectionStringName, string workSheetName = "Results", dynamic officeProperties = null)
         {
             using (var db = Database.Open(connectionStringName))
             {
@@ -301,10 +301,10 @@ namespace Business.Excel
         public FileInfo CreateExcelFileFromDynamicObjects(
             FileInfo fileInfo
             , IEnumerable<dynamic> objectCollection
-            , String workSheetName = "Results"
+            , string workSheetName = "Results"
             , dynamic officeProperties = null
-            , Boolean overWrite = false
-            , String tempFolderPath = null
+            , bool overWrite = false
+            , string tempFolderPath = null
             )
         {
             fileInfo.Refresh();
@@ -314,7 +314,7 @@ namespace Business.Excel
                 FileInfo temp = null;
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(tempFolderPath))
+                    if (!string.IsNullOrWhiteSpace(tempFolderPath))
                     {
                         var fn = Path.Combine(tempFolderPath, Path.GetRandomFileName());
                         temp = new FileInfo(fn);
@@ -354,11 +354,11 @@ namespace Business.Excel
         public FileInfo CreateExcelFileFromDynamicCollections(
             FileInfo fileInfo
             , IEnumerable<IEnumerable<dynamic>> objectCollection
-            , IEnumerable<String> workSheetNames = null
-            , String workBookTitle = ""
+            , IEnumerable<string> workSheetNames = null
+            , string workBookTitle = ""
             , dynamic officeProperties = null
-            , Boolean overWrite = false
-            , String tempFolderPath = null
+            , bool overWrite = false
+            , string tempFolderPath = null
             )
         {
             fileInfo.Refresh();
@@ -368,7 +368,7 @@ namespace Business.Excel
                 FileInfo temp = null;
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(tempFolderPath))
+                    if (!string.IsNullOrWhiteSpace(tempFolderPath))
                     {
                         var fn = Path.Combine(tempFolderPath, Path.GetRandomFileName());
                         temp = new FileInfo(fn);
@@ -387,7 +387,7 @@ namespace Business.Excel
                     foreach (var c in objectCollection)
                     {
                         // FIX names array may not have enough values!!!!!!!
-                        if (index == names.Count) names.Add(String.Format(@"Sheet{0}", index + 1));
+                        if (index == names.Count) names.Add($@"Sheet{index + 1}");
                         AddWorksheetFromDynamicObjects(ref xlPackage, c, names[index]);
                         index++;
                     }
@@ -400,7 +400,7 @@ namespace Business.Excel
                 }
                 catch (Exception)
                 {
-                    if (temp.Exists) temp.Delete();
+                    if (temp != null && temp.Exists) temp.Delete();
                     throw;
                 }
             }
@@ -413,7 +413,7 @@ namespace Business.Excel
                 foreach (var c in objectCollection)
                 {
                     // FIX names array may not have enough values!!!!!!!
-                    if (index == names.Count) names.Add(String.Format(@"Sheet{0}", index + 1));
+                    if (index == names.Count) names.Add($@"Sheet{index + 1}");
                     AddWorksheetFromDynamicObjects(ref xlPackage, c, names[index]);
                     index++;
                 }
@@ -427,10 +427,10 @@ namespace Business.Excel
         public FileInfo CreateExcelFileFromDataTable(
         FileInfo fileInfo
         , DataTable data
-        , String workSheetName = "Results"
+        , string workSheetName = "Results"
         , dynamic officeProperties = null
-        , Boolean overWrite = false
-        , String tempFolderPath = null
+        , bool overWrite = false
+        , string tempFolderPath = null
         )
         {
             fileInfo.Refresh();
@@ -440,7 +440,7 @@ namespace Business.Excel
                 FileInfo temp = null;
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(tempFolderPath))
+                    if (!string.IsNullOrWhiteSpace(tempFolderPath))
                     {
                         var fn = Path.Combine(tempFolderPath, Path.GetRandomFileName());
                         temp = new FileInfo(fn);
@@ -479,10 +479,10 @@ namespace Business.Excel
 
         public FileInfo CreateNewExcelFile(
             FileInfo fileInfo
-            , String workbookTitle = null
+            , string workbookTitle = null
             , dynamic officeProperties = null
-            , Boolean overWrite = false
-            , String tempFolderPath = null
+            , bool overWrite = false
+            , string tempFolderPath = null
             )
         {
             fileInfo.Refresh();
@@ -492,7 +492,7 @@ namespace Business.Excel
                 FileInfo temp = null;
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(tempFolderPath))
+                    if (!string.IsNullOrWhiteSpace(tempFolderPath))
                     {
                         var fn = Path.Combine(tempFolderPath, Path.GetRandomFileName());
                         temp = new FileInfo(fn);
@@ -530,13 +530,13 @@ namespace Business.Excel
 
         public ExcelPackage CreateOrOpenNewExcelFile(
             FileInfo fileInfo
-            , String workbookTitle = null
+            , string workbookTitle = null
             , dynamic officeProperties = null
             )
         {
             var xlPackage = new ExcelPackage(fileInfo);
-            if (String.IsNullOrWhiteSpace(workbookTitle) && !String.IsNullOrWhiteSpace(xlPackage.Workbook.Properties.Title)) workbookTitle = xlPackage.Workbook.Properties.Title;
-            else if (String.IsNullOrWhiteSpace(workbookTitle) && String.IsNullOrWhiteSpace(xlPackage.Workbook.Properties.Title)) workbookTitle = fileInfo.Name.Replace(@".xlsx", String.Empty);
+            if (string.IsNullOrWhiteSpace(workbookTitle) && !string.IsNullOrWhiteSpace(xlPackage.Workbook.Properties.Title)) workbookTitle = xlPackage.Workbook.Properties.Title;
+            else if (string.IsNullOrWhiteSpace(workbookTitle) && string.IsNullOrWhiteSpace(xlPackage.Workbook.Properties.Title)) workbookTitle = fileInfo.Name.Replace(@".xlsx", string.Empty);
 
             if (officeProperties != null)
             {
@@ -553,8 +553,8 @@ namespace Business.Excel
         }
 
         public ExcelPackage CreateOrOpenNewExcelFile(
-            String filePath
-            , String workbookTitle = null
+            string filePath
+            , string workbookTitle = null
             , dynamic officeProperties = null
             )
         {
@@ -563,16 +563,17 @@ namespace Business.Excel
 
         public ExcelPackage OpenExcelFile(FileInfo fileInfo)
         {
-            if (!fileInfo.Exists) throw new FileNotFoundException(String.Format(@"File Not Found Exception: {0} does not exist!", fileInfo.FullName));
+            if (!fileInfo.Exists) throw new FileNotFoundException(
+                $@"File Not Found Exception: {fileInfo.FullName} does not exist!");
             return new ExcelPackage(fileInfo);
         }
 
-        public ExcelPackage OpenExcelFile(String filePath)
+        public ExcelPackage OpenExcelFile(string filePath)
         {
             return OpenExcelFile(new FileInfo(filePath));
         }
 
-        public void AddWorksheetFromDynamicObjects(ref ExcelPackage xlPackage, IEnumerable<dynamic> objectCollection, String workSheetName = "Results")
+        public void AddWorksheetFromDynamicObjects(ref ExcelPackage xlPackage, IEnumerable<dynamic> objectCollection, string workSheetName = "Results")
         {
             // ReSharper disable PossibleMultipleEnumeration
             var rowcnt = objectCollection.Count() + 1;
@@ -595,7 +596,7 @@ namespace Business.Excel
                         row++;
                         isExpando = true;
                         var i = 0;
-                        foreach (var c in (IDictionary<String, Object>)r)
+                        foreach (var c in (IDictionary<string, Object>)r)
                         {
                             i++;
                             worksheet.Cells[row, i].Value = c.Key;
@@ -608,7 +609,7 @@ namespace Business.Excel
                     }
                     row++;
                     var j = 0;
-                    foreach (var c in (IDictionary<String, Object>)r)
+                    foreach (var c in (IDictionary<string, Object>)r)
                     {
                         j++;
                         worksheet.Cells[row, j].Value = c.Value;
@@ -664,7 +665,7 @@ namespace Business.Excel
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public void AddWorksheetFromDataTable(ref ExcelPackage xlPackage, DataTable data, String workSheetName = "Results")
+        public void AddWorksheetFromDataTable(ref ExcelPackage xlPackage, DataTable data, string workSheetName = "Results")
         {
             var rowcnt = data.Rows.Count + 1;
             var columncount = data.Columns.Count;
@@ -686,14 +687,14 @@ namespace Business.Excel
             }
         }
 
-        public void AddWorkSheetToExcel(FileInfo fileInfo, IEnumerable<dynamic> objectCollection, String workSheetName = "Results")
+        public void AddWorkSheetToExcel(FileInfo fileInfo, IEnumerable<dynamic> objectCollection, string workSheetName = "Results")
         {
             var xlPackage = new ExcelPackage(fileInfo);
             AddWorksheetFromDynamicObjects(ref xlPackage, objectCollection, workSheetName);
             xlPackage.Save();
         }
 
-        public void SetExcelPackageProperties(ref ExcelPackage xlPackage, String workbookTitle = "Results", dynamic officeProperties = null)
+        public void SetExcelPackageProperties(ref ExcelPackage xlPackage, string workbookTitle = "Results", dynamic officeProperties = null)
         {
             // set property values
             if (officeProperties != null)
@@ -713,7 +714,7 @@ namespace Business.Excel
 
                 if (officeProperties.CustomPropertyValues != null)
                 {
-                    foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<String, Object>>)
+                    foreach (var p in officeProperties.CustomPropertyValues as List<Tuple<string, Object>>)
                     {
                         xlPackage.Workbook.Properties.SetCustomPropertyValue(p.Item1, p.Item2);
                     }
@@ -736,7 +737,7 @@ namespace Business.Excel
             string status = null,
             string subject = null,
             string title = null,
-            IEnumerable<Tuple<String, Object>> customPropertyValues = null
+            IEnumerable<Tuple<string, Object>> customPropertyValues = null
             )
         {
             dynamic rv = new ExpandoObject();
@@ -757,9 +758,10 @@ namespace Business.Excel
             return rv;
         }
 
-        private String FileOverwriteRestrictionExStr(String argumentName)
+        private string FileOverwriteRestrictionExStr(string argumentName)
         {
-            return String.Format(@"Exception: {0} cannot be created! The file already exists and the supplied Overwrite parameter is false.", argumentName);
+            return
+                $@"Exception: {argumentName} cannot be created! The file already exists and the supplied Overwrite parameter is false.";
         }
 
         #region EPP sample

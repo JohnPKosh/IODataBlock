@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+
+//using CsvHelper;
+using LINQtoCSV;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Business.Common.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using CsvHelper;
-using LINQtoCSV;
 
 namespace BasicTests.Extensions
 {
@@ -47,7 +48,6 @@ namespace BasicTests.Extensions
         public string WEB_ADDRESS { get; set; }
     }
 
-
     [TestClass]
     public class StringExtensionTests
     {
@@ -57,12 +57,10 @@ namespace BasicTests.Extensions
             MainTest();
         }
 
-
         private static List<IEnumerable<string>> errorRows = new List<IEnumerable<string>>();
 
-        static void MainTest()
+        private static void MainTest()
         {
-
             // C:\junk\US Database\DE Email.csv
 
             if (File.Exists(@"C:\junk\US Database\GA Email_ouptut.csv")) File.Delete(@"C:\junk\US Database\GA Email_ouptut.csv");
@@ -75,7 +73,7 @@ namespace BasicTests.Extensions
                     //sr.WriteLine("CompanyName,Email1,Email2,Email3,Email4,Email5,Address,City,State,PostalCode,Phone1,Phone2,Phone3,Phone4,Phone5,Fax,SicCode,SicDescription,Url1,Url2,Url3,Url4,Url5");
                     sr.WriteLine("\"CompanyName\",\"Email1\",\"Email2\",\"Email3\",\"Email4\",\"Email5\",\"Address\",\"City\",\"State\",\"PostalCode\",\"Phone1\",\"Phone2\",\"Phone3\",\"Phone4\",\"Phone5\",\"Fax\",\"SicCode\",\"SicDescription\",\"Url1\",\"Url2\",\"Url3\",\"Url4\",\"Url5\",\"Dn1\",\"Dn2\",\"Dn3\",\"Dn4\",\"Dn5\"");
                     var i = 0;
-                    foreach (var l in GetProcessedLines(@"C:\junk\US Database\GA Email.csv").Where(x=>x[29] != "E"))
+                    foreach (var l in GetProcessedLines(@"C:\junk\US Database\GA Email.csv").Where(x => x[29] != "E"))
                     {
                         try
                         {
@@ -91,7 +89,6 @@ namespace BasicTests.Extensions
                 }
             }
         }
-
 
         public static List<string[]> GetRawLines(string filePath)
         {
@@ -119,7 +116,6 @@ namespace BasicTests.Extensions
                             FormatField(x.SIC_DESCRIPTION),
                             x.WEB_ADDRESS
 
-
                             //x.COMPANY_NAME,
                             //x.EMAIL,
                             //(string.IsNullOrWhiteSpace(x.ADDRESS) || x.ADDRESS.ToUpper(CultureInfo.InvariantCulture) == "NULL") ? null : x.ADDRESS.Replace(",","||"),
@@ -132,7 +128,6 @@ namespace BasicTests.Extensions
                             //string.IsNullOrWhiteSpace(x.SIC_DESCRIPTION)? null : x.SIC_DESCRIPTION.Replace(",","||"),
                             //x.WEB_ADDRESS
                         }).ToList();
-
 
             //using (var fs = File.OpenRead(filePath))
             //{
@@ -204,7 +199,6 @@ namespace BasicTests.Extensions
                     }
                     catch (Exception ex)
                     {
-
                         throw;
                     }
                 }
@@ -279,10 +273,5 @@ namespace BasicTests.Extensions
             }
             return rv.ToArray();
         }
-
     }
-
-
-
-
 }

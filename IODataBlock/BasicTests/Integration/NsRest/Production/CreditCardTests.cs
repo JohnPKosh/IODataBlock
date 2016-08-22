@@ -133,7 +133,7 @@ namespace BasicTests.Integration.NsRest.Production
             var response = baseService.ReadByJsonAsync(TestId, null, "cc_crud").Result;
             CheckJsonResponse(response);
 
-            var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
+            var JArrayResponse = response.TransformResponseData(JArray.Parse);
             CheckJArrayResponse(JArrayResponse);
         }
 
@@ -145,7 +145,7 @@ namespace BasicTests.Integration.NsRest.Production
             baseService.UseExternalId = false; /* Use NS ID */
             CheckJsonResponse(response);
 
-            var JArrayResponse = response.TransformResponseData(new Func<string, JArray>(JArray.Parse));
+            var JArrayResponse = response.TransformResponseData(JArray.Parse);
             CheckJArrayResponse(JArrayResponse);
         }
 

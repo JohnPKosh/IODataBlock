@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using Business.Test.TestUtility;
+﻿using Business.Test.TestUtility;
 using CsvHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Business.Test.Utilities
 {
@@ -43,6 +43,7 @@ namespace Business.Test.Utilities
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -54,7 +55,7 @@ namespace Business.Test.Utilities
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -62,7 +63,8 @@ namespace Business.Test.Utilities
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void TestMethod1()
@@ -72,14 +74,14 @@ namespace Business.Test.Utilities
             {
                 //_csvWriter.Configuration.Quote = '"';
                 //_csvWriter.Configuration.QuoteAllFields = true;
-                pets = new List<FakePet>() {FakePet.CreateBela(), FakePet.CreateNala()};
+                pets = new List<FakePet>() { FakePet.CreateBela(), FakePet.CreateNala() };
                 _csvWriter.WriteHeader<FakePet>();
                 _csvWriter.WriteRecords(pets);
             }
 
             using (_csvReader = new CsvReader(new StreamReader(@"C:\junk\pets.csv")))
             {
-                var newpets =_csvReader.GetRecords<FakePet>();
+                var newpets = _csvReader.GetRecords<FakePet>();
                 Assert.IsNotNull(newpets);
             }
         }
@@ -121,6 +123,5 @@ namespace Business.Test.Utilities
                 //Assert.IsNotNull(newpets);
             }
         }
-
     }
 }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Data.DbClient.BulkCopy;
+using Newtonsoft.Json.Linq;
+using Npgsql;
+using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -6,10 +10,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Data.DbClient.BulkCopy;
-using Newtonsoft.Json.Linq;
-using Npgsql;
-using Oracle.ManagedDataAccess.Client;
 
 namespace Data.DbClient
 {
@@ -34,7 +34,7 @@ namespace Data.DbClient
             return parameters == null ? ExecuteNonQuery(connection, commandText, commandTimeout) : ExecuteNonQuery(connection, commandText, commandTimeout, parameters.ToArray());
         }
 
-        #endregion
+        #endregion Execute Methods
 
         #region Query Methods
 
@@ -82,7 +82,7 @@ namespace Data.DbClient
         {
             return parameters == null ? QueryTransformEach(connection, commandText, function, commandTimeout) : QueryTransformEach(connection, commandText, function, commandTimeout, parameters.ToArray());
         }
-        
+
         public Stream QueryToBson(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
         {
             return parameters == null ? QueryToBson(commandText, commandTimeout) : QueryToBson(commandText, commandTimeout, parameters.ToArray());
@@ -97,7 +97,7 @@ namespace Data.DbClient
         {
             return parameters == null ? QueryToBson(connection, commandText, commandTimeout) : QueryToBson(connection, commandText, commandTimeout, parameters.ToArray());
         }
-        
+
         public Stream QueryToJsonStream(string commandText, IEnumerable<object> parameters, int commandTimeout = 60)
         {
             return parameters == null ? QueryToJsonStream(commandText, commandTimeout) : QueryToJsonStream(commandText, commandTimeout, parameters.ToArray());
@@ -112,7 +112,7 @@ namespace Data.DbClient
         {
             return parameters == null ? QueryToJsonStream(connection, commandText, commandTimeout) : QueryToJsonStream(connection, commandText, commandTimeout, parameters.ToArray());
         }
-        
+
         public DataTable QueryToDataTable(string commandText, IEnumerable<object> parameters, string tableName = null, int commandTimeout = 60)
         {
             return parameters == null ? QueryToDataTable(commandText, tableName, commandTimeout) : QueryToDataTable(commandText, tableName, commandTimeout, parameters.ToArray());
@@ -128,7 +128,7 @@ namespace Data.DbClient
             return parameters == null ? QueryToDataTable(connection, commandText, tableName, commandTimeout) : QueryToDataTable(connection, commandText, tableName, commandTimeout, parameters.ToArray());
         }
 
-        #endregion
+        #endregion Query Methods
 
         #region Single / Scalar Methods
 
@@ -152,9 +152,9 @@ namespace Data.DbClient
             return parameters == null ? QueryValue(connectionString, providerName, commandText, commandTimeout) : QueryValue(connectionString, providerName, commandText, commandTimeout, parameters.ToArray());
         }
 
-        #endregion
+        #endregion Single / Scalar Methods
 
-        #endregion
+        #endregion Database class IEnumerable<object> paramaterized method overloads
 
         #region Connection String Utilities
 
@@ -217,17 +217,17 @@ namespace Data.DbClient
         public static string CreateSqlLiteConnectionString(string databasePath
             , string password = null
             , int defaultTimeout = 60
-            , Boolean failIfMissing = true
-            , Boolean enablePooling = false
+            , bool failIfMissing = true
+            , bool enablePooling = false
             , int maxPoolSize = 100
             , int cacheSize = 2000
             , int pageSize = 1024
-            , Boolean disableJournal = false
-            , Boolean readOnly = false
+            , bool disableJournal = false
+            , bool readOnly = false
             )
         {
             // Sqlite connection string examples can be found here: http://www.connectionstrings.com/sqlite-net-provider/
-            var d = new List<string> {$@"Data Source={databasePath};Version=3"};
+            var d = new List<string> { $@"Data Source={databasePath};Version=3" };
             if (!string.IsNullOrWhiteSpace(password)) d.Add($@"Password={password}");
             if (defaultTimeout != 30) d.Add($@"Default Timeout={defaultTimeout}");
             if (failIfMissing) d.Add(@"FailIfMissing=True");
@@ -284,18 +284,18 @@ namespace Data.DbClient
 
         #region Bulk Utility Methods
 
-        public Boolean ImportSeperatedTxtToSql(
+        public bool ImportSeperatedTxtToSql(
             string tableName,
             int timeOutSeconds,
             string filePathStr,
             string schemaFilePath,
             int batchRowSize,
-            Boolean colHeaders,
+            bool colHeaders,
             string fieldSeperator,
             string textQualifier,
             string nullValue,
             //String filterExpression,
-            Boolean enableIndentityInsert = false
+            bool enableIndentityInsert = false
         )
         {
             var connectionString = Connection.ConnectionString;
@@ -323,7 +323,7 @@ namespace Data.DbClient
             int commandTimeout = 60,
             int batchSize = 0,
             int bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false, params object[] parameters)
+            bool enableIndentityInsert = false, params object[] parameters)
         {
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("commandText is NULL!");
             EnsureConnectionOpen();
@@ -384,9 +384,8 @@ namespace Data.DbClient
             var originalSelect = selectSql.Substring(0, selectSql.IndexOf("from", StringComparison.InvariantCultureIgnoreCase));
 
             var offset = batchNumber * batchSize;
-            var limit = offset + batchSize-1;
+            var limit = offset + batchSize - 1;
 
-            
             const string template = @"
 WITH [temp_batch_table] AS
 (
@@ -437,7 +436,7 @@ FROM
             return outputSql;
         }
 
-        #endregion
+        #endregion SQL Server Script Utilities
 
         #region MySql Server Script Utilities
 
@@ -445,10 +444,10 @@ FROM
         {
             if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
 
-            var offset = batchNumber*batchSize;
+            var offset = batchNumber * batchSize;
             const string template = @"
 SELECT *
-FROM 
+FROM
 (
     $(InputSql)
 ) as a
@@ -459,7 +458,7 @@ LIMIT $(BatchSize) OFFSET $(Offset);
             var outputSql = template.Replace("$(Offset)", offset.ToString(CultureInfo.InvariantCulture))
                 .Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture))
                 .Replace("$(InputSql)", selectSql)
-                .Replace("$(OrderBy)", !string.IsNullOrWhiteSpace(rowOrderBy) ? $@"ORDER BY {rowOrderBy}" :string.Empty);
+                .Replace("$(OrderBy)", !string.IsNullOrWhiteSpace(rowOrderBy) ? $@"ORDER BY {rowOrderBy}" : string.Empty);
 
             return outputSql;
         }
@@ -492,7 +491,7 @@ FROM
             return outputSql;
         }
 
-        #endregion
+        #endregion MySql Server Script Utilities
 
         #region PostgreSql Server Script Utilities
 
@@ -503,7 +502,7 @@ FROM
             var offset = batchNumber * batchSize;
             const string template = @"
 SELECT *
-FROM 
+FROM
 (
     $(InputSql)
 ) as a
@@ -547,7 +546,7 @@ FROM
             return outputSql;
         }
 
-        #endregion
+        #endregion PostgreSql Server Script Utilities
 
         #region Sqlite Server Script Utilities
 
@@ -558,7 +557,7 @@ FROM
             var offset = batchNumber * batchSize;
             const string template = @"
 SELECT *
-FROM 
+FROM
 (
     $(InputSql)
 ) as a
@@ -602,7 +601,7 @@ FROM
             return outputSql;
         }
 
-        #endregion
+        #endregion Sqlite Server Script Utilities
 
         #region Oracle Script Utilities
 
@@ -611,12 +610,12 @@ FROM
             if (selectSql.TrimEnd().EndsWith(";")) selectSql = selectSql.TrimEnd().Substring(0, selectSql.TrimEnd().Length - 1);
 
             var offset = batchNumber * batchSize;
-            var limit = offset + batchSize-1;
+            var limit = offset + batchSize - 1;
 
             const string template = @"
 SELECT *
 FROM(
-        $(InputSql)        
+        $(InputSql)
     ) a
 WHERE [RowNumber] BETWEEN $(Offset) AND $(Limit);
 ";
@@ -661,7 +660,7 @@ FROM
             return outputSql;
         }
 
-        #endregion
+        #endregion Oracle Script Utilities
 
         #region Not Yet Implemented
 

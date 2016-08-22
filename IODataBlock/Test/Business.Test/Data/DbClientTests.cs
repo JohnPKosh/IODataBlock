@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Excel;
 using Business.Test.TestUtility;
@@ -12,6 +7,11 @@ using DbExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
 using Database = Data.DbClient.Database;
 
 namespace Business.Test.Data
@@ -27,9 +27,9 @@ namespace Business.Test.Data
             _mySqlConnectionString = _configMgr.GetConnectionString("mysql_local");
             _oracleConnectionString = _configMgr.GetConnectionString("oracle");
             _LERG_localConnectionString = _configMgr.GetConnectionString("LERG_local");
-        } 
+        }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Properties
 
@@ -67,9 +67,9 @@ namespace Business.Test.Data
             }
         }
 
-        private readonly string _oracleConnectionString; 
+        private readonly string _oracleConnectionString;
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Npgsql
 
@@ -184,9 +184,9 @@ ORDER BY [ORDINAL_POSITION]
         {
             Assert.IsNotNull(TestDbClient());
         }
+
         private string TestDbClient()
         {
-
             #region sql
 
             var sql = @"
@@ -232,7 +232,6 @@ ORDER BY [ORDINAL_POSITION]
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
@@ -274,7 +273,7 @@ ORDER BY [ORDINAL_POSITION]
 
             #endregion sql
 
-            var myparams = new List<object>() {"LERG%"};
+            var myparams = new List<object>() { "LERG%" };
             var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, myparams.ToArray());
             if (!data.Any())
             {
@@ -743,8 +742,6 @@ SELECT [SLE_CHNL_ID]
   FROM [BDVOXData].[dbo].[SALE_CHANNEL]
 ";
             MsExcelExtensionBase.CreateExcelFromQuery(new FileInfo(@"C:\junk\SalesChannel.xlsx"), sql, con);
-
-
         }
 
         #endregion SQL Server Tests

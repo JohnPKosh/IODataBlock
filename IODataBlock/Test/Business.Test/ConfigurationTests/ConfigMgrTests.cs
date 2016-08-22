@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Globalization;
 
 namespace Business.Test.ConfigurationTests
 {
@@ -183,7 +183,6 @@ namespace Business.Test.ConfigurationTests
             Assert.AreEqual(connString, value);
         }
 
-
         [TestMethod]
         public void CreateCspDefaultFile()
         {
@@ -229,6 +228,5 @@ namespace Business.Test.ConfigurationTests
             var value = cm.GetAppSetting("nonexistantentry");
             Assert.IsNull(value);
         }
-
     }
 }

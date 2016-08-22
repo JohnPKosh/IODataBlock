@@ -1,11 +1,10 @@
-﻿using System.IO;
-using Business.Common.System.App;
+﻿using Business.Common.System.App;
+using System.IO;
 
 namespace SelfHostWebApiRelay.RelayBase
 {
     public static class AddressLoader
     {
-
         public static string LoadRelayAddress(string fileName = "RelayAddress.txt")
         {
             var addressFile = Path.Combine(EnvironmentUtilities.GetAssemblyDirectory(), "App_Data", fileName);

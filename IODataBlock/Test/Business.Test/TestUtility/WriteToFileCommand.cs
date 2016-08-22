@@ -1,10 +1,9 @@
-﻿using System;
-using Business.Common.Requests;
+﻿using Business.Common.Requests;
 using Business.Common.System;
+using System;
 
 namespace Business.Test.TestUtility
 {
-
     public class WriteToFileCommand : CommandObjectBase
     {
         public override string Description

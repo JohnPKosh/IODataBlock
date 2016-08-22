@@ -26,7 +26,5 @@ namespace BasicTests.Integration.NsRest.Sandbox
             var json = baseService.GetJsonById("200030", "contact");
             Assert.IsNotNull(json);
         }
-
-
     }
 }

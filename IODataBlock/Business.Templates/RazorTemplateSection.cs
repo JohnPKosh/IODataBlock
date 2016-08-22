@@ -4,7 +4,9 @@ namespace Business.Templates
 {
     public class RazorTemplateSection
     {
-        public RazorTemplateSection(){}
+        public RazorTemplateSection()
+        {
+        }
 
         public RazorTemplateSection(string razorTemplate, string cacheName, Type modelType = null)
         {

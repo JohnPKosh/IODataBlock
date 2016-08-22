@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.IO;
+using Data.DbClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -7,9 +10,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Business.Common.Extensions;
-using Business.Common.IO;
-using Data.DbClient;
 
 namespace Data.MsAccess
 {

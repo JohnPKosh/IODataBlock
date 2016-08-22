@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Business.Common.IO;
 using Business.Common.System.States;
@@ -13,6 +8,11 @@ using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
 using HubSpot.Services.ModeTypes;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 
 namespace HubSpot.Services.Contacts
 {
@@ -30,7 +30,7 @@ namespace HubSpot.Services.Contacts
             ManagedProperties = propertyManager.Properties;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Properties
 
@@ -38,7 +38,7 @@ namespace HubSpot.Services.Contacts
 
         public List<PropertyTypeModel> ManagedProperties;
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Raw API Implementation
 
@@ -160,7 +160,7 @@ namespace HubSpot.Services.Contacts
             }
         }
 
-        #endregion
+        #endregion Create / Update / Delete
 
         #region Read Contacts
 
@@ -483,7 +483,6 @@ namespace HubSpot.Services.Contacts
             }
         }
 
-
         public IResponseObject<string, string> SearchContactsInList(string listId, int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
             PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
             bool showListMemberships = false)
@@ -523,7 +522,7 @@ namespace HubSpot.Services.Contacts
             }
         }
 
-        #endregion
+        #endregion Read Contacts
 
         #region Private Utility Methods
 
@@ -547,9 +546,9 @@ namespace HubSpot.Services.Contacts
             return values.Select(x => string.Format(@"vid={0}", x));
         }
 
-        #endregion
+        #endregion Private Utility Methods
 
-        #endregion
+        #endregion Raw API Implementation
 
         #region Extended Implementation
 
@@ -563,7 +562,7 @@ namespace HubSpot.Services.Contacts
 
             try
             {
-               var ro = GetByEmail(email, properties, propertyMode, formSubmissionMode, showListMemberships);
+                var ro = GetByEmail(email, properties, propertyMode, formSubmissionMode, showListMemberships);
                 if (ro.HasExceptions)
                 {
                     return null;
@@ -650,8 +649,8 @@ namespace HubSpot.Services.Contacts
                     {
                         if (!minVidOffset.HasValue) minVidOffset = 0;
                         if (!minTimeOffset.HasValue) minTimeOffset = 0;
-                        contacts.AddRange(currentList.Where(x=> x.addedAt >= minTimeOffset.Value && x.vid >= minVidOffset.Value));
-                        if(maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value)break;
+                        contacts.AddRange(currentList.Where(x => x.addedAt >= minTimeOffset.Value && x.vid >= minVidOffset.Value));
+                        if (maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value) break;
                         //moreResults = false;
                     }
                     else
@@ -732,7 +731,7 @@ namespace HubSpot.Services.Contacts
             return contacts;
         }
 
-        #endregion
+        #endregion Read Contacts
 
         #region Update Contacts
 
@@ -746,9 +745,8 @@ namespace HubSpot.Services.Contacts
             return dto;
         }
 
-        #endregion
+        #endregion Update Contacts
 
-        #endregion
-
+        #endregion Extended Implementation
     }
 }

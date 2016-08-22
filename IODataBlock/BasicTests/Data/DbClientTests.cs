@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Data.DbClient;
 using Data.DbClient.Extensions;
-using System.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
 
 namespace BasicTests.Data
 {
@@ -34,13 +34,7 @@ namespace BasicTests.Data
 
         private const string SqlServerDatabase = @"LERG";
 
-        private static string SqlServerConnectionString
-        {
-            get
-            {
-                return Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
-            }
-        }
+        private static string SqlServerConnectionString => Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
 
         private readonly string _mySqlConnectionString;
 
@@ -48,13 +42,7 @@ namespace BasicTests.Data
 
         private const string SqliteFile = "sqliteTest.sl3";
 
-        private static string SqliteConnectionString
-        {
-            get
-            {
-                return Database.CreateSqlLiteConnectionString(SqliteFile, "foo", 60, false, false, 100, 2000, 1024, false, false);
-            }
-        }
+        private static string SqliteConnectionString => Database.CreateSqlLiteConnectionString(SqliteFile, "foo", 60, false, false, 100, 2000, 1024, false, false);
 
         private readonly string _oracleConnectionString;
 
@@ -94,7 +82,6 @@ namespace BasicTests.Data
                 Assert.IsNotNull(json);
             }
         }
-
 
         [TestMethod]
         public void NpgsqlScalarTest()
@@ -217,14 +204,13 @@ ORDER BY [ORDINAL_POSITION]
 
             #endregion sql
 
-            var myparams = new List<object>() {"LERG%","%7%"};
+            var myparams = new List<object>() { "LERG%", "%7%" };
             var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, myparams);
             if (!data.Any())
             {
                 Assert.Fail();
             }
         }
-
 
         [TestMethod]
         public void TestStaticDatabaseQuery3()
@@ -364,7 +350,6 @@ ORDER BY [ORDINAL_POSITION]
             }
         }
 
-
         [TestMethod]
         public void QuerySqlServerSchemaTest2()
         {
@@ -462,12 +447,12 @@ ORDER BY [ORDINAL_POSITION]
                 foreach (var d in data)
                 {
                     var str = d.ToString(Formatting.Indented);
-                    if (String.IsNullOrWhiteSpace(str)) Assert.Fail("no json????");
+                    if (string.IsNullOrWhiteSpace(str)) Assert.Fail("no json????");
                 }
 
                 var jarr = new JArray(data);
                 var jarrstr = jarr.ToString();
-                if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
             }
         }
 
@@ -512,7 +497,7 @@ ORDER BY [ORDINAL_POSITION]
                 //var jarr = new JArray(db.QueryToJObjects(sql, 120, "Data%"));
                 var jarr = new JArray(db.QueryToJObjects(sql, 120, "LERG%"));
                 var jarrstr = jarr.ToString();
-                if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
             }
         }
 
@@ -602,7 +587,7 @@ ORDER BY [ORDINAL_POSITION]
                 {
                     var jarr = fs.JsonDeserialize<JArray>();
                     var jarrstr = jarr.ToString();
-                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                    if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
         }
@@ -652,7 +637,7 @@ ORDER BY [ORDINAL_POSITION]
                 {
                     var jarr = fs.BsonDeserialize<JObject>();
                     var jarrstr = jarr.ToString();
-                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                    if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
         }
@@ -702,12 +687,11 @@ ORDER BY [ORDINAL_POSITION]
                 {
                     var jarr = fs.JsonDeserialize<JArray>();
                     var jarrstr = jarr.ToString();
-                    if (String.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
+                    if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
                 }
             }
         }
 
         #endregion SQL Server Tests
-
     }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.EWS.HtmlUtil;
+﻿using Business.EWS.HtmlUtil;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
 namespace BasicTests.HtmlCleaner
@@ -13,7 +13,6 @@ namespace BasicTests.HtmlCleaner
             var email = File.ReadAllText(@"C:\junk\email.html");
             var body = MailCleaner.CleanBody(email);
             Assert.IsNotNull(body);
-
         }
 
         [TestMethod]
@@ -23,7 +22,6 @@ namespace BasicTests.HtmlCleaner
             var body = MailCleaner.CleanBody(email);
             Assert.IsNotNull(body);
         }
-
 
         [TestMethod]
         public void LoadWebPageTest()

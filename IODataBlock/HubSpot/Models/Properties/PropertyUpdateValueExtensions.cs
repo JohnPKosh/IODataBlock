@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Business.Common.Extensions;
-using Business.Common.System;
 
 namespace HubSpot.Models.Properties
 {
     public static class PropertyUpdateValueExtensions
     {
-
         private static IEnumerable<Type> NumericTypes()
         {
             return new[]
@@ -36,7 +35,7 @@ namespace HubSpot.Models.Properties
                 typeof (double?),
                 typeof (decimal?)
             };
-        } 
+        }
 
         public static T GetValue<T>(this PropertyUpdateValue item)
         {
@@ -47,7 +46,7 @@ namespace HubSpot.Models.Properties
             switch (fieldType)
             {
                 case "datetime":
-                    if (typeof (T) == typeof (DateTime?))
+                    if (typeof(T) == typeof(DateTime?))
                     {
                         DateTime? ts = new UnixMsTimestamp(item.Value);
                         return ts.ToOrDefault<T>();
@@ -57,7 +56,7 @@ namespace HubSpot.Models.Properties
                         DateTime? ts = new UnixMsTimestamp(item.Value);
                         return ts.Value.ToOrDefault<T>();
                     }
-                    else throw new ArgumentException($@"Unable to cast {fieldType} to {typeof (T).FullName}!");
+                    else throw new ArgumentException($@"Unable to cast {fieldType} to {typeof(T).FullName}!");
                 case "number":
                     if (NumericTypes().Contains(typeof(T)))
                     {
@@ -65,7 +64,7 @@ namespace HubSpot.Models.Properties
                     }
                     else throw new ArgumentException($@"Unable to cast {fieldType} to {typeof(T).FullName}!");
                 case "bool":
-                    if (typeof (T) == typeof (bool) || typeof (T) == typeof (bool?))
+                    if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
                     {
                         return item.Value.To<T>();
                     }
@@ -74,7 +73,5 @@ namespace HubSpot.Models.Properties
                     return item.Value.To<T>();
             }
         }
-
-
     }
 }

@@ -1,3 +1,7 @@
+using Data.DbClient.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,10 +13,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Data.DbClient.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Linq;
 
 namespace Data.DbClient
 {
@@ -57,7 +57,7 @@ namespace Data.DbClient
 
         public DbConnection Connection => _connection ?? (_connection = _connectionFactory());
 
-        public static Boolean IsWebAssembly
+        public static bool IsWebAssembly
         {
             get
             {
@@ -230,7 +230,7 @@ namespace Data.DbClient
             return new Database(() => connection);
         }
 
-        #endregion
+        #endregion Open DbConnection Methods
 
         #region Query Methods
 
@@ -273,7 +273,7 @@ namespace Data.DbClient
         #endregion Execute Methods
 
         #region Query Methods
-        
+
         public IEnumerable<dynamic> Query(string commandText, int commandTimeout = 60, params object[] parameters)
         {
             if (!string.IsNullOrEmpty(commandText))
@@ -450,7 +450,7 @@ namespace Data.DbClient
 
         public static DataTable QueryToDataTable(DbCommand dbCommand, string tableName = null, int commandTimeout = 60, params object[] parameters)
         {
-            var dt = string.IsNullOrWhiteSpace(tableName) ? new DataTable():new DataTable(tableName);
+            //var dt = string.IsNullOrWhiteSpace(tableName) ? new DataTable() : new DataTable(tableName);
             using (var db = OpenDbConnection(dbCommand.Connection))
             {
                 return db.QueryAsDataTable(dbCommand, tableName, commandTimeout, parameters);
@@ -559,7 +559,6 @@ namespace Data.DbClient
             }
         }
 
-
         public DbDataReader QueryToDataReader(DbCommand dbCommand, int commandTimeout = 60, params object[] parameters)
         {
             _connection = dbCommand.Connection;
@@ -601,7 +600,7 @@ namespace Data.DbClient
             }
         }
 
-        #endregion
+        #endregion Query To DataReader
 
         #endregion Query Methods
 
@@ -825,8 +824,8 @@ namespace Data.DbClient
             {
                 using (var writer = new JsonTextWriter(new StreamWriter(rv)))
                 {
-                    var jobjectType = typeof(JObject);
-                    var serializer = JsonSerializer.CreateDefault();
+                    //var jobjectType = typeof(JObject);
+                    //var serializer = JsonSerializer.CreateDefault();
                     writer.WriteStartArray();
                     while (await dr.ReadAsync(cancellationToken))
                     {
@@ -836,8 +835,8 @@ namespace Data.DbClient
                             fcnt = dr.FieldCount;
                             columnNames = GetColumnNames(dr).ToList();
                         }
-                        dynamic e = new JObject();
-                        var d = e as IDictionary<string, JToken>;
+                        //dynamic e = new JObject();
+                        //var d = e as IDictionary<string, JToken>;
                         for (var i = 0; i < fcnt; i++)
                         {
                             //d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));
@@ -867,8 +866,8 @@ namespace Data.DbClient
             {
                 using (var writer = new BsonWriter(rv))
                 {
-                    var jobjectType = typeof(JObject);
-                    var serializer = JsonSerializer.CreateDefault();
+                    //var jobjectType = typeof(JObject);
+                    //var serializer = JsonSerializer.CreateDefault();
                     writer.WriteStartArray();
                     while (await dr.ReadAsync(cancellationToken))
                     {
@@ -879,7 +878,7 @@ namespace Data.DbClient
                             columnNames = GetColumnNames(dr).ToList();
                         }
                         dynamic e = new JObject();
-                        var d = e as IDictionary<string, JToken>;
+                        //var d = e as IDictionary<string, JToken>;
                         for (var i = 0; i < fcnt; i++)
                         {
                             //d.Add(columnNames[i], JToken.FromObject(await dr.GetFieldValueAsync<object>(i, cancellationToken)));

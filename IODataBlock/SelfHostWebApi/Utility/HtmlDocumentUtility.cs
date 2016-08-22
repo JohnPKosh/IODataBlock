@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Flurl;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flurl;
-using HtmlAgilityPack;
 
 namespace SelfHostWebApi.Utility
 {
     public class HtmlDocumentUtility
     {
-
         public HtmlDocumentUtility(string content)
         {
             Content = content;
@@ -125,7 +122,7 @@ namespace SelfHostWebApi.Utility
 
         public IEnumerable<string> AllHrefUrlsWhere(Func<HtmlNode, bool> predicate)
         {
-            return AllHrefsWhere(predicate).Select(x => x.GetAttributeValue("href", string.Empty)).Where(y=> !string.IsNullOrWhiteSpace(y));
+            return AllHrefsWhere(predicate).Select(x => x.GetAttributeValue("href", string.Empty)).Where(y => !string.IsNullOrWhiteSpace(y));
         }
 
         public string GetTwitterCompanyPhotoUrl()
@@ -226,7 +223,6 @@ namespace SelfHostWebApi.Utility
 
         public dynamic GetTwitterCompanyAboutSection()
         {
-            
             if (!HasDocument) return null;
             if (HasLoadError) return LoadErrorMessage;
             try
@@ -258,7 +254,7 @@ namespace SelfHostWebApi.Utility
                     {
                         var streetAddress = string.Empty;
                         var sn = vcard.SelectNodes("//span[@class='street-address']");
-                        if(sn != null) streetAddress = string.Join(" ", sn.Select(x=> x.InnerText));
+                        if (sn != null) streetAddress = string.Join(" ", sn.Select(x => x.InnerText));
                         rv.streetAddress = streetAddress;
                         rv.locality = vcard.SelectSingleNode("//span[@class='locality']")?.InnerText;
                         rv.region = vcard.SelectSingleNode("//abbr[@class='region']")?.InnerText;

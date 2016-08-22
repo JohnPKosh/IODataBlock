@@ -2,7 +2,7 @@
 
 namespace Data.DbClient.Extensions
 {
-    public static  class ProviderTypeExtensions
+    public static class ProviderTypeExtensions
     {
         public static string GetProviderInvariant(this ProviderType t)
         {
@@ -10,14 +10,19 @@ namespace Data.DbClient.Extensions
             {
                 case ProviderType.SqlServer:
                     return @"System.Data.SqlClient";
+
                 case ProviderType.Npgsql:
                     return @"Npgsql";
+
                 case ProviderType.MySql:
                     return @"MySql.Data.MySqlClient";
+
                 case ProviderType.Oracle:
                     return @"Oracle.ManagedDataAccess.Client";
+
                 case ProviderType.SQLite:
                     return @"System.Data.SQLite";
+
                 default:
                     return @"System.Data.SqlClient";
             }
@@ -30,18 +35,22 @@ namespace Data.DbClient.Extensions
             {
                 case @"System.Data.SqlClient":
                     return ProviderType.SqlServer;
+
                 case @"Npgsql":
                     return ProviderType.Npgsql;
+
                 case @"MySql.Data.MySqlClient":
                     return ProviderType.MySql;
+
                 case @"Oracle.ManagedDataAccess.Client":
                     return ProviderType.Oracle;
+
                 case @"System.Data.SQLite":
                     return ProviderType.SQLite;
+
                 default:
                     return ProviderType.SqlServer;
             }
         }
-
     }
 }

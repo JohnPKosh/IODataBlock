@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.IO;
 using Business.Common.System.States;
 using HubSpot.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HubSpot.Models.Properties
 {
@@ -48,7 +48,7 @@ namespace HubSpot.Models.Properties
         {
             //var service = new ContactPropertyService(_hapiKey);
             var result = _propertyService.GetAllProperties();
-            if(result.HasExceptions)throw new Exception(result.ExceptionList.Exceptions.First().Message);
+            if (result.HasExceptions) throw new Exception(result.ExceptionList.Exceptions.First().Message);
             var data = result.ResponseData.ConvertJson<List<PropertyTypeModel>>();
             PropertyState.Instance.Value = new PropertyTypeListModel
             {
@@ -81,7 +81,5 @@ namespace HubSpot.Models.Properties
         public DateTime? LastUpdated => PropertyState.Instance.Value.LastUpdated;
 
         public List<PropertyTypeModel> Properties => PropertyState.Instance.Value.Properties;
-
-        
     }
 }

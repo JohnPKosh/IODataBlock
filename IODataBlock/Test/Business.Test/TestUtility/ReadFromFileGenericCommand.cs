@@ -1,6 +1,6 @@
-﻿using System;
-using Business.Common.Generic;
+﻿using Business.Common.Generic;
 using Business.Common.GenericRequests;
+using System;
 
 namespace Business.Test.TestUtility
 {
@@ -40,7 +40,6 @@ namespace Business.Test.TestUtility
                         //    ResponseCode = new ResponseCode(200, "OK"),
                         //    ResponseData = rv
                         //};
-                        
                     }
                     catch (Exception ex)
                     {
@@ -60,7 +59,6 @@ namespace Business.Test.TestUtility
             };
         }
     }
-
 
     //public class ReadFromFileCommand : CommandObjectBase
     //{

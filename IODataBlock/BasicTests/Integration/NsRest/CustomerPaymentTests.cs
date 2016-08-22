@@ -1,6 +1,7 @@
 ﻿using Business.Common.Configuration;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
+using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NsRest;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using HubSpot.Services.Contacts;
 
 namespace BasicTests.Integration.NsRest
 {
@@ -29,8 +29,6 @@ namespace BasicTests.Integration.NsRest
             NsPassword = configMgr.GetAppSetting("nspassword");
         }
 
-        private TestContext testContextInstance;
-
         private readonly string _hapiKey;
         private string NsAccount { get; set; }
         private string NsEmail { get; set; }
@@ -40,17 +38,7 @@ namespace BasicTests.Integration.NsRest
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
 
@@ -110,6 +98,7 @@ namespace BasicTests.Integration.NsRest
         //        }
         //    }
         //}
+
         [TestMethod]
         public void DeleteNsContactWhereHsStageIsOther()
         {
@@ -787,7 +776,7 @@ namespace BasicTests.Integration.NsRest
         #region NS Login helpers
 
         //public static String BaseUrl = @"https://rest.na1.netsuite.com/app/site/hosting/restlet.nl";
-        public static String BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
+        public static string BaseUrl = @"https://rest.sandbox.netsuite.com/app/site/hosting/restlet.nl";
 
         public NetSuiteScriptSetting GetScriptSetting()
         {

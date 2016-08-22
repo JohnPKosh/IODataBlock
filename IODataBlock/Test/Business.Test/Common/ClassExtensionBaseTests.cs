@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Test.TestUtility;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using Business.Common.Extensions;
-using Business.Test.TestUtility;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Converters;
 
 namespace Business.Test.Common
 {

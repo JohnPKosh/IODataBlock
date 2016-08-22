@@ -6,6 +6,7 @@ using System.Linq;
 namespace Data.DbClient.Fluent.Select
 {
     /* https://github.com/thoss/select-query-builder*/
+
     public class DbSqlQueryBuilder : IQueryBuilder
     {
         #region Class Initialization
@@ -20,7 +21,7 @@ namespace Data.DbClient.Fluent.Select
         //    Schema = schema;
         //}
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Properties
 
@@ -36,7 +37,7 @@ namespace Data.DbClient.Fluent.Select
         protected OffsetClause OffsetClause = new OffsetClause(0);
         //protected string Schema = "dbo";
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Fluent Methods
 
@@ -135,7 +136,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        #endregion
+        #endregion Fluent Methods
 
         #region IQueryBuilder Methods
 
@@ -151,7 +152,7 @@ namespace Data.DbClient.Fluent.Select
             return query;
         }
 
-        #endregion
+        #endregion IQueryBuilder Methods
 
         #region Private Methods
 
@@ -235,7 +236,7 @@ namespace Data.DbClient.Fluent.Select
             return $"{(OffsetClause.Skip > 0 ? $" OFFSET {OffsetClause.Skip} " : "")}";
         }
 
-        #endregion
+        #endregion Build Query Methods
 
         #region Utility Methods
 
@@ -393,8 +394,8 @@ namespace Data.DbClient.Fluent.Select
             }
         }
 
-        #endregion
+        #endregion Utility Methods
 
-        #endregion
+        #endregion Private Methods
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.Reflection;
 using Business.Test.TestUtility;
 using Fasterflect;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace Business.Test.Common.Reflection
 {
@@ -45,7 +45,6 @@ namespace Business.Test.Common.Reflection
             }
         }
 
-
         [TestMethod]
         public void TestFakePersonPropValuesByName()
         {
@@ -63,7 +62,6 @@ namespace Business.Test.Common.Reflection
                 var val = memberGetter.Invoke(kirk);
                 if (val == null)
                 {
-                    
                     //Assert.Fail("no data?");
                 }
             }
@@ -119,7 +117,7 @@ namespace Business.Test.Common.Reflection
             var person = FakePerson.CreateKirk();
             JObject jKirk = person;
             dynamic expandoKirk = person.ToExpando();
-            dynamic dynKirk = new {FirstName = "James", LastName = "Kirk"};
+            dynamic dynKirk = new { FirstName = "James", LastName = "Kirk" };
             var dynKirkType = dynKirk.GetType();
 
             var jkirkisdynamic = jKirk.GetType().InheritsOrImplements<IDynamicMetaObjectProvider>();
@@ -132,6 +130,5 @@ namespace Business.Test.Common.Reflection
                 // yeah!
             }
         }
-
     }
 }

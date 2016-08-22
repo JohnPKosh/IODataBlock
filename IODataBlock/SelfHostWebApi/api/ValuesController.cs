@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Http;
-using Business.Common.System.App;
+﻿using Business.Common.System.App;
 using Flurl;
 using Newtonsoft.Json.Linq;
 using SelfHostWebApi.Utility;
-using Business.Common.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
 namespace SelfHostWebApi.api
 {
@@ -39,7 +36,6 @@ namespace SelfHostWebApi.api
         public void Delete(int id)
         {
         }
-
 
         [HttpPost]
         public string PostBody(JObject value) /* Captures: location, document, links elements of Post */

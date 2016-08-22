@@ -4,11 +4,13 @@ namespace Data.DbClient.Configuration
     {
         public string ConnectionString
         {
-            get; }
+            get;
+        }
 
         public IDbProviderFactory ProviderFactory
         {
-            get; }
+            get;
+        }
 
         internal ConnectionConfiguration(string providerName, string connectionString)
             : this(new DbProviderFactoryWrapper(providerName), connectionString)

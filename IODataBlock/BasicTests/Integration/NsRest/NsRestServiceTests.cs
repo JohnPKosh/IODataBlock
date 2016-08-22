@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,6 +6,10 @@ using Newtonsoft.Json.Linq;
 using NsRest;
 using NsRest.Search;
 using NsRest.Services;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace BasicTests.Integration.NsRest
 {
@@ -51,7 +51,7 @@ namespace BasicTests.Integration.NsRest
 
         private string TestCustomerGuid { get; set; }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Test Methods
 
@@ -96,10 +96,9 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-        #endregion
+        #endregion Read
 
         #region Search
-
 
         [TestMethod]
         public void SearchCustomersJsonString_Test()
@@ -120,7 +119,6 @@ namespace BasicTests.Integration.NsRest
             var response = baseService.SearchJson("customercategory", filters, columns, scriptKey: "search");
             CheckJsonStringResponse(response);
         }
-
 
         [TestMethod]
         public void SearchEmployeeSalesRepsJsonString_Test()
@@ -218,7 +216,7 @@ namespace BasicTests.Integration.NsRest
             CheckJObjectsResponse(response);
         }
 
-        #endregion
+        #endregion Search
 
         #region Create
 
@@ -243,7 +241,6 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-
         [TestMethod]
         public void PostLead_Test()
         {
@@ -264,7 +261,6 @@ namespace BasicTests.Integration.NsRest
             var response = baseService.Create("lead", o, "crud");
             CheckJsonStringResponse(response);
         }
-
 
         [TestMethod]
         public void PostCustomerJson_Test()
@@ -289,7 +285,7 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-        #endregion
+        #endregion Create
 
         #region Update
 
@@ -320,8 +316,6 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-
-
         [TestMethod]
         public void PutCustomerByExternalId_Test()
         {
@@ -341,7 +335,7 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
-        #endregion
+        #endregion Update
 
         #region Delete
 
@@ -361,10 +355,9 @@ namespace BasicTests.Integration.NsRest
             CheckBooleanResponse(response);
         }
 
-        #endregion
+        #endregion Delete
 
-        #endregion
-
+        #endregion Customer Tests
 
         #region Partner Tests
 
@@ -398,7 +391,7 @@ namespace BasicTests.Integration.NsRest
             CheckDynamicResponse(response);
         }
 
-        #endregion
+        #endregion Read
 
         #region Search
 
@@ -484,7 +477,7 @@ namespace BasicTests.Integration.NsRest
             CheckJObjectsResponse(response);
         }
 
-        #endregion
+        #endregion Search
 
         #region Create
 
@@ -509,7 +502,6 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-
         [TestMethod]
         public void PostPartnerJson_Test()
         {
@@ -533,7 +525,7 @@ namespace BasicTests.Integration.NsRest
             CheckJsonStringResponse(response);
         }
 
-        #endregion
+        #endregion Create
 
         #region Update
 
@@ -556,7 +548,7 @@ namespace BasicTests.Integration.NsRest
             }
         }
 
-        #endregion
+        #endregion Update
 
         #region Delete
 
@@ -569,13 +561,11 @@ namespace BasicTests.Integration.NsRest
             CheckBooleanResponse(response);
         }
 
-        #endregion
+        #endregion Delete
 
-        #endregion
+        #endregion Partner Tests
 
-        #endregion
-
-
+        #endregion Basic CRUD Tests
 
         //[TestMethod]
         //public void PostCC_Test()
@@ -589,13 +579,11 @@ namespace BasicTests.Integration.NsRest
         //    var r = JArray.Parse(response.ResponseData);
         //    var id = r[0].Value<string>("id");
 
-
         //    response = baseService.GetJsonStringById(id, "customer", "crud");
         //    CheckJsonStringResponse(response);
         //}
 
-        #endregion
-
+        #endregion Test Methods
 
         #region Private Utility Methods
 
@@ -618,7 +606,6 @@ namespace BasicTests.Integration.NsRest
             }
             if (response.HasExceptions) Assert.Fail(); /* Exceptions exist in response */
         }
-
 
         private void CheckDynamicResponse(IResponseObject<string, dynamic> response)
         {
@@ -666,11 +653,10 @@ namespace BasicTests.Integration.NsRest
             var response = baseService.SearchJObjectsAsync("customer", filters, scriptKey: "search").Result;
             var responseData = response.ResponseData.ToList();
             if (!responseData.Any()) return null;
-            if (responseData.Count()>1) throw new Exception("Duplicated Records Found!");
+            if (responseData.Count() > 1) throw new Exception("Duplicated Records Found!");
             return responseData[0].Value<string>("id");
         }
 
-        #endregion
-
+        #endregion Private Utility Methods
     }
 }

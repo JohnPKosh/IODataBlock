@@ -1,5 +1,5 @@
-﻿using System;
-using Data.DbClient.Configuration;
+﻿using Data.DbClient.Configuration;
+using System;
 
 namespace Data.DbClient
 {

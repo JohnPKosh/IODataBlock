@@ -1,7 +1,7 @@
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HtmlAgilityPack;
 
 namespace Business.Web.Scrape.Services
 {
@@ -33,7 +33,7 @@ namespace Business.Web.Scrape.Services
             }
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Props
 
@@ -41,10 +41,9 @@ namespace Business.Web.Scrape.Services
         protected string Content { get; set; }
         protected bool HasDocument { get; set; }
         protected bool HasLoadError { get; set; }
-        protected string LoadErrorMessage { get; set; } 
+        protected string LoadErrorMessage { get; set; }
 
-        #endregion
-
+        #endregion Fields and Props
 
         public bool IsGoDaddyParked()
         {

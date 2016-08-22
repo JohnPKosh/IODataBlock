@@ -1,6 +1,5 @@
 ﻿:connect 172.16.5.82
 
-
 IF EXISTS(SELECT [name] FROM sys.databases WHERE [name] = N'@{@Model.name}')
 BEGIN
     PRINT(N'Removing backup history for @{@Model.name}')
@@ -16,4 +15,3 @@ BEGIN
     DROP DATABASE [@{@Model.name}]
 END
 GO
-

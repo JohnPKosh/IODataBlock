@@ -1,8 +1,8 @@
-﻿using System.Data.SqlClient;
-using System.Linq;
-using Data.DbClient;
+﻿using Data.DbClient;
 using Data.DbClient.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace BasicTests.Data
 {
@@ -12,13 +12,7 @@ namespace BasicTests.Data
         private const string SqlServer = @".\EXP14";
         private const string SqlServerDatabase = @"LERG";
 
-        private static string SqlServerConnectionString
-        {
-            get
-            {
-                return Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
-            }
-        }
+        private static string SqlServerConnectionString => Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
 
         #region sql
 
@@ -136,6 +130,5 @@ ORDER BY [ORDINAL_POSITION]
                 Assert.Fail();
             }
         }
-
     }
 }

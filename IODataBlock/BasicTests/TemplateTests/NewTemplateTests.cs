@@ -1,9 +1,8 @@
-﻿using System.Dynamic;
-using System.Collections.Generic;
-using Business.Templates;
+﻿using Business.Templates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
-
+using System.Collections.Generic;
+using System.Dynamic;
 
 namespace BasicTests.TemplateTests
 {
@@ -27,6 +26,7 @@ namespace BasicTests.TemplateTests
         public TestContext TestContext { get; set; }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -38,7 +38,7 @@ namespace BasicTests.TemplateTests
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -46,9 +46,8 @@ namespace BasicTests.TemplateTests
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
 
-
+        #endregion Additional test attributes
 
         #region Migrated Tests
 
@@ -608,7 +607,7 @@ PARENT";
             data.ShowTitle = true;
 
             var otherTemplates = new RazorTemplateSections();
-            otherTemplates.Add(grandparenttemplate,  "GrandParent");
+            otherTemplates.Add(grandparenttemplate, "GrandParent");
             otherTemplates.Add(parenttemplate, "Parent");
             otherTemplates.Add(TestInclude, "TestInclude");
 
@@ -617,7 +616,7 @@ PARENT";
             Assert.IsTrue(output.Contains("Test Template Transform"));
         }
 
-        #endregion
+        #endregion Migrated Tests
 
         [TestMethod]
         public void NewTemplateTest()
@@ -652,10 +651,7 @@ var filetext = File.ReadAllText(@""C:\junk\Test_DIDs.txt"");
             var output = parser.RenderTemplate(data, null, TemplateString, templateBase: typeof(GenericTemplateBase<>));
 
             Assert.IsTrue(output.Contains("Test Template Transform."));
-
-
         }
-
 
         [TestMethod]
         public void NewTemplateTest2()
@@ -698,8 +694,6 @@ GRANDPARENT";
             var output = parser.RenderTemplate(data, typeof(TestMessage), TemplateString, sectionTemplates: otherTemplates, templateBase: typeof(GenericTemplateBase<>));
 
             Assert.IsTrue(output.Contains("Test Template Transform."));
-
-
         }
 
         [TestMethod]
@@ -755,7 +749,6 @@ GRANDPARENT";
             {
                 Assert.IsTrue(s.Contains("Test Template Transform."));
             }
-
         }
     }
 }

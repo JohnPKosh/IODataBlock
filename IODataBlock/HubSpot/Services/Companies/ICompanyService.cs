@@ -20,7 +20,6 @@ namespace HubSpot.Services.Companies
 
         IResponseObject<string, string> Update(string value, int id);
 
-
         /* http://developers.hubspot.com/docs/methods/companies/delete_company */
         /* Example URL to DELETE to:  https://api.hubapi.com/companies/v2/companies/10444744?hapikey=demo&portalId=62515 */
 
@@ -60,7 +59,9 @@ namespace HubSpot.Services.Companies
 
         IResponseObject<string, string> SearchContactIds(int companyId, int? count = null, int? vidOffset = null);
 
-        #endregion Read Methods 
+        #endregion Read Methods
+
+
 
         #region Contact Methods
 
@@ -76,6 +77,6 @@ namespace HubSpot.Services.Companies
 
         #endregion Contact Methods
 
-        #endregion
+        #endregion Raw API Implementation
     }
 }

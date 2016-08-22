@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Business.Common.System.App;
+using Flurl;
+using System;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Business.Common.System.App;
-using Flurl;
 
 namespace SelfHostWebApiRelay.api
 {
     /// <summary>
-    /// This sample shows how to relay a response from a backend service asynchronously 
+    /// This sample shows how to relay a response from a backend service asynchronously
     /// without buffering the content on the server.
     /// </summary>
     public class RelayController : ApiController
@@ -52,7 +52,7 @@ namespace SelfHostWebApiRelay.api
             HttpContent content = Request.Content;
             Request.Content = null;
 
-            // Submit request to our service which we relay. 
+            // Submit request to our service which we relay.
             using (HttpResponseMessage serviceResponse = await _client.PutAsync(_service, content))
             {
                 // Return response
@@ -75,7 +75,5 @@ namespace SelfHostWebApiRelay.api
             // We now have the completed relay response which we can return
             return relayResponse;
         }
-
-
     }
 }

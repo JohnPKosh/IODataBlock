@@ -1,26 +1,26 @@
-﻿// ------------------------------------------------------------------ 
-// 
+﻿// ------------------------------------------------------------------
+//
 // Description:
-//  
-// Author: John Kosh 
+//
+// Author: John Kosh
 // E-mail: jkosh@broadvox.com
 // Created:
-// ------------------------------------------------------------------ 
-// 
+// ------------------------------------------------------------------
+//
 // Copyright © Broadvox LLC 2010
-// 
-// ------------------------------------------------------------------ 
+//
+// ------------------------------------------------------------------
 
+using Business.Common.System.Args;
 using System;
 using System.Linq;
-using Business.Common.System.Args;
 
 namespace SelfHostWebApiRelay
 {
     /// <summary>
     /// ExitCode Enumeration to be returned as ExitCode for the Application on Exit.
     /// </summary>
-    public enum ExitCodeType : int
+    public enum ExitCodeType
     {
         Success = 0,
         Failure = 1
@@ -29,13 +29,13 @@ namespace SelfHostWebApiRelay
     /// <summary>
     /// Primary entry point class of the Application.
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
         /// Primary entry point method of the Application.
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Arguments ArgumentDictionary = null;
             try // Parse Arguments

@@ -3,6 +3,7 @@ using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using HubSpot.Models.Companies;
 using HubSpot.Models.Contacts;
+using HubSpot.Models.Properties;
 using HubSpot.Services.Companies;
 using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
@@ -15,7 +16,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using HubSpot.Models.Properties;
 
 namespace Business.Test.Integration
 {
@@ -137,11 +137,11 @@ namespace Business.Test.Integration
             var nsdomains = nsitems.Children()["columns"]["url"].Values<string>().Select(GetDomainName).Distinct().ToList();
             Assert.IsNotNull(nsdomains);
 
-            var hsdomains = AllCompanies.Where(x=> (x.Properties.FirstOrDefault(y => y.Key == "domain") != null && 
+            var hsdomains = AllCompanies.Where(x => (x.Properties.FirstOrDefault(y => y.Key == "domain") != null &&
             x.Properties.FirstOrDefault(y => y.Key == "domain").Value != null)).Select(z => z.Properties.First(y => y.Key == "domain").Value).Distinct().ToList();
             Assert.IsNotNull(hsdomains);
 
-            var hswebsitedomains = AllCompanies.Where(x => (x.Properties.FirstOrDefault(y => y.Key == "website") != null && 
+            var hswebsitedomains = AllCompanies.Where(x => (x.Properties.FirstOrDefault(y => y.Key == "website") != null &&
             x.Properties.FirstOrDefault(y => y.Key == "website").Value != null)).Select(z => z.Properties.First(y => y.Key == "website").Value).Select(GetDomainName).Distinct().ToList();
             Assert.IsNotNull(hswebsitedomains);
         }
@@ -163,7 +163,7 @@ namespace Business.Test.Integration
             var missing = new List<dynamic>();
             var existing = new List<dynamic>();
 
-            missing.AddRange(nsdomains.Where(x=> hsdomains.All(y => y != x)));
+            missing.AddRange(nsdomains.Where(x => hsdomains.All(y => y != x)));
             foreach (var item in nsitems.Children())
             {
                 var id = item["id"].Value<int>();

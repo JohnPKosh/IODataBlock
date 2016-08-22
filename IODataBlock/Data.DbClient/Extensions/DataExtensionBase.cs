@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.System.Args;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -13,9 +15,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Business.Common.Extensions;
-using Business.Common.System.Args;
-
 
 // ReSharper disable once CheckNamespace
 namespace Data.DbClient
@@ -71,9 +70,9 @@ namespace Data.DbClient
             }
         }
 
-        public static List<Dictionary<string, Object>> ToDictionaryList(this IDataReader rdr)
+        public static List<Dictionary<string, object>> ToDictionaryList(this IDataReader rdr)
         {
-            var result = new List<Dictionary<string, Object>>();
+            var result = new List<Dictionary<string, object>>();
             while (rdr.Read())
             {
                 dynamic e = new ExpandoObject();
@@ -85,7 +84,7 @@ namespace Data.DbClient
             return result;
         }
 
-        public static IEnumerable<Dictionary<string, Object>> ToIEnumerableDictionaryObjects(this IDataReader rdr)
+        public static IEnumerable<Dictionary<string, object>> ToIEnumerableDictionaryObjects(this IDataReader rdr)
         {
             while (rdr.Read())
             {
@@ -148,7 +147,7 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<string, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
                             var colType = prop.Value == null || prop.Value is DBNull ? typeof(object) : prop.Value.GetType();
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
@@ -156,7 +155,7 @@ namespace Data.DbClient
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<string, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -205,15 +204,15 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<string, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
-                            var colType = prop.Value == null ? typeof(object) : prop.Value.GetType();
+                            var colType = prop.Value?.GetType() ?? typeof(object);
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
                         }
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<string, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -263,15 +262,15 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<string, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
-                            var colType = prop.Value == null ? typeof(object) : prop.Value.GetType();
+                            var colType = prop.Value?.GetType() ?? typeof(object);
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
                         }
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<string, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -366,7 +365,7 @@ namespace Data.DbClient
                 con = new SqlConnection(constr);
                 var tname = string.IsNullOrWhiteSpace(tableName) ? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture) : tableName;
                 rv = new DataTable(tname);
-                var da = new SqlDataAdapter(selectCommandText, con) {SelectCommand = {CommandTimeout = 600}};
+                var da = new SqlDataAdapter(selectCommandText, con) { SelectCommand = { CommandTimeout = 600 } };
                 if (con.State != ConnectionState.Open) con.Open();
                 da.Fill(rv);
                 if (con.State == ConnectionState.Open) con.Close();
@@ -392,7 +391,7 @@ namespace Data.DbClient
             , IEnumerable<SqlBulkCopyColumnMapping> sqlBulkCopyColumnMappings = null
             , int batchSize = 0
             , int bulkCopyTimeout = 0
-            , Boolean enableIndentityInsert = false
+            , bool enableIndentityInsert = false
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -426,7 +425,7 @@ namespace Data.DbClient
         {
             if (connection == null) throw new ArgumentException("connection is NULL!");
             if (string.IsNullOrEmpty(spName)) throw new ArgumentException("spName is NULL!");
-            var cmd = new SqlCommand(spName, connection) {CommandType = CommandType.StoredProcedure};
+            var cmd = new SqlCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
             connection.Open();
             SqlCommandBuilder.DeriveParameters(cmd);
             connection.Close();
@@ -449,7 +448,7 @@ namespace Data.DbClient
         {
             if (connection == null) throw new ArgumentException("connection is NULL!");
             if (string.IsNullOrEmpty(spName)) throw new ArgumentException("spName is NULL!");
-            var cmd = new OleDbCommand(spName, connection) {CommandType = CommandType.StoredProcedure};
+            var cmd = new OleDbCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
             connection.Open();
             OleDbCommandBuilder.DeriveParameters(cmd);
             connection.Close();
@@ -515,7 +514,7 @@ namespace Data.DbClient
             , int connectTimeout = -1
             )
         {
-            var cb = new SqlConnectionStringBuilder {DataSource = sqlServer, InitialCatalog = databaseName};
+            var cb = new SqlConnectionStringBuilder { DataSource = sqlServer, InitialCatalog = databaseName };
             if (!string.IsNullOrWhiteSpace(sqlUserName) && !string.IsNullOrWhiteSpace(sqlPassword))
             {
                 cb.UserID = sqlUserName;
@@ -724,55 +723,55 @@ namespace Data.DbClient
             return Regex.Split(s, @"^\s*GO;*\r*\n*\b|(^|\s+)GO;*\r*\n*\b|\s*;\b*\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline).AsEnumerable().Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x.Trim()));
         }
 
-//// ReSharper disable once InconsistentNaming
-//        public static String CreateSQLServerBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
-//        {
-//            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
-//            const string template = @"
-//WITH [temp_batch_table] AS
-//(
-//    $(InputSql)
-//)
-//SELECT *
-//FROM [temp_batch_table]
-//WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
-//";
+        //// ReSharper disable once InconsistentNaming
+        //        public static String CreateSQLServerBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        //        {
+        //            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
+        //            const string template = @"
+        //WITH [temp_batch_table] AS
+        //(
+        //    $(InputSql)
+        //)
+        //SELECT *
+        //FROM [temp_batch_table]
+        //WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
+        //";
 
-//            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
-//            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
-//            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
+        //            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
+        //            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
+        //            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
 
-//            return outputSql;
-//        }
+        //            return outputSql;
+        //        }
 
-//// ReSharper disable once InconsistentNaming
-//        public static String CreateSQLServerCountSelect(String selectSql, Int32 batchSize = 0)
-//        {
-//            string template;
-//            if (batchSize < 1)
-//            {
-//                template = @"
-//SELECT COUNT(*) as [cnt]
-//FROM
-//(
-//    $(InputSql)
-//) as a
-//";
-//            }
-//            else
-//            {
-//                template = @"
-//SELECT (COUNT(*) / $(BatchSize)) as [cnt]
-//FROM
-//(
-//    $(InputSql)
-//) as a
-//".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
-//            }
+        //// ReSharper disable once InconsistentNaming
+        //        public static String CreateSQLServerCountSelect(String selectSql, Int32 batchSize = 0)
+        //        {
+        //            string template;
+        //            if (batchSize < 1)
+        //            {
+        //                template = @"
+        //SELECT COUNT(*) as [cnt]
+        //FROM
+        //(
+        //    $(InputSql)
+        //) as a
+        //";
+        //            }
+        //            else
+        //            {
+        //                template = @"
+        //SELECT (COUNT(*) / $(BatchSize)) as [cnt]
+        //FROM
+        //(
+        //    $(InputSql)
+        //) as a
+        //".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+        //            }
 
-//            var outputSql = template.Replace("$(InputSql)", selectSql);
-//            return outputSql;
-//        }
+        //            var outputSql = template.Replace("$(InputSql)", selectSql);
+        //            return outputSql;
+        //        }
 
         #endregion Sql Script Methods
     }

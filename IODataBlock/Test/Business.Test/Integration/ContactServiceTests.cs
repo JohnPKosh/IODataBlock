@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.System;
 using HubSpot.Models.Contacts;
@@ -13,13 +8,17 @@ using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
 
 namespace Business.Test.Integration
 {
     [TestClass]
     public class ContactServiceTests
     {
-
         public ContactServiceTests()
         {
             var configMgr = new ConfigMgr();
@@ -34,7 +33,6 @@ namespace Business.Test.Integration
             var service = new ContactService(_hapiKey);
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
-
             var ro = service.SearchAll(propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
@@ -46,9 +44,8 @@ namespace Business.Test.Integration
                 var dto = ClassExtensions.CreateFromJson<ContactModelList>(data, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
                 Assert.IsNotNull(dto);
 
-                ContactViewModel update = dto.contacts.First(x=>x.vid == 315);
+                ContactViewModel update = dto.contacts.First(x => x.vid == 315);
                 Assert.IsNotNull(update);
-              
 
                 update.WriteJsonToFilePath(@"c:\junk\ContactUpdate.json");
             }
@@ -59,7 +56,6 @@ namespace Business.Test.Integration
         {
             var service = new ContactService(_hapiKey);
             var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
-
 
             var ro = service.SearchAll(propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
@@ -90,7 +86,7 @@ namespace Business.Test.Integration
 
             while (moreResults)
             {
-                var ro = service.SearchAll(100, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode:FormSubmissionModeType.All, showListMemberships:true);
+                var ro = service.SearchAll(100, lastId, propertyMode: PropertyModeType.value_and_history, formSubmissionMode: FormSubmissionModeType.All, showListMemberships: true);
                 if (ro.HasExceptions)
                 {
                     Assert.Fail();
@@ -113,7 +109,7 @@ namespace Business.Test.Integration
             foreach (var c in contacts)
             {
                 var versioned = c.Properties.Where(x => x.Versions != null);
-                if (versioned.Any(x=> x.Versions.Count > 1))
+                if (versioned.Any(x => x.Versions.Count > 1))
                 {
                     Assert.IsNotNull(versioned);
                 }
@@ -135,8 +131,7 @@ namespace Business.Test.Integration
             var results = contacts.Select(c => (Dictionary<string, object>)c);
             foreach (var c in contacts)
             {
-
-                dynamic d = (Dictionary<string, object>) c;
+                dynamic d = (Dictionary<string, object>)c;
             }
 
             contacts.Take(20).WriteJsonToFilePath(@"c:\junk\ContactViewModels.json", new JsonSerializerSettings()
@@ -145,7 +140,6 @@ namespace Business.Test.Integration
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
         }
-
 
         [TestMethod]
         public void GetAllContactsPagingTest3()
@@ -163,7 +157,6 @@ namespace Business.Test.Integration
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
         }
-
 
         [TestMethod]
         public void GetAllContactsPagingTest4()
@@ -184,15 +177,13 @@ namespace Business.Test.Integration
             //});
         }
 
-
-
         [TestMethod]
         public void GetListContactsPagingTest4()
         {
             var service = new ContactService(_hapiKey);
             //var props = new List<string> { "lastname", "firstname", "email", "hs_lead_status", "lifecyclestage" };
 
-            var contacts = service.GetContactsInListViewModels("139",100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
+            var contacts = service.GetContactsInListViewModels("139", 100, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
 
             var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\contacts.xlsx"));
 
@@ -219,8 +210,6 @@ namespace Business.Test.Integration
             });
         }
 
-
-
         [TestMethod]
         public void GetChangesContactViewModelsTest()
         {
@@ -232,7 +221,6 @@ namespace Business.Test.Integration
 
             var contacts = service.GetChangesContactViewModels(10, maxTimestamp, minTimestamp, null, null, null, PropertyModeType.value_and_history, FormSubmissionModeType.All, true).ToList();
             var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\recentcontacts.xlsx"));
-
         }
 
         [TestMethod]
@@ -243,7 +231,7 @@ namespace Business.Test.Integration
 
             //UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now.AddHours(-1));
             UnixMsTimestamp timeOffsetDate = new UnixMsTimestamp(DateTime.Now);
-            var ro = service.SearchRecent(10, null,null, props, propertyMode: PropertyModeType.value_and_history);
+            var ro = service.SearchRecent(10, null, null, props, propertyMode: PropertyModeType.value_and_history);
             //var ro = service.GetRecentContacts(20, 1445953483005, propertyMode: PropertyModeType.value_and_history);
             if (ro.HasExceptions)
             {
@@ -253,7 +241,7 @@ namespace Business.Test.Integration
             {
                 var data = ro.ResponseData;
                 var dto = ClassExtensions.CreateFromJson<ContactModelList>(data);
-                var contacts = dto.contacts.Select(c => (ContactViewModel) c).ToList();
+                var contacts = dto.contacts.Select(c => (ContactViewModel)c).ToList();
                 DateTime? maxTimestamp = new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
                 DateTime? minTimestamp = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "lastmodifieddate").Value));
                 var results = contacts.WriteToExcelFile(new FileInfo(@"c:\junk\recentcontacts.xlsx"));
@@ -319,7 +307,6 @@ namespace Business.Test.Integration
         {
             var service = new ContactService(_hapiKey);
             var props = new List<string> { "lastname", "firstname", "lastmodifieddate", "email" };
-
 
             //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
             var ro = service.GetById(208878, propertyMode: PropertyModeType.value_and_history, showListMemberships: true);
@@ -391,7 +378,6 @@ namespace Business.Test.Integration
             }
         }
 
-
         [TestMethod]
         public void UpdateContactTest()
         {
@@ -422,7 +408,6 @@ namespace Business.Test.Integration
                 var data = ro.ResponseData;
             }
         }
-
 
         //[TestMethod]
         //public void GetAllContactsPagingTest()
@@ -526,14 +511,11 @@ namespace Business.Test.Integration
         //    contacts.WriteJsonToFilePath(@"c:\junk\allpagedcontactsleadstatus2.json");
         //}
 
-
-
         //[TestMethod]
         //public void GetRecentContactsTest()
         //{
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
-
 
         //    var ro = service.GetRecentContacts(20, 1445953483005);
         //    if (ro.HasExceptions)
@@ -552,7 +534,6 @@ namespace Business.Test.Integration
         //{
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
-
 
         //    //var ro = service.GetContactById(321, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true);
         //    var ro = service.GetContactById(321, showListMemberships: true);
@@ -573,7 +554,6 @@ namespace Business.Test.Integration
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
-
         //    var ro = service.GetContactsByIds(new[] { 321, 322, 323}, props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true, includeDeleted: true);
         //    if (ro.HasExceptions)
         //    {
@@ -592,7 +572,6 @@ namespace Business.Test.Integration
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
-
         //    var ro = service.GetContactByEmail(@"ssalerno@ami-partners.com", props);
         //    if (ro.HasExceptions)
         //    {
@@ -609,13 +588,11 @@ namespace Business.Test.Integration
         //    }
         //}
 
-
         //[TestMethod]
         //public void GetContactByEmailFromService2()
         //{
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
-
 
         //    var ro = service.GetContactByEmail(@"ssalerno@ami-partners.com", props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships:true);
         //    if (ro.HasExceptions)
@@ -635,7 +612,6 @@ namespace Business.Test.Integration
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
 
-
         //    var ro = service.GetContactsByEmails(new[] {@"ssalerno@ami-partners.com", "dspress@hotmail.com" } , props, PropertyModeType.value_only, FormSubmissionModeType.All, showListMemberships: true, includeDeleted: true);
         //    if (ro.HasExceptions)
         //    {
@@ -648,13 +624,11 @@ namespace Business.Test.Integration
         //    }
         //}
 
-
         //[TestMethod]
         //public void GetContactsByQueryTest()
         //{
         //    var service = new ContactService(_hapiKey);
         //    var props = new List<string> { "lastname", "firstname", "hs_email_optout_636817" };
-
 
         //    var ro = service.GetContactsByQuery(@".net");
         //    if (ro.HasExceptions)
@@ -667,7 +641,6 @@ namespace Business.Test.Integration
         //        var dto = ClassExtensions.CreateFromJson<ContactDto>(data);
         //    }
         //}
-
 
         //[TestMethod]
         //public void GetContactByTokenIdTest()

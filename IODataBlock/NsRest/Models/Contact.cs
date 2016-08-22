@@ -79,7 +79,5 @@ namespace NsRest
         public string externalId { get; set; }
 
         public String[] nullFieldList { get; set; }
-
-
     }
 }

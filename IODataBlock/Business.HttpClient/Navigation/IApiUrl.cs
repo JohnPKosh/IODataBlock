@@ -9,6 +9,5 @@ namespace Business.HttpClient.Navigation
         IEnumerable<string> PathSegments { get; set; }
 
         IDictionary<string, object> QueryParams { get; set; }
-
     }
 }

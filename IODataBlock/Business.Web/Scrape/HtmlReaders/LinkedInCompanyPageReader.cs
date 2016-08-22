@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Web.Models;
+﻿using Business.Web.Models;
 using Business.Web.Scrape.Services;
 using Flurl;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
     public class LinkedInCompanyPageReader : PageReaderBase<LinkedInScrapeDto>
     {
-
         #region Class Initialization
 
         public LinkedInCompanyPageReader(JObject value) : base(value)
         {
         }
 
-        #endregion
+        #endregion Class Initialization
 
-        #region Fields and Props
 
-        #endregion
 
         #region Try Read Data Methods
 
@@ -63,7 +57,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 {
                     rv.CompanyId = -1;
                 }
-                
+
                 rv.CompanyDescription = htmlUtility.GetLinkedInCompanyDescription();
                 var about = htmlUtility.GetLinkedInCompanyAboutSection();
                 if (about != null)
@@ -110,7 +104,6 @@ namespace Business.Web.Scrape.HtmlReaders
             }
         }
 
-        #endregion
-
+        #endregion Try Read Data Methods
     }
 }

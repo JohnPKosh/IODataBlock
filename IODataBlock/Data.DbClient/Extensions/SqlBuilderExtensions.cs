@@ -12,7 +12,6 @@ namespace Data.DbClient.Extensions
         //{
         //}
 
-
         public static IEnumerable<SqlBulkCopyColumnMapping> GetSqlBulkCopyColumnMappings(this IDictionary<string, string> mappings)
         {
             return mappings?.Select(mapId => new SqlBulkCopyColumnMapping(mapId.Key, mapId.Value));

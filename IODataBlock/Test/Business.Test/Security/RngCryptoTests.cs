@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Business.Common.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.Common.Security;
+using System;
 using System.Security.Cryptography;
 
 namespace Business.Test.Security
@@ -132,7 +132,5 @@ namespace Business.Test.Security
             var str = RngCrypto.GenerateBase64Salt();
             Assert.IsNotNull(str);
         }
-
-        
     }
 }

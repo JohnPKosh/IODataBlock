@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.IO;
 using Business.Common.System;
 using Business.Common.System.States;
@@ -9,6 +6,9 @@ using HubSpot.Models.Properties;
 using HubSpot.Services.Contacts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HubSpot.Models.Contacts
 {
@@ -26,14 +26,14 @@ namespace HubSpot.Models.Contacts
             ManagedProperties = propertyManager.Properties;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Private Fields and Properties
 
         private readonly string _hapiKey;
         internal List<PropertyTypeModel> ManagedProperties;
 
-        #endregion
+        #endregion Private Fields and Properties
 
         #region Public Properties
 
@@ -61,7 +61,7 @@ namespace HubSpot.Models.Contacts
 
         [JsonProperty("properties")]
         public JObject Properties { get; set; }
-        
+
         [JsonProperty("form-submissions")]
         public List<JObject> form_submissions { get; set; }
 
@@ -74,14 +74,15 @@ namespace HubSpot.Models.Contacts
         [JsonProperty("merge-audits")]
         public List<JObject> merge_audits { get; set; }
 
-        #endregion
-
+        #endregion Public Properties
 
         #region Conversion Operators
 
         static public implicit operator ContactViewModel(ContactModel value)
         {
-            var rv = new ContactViewModel { Properties = new HashSet<PropertyValue>(),
+            var rv = new ContactViewModel
+            {
+                Properties = new HashSet<PropertyValue>(),
                 vid = value.vid,
                 addedAt = value.addedAt,
                 canonical_vid = value.canonical_vid,

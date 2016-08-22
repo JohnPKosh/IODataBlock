@@ -5,15 +5,16 @@
 //using ExBaseDataUtil;
 //using ExBaseIoUtil;
 
+using Business.Common.Extensions;
+using Business.Common.IO;
+using Data.DbClient;
+using Data.DbClient.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using Business.Common.Extensions;
-using Business.Common.IO;
-using Data.DbClient;
-using Data.DbClient.Extensions;
+
 //using ExBaseZipUtil;
 //using SchemaReaderHelper;
 
@@ -24,10 +25,6 @@ namespace Data.MsAccess
     /// </summary>
     public class MsAccessFactory : IDisposable
     {
-        #region "Fields / variable declarations"
-
-        #endregion "Fields / variable declarations"
-
         #region "Properties"
 
         /// <summary>
@@ -47,9 +44,7 @@ namespace Data.MsAccess
 
         #endregion "Properties"
 
-        #region "enumerations"
 
-        #endregion "enumerations"
 
         #region "Class Initialization"
 
@@ -408,8 +403,6 @@ namespace Data.MsAccess
         }
 
         #endregion "Methods"
-
-
 
         #region "Error Handling / Logging"
 

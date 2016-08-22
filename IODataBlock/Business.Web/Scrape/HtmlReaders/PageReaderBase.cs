@@ -1,11 +1,10 @@
+using Business.Web.Scrape.Services;
+using Flurl;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using Business.Web.Models;
-using Business.Web.Scrape.Services;
-using Flurl;
-using Newtonsoft.Json.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
@@ -66,7 +65,7 @@ namespace Business.Web.Scrape.HtmlReaders
             try
             {
                 dynamic rv = new ExpandoObject();
-                if(Document == null)return null;
+                if (Document == null) return null;
                 var html = Document;
                 var htmlUtility = new HtmlDocumentUtility(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();

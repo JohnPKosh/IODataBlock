@@ -35,7 +35,7 @@ namespace Business.Web.System
             return context.Server.MapPath("~");
         }
 
-        #endregion
+        #endregion Basic Extension Methods
 
         #region Combine Path Extension Methods
 
@@ -64,10 +64,10 @@ namespace Business.Web.System
             var pathlist = paths.ToList();
             pathlist.Insert(0, GetCurrentRootPath());
             return Path.Combine(pathlist.ToArray());
-        } 
+        }
 
-        #endregion
+        #endregion Combine Path Extension Methods
 
-        #endregion
+        #endregion Path Extensions
     }
 }

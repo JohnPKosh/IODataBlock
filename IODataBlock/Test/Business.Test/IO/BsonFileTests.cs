@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using Business.Common.Extensions;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.Common.Extensions;
+using System.IO;
 
 namespace Business.Test.IO
 {

@@ -15,7 +15,7 @@ namespace NsRest
 
         INetSuiteLogin Login { set; get; }
 
-        Task<string> ExecuteToJsonStringAsync(IDictionary<string,object> input);
+        Task<string> ExecuteToJsonStringAsync(IDictionary<string, object> input);
 
         Task<dynamic> ExecuteToDynamicAsync(IDictionary<string, object> input);
 

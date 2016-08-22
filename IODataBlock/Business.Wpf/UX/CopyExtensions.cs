@@ -1,13 +1,10 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-
 namespace Business.Wpf.UX
 {
     public static class CopyExtensions
     {
-
-
         public static void CopyGridContentsToClipBoard(this DataGrid grid, DataGridClipboardCopyMode CopyMode = DataGridClipboardCopyMode.IncludeHeader, bool SelectAllCells = true)
         {
             var mode = grid.SelectionMode;
@@ -32,7 +29,5 @@ namespace Business.Wpf.UX
                 }
             }
         }
-
-
     }
 }

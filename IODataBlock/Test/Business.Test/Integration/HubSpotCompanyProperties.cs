@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.IO;
 using Business.Common.System.States;
@@ -12,13 +8,16 @@ using HubSpot.Models.Properties;
 using HubSpot.Services.Companies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
 
 namespace Business.Test.Integration
 {
     [TestClass]
     public class HubSpotCompanyProperties
     {
-
         public HubSpotCompanyProperties()
         {
             var jsonFilePath = Path.Combine(IOUtility.AppDataFolderPath, @"CompanyPropertyList.json");
@@ -34,17 +33,13 @@ namespace Business.Test.Integration
         [TestMethod]
         public void PropertyManagerTest()
         {
-            var props =_propertyManager.Properties;
+            var props = _propertyManager.Properties;
             var lastUpdated = _propertyManager.LastUpdated;
             Assert.IsNotNull(props);
             Assert.IsNotNull(lastUpdated.Value);
         }
 
-
-
-
         /* http://developers.hubspot.com/docs/methods/companies/get_company_properties */
-
 
         [TestMethod]
         public void GetAllPropertiesDynamicTest()
@@ -69,7 +64,7 @@ namespace Business.Test.Integration
 
             var result = "https://api.hubapi.com/companies/v2/properties"
             .SetQueryParam("hapikey", _hapiKey)
-            .GetJsonAsync<List<PropertyTypeModel>>().Result.OrderBy(x=>x.name);
+            .GetJsonAsync<List<PropertyTypeModel>>().Result.OrderBy(x => x.name);
 
             if (result == null) Assert.Fail();
             else
@@ -91,7 +86,7 @@ namespace Business.Test.Integration
             else
             {
                 Dictionary<string, string> d = new Dictionary<string, string>();
-                foreach (var r in result.OrderBy(x=> x.name))
+                foreach (var r in result.OrderBy(x => x.name))
                 {
                     d.Add(r.name, r.type);
                 }

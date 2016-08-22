@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Threading.Tasks;
 
 namespace NsRest
 {
@@ -83,11 +83,9 @@ namespace NsRest
             () =>
             {
                 var result = ExecuteToJsonStringAsync(input).Result;
-                if(string.IsNullOrWhiteSpace(result) || result == "null") return new JArray();
+                if (string.IsNullOrWhiteSpace(result) || result == "null") return new JArray();
                 return JArray.Parse(result);
             });
-
-
 
         public async Task<T> ExecuteToAsync<T>(IDictionary<string, object> input)
         {

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Flurl;
+using Flurl.Http;
+using Flurl.Http.Content;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Flurl;
-using Flurl.Http;
-using Flurl.Http.Content;
-using Newtonsoft.Json;
 
 namespace NsRest
 {
@@ -84,7 +84,7 @@ namespace NsRest
         {
             return await BuildUrl(type, id)
                 .ConfigureHttpClient(http => http.DefaultRequestHeaders.TryAddWithoutValidation(@"Authorization", GetAuthorizationHeaders(Login)))
-                .SendAsync(HttpMethod.Delete, (HttpContent)new CapturedJsonContent(JsonConvert.SerializeObject(new {type = type, id = id})), new CancellationToken?(), HttpCompletionOption.ResponseContentRead);
+                .SendAsync(HttpMethod.Delete, (HttpContent)new CapturedJsonContent(JsonConvert.SerializeObject(new { type = type, id = id })), new CancellationToken?(), HttpCompletionOption.ResponseContentRead);
         }
 
         public bool Delete(string type, string id)

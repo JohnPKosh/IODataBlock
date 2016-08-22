@@ -1,7 +1,7 @@
-﻿using System.Dynamic;
-using Business.Templates.deprecated;
+﻿using Business.Templates.deprecated;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
+using System.Dynamic;
 
 namespace BasicTests.TemplateTests
 {
@@ -18,25 +18,14 @@ namespace BasicTests.TemplateTests
             //
         }
 
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -48,7 +37,7 @@ namespace BasicTests.TemplateTests
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -56,7 +45,8 @@ namespace BasicTests.TemplateTests
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         #region Migrated Tests
 
@@ -624,8 +614,6 @@ PARENT";
             Assert.IsTrue(output.Contains("Test Template Transform"));
         }
 
-        #endregion
-
-
+        #endregion Migrated Tests
     }
 }

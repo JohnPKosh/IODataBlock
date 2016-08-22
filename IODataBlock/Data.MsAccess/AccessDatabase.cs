@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Data.DbClient;
 using Data.DbClient.Configuration;
-using static Data.DbClient.Database;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
 
 namespace Data.MsAccess
 {
     public class AccessDatabase : Database
     {
-        public AccessDatabase(Func<DbConnection> connectionFactory) : base(connectionFactory){}
+        public AccessDatabase(Func<DbConnection> connectionFactory) : base(connectionFactory)
+        {
+        }
 
         public new int Execute(string commandText, int commandTimeout = 0, params object[] parameters)
         {
@@ -96,6 +94,6 @@ namespace Data.MsAccess
             return new AccessDatabase(() => connection);
         }
 
-        #endregion
+        #endregion Open DbConnection Methods
     }
 }

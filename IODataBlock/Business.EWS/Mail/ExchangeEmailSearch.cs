@@ -1,52 +1,37 @@
-﻿using System;
+﻿using Microsoft.Exchange.WebServices.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.Exchange.WebServices.Data;
 
 namespace Business.EWS.Mail
 {
     public class ExchangeEmailSearch
     {
-
         #region Fields
 
         private readonly ExchangeService _service;
 
-        #endregion
-
-        #region Credential
-
-        readonly string _serviceUrl;
-        readonly string _userName;
-        readonly string _password;
-
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
         public ExchangeEmailSearch(string serviceUrl, string userName, string password)
         {
-            _serviceUrl = serviceUrl;
-            _userName = userName;
-            _password = password;
-
             _service = new ExchangeService(ExchangeVersion.Exchange2010_SP2)
             {
-                Credentials = new NetworkCredential(_userName, _password),
-                Url = new Uri(_serviceUrl)
+                Credentials = new NetworkCredential(userName, password),
+                Url = new Uri(serviceUrl)
             };
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
         public IEnumerable<Item> SearchInboxContainsSubstring(string filter, int maxResults = 50)
         {
-
-            ExtendedPropertyDefinition def = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.PublicStrings, "TempId", MapiPropertyType.String);
-
+            var def = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.PublicStrings, "TempId", MapiPropertyType.String);
 
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
@@ -73,12 +58,9 @@ namespace Business.EWS.Mail
             return new List<Item>(findResults.Items);
         }
 
-
         public IEnumerable<Item> SearchInboxUnreadFrom(string filter, int maxResults = 50)
         {
-
-            ExtendedPropertyDefinition def = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.PublicStrings, "TempId", MapiPropertyType.String);
-
+            var def = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.PublicStrings, "TempId", MapiPropertyType.String);
 
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
@@ -105,11 +87,8 @@ namespace Business.EWS.Mail
             return new List<Item>(findResults.Items);
         }
 
-
-
         public IEnumerable<EmailMessage> SearchInboxFromAddresses(string filter, int maxResults = 50)
         {
-
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
             {
@@ -137,12 +116,11 @@ namespace Business.EWS.Mail
 
         public IEnumerable<EmailMessage> SearchInboxFromAddressesToday(string filter, int pageSize = 2)
         {
-
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
             {
                 new SearchFilter.ContainsSubstring(EmailMessageSchema.From, filter),
-                new SearchFilter.IsGreaterThanOrEqualTo(EmailMessageSchema.DateTimeReceived, DateTime.Today.AddDays(-30)),
+                new SearchFilter.IsGreaterThanOrEqualTo(ItemSchema.DateTimeReceived, DateTime.Today.AddDays(-30)),
                 new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, false)
             };
 
@@ -162,7 +140,7 @@ namespace Business.EWS.Mail
             // Send the request to search the Inbox and get the results.
 
             var results = new List<EmailMessage>();
-            var resultCount = 0;
+            int resultCount;
             do
             {
                 var tempResults = _service.FindItems(WellKnownFolderName.Inbox, searchFilter, view).Items.Select(x => x as EmailMessage).ToList();
@@ -171,20 +149,17 @@ namespace Business.EWS.Mail
                     view.Offset = view.Offset + pageSize;
                     results.AddRange(tempResults);
                 }
-                resultCount = tempResults.Count();
+                resultCount = tempResults.Count;
             } while (resultCount > 0);
             return results;
         }
 
-
-
         public IEnumerable<EmailMessage> SearchInboxAllToday(int pageSize = 50)
         {
-
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
             {
-                new SearchFilter.IsGreaterThanOrEqualTo(EmailMessageSchema.DateTimeReceived, DateTime.Now.AddDays(-30))
+                new SearchFilter.IsGreaterThanOrEqualTo(ItemSchema.DateTimeReceived, DateTime.Now.AddDays(-30))
             };
 
             // Create the search filter with a logical operator and your search parameters.
@@ -203,7 +178,7 @@ namespace Business.EWS.Mail
             // Send the request to search the Inbox and get the results.
 
             var results = new List<EmailMessage>();
-            var resultCount = 0;
+            int resultCount;
             do
             {
                 var tempResults = _service.FindItems(WellKnownFolderName.Inbox, searchFilter, view).Items.Select(x => x as EmailMessage).ToList();
@@ -212,18 +187,17 @@ namespace Business.EWS.Mail
                     view.Offset = view.Offset + pageSize;
                     results.AddRange(tempResults);
                 }
-                resultCount = tempResults.Count();
+                resultCount = tempResults.Count;
             } while (resultCount > 0);
             return results;
         }
 
         public IEnumerable<EmailMessage> SearchInboxUnreadToday(int pageSize = 50)
         {
-
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
             {
-                new SearchFilter.IsGreaterThanOrEqualTo(EmailMessageSchema.DateTimeReceived, DateTime.Now.AddDays(-30)),
+                new SearchFilter.IsGreaterThanOrEqualTo(ItemSchema.DateTimeReceived, DateTime.Now.AddDays(-30)),
                 new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, false)
             };
 
@@ -243,7 +217,7 @@ namespace Business.EWS.Mail
             // Send the request to search the Inbox and get the results.
 
             var results = new List<EmailMessage>();
-            var resultCount = 0;
+            int resultCount;
             do
             {
                 var tempResults = _service.FindItems(WellKnownFolderName.Inbox, searchFilter, view).Items.Select(x => x as EmailMessage).ToList();
@@ -252,19 +226,17 @@ namespace Business.EWS.Mail
                     view.Offset = view.Offset + pageSize;
                     results.AddRange(tempResults);
                 }
-                resultCount = tempResults.Count();
+                resultCount = tempResults.Count;
             } while (resultCount > 0);
             return results;
         }
 
-
         public IEnumerable<EmailMessage> SearchInboxReadToday(int pageSize = 50)
         {
-
             // Create a search collection that contains your search conditions.
             var searchFilterCollection = new List<SearchFilter>
             {
-                new SearchFilter.IsGreaterThanOrEqualTo(EmailMessageSchema.DateTimeReceived, DateTime.Now.AddDays(-30)),
+                new SearchFilter.IsGreaterThanOrEqualTo(ItemSchema.DateTimeReceived, DateTime.Now.AddDays(-30)),
                 new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, true)
             };
 
@@ -284,7 +256,7 @@ namespace Business.EWS.Mail
             // Send the request to search the Inbox and get the results.
 
             var results = new List<EmailMessage>();
-            var resultCount = 0;
+            int resultCount;
             do
             {
                 var tempResults = _service.FindItems(WellKnownFolderName.Inbox, searchFilter, view).Items.Select(x => x as EmailMessage).ToList();
@@ -293,12 +265,11 @@ namespace Business.EWS.Mail
                     view.Offset = view.Offset + pageSize;
                     results.AddRange(tempResults);
                 }
-                resultCount = tempResults.Count();
+                resultCount = tempResults.Count;
             } while (resultCount > 0);
             return results;
         }
 
-        #endregion
-
+        #endregion Methods
     }
 }

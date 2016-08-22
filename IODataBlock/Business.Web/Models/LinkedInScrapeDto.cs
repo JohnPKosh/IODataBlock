@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Business.Web.Models
 {
@@ -30,6 +26,5 @@ namespace Business.Web.Models
         public HashSet<string> CompanyUrls { get; set; }
         public HashSet<string> PeopleToInvite { get; set; }
         public string FollowUrl { get; set; }
-
     }
 }

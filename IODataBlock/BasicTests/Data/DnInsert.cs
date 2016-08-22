@@ -25,6 +25,6 @@ namespace BasicTests.Data
                 });
             }
             return rv;
-        } 
+        }
     }
 }

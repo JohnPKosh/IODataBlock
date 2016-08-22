@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Business.Common.Validation;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Business.Common.Validation;
 
 namespace Business.Test.Validation
 {
@@ -9,7 +9,9 @@ namespace Business.Test.Validation
     {
         #region Class Initialization
 
-        public TnStringList(){}
+        public TnStringList()
+        {
+        }
 
         public TnStringList(IEnumerable<TnString> tns)
         {
@@ -103,8 +105,6 @@ namespace Business.Test.Validation
             }
             return rv;
         }
-
-
 
         //public override string ToString()
         //{

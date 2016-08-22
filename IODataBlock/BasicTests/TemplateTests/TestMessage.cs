@@ -1,21 +1,17 @@
-﻿using System;
+﻿using RazorEngine.Templating;
+using System;
 using System.IO;
-using RazorEngine.Templating;
 
 namespace BasicTests.TemplateTests
 {
     public class TestMessage
     {
-
-        public String Title { get; set; }
-        public String Message { get; set; }
+        public string Title { get; set; }
+        public string Message { get; set; }
         public bool ShowTitle { get; set; }
 
-        public String TitleUpper { get { return Title.ToUpper(); } }
-
-
+        public string TitleUpper => Title.ToUpper();
     }
-
 
     public abstract class GenericTemplateBase<T> : TemplateBase<T>
     {

@@ -1,14 +1,14 @@
 ﻿using Business.Common.Configuration;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
+using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NsRest;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using HubSpot.Services.Contacts;
-using NsRest;
 
 namespace Business.Test.Integration
 {

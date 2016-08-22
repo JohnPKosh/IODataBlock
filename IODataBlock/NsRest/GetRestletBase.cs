@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Flurl;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Flurl;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace NsRest
 {

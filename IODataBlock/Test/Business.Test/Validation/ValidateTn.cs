@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Validation
 {
@@ -78,7 +78,7 @@ namespace Business.Test.Validation
         [TestMethod]
         public void CreateTnStringSetFromStringsUsingFactory()
         {
-            var tns = new List<string>() {"2165132288", "2165132288", "2165132289"};
+            var tns = new List<string>() { "2165132288", "2165132288", "2165132289" };
             var tnslist = TnStringList.Create(tns.AsEnumerable());
 
             Assert.IsNotNull(tnslist);
@@ -126,8 +126,6 @@ namespace Business.Test.Validation
             Assert.IsNotNull(erMessages);
         }
 
-
-
         [TestMethod]
         public void FailValidationWithFunc()
         {
@@ -137,11 +135,11 @@ namespace Business.Test.Validation
             var validators = new List<Func<object, ValidationResult>>();
             validators.Add(new Func<object, ValidationResult>(x =>
             {
-                if (!(x.GetType() == typeof (TnString))) return new ValidationResult("Object is not a TnString!");
+                if (!(x.GetType() == typeof(TnString))) return new ValidationResult("Object is not a TnString!");
                 else
                 {
-                    var tnstring = (TnString) x;
-                    if (tnstring.Value == "0000000000")return new ValidationResult("You really just should not do this crazy stuff!", new[]{"Value"});
+                    var tnstring = (TnString)x;
+                    if (tnstring.Value == "0000000000") return new ValidationResult("You really just should not do this crazy stuff!", new[] { "Value" });
                     return null;
                 }
             }));
@@ -156,6 +154,5 @@ namespace Business.Test.Validation
                 }
             }
         }
-
     }
 }

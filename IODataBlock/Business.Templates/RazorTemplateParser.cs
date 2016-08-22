@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using RazorEngine;
+﻿using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
 using RazorEngine.Text;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Business.Templates
 {
     public class RazorTemplateParser
     {
-        public String RenderItemTemplateFromString(Func<dynamic, String> templateModelFunction, dynamic model)
+        public string RenderItemTemplateFromString(Func<dynamic, string> templateModelFunction, dynamic model)
         {
             //return Razor.Parse(templateModelFunction(model), model, String.Format("{0}_ItemTemplate", model.GetType().Name));
-            return Engine.Razor.RunCompile(String.Format("{0}_Template", model.GetType().Name), templateModelFunction(model), null, model);
+            return Engine.Razor.RunCompile(string.Format("{0}_Template", model.GetType().Name), templateModelFunction(model), null, model);
         }
 
-        public String RenderItemTemplateFromFile(FileInfo file, dynamic model, bool rawStringFactory = true, DynamicViewBag viewBag = null, IEnumerable<string> nameSpaceNames = null )
+        public string RenderItemTemplateFromFile(FileInfo file, dynamic model, bool rawStringFactory = true, DynamicViewBag viewBag = null, IEnumerable<string> nameSpaceNames = null)
         {
             string template;
             using (var fs = file.OpenText())
@@ -29,7 +29,7 @@ namespace Business.Templates
 
             config.EncodedStringFactory = rawStringFactory ? new RawStringFactory() as IEncodedStringFactory : new HtmlEncodedStringFactory();
             config.AllowMissingPropertiesOnDynamic = false;
-            
+
             /* config.Namespaces.Add("System.Configuration"); */
             if (nameSpaceNames != null)
             {
@@ -41,7 +41,7 @@ namespace Business.Templates
 
             using (var service = RazorEngineService.Create(config))
             {
-                return RazorEngineServiceExtensions.RunCompile(service, template, String.Format("{0}_ItemTemplate", model.GetType().Name), modelType: null, model: model, viewBag: viewBag);
+                return RazorEngineServiceExtensions.RunCompile(service, template, string.Format("{0}_ItemTemplate", model.GetType().Name), modelType: null, model: model, viewBag: viewBag);
             }
 
             //return Razor.Parse(template, model, String.Format("{0}_ItemTemplate", model.GetType().Name));
@@ -49,17 +49,17 @@ namespace Business.Templates
 
         #region Render IEnumerable Item and IEnumerable Model Template Methods
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromString(IEnumerable<String> templateString, IEnumerable<object> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromString(IEnumerable<string> templateString, IEnumerable<object> models)
         {
             return Razor.ParseMany(templateString, models);
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromString<T>(IEnumerable<String> templateString, IEnumerable<T> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromString<T>(IEnumerable<string> templateString, IEnumerable<T> models)
         {
             return Razor.ParseMany(templateString, models);
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromFile<T>(IEnumerable<String> templatePaths, IEnumerable<T> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromFile<T>(IEnumerable<string> templatePaths, IEnumerable<T> models)
         {
             var modelarr = models.ToArray();
             var cnt = 0;
@@ -71,7 +71,7 @@ namespace Business.Templates
             }
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromFile(IEnumerable<String> templatePaths, IEnumerable<object> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromFile(IEnumerable<string> templatePaths, IEnumerable<object> models)
         {
             var modelarr = models.ToArray();
             var cnt = 0;
@@ -87,7 +87,7 @@ namespace Business.Templates
 
         #region Render Raw IEnumerable Item and IEnumerable Model Template Methods
 
-        public IEnumerable<String> RenderRawIEnumerableItemTemplateFromString(IEnumerable<String> templateString, IEnumerable<object> models, IEnumerable<DynamicViewBag> viewBags = null, IEnumerable<string> cacheNames = null, bool parallel = false)
+        public IEnumerable<string> RenderRawIEnumerableItemTemplateFromString(IEnumerable<string> templateString, IEnumerable<object> models, IEnumerable<DynamicViewBag> viewBags = null, IEnumerable<string> cacheNames = null, bool parallel = false)
         {
             var c = new TemplateServiceConfiguration { EncodedStringFactory = new RawStringFactory() };
             var ct = new TemplateService(c);
@@ -113,7 +113,7 @@ namespace Business.Templates
         //    }
         //}
 
-        public IEnumerable<String> RenderRawIEnumerableItemTemplateFromFile<T>(IEnumerable<String> templatePaths, IEnumerable<T> models)
+        public IEnumerable<string> RenderRawIEnumerableItemTemplateFromFile<T>(IEnumerable<string> templatePaths, IEnumerable<T> models)
         {
             var modelarr = models.ToArray();
             var cnt = 0;
@@ -125,7 +125,7 @@ namespace Business.Templates
             }
         }
 
-        public IEnumerable<String> RenderRawIEnumerableItemTemplateFromFile(IEnumerable<String> templatePaths, IEnumerable<object> models)
+        public IEnumerable<string> RenderRawIEnumerableItemTemplateFromFile(IEnumerable<string> templatePaths, IEnumerable<object> models)
         {
             var modelarr = models.ToArray();
             var cnt = 0;
@@ -141,24 +141,24 @@ namespace Business.Templates
 
         #region Render IEnumerable Item Template Methods
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromFile(String templatePath, IEnumerable<object> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromFile(string templatePath, IEnumerable<object> models)
         {
             var template = File.ReadAllText(templatePath);
             return Razor.ParseMany(template, models);
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromString(String templateString, IEnumerable<object> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromString(string templateString, IEnumerable<object> models)
         {
             return Razor.ParseMany(templateString, models);
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromFile<T>(String templatePath, IEnumerable<T> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromFile<T>(string templatePath, IEnumerable<T> models)
         {
             var template = File.ReadAllText(templatePath);
             return Razor.ParseMany(template, models);
         }
 
-        public IEnumerable<String> RenderIEnumerableItemTemplateFromString<T>(String templateString, IEnumerable<T> models)
+        public IEnumerable<string> RenderIEnumerableItemTemplateFromString<T>(string templateString, IEnumerable<T> models)
         {
             return Razor.ParseMany(templateString, models);
         }
@@ -253,65 +253,65 @@ namespace Business.Templates
 
         #region Render Item Template Methods
 
-        public String RenderItemTemplateFromFile(String templatePath, object model)
+        public string RenderItemTemplateFromFile(string templatePath, object model)
         {
             var template = File.ReadAllText(templatePath);
-            return Razor.Parse(template, model, String.Format("{0}_ItemTemplate", model.GetType().Name));
+            return Razor.Parse(template, model, $"{model.GetType().Name}_ItemTemplate");
         }
 
-        public String RenderItemTemplateFromString(String templateString, object model)
+        public string RenderItemTemplateFromString(string templateString, object model)
         {
-            return Razor.Parse(templateString, model, String.Format("{0}_ItemTemplate", model.GetType().Name));
+            return Razor.Parse(templateString, model, $"{model.GetType().Name}_ItemTemplate");
         }
 
-        public String RenderItemTemplateFromFile<T>(String templatePath, T model)
+        public string RenderItemTemplateFromFile<T>(string templatePath, T model)
         {
             var template = File.ReadAllText(templatePath);
-            return Razor.Parse(template, model, String.Format("{0}_ItemTemplate", typeof(T).Name));
+            return Razor.Parse(template, model, $"{typeof(T).Name}_ItemTemplate");
         }
 
-        public String RenderItemTemplateFromString<T>(String templateString, T model)
+        public string RenderItemTemplateFromString<T>(string templateString, T model)
         {
-            return Razor.Parse(templateString, model, String.Format("{0}_ItemTemplate", typeof(T).Name));
+            return Razor.Parse(templateString, model, $"{typeof(T).Name}_ItemTemplate");
         }
 
         #endregion Render Item Template Methods
 
         #region Render Raw Item Template Methods
 
-        public String RenderRawItemTemplateFromFile(String templatePath, object model, DynamicViewBag viewBag = null)
+        public string RenderRawItemTemplateFromFile(string templatePath, object model, DynamicViewBag viewBag = null)
         {
             var c = new TemplateServiceConfiguration { EncodedStringFactory = new RawStringFactory() };
             var ct = new TemplateService(c);
             Razor.SetTemplateService(ct);
 
             var template = File.ReadAllText(templatePath);
-            return ct.Parse(template, model, viewBag, String.Format("{0}_ItemTemplate", model.GetType().Name));
+            return ct.Parse(template, model, viewBag, $"{model.GetType().Name}_ItemTemplate");
         }
 
-        public String RenderRawItemTemplateFromString(String templateString, object model, DynamicViewBag viewBag = null)
+        public string RenderRawItemTemplateFromString(string templateString, object model, DynamicViewBag viewBag = null)
         {
             var c = new TemplateServiceConfiguration { EncodedStringFactory = new RawStringFactory() };
             var ct = new TemplateService(c);
             Razor.SetTemplateService(ct);
-            return ct.Parse(templateString, model, viewBag, String.Format("{0}_ItemTemplate", model.GetType().Name));
+            return ct.Parse(templateString, model, viewBag, $"{model.GetType().Name}_ItemTemplate");
         }
 
-        public String RenderRawItemTemplateFromFile<T>(String templatePath, T model, DynamicViewBag viewBag = null)
+        public string RenderRawItemTemplateFromFile<T>(string templatePath, T model, DynamicViewBag viewBag = null)
         {
             var c = new TemplateServiceConfiguration { EncodedStringFactory = new RawStringFactory() };
             var ct = new TemplateService(c);
             Razor.SetTemplateService(ct);
             var template = File.ReadAllText(templatePath);
-            return ct.Parse<T>(template, model, viewBag, String.Format("{0}_ItemTemplate", typeof(T).Name));
+            return ct.Parse<T>(template, model, viewBag, $"{typeof(T).Name}_ItemTemplate");
         }
 
-        public String RenderRawItemTemplateFromString<T>(String templateString, T model, DynamicViewBag viewBag = null)
+        public string RenderRawItemTemplateFromString<T>(string templateString, T model, DynamicViewBag viewBag = null)
         {
             var c = new TemplateServiceConfiguration { EncodedStringFactory = new RawStringFactory() };
             var ct = new TemplateService(c);
             Razor.SetTemplateService(ct);
-            return ct.Parse<T>(templateString, model, viewBag, String.Format("{0}_ItemTemplate", typeof(T).Name));
+            return ct.Parse<T>(templateString, model, viewBag, $"{typeof(T).Name}_ItemTemplate");
         }
 
         #endregion Render Raw Item Template Methods
