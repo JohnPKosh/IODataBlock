@@ -1,9 +1,46 @@
 
-
+/* Create variables */
 var allLinks = [];
 var visibleLinks = [];
 var currentUrl = "na";
 var currentDoc = null;
+
+/* Set up event handlers and inject send_links.js into all frames in the active tab. */
+window.onload = function () {
+    AddOpenHomePageEvent();
+    document.getElementById("filter").onkeyup = filterLinks;
+    document.getElementById("regex").onchange = filterLinks;
+    document.getElementById("toggle_all").onchange = toggleAll;
+    document.getElementById("trackPageButton").onclick = trackPagePOST;
+
+    /* Inject send_links.js into all frames in the active tab.*/
+    chrome.windows.getCurrent(function (currentWindow) {
+        chrome.tabs.query({ active: true, windowId: currentWindow.id },
+                          function (activeTabs) {
+                              currentUrl = activeTabs[0].url;
+                              chrome.tabs.executeScript(activeTabs[0].id, { file: "send_links.js", allFrames: false });
+                          });
+    });
+};
+
+
+/* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
+chrome.extension.onRequest.addListener(function (data) {
+    /* If the action is send_links Do This*/
+    if (data.action === "send_links")
+    {
+        for (var index in data.links) {
+            if (data.links.hasOwnProperty(index))
+            {
+                allLinks.push(data.links[index]);
+            }
+        }
+        allLinks.sort();
+        visibleLinks = allLinks;
+        showLinks();
+        currentDoc = data.body;
+    }
+});
 
 /* Display all visible links. */
 function showLinks() {
@@ -12,98 +49,29 @@ function showLinks() {
         linksTable.removeChild(linksTable.children[linksTable.children.length-1]);
     }
     for (var i = 0; i < visibleLinks.length; ++i) {
+        /* Create row */
         var row = document.createElement("tr");
+
+        /* Build column 0 */
         var col0 = document.createElement("td");
-        var col1 = document.createElement("td");
-        col1.id = "item" + i;
         var checkbox = document.createElement("input");
         checkbox.checked = true;
         checkbox.type = "checkbox";
         checkbox.id = "check" + i;
         col0.appendChild(checkbox);
-        //col1.innerText = visibleLinks[i];
-        col1.innerHTML = "<a href='#'>" + visibleLinks[i] + "</a>";
 
+        /* Build column 0 */
+        var col1 = document.createElement("td");
+        col1.id = "item" + i;
+        col1.innerHTML = "<a href='#'>" + visibleLinks[i] + "</a>";
         AddLinkEvent(col1, i);
 
-        
-        //col1.style.whiteSpace = "nowrap";
-        //col1.onclick = function () {
-        //    checkbox.checked = !checkbox.checked;
-        //    //chrome.tabs.create({ url: col1.innerText });
-        //}
+        /* Append row */
         row.appendChild(col0);
         row.appendChild(col1);
         linksTable.appendChild(row);
     }
 }
-
-function AddLinkEvent(elem, i) {
-    elem.onclick = function() {
-        chrome.tabs.create({ url: visibleLinks[i] });
-    };
-}
-
-function AddOpenHomePageEvent() {
-    var siteTitle = document.getElementById("site-title");
-    siteTitle.onclick = function () {
-        chrome.tabs.create({ url: "http://localhost:54438/Home/Index" });
-    };
-}
-
-//function showLinks() {
-//    var linksTable = document.getElementById("links");
-//    while (linksTable.children.length > 1) {
-//        linksTable.removeChild(linksTable.children[linksTable.children.length - 1]);
-//    }
-//    for (var i = 0; i < visibleLinks.length; ++i) {
-//        var row = document.createElement("tr");
-//        var col0 = document.createElement("td");
-//        var col1 = document.createElement("td");
-//        var checkbox = document.createElement("input");
-//        checkbox.checked = true;
-//        checkbox.type = "checkbox";
-//        checkbox.id = "check" + i;
-//        col0.appendChild(checkbox);
-//        col1.innerText = visibleLinks[i];
-//        col1.style.whiteSpace = "nowrap";
-//        col1.onclick = function () {
-//            checkbox.checked = !checkbox.checked;
-//        }
-//        row.appendChild(col0);
-//        row.appendChild(col1);
-//        linksTable.appendChild(row);
-//    }
-//}
-
-/* Toggle the checked state of all visible links.*/
-function toggleAll() {
-    var checked = document.getElementById("toggle_all").checked;
-    for (var i = 0; i < visibleLinks.length; ++i) {
-        document.getElementById("check" + i).checked = checked;
-    }
-}
-
-/* Download all visible checked links. */
-function downloadCheckedLinks() {
-    for (var i = 0; i < visibleLinks.length; ++i) {
-        if (document.getElementById("check" + i).checked) {
-            alert(visibleLinks[i]);
-            chrome.downloads.download({ url: visibleLinks[i] }, function (id) {});
-        }
-    }
-    window.close();
-}
-
-function sendData() {
-    chrome.windows.getCurrent(function (currentWindow) {
-        chrome.tabs.query({ active: true, windowId: currentWindow.id },
-                          function (activeTabs) {
-                              alert("hello");
-                              chrome.tabs.executeScript(activeTabs[0].id, { file: "send_url.js", allFrames: false });
-                          });
-    });
-};
 
 /* Re-filter allLinks into visibleLinks and reshow visibleLinks. */
 function filterLinks() {
@@ -137,128 +105,82 @@ function filterLinks() {
     showLinks();
 }
 
-/* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
-chrome.extension.onRequest.addListener(function (data) {
-    if (data.action === "send_links") {
-        for (var index in data.links) {
-            allLinks.push(data.links[index]);
-        }
-        allLinks.sort();
-        visibleLinks = allLinks;
-        //showUrl();
-        showLinks();
-        //showResp();
-        currentDoc = data.body;
-        //currentUrl = data.url;
-        //showData();
-        getMachineInfo();
+/* Toggle the checked state of all visible links.*/
+function toggleAll() {
+    var checked = document.getElementById("toggle_all").checked;
+    for (var i = 0; i < visibleLinks.length; ++i) {
+        document.getElementById("check" + i).checked = checked;
     }
-
-});
-
-/* Set up event handlers and inject send_links.js into all frames in the active tab. */
-window.onload = function () {
-    AddOpenHomePageEvent();
-    document.getElementById("filter").onkeyup = filterLinks;
-    document.getElementById("regex").onchange = filterLinks;
-    document.getElementById("toggle_all").onchange = toggleAll;
-    //document.getElementById("download0").onclick = downloadCheckedLinks;
-    document.getElementById("download0").onclick = showData;
-    document.getElementById("download1").onclick = downloadCheckedLinks;
-    //document.getElementById("sendData").onclick = sendData;
-
-    chrome.windows.getCurrent(function (currentWindow) {
-        chrome.tabs.query({ active: true, windowId: currentWindow.id },
-                          function (activeTabs) {
-                              currentUrl = activeTabs[0].url;
-                              chrome.tabs.executeScript(activeTabs[0].id, { file: "send_links.js", allFrames: false });
-                          });
-    });
-};
-
-
-
-/* Display all visible links. */
-function showResp() {
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:57754/test", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            // innerText does not let the attacker inject HTML elements.
-            document.getElementById("resp").innerHTML = xhr.responseText;
-        }
-    }
-    xhr.send();
 }
 
-function getMachineInfo() {
+/* Add link click events */
+function AddLinkEvent(elem, i) {
+    elem.onclick = function() {
+        chrome.tabs.create({ url: visibleLinks[i] });
+    };
+}
 
+/* Add logo click event to open home page. */
+function AddOpenHomePageEvent() {
+    var siteTitle = document.getElementById("site-title");
+    siteTitle.onclick = function () {
+        chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
+    };
+}
+
+
+
+
+/* Not currently used TODO: determine if it makes sense to break up into single responsibilities. */
+//function sendData() {
+//    chrome.windows.getCurrent(function (currentWindow) {
+//        chrome.tabs.query({ active: true, windowId: currentWindow.id },
+//                          function (activeTabs) {
+//                              chrome.tabs.executeScript(activeTabs[0].id, { file: "send_url.js", allFrames: false });
+//                          });
+//    });
+//};
+
+
+/* POST entire HTML document and Links to API*/
+function trackPagePOST() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:50231/api/Values", true);
+    xhr.open("POST", "http://localhost:51786/Api/TrakrScrape", true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            var myArr = JSON.parse(xhr.responseText);
-            showMachineInfo(myArr);
-        } 
-    }
-    xhr.send();
-}
-
-function showMachineInfo(arr) {
-    var out = "<ul>";
-    var i;
-    for (i = 0; i < arr.length; i++) {
-        //out += '<a href="' + arr[i].url + '">' + arr[i].display + '</a><br>';
-        out += "<li>" + arr[i] + "</li>";
-    }
-    out += "</ul>";
-    document.getElementById("machineInfo").innerHTML = out;
-}
-
-function showData() {
-    var xhr = new XMLHttpRequest();
-    //xhr.open("POST", "http://localhost:50231/api/Values/PostBody", true);
-    xhr.open("POST", "http://localhost:54438/Api/TrakrScrape", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            //document.getElementById("resp").innerHTML = xhr.responseText;
             var obj = JSON.parse(xhr.responseText);
             document.getElementById("resp").innerHTML = obj.LocationUrl + " <strong> Saved!</strong>";
         }
     }
-    //var input = document.documentElement.outerHTML;
     xhr.setRequestHeader("Content-type", "application/json");
-    //getUrl();
-    //getCurrentDoc();
+    getUrl();
     xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, links: allLinks }));
 }
 
 
-function showUrl() {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        var current = tabs[0];
-        incognito = current.incognito;
-        url = current.url;
-        alert(url);
-    });
-}
-
 function getUrl() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var current = tabs[0];
+        //incognito = current.incognito;
         url = current.url;
         currentUrl = url;
     });
 }
 
-function getCurrentDoc() {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        var current = tabs[0];
-        currentDoc = current.document.documentElement.outerHTML;
-    });
-}
+//function getCurrentDoc() {
+//    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//        var current = tabs[0];
+//        currentDoc = current.document.documentElement.outerHTML;
+//    });
+//}
 
+
+/* TODO: review below for any useful functions etc. */
+
+/* Utility Functions */
+/* Utility Functions */
+/* Utility Functions */
+/* Utility Functions */
 /* Utility Functions */
 
 var nonCompanyDomains = {

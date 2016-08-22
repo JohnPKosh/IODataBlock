@@ -2,12 +2,9 @@
 <html>
 <head>
     <script src="popup.js"></script>
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="Content/bootstrap.min.css">
-    <!-- Optional theme -->
     <link rel="stylesheet" href="Content/bootstrap-theme.min.css">
     <link rel="stylesheet" href="Content/Site.css">
-    <!-- Latest compiled and minified JavaScript -->
     <script src="Scripts/jquery-3.1.0.min.js"></script>
     <script src="Scripts/jquery.validate.min.js"></script>
     <script src="Scripts/modernizr-2.8.3.js"></script>
@@ -21,13 +18,11 @@
             <div class="col-md-12">
                 <div class="site-title">
                     <a href="#" id="site-title"><span class="site-title-primary">Web</span><span class="site-title-suffix">Trakr.com</span></a>
-                    <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="download0">Trak It!</button></span>
+                    <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="trackPageButton">Trak It!</button></span>
                 </div>
             </div>
             
         </div>
-
-
 
         <div class="row">
             <div class="col-md-12">
@@ -62,10 +57,9 @@
                                             <input type="checkbox" id="regex">Regex
                                         </label>
                                     </div>
-                                    <div class="form-group" style="display: inline-block">
-
+                                    <!--<div class="form-group" style="display: inline-block">
                                         <button type="button" class="btn btn-disabled btn-sm" id="sendData">Send</button>
-                                    </div>
+                                    </div>-->
                                 </form>
                             </div>
                         </div>
@@ -80,7 +74,6 @@
                             </thead>
                             <tbody class="smaller" id="links"></tbody>
                         </table>
-                        <button type="button" class="btn btn-primary btn-sm" id="download1">Download All!</button>
                     </div>
 
                     <!--Tab 2-->
@@ -116,71 +109,7 @@
             </div>
         </div>
 
-
-
     </div>
-
-
-
-    <!--<div class="row">
-        <div class="col-md-12">
-
-            <div style="-moz-min-width: 300px; -ms-min-width: 300px; -o-min-width: 300px; -webkit-min-width: 300px; min-width: 300px;">
-                <div class="btn-group" role="group" aria-label="...">
-                    <button class="btn btn-primary btn-sm" type="button">Left</button>
-                    <button class="btn btn-primary btn-sm" type="button">Middle</button>
-                    <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+ Page Links</button>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>-->
-    <!--<div class="collapse" id="collapseExample">
-
-
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form-inline">
-                    <div class="form-group" style="display: inline-block">
-                        <input type="text" class="form-control" id="filter" style="width: 250px;" placeholder="Filter">
-                    </div>
-                    <div class="form-group" style="display: inline-block">
-                        <label class="checkbox-inline">
-                            <input type="checkbox" id="regex">Regex
-                        </label>
-                    </div>
-                    <div class="form-group" style="display: inline-block">
-                        <button type="button" class="btn btn-primary btn-sm" id="download0">Download!</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="sendData">Send!</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-
-        <div id="machineInfo"></div>
-        <div id="resp"></div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th><input type="checkbox" checked id="toggle_all"></th>
-                <th>URL</th>
-            </tr>
-            </thead>
-            <tbody class="smaller" id="links"></tbody>
-        </table>
-        <button type="button" class="btn btn-primary btn-sm" id="download1">Download All!</button>
-    </div>-->
-
-
-
-
-
-
-
 
 </body>
 </html>

@@ -81,7 +81,6 @@
     <Content Include="app\Scripts\respond.min.js" />
     <None Include="app\Scripts\_references.js" />
     <Content Include="app\send_url.js" />
-    <Content Include="app\send_body.js" />
     <Content Include="app\send_links.js" />
     <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
     <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
@@ -112,7 +111,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1530</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
