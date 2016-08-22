@@ -253,7 +253,7 @@ namespace HubSpot.Services.Contacts
             var ro = new ResponseObject<string, string>();
             try
             {
-                var path = "https://api.hubapi.com/contacts/v1/contact/vid/".AppendPathSegment(contactId.ToString()).AppendPathSegment("profile"); ;
+                var path = "https://api.hubapi.com/contacts/v1/contact/vid/".AppendPathSegment(contactId.ToString()).AppendPathSegment("profile");
 
                 var mergeList = new List<string>();
                 mergeList.AddRange(GetPropertyQueryParams(propertyList));
@@ -528,22 +528,22 @@ namespace HubSpot.Services.Contacts
 
         private IEnumerable<string> GetPropertyQueryParams(IEnumerable<string> values)
         {
-            return values.Select(x => string.Format(@"property={0}", System.Web.HttpUtility.UrlEncode(x)));
+            return values.Select(x => $@"property={System.Web.HttpUtility.UrlEncode(x)}");
         }
 
         private IEnumerable<string> GetEmailQueryParams(IEnumerable<string> values)
         {
-            return values.Select(x => string.Format(@"email={0}", System.Web.HttpUtility.UrlEncode(x)));
+            return values.Select(x => $@"email={System.Web.HttpUtility.UrlEncode(x)}");
         }
 
         private IEnumerable<string> GetUtkQueryParams(IEnumerable<string> values)
         {
-            return values.Select(x => string.Format(@"utk={0}", x));
+            return values.Select(x => $@"utk={x}");
         }
 
         private IEnumerable<string> GetIdQueryParams(IEnumerable<int> values)
         {
-            return values.Select(x => string.Format(@"vid={0}", x));
+            return values.Select(x => $@"vid={x}");
         }
 
         #endregion Private Utility Methods

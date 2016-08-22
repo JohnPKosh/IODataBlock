@@ -37,7 +37,7 @@ namespace HubSpot.Models
 
         #region Conversion Operators
 
-        static public implicit operator JObject(ModelBase<T> value)
+        public static implicit operator JObject(ModelBase<T> value)
         {
             return value.ToJObject();
         }

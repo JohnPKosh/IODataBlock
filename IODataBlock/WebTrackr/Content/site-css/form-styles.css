@@ -1,0 +1,32 @@
+﻿/*@brand-primary-2:       #fb8c00;*/
+.form-control,
+.form-control:focus,
+.has-error .form-control:focus,
+.has-success .form-control:focus,
+.has-warning .form-control:focus,
+.navbar-collapse,
+.navbar-form,
+.navbar-form-custom .form-control:focus,
+.navbar-form-custom .form-control:hover,
+.open .btn.dropdown-toggle,
+.panel,
+.popover,
+.progress,
+.progress-bar {
+  box-shadow: none;
+}
+/*.form-control {
+    border-color: @border-gray-lighter !important
+}*/
+.input-xs {
+  height: 20px;
+  padding: 2px 10px;
+  font-size: 10px;
+  line-height: 1.5;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.input-group-addon {
+  background: #eeeeee;
+  border-color: #eeeeee !important;
+}

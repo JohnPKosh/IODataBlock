@@ -1,0 +1,22 @@
+﻿[
+  {
+    "outputFile": "Content/admin-styles.css",
+    "inputFile": "Content/admin-styles.less"
+  },
+  {
+    "outputFile": "Content/site-css/form-styles.css",
+    "inputFile": "Content/site-css/form-styles.less"
+  },
+  {
+    "outputFile": "Content/bootstrap/forms.css",
+    "inputFile": "Content/bootstrap/forms.less"
+  },
+  {
+    "outputFile": "Content/bootstrap/bootstrap.css",
+    "inputFile": "Content/bootstrap/bootstrap.less"
+  },
+  {
+    "outputFile": "Content/mvc-site.css",
+    "inputFile": "Content/mvc-site.less"
+  }
+]

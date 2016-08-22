@@ -1,0 +1,254 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_MVC.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1><strong>Web</strong> Browser Extension</h1>
+            <p class="lead">a Click, Capture, Repeat, Data...  Chrome Browser Extension</p>
+            <p><a href="@Url.Action("Index", "LandingPage")" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}
+
+@* Content Section 1 *@
+<section>
+    <div class="container body-content">
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <h2>
+                            <span class="text-success"><strong>What You Can Do</strong></span>
+                        </h2>
+                        <dl>
+                            <dt>Save Important Links and Site Data</dt>
+                            <dd>You decide what to save and how long.</dd>
+                            <dt>Capture data to the Cloud</dt>
+                            <dd>Store just what you need in a format you want.</dd>
+                            <dt>Quick Insight and Analysis</dt>
+                            <dd>With many social and search engine sites you can quicky capture valuable insights on customers and leads.</dd>
+                            <dt>Build Contacts and Leads</dt>
+                            <dd>Capture E-Mails, colleagues, relationships, company profiles and more.</dd>
+                            <dt>Export Data Easily</dt>
+                            <dd>You can download list of all your data to Excel.</dd>
+                            <dt>Share Your Data</dt>
+                            <dd>Quickly send the important information you find with others.</dd>
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="panel">
+                    <div class="panel-body">
+                        <a href="@Url.Action("Index", "Home")"><img src="~/Images/home/webtracker_screenclip01.PNG"/></a>
+                        <h3 class="m-b-xs">Easy to Use</h3>
+                        <p class="font-bold text-success">Lorem ipsum</p>
+                        <div class="m">
+                            <i class="fa fa-arrow-circle-right fa-3x"></i>
+                        </div>
+                        <p class="small">
+                            Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                        <a href="@Url.Action("Index", "Home")"><button class="btn btn-success btn-sm">Sign Up Now</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>
+                    <span class="text-primary"><strong>Companies </strong></span>Trending Now
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-heading">
+                        <div class="panel-tools">
+                            <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            <a class="closebox"><i class="fa fa-times"></i></a>
+                        </div>
+                        See what information others are finding now on Twitter!
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Followers</th>
+                                        <th>Website</th>
+                                        <th>City</th>
+                                        <th>Region</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var r in ViewBag.LinkedInTrendingNow)
+                                    {
+                                        <tr>
+                                            <td><a href="@r.LinkedInPage" target="_blank">@r.LinkedInCompanyName</a></td>
+                                            <td>@r.followersCount</td>
+                                            <td><a href="@r.website" target="_blank">@r.website</a></td>
+                                            <td>@r.locality</td>
+                                            <td>@r.region</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        And Many More...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+@* Content Section 2 *@
+@*<section >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2><span class="text-success"><strong>Trending </strong></span>Now
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-heading">
+                        <div class="panel-tools">
+                            <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            <a class="closebox"><i class="fa fa-times"></i></a>
+                        </div>
+                        See what information others are finding now on Twitter!
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Followers</th>
+                                        <th>Industry</th>
+                                        <th>City</th>
+                                        <th>Region</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var r in ViewBag.LinkedInTrendingNow)
+                                    {
+                                        <tr>
+                                            <td>@r.LinkedInCompanyName</td>
+                                            <td>@r.followersCount</td>
+                                            <td>@r.industry</td>
+                                            <td>@r.locality</td>
+                                            <td>@r.region</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        And Many More...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+
+
+@* Content Section 3 *@
+@*<section>
+    <div class="container body-content">
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <a href="@Url.Action("Index", "Home")"><img src="~/Images/home/baseball01.jpg" /></a>
+                            <h3 class="m-b-xs">Baseball</h3>
+                            <p class="font-bold text-success">Lorem ipsum</p>
+                            <div class="m">
+                                <i class="fa fa-arrow-circle-right fa-3x"></i>
+                            </div>
+                            <p class="small">
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            </p>
+                            <a href="@Url.Action("Index", "Home")"><button class="btn btn-success btn-sm">Play Ball</button></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <img src="~/Images/home/basketball01.jpg" />
+                            <h3 class="m-b-xs">Basketball</h3>
+                            <p class="font-bold text-success">Lorem ipsum</p>
+                            <div class="m">
+                                <i class="fa fa-arrow-circle-right fa-3x"></i>
+                            </div>
+                            <p class="small">
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            </p>
+                            <button class="btn btn-success btn-sm">Throw Down</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <img src="~/Images/home/football_cleats01.jpg" />
+                            <h3 class="m-b-xs">Football</h3>
+                            <p class="font-bold text-success">Lorem ipsum</p>
+                            <div class="m">
+                                <i class="fa fa-arrow-circle-right fa-3x"></i>
+                            </div>
+                            <p class="small">
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            </p>
+                            <button class="btn btn-success btn-sm">Hike...</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>*@

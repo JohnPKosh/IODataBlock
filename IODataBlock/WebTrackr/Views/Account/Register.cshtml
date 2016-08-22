@@ -1,0 +1,127 @@
+﻿@model WebTrackr.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_MVC.cshtml";
+    ViewBag.Title = "Register for a new Account";
+}
+
+@*@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1>ASP.NET Identity</h1>
+            <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
+            <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}*@
+
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-success">@ViewBag.Title</h5>
+                <p>Create a new account for access today.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        @*<li>
+                            <span>Account</span>
+                        </li>*@
+                        <li class="active">
+                            <span>Register</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div class="hpanel hblue">
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <h2 class="text-primary">Registration Information</h2>
+                                    <h4>Enter the registration code supplied to you by your Broadvox Sales Rep below.</h4>
+                                    <div class="m">
+                                        <i class="pe-7s-user fa-5x text-primary"></i>
+                                    </div>
+                                    <p class="text-warning">
+                                        You would have received this info by e-mail. If you do not have a code you can request one by phone.
+                                    </p>
+                                    <hr />
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.RegistrationCode, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.RegistrationCode, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ApiKey, new { @class = "col-md-2 control-label" })
+                                    @Html.HiddenFor(m => m.ApiKey)
+                                    <div class="col-md-10">
+                                        @Html.DisplayTextFor(m => m.ApiKey)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hpanel">
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <h4 class="text-primary">Account Information</h4>
+                                    <hr />
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <div class="pull-right">
+                                            <input type="submit" class="btn btn-primary" value="Submit" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

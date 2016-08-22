@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="@Url.Content("~/Images/assets/brand-icon.png")" sizes="32x32" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Images/assets/brand-icon.png")" sizes="16x16" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Add local styles for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {@RenderSection("Styles", required: false)}
+
+    <!-- Primary styles -->
+    @Styles.Render("~/bundles/font-awesome/css")
+    @Styles.Render("~/bundles/animate/css")
+    @*@Styles.Render("~/bundles/bootstrap/css")*@
+    @Styles.Render("~/bundles/peicon7stroke/css")
+    @Styles.Render("~/bundles/admin-styles/css")
+</head>
+<body class="landing-page">
+
+    <!-- Simple splash screen-->
+    <div class="splash">
+        <div class="color-line-gradient"></div>
+        <div class="splash-title">
+            <h1>@ViewBag.Title</h1>
+            <p>@ViewBag.Message</p>
+            <img src="~/Images/loading-bars.svg" width="64" height="64" />
+        </div>
+    </div>
+    <!--[if lt IE 7]>
+    <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Main view  -->
+    @RenderBody()
+
+    <!-- Section for main scripts render -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/admin-scripts/js")
+
+    <!-- Handler for local scripts -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -16,12 +16,9 @@ namespace HubSpot.Models.Companies
         public static FileInfo WriteToExcelFile(this IEnumerable<CompanyViewModel> values, FileInfo fileInfo)
         {
             var data = values.ConvertToIEnumerableDynamic().ToList();
-            if (data != null && data.Count > 0)
-            {
-                var eo = new ExcelDynamicObjects();
-                return eo.CreateExcelFileFromDynamicObjects(fileInfo, data, overWrite: true);
-            }
-            return null;
+            if (data.Count <= 0) return null;
+            var eo = new ExcelDynamicObjects();
+            return eo.CreateExcelFileFromDynamicObjects(fileInfo, data, overWrite: true);
         }
     }
 }

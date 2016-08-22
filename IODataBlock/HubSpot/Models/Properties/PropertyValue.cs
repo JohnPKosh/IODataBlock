@@ -35,7 +35,7 @@ namespace HubSpot.Models.Properties
 
         #region Conversion Operators
 
-        static public implicit operator KeyValuePair<string, string>(PropertyValue item)
+        public static implicit operator KeyValuePair<string, string>(PropertyValue item)
         {
             return new KeyValuePair<string, string>(item.Key, item.Value);
         }

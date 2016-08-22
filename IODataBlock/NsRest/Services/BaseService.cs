@@ -329,8 +329,7 @@ namespace NsRest.Services
                 var rv = Task.Run(() => restlet.ExecuteToDynamicListAsync(parameters));
                 //ro.ResponseData = rv.Result;
                 var result = rv.Result;
-                if (result != null) ro.ResponseData = result;
-                else ro.ResponseData = new List<ExpandoObject>();
+                ro.ResponseData = result ?? new List<ExpandoObject>();
                 if (rv.Exception != null) throw rv.Exception;
                 return ro;
             }

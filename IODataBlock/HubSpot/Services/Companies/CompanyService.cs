@@ -516,8 +516,8 @@ namespace HubSpot.Services.Companies
                         contacts.AddRange(currentList);
                         //moreResults = dto.has_more;
                     }
-                    var min = (DateTime?)(new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "createdate").Value)));
-                    var max = (DateTime?)(new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "createdate").Value)));
+                    var min = (DateTime?)new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "createdate").Value));
+                    var max = (DateTime?)new UnixMsTimestamp(contacts.Max(x => x.Properties.First(y => y.Key == "createdate").Value));
                     maxTimeOffset = new UnixMsTimestamp(contacts.Min(x => x.Properties.First(y => y.Key == "createdate").Value));
                     //moreResults = dto.has_more;
                 }

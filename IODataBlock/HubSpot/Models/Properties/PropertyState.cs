@@ -10,10 +10,7 @@ namespace HubSpot.Models.Properties
         {
         }
 
-        public static PropertyState Instance
-        {
-            get { return _instance ?? (_instance = new PropertyState()); }
-        }
+        public static PropertyState Instance => _instance ?? (_instance = new PropertyState());
 
         private PropertyTypeListModel _value = null;
 

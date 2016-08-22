@@ -11,10 +11,7 @@ namespace HubSpot.Models.Contacts
         {
         }
 
-        public static IPropertyState Instance
-        {
-            get { return _instance ?? (_instance = new ContactPropertyState()); }
-        }
+        public static IPropertyState Instance => _instance ?? (_instance = new ContactPropertyState());
 
         private PropertyTypeListModel _value = null;
 

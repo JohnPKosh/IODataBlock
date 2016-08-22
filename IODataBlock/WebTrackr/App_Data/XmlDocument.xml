@@ -1,0 +1,1285 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebTrackr</name>
+    </assembly>
+    <members>
+        <member name="T:WebTrackr.BundleConfig">
+            <summary>
+            For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+            </summary>
+        </member>
+        <member name="M:WebTrackr.BundleConfig.RegisterBundles(System.Web.Optimization.BundleCollection)">
+            <summary>
+            For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+            </summary>
+            <param name="bundles">The bundles collection to register.</param>
+        </member>
+        <member name="T:WebTrackr.FilterConfig">
+            <summary>
+            Web Application FilterConfig
+            </summary>
+        </member>
+        <member name="M:WebTrackr.FilterConfig.RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection)">
+            <summary>
+            Registers the global filters for this Web Application.
+            </summary>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="T:WebTrackr.Models.ApplicationUserManager">
+            <summary>
+            Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationUserManager.#ctor(Microsoft.AspNet.Identity.IUserStore{WebTrackr.Models.ApplicationUser,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Models.ApplicationUserManager"/> class.
+            </summary>
+            <param name="store">The store.</param>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationUserManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{WebTrackr.Models.ApplicationUserManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Models.ApplicationRoleManager">
+            <summary>
+            Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationRoleManager.#ctor(Microsoft.AspNet.Identity.IRoleStore{WebTrackr.Models.ApplicationRole,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Models.ApplicationRoleManager"/> class.
+            </summary>
+            <param name="roleStore">The role store.</param>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationRoleManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{WebTrackr.Models.ApplicationRoleManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Models.ApplicationDbInitializer">
+            <summary>
+            This is useful if you do not want to tear down the database each time you run the application.
+            This example shows you how to create a new database if the Model changes
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationDbInitializer.InitializeIdentityForEf(WebTrackr.Models.ApplicationDbContext)">
+            <summary>
+            Initializes the identity (Create User=Admin@Admin.com with password=Admin@123456 in the Admin role).
+            </summary>
+            <param name="db">The database.</param>
+        </member>
+        <member name="T:WebTrackr.Models.EmailService">
+            <summary>
+            Plug in your email service here to send an email.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.EmailService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+            <summary>
+            This method should send the message
+            </summary>
+            <param name="message">IdentityMessage message</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:WebTrackr.Models.SmsService">
+            <summary>
+            Plug in your SMS service here to send a text message.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.SmsService.SendAsync(Microsoft.AspNet.Identity.IdentityMessage)">
+            <summary>
+            This method should send the SMS message
+            </summary>
+            <param name="message">IdentityMessage message</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:WebTrackr.Models.ApplicationSignInManager">
+            <summary>
+            Configure the application sign-in manager which is used in this application.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationSignInManager.#ctor(WebTrackr.Models.ApplicationUserManager,Microsoft.Owin.Security.IAuthenticationManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Models.ApplicationSignInManager"/> class.
+            </summary>
+            <param name="userManager">The user manager.</param>
+            <param name="authenticationManager">The authentication manager.</param>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationSignInManager.CreateUserIdentityAsync(WebTrackr.Models.ApplicationUser)">
+            <summary>
+            Creates the user identity asynchronous.
+            </summary>
+            <param name="user">The user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Models.ApplicationSignInManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{WebTrackr.Models.ApplicationSignInManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            Creates the specified options.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.MappingConfig">
+            <summary>
+            Project Mapping Config.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.MappingConfig.RegisterMaps">
+            <summary>
+            Registers the AutoMapper Mappings.
+            </summary>
+        </member>
+        <member name="T:WebTrackr.RouteConfig">
+            <summary>
+            Registers Routes for your MVC Web Application
+            </summary>
+        </member>
+        <member name="M:WebTrackr.RouteConfig.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Registers the routes.
+            </summary>
+            <param name="routes">The routes.</param>
+        </member>
+        <member name="T:WebTrackr.Startup">
+            <summary>
+            MVC Web Application Startup Class
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Startup.OAuthOptions">
+            <summary>
+            Gets the OAuth authentication options.
+            </summary>
+            <value>
+            The OAuth authentication options.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Startup.UserManagerFactory">
+            <summary>
+            Gets or sets the user manager factory.
+            </summary>
+            <value>
+            The user manager factory.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Startup.PublicClientId">
+            <summary>
+            Gets the public client identifier.
+            </summary>
+            <value>
+            The public client identifier.
+            </value>
+        </member>
+        <member name="M:WebTrackr.Startup.ConfigureAuth(Owin.IAppBuilder)">
+            <summary>
+            Configures the authentication. For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+            </summary>
+            <param name="app">The application.</param>
+        </member>
+        <member name="T:WebTrackr.SwaggerConfig">
+            <summary>
+            Manages Swagger Configuration.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.SwaggerConfig.Register">
+            <summary>
+            Registers this instance.
+            </summary>
+        </member>
+        <member name="T:WebTrackr.WebApiConfig">
+            <summary>
+            WebApi Configuration
+            </summary>
+        </member>
+        <member name="M:WebTrackr.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ApiDescriptionExtensions">
+            <summary>
+            WebApi Description Extensions
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Controllers.HelpController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Controllers.HelpController.#ctor(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Controllers.HelpController.Configuration">
+            <summary>
+            Gets the HttpConfiguration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Controllers.HelpController.Index">
+            <summary>
+            GET: /Help
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Controllers.HelpController.Api(System.String)">
+            <summary>
+            GET: /Help/Api
+            </summary>
+            <param name="apiId">The API identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Controllers.HelpController.ResourceModel(System.String)">
+            <summary>
+            GET: /Help/ResourceModel
+            </summary>
+            <param name="modelName">Name of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.HelpPageAreaRegistration">
+            <summary>
+            MVC Web Application HelpPage Area Registration
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions">
+            <summary>
+            Help Page Configuration Extenstion Methods
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,WebTrackr.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.CollectionModelDescription">
+            <summary>
+            CollectionModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.CollectionModelDescription.ElementDescription">
+            <summary>
+            Gets or sets the element description.
+            </summary>
+            <value>
+            The element description.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription">
+            <summary>
+            ComplexTypeModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ComplexTypeModelDescription.Properties">
+            <summary>
+            Gets the properties.
+            </summary>
+            <value>
+            The ParameterDescription Collection properties.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.DictionaryModelDescription">
+            <summary>
+            DictionaryModelDescription class, Inherits from KeyValuePairModelDescription.
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription">
+            <summary>
+            EnumTypeModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription.Values">
+            <summary>
+            Gets the values.
+            </summary>
+            <value>
+            The EnumValueDescription values.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumValueDescription">
+            <summary>
+            The EnumValueDescription class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.EnumValueDescription.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+            <value>
+            The string value.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider">
+            <summary>
+            IModelDocumentationProvider Interface used by the ModelDescriptionGenerator class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider.GetDocumentation(System.Reflection.MemberInfo)">
+            <summary>
+            Gets the documentation by MemberInfo.
+            </summary>
+            <param name="member">The MemberInfo member.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.IModelDocumentationProvider.GetDocumentation(System.Type)">
+            <summary>
+            Gets the documentation by Type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
+            <summary>
+            KeyValuePairModelDescription class, Inherits from ModelDescription.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
+            <summary>
+            Gets or sets the key model description.
+            </summary>
+            <value>
+            The key ModelDescription.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
+            <summary>
+            Gets or sets the value model description.
+            </summary>
+            <value>
+            The value ModelDescription.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
+            <summary>
+            Gets or sets the type of the model.
+            </summary>
+            <value>
+            The type of the model.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.#ctor(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/> class.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GeneratedModels">
+            <summary>
+            Gets the generated models.
+            </summary>
+            <value>
+            The generated models dictionary.
+            </value>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
+            <summary>
+            Gets the or create model description.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelNameAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelNameAttribute"/> class.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterAnnotation">
+            <summary>
+            ParameterAnnotation class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterAnnotation.AnnotationAttribute">
+            <summary>
+            Gets or sets the annotation attribute.
+            </summary>
+            <value>
+            The annotation attribute.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterAnnotation.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription">
+            <summary>
+            ParameterDescription class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription.Annotations">
+            <summary>
+            Gets the annotations.
+            </summary>
+            <value>
+            The annotations.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+            <value>
+            The string documentation.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The string name.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription.TypeDescription">
+            <summary>
+            Gets or sets the type description.
+            </summary>
+            <value>
+            The type description.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ModelDescriptions.SimpleTypeModelDescription">
+            <summary>
+            SimpleTypeModelDescription class, Inherits from ModelDescription
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebTrackr.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:WebTrackr.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,WebTrackr.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,WebTrackr.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters.
+            First, it will look at the <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(WebTrackr.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:WebTrackr.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},WebTrackr.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:WebTrackr.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:WebTrackr.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleKey.#ctor(WebTrackr.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebTrackr.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,WebTrackr.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebTrackr.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.ParameterType">
+            <summary>
+            Gets the type of the parameter.
+            </summary>
+            <value>
+            The type of the parameter.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:WebTrackr.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.InvalidSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.InvalidSample"/> class.
+            </summary>
+            <param name="errorMessage">The error message.</param>
+            <exception cref="T:System.ArgumentNullException">errorMessage</exception>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.InvalidSample.ErrorMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value>
+            The error message.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="F:WebTrackr.Areas.HelpPage.SampleDirection.Request">
+            <summary>
+            The request
+            </summary>
+        </member>
+        <member name="F:WebTrackr.Areas.HelpPage.SampleDirection.Response">
+            <summary>
+            The response
+            </summary>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.TextSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.TextSample"/> class.
+            </summary>
+            <param name="text">The text.</param>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="P:WebTrackr.Areas.HelpPage.TextSample.Text">
+            <summary>
+            Gets the text.
+            </summary>
+            <value>
+            The text.
+            </value>
+        </member>
+        <member name="T:WebTrackr.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="T:WebTrackr.Controllers.AccountController">
+            <summary>
+            MVC Application AccountController
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Controllers.AccountController"/> class.
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.#ctor(WebTrackr.Models.ApplicationUserManager,WebTrackr.Models.ApplicationSignInManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebTrackr.Controllers.AccountController"/> class.
+            </summary>
+            <param name="userManager">The user manager.</param>
+            <param name="signInManager">The sign in manager.</param>
+        </member>
+        <member name="P:WebTrackr.Controllers.AccountController.SignInManager">
+            <summary>
+            Gets the sign in manager.
+            </summary>
+            <value>
+            The ApplicationSignInManager.
+            </value>
+        </member>
+        <member name="P:WebTrackr.Controllers.AccountController.UserManager">
+            <summary>
+            Gets the user manager.
+            </summary>
+            <value>
+            The ApplicationUserManager.
+            </value>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.MyApi">
+            <summary>
+            GET: /Account/MyApi
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.Login(System.String)">
+            <summary>
+            GET: /Account/Login.
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.Login(WebTrackr.Models.LoginViewModel,System.String)">
+            <summary>
+            POST: /Account/Login
+            </summary>
+            <param name="model">The model.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.VerifyCode(System.String,System.String,System.Boolean)">
+            <summary>
+            GET: /Account/VerifyCode
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="returnUrl">The return URL.</param>
+            <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.VerifyCode(WebTrackr.Models.VerifyCodeViewModel)">
+            <summary>
+            POST: /Account/VerifyCode
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.Register">
+            <summary>
+            GET: /Account/Register
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.Register(WebTrackr.Models.RegisterViewModel)">
+            <summary>
+            POST: /Account/Register
+            For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ConfirmEmail(System.String,System.String)">
+            <summary>
+            GET: /Account/ConfirmEmail
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <param name="code">The code.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ForgotPassword">
+            <summary>
+            GET: /Account/ForgotPassword
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ForgotPassword(WebTrackr.Models.ForgotPasswordViewModel)">
+            <summary>
+            POST: /Account/ForgotPassword
+            For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ForgotPasswordConfirmation">
+            <summary>
+            GET: /Account/ForgotPasswordConfirmation
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ResetPassword(System.String)">
+            <summary>
+            GET: /Account/ResetPassword
+            </summary>
+            <param name="code">The code.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ResetPassword(WebTrackr.Models.ResetPasswordViewModel)">
+            <summary>
+            POST: /Account/ResetPassword
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ResetPasswordConfirmation">
+            <summary>
+            GET: /Account/ResetPasswordConfirmation
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ExternalLogin(System.String,System.String)">
+            <summary>
+            POST: /Account/ExternalLogin
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.SendCode(System.String,System.Boolean)">
+            <summary>
+            GET: /Account/SendCode
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.SendCode(WebTrackr.Models.SendCodeViewModel)">
+            <summary>
+            POST: /Account/SendCode
+            </summary>
+            <param name="model">The model.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ExternalLoginCallback(System.String)">
+            <summary>
+            GET: /Account/ExternalLoginCallback
+            </summary>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ExternalLoginConfirmation(WebTrackr.Models.ExternalLoginConfirmationViewModel,System.String)">
+            <summary>
+            POST: /Account/ExternalLoginConfirmation
+            </summary>
+            <param name="model">The model.</param>
+            <param name="returnUrl">The return URL.</param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.LogOff">
+            <summary>
+            POST: /Account/LogOff
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.ExternalLoginFailure">
+            <summary>
+            GET: /Account/ExternalLoginFailure
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountController.getBanNameFromRegistrationCode(System.String)">
+            <summary>
+            Gets the Billing Account name from registration code.
+            TODO: Review Functionality and Move Business Logic Elsewhere.
+            </summary>
+            <param name="code">The code.</param>
+            <returns>string Billing Account name</returns>
+        </member>
+        <member name="T:WebTrackr.Controllers.AccountTestController">
+            <summary>
+            The Account Test Controller allows you to test your client credentials against the server after you have authenticated with OAuth.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Controllers.AccountTestController.UserManager">
+            <summary>
+            Gets or sets the user manager.
+            </summary>
+            <value>
+            The user manager.
+            </value>
+        </member>
+        <member name="M:WebTrackr.Controllers.AccountTestController.Get">
+            <summary>
+            Once your are authenticated this method Gets your user name, account number, and API key data for your login.
+            </summary>
+            <returns>Http Response Message</returns>
+        </member>
+        <member name="T:WebTrackr.Controllers.HelloController">
+            <summary>
+            The Hello Controller allows you to test your client API calls and receive a Hello greeting!
+            </summary>
+        </member>
+        <member name="M:WebTrackr.Controllers.HelloController.Get">
+            <summary>
+            Gets an instance of Hello, World string array! Use this method to test your API code.
+            </summary>
+            <returns>string[]</returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.HelloController.Get(System.Int32)">
+            <summary>
+            Gets a Hello with the specified identifier. Use this method to test your API code.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>string</returns> /*TODO: Determine if we want this and want to hide generated description */
+        </member>
+        <member name="M:WebTrackr.Controllers.TrakrScrapeController.Post(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Posts the specified value.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>result</returns>
+        </member>
+        <member name="T:WebTrackr.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:WebTrackr.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

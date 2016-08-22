@@ -1,0 +1,51 @@
+@import "../bootstrap/variables.less";
+@checkbox-color: @brand-primary;
+
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+    background-color: @brand-primary;
+    border-color: @brand-primary
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+    color: @checkbox-color
+}
+
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+    background-color: @brand-danger;
+    border-color: @brand-danger
+}
+
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+    color: @checkbox-color
+}
+
+.checkbox-info input[type="checkbox"]:checked + label::before {
+    background-color: @brand-info;
+    border-color: @brand-info
+}
+
+.checkbox-info input[type="checkbox"]:checked + label::after {
+    color: @checkbox-color
+}
+
+.checkbox-warning input[type="checkbox"]:checked + label::before {
+    background-color: @brand-warning;
+    border-color: @brand-warning
+}
+
+.checkbox-warning input[type="checkbox"]:checked + label::after {
+    color: @checkbox-color
+}
+
+.checkbox-success input[type="checkbox"]:checked + label::before {
+    background-color: @brand-success;
+    border-color: @brand-success
+}
+
+.checkbox-success input[type="checkbox"]:checked + label::after {
+    color: @checkbox-color
+}
+
+.checkbox input:hover, .radio input:hover {
+    cursor: pointer
+}

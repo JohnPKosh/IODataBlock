@@ -88,8 +88,6 @@ namespace HubSpot.Services.Contacts
 
         #endregion Read Contacts
 
-
-
         #endregion Raw API Implementation
     }
 }

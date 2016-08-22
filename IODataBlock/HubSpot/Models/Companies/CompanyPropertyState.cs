@@ -11,10 +11,7 @@ namespace HubSpot.Models.Companies
         {
         }
 
-        public static IPropertyState Instance
-        {
-            get { return _instance ?? (_instance = new CompanyPropertyState()); }
-        }
+        public static IPropertyState Instance => _instance ?? (_instance = new CompanyPropertyState());
 
         private PropertyTypeListModel _value = null;
 
