@@ -16,12 +16,9 @@ namespace HubSpot.Models.Contacts
         public static FileInfo WriteToExcelFile(this IEnumerable<ContactViewModel> values, FileInfo fileInfo)
         {
             var data = values.ConvertToIEnumerableDynamic().ToList();
-            if (data != null && data.Count > 0)
-            {
-                var eo = new ExcelDynamicObjects();
-                return eo.CreateExcelFileFromDynamicObjects(fileInfo, data, overWrite: true);
-            }
-            return null;
+            if (data.Count <= 0) return null;
+            var eo = new ExcelDynamicObjects();
+            return eo.CreateExcelFileFromDynamicObjects(fileInfo, data, overWrite: true);
         }
     }
 }

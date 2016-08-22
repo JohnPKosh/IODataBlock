@@ -55,7 +55,7 @@ namespace HubSpot.Models.Companies
 
         #region Conversion Operators
 
-        static public implicit operator CompanyUpdateModel(CompanyViewModel value)
+        public static implicit operator CompanyUpdateModel(CompanyViewModel value)
         {
             var rv = new CompanyUpdateModel { Properties = new HashSet<PropertyUpdateValue>() };
             foreach (var p in value.Properties)
@@ -68,10 +68,10 @@ namespace HubSpot.Models.Companies
             return rv;
         }
 
-        static public implicit operator Dictionary<string, object>(CompanyViewModel value)
+        public static implicit operator Dictionary<string, object>(CompanyViewModel value)
         {
-            string email = null;
-            string leadGuid = null;
+            //string email = null;
+            //string leadGuid = null;
 
             var rv = new Dictionary<string, object>
             {

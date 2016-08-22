@@ -52,7 +52,7 @@ namespace HubSpot.Models.Companies
 
         #region Conversion Operators
 
-        static public implicit operator CompanyViewModel(CompanyModel value)
+        public static implicit operator CompanyViewModel(CompanyModel value)
         {
             var rv = new CompanyViewModel
             {

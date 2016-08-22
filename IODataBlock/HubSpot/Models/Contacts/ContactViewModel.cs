@@ -96,8 +96,8 @@ namespace HubSpot.Models.Contacts
 
         public static implicit operator Dictionary<string, object>(ContactViewModel value)
         {
-            string email = null;
-            string leadGuid = null;
+            string email;
+            string leadGuid;
 
             var rv = new Dictionary<string, object>
             {

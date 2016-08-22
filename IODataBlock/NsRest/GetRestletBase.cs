@@ -111,7 +111,9 @@ namespace NsRest
 
         private static string GetAuthorizationHeaders(INetSuiteLogin login)
         {
-            return String.Format(@"NLAuth nlauth_account={0},nlauth_email={1},nlauth_signature={2},nlauth_role={3}", login.Account, login.Email, login.Password, login.Role) +
+            return
+                $@"NLAuth nlauth_account={login.Account},nlauth_email={login.Email},nlauth_signature={login.Password},nlauth_role={login
+                    .Role}" +
                    Environment.NewLine + "Content-Type: application/json";
         }
 

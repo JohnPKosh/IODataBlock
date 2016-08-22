@@ -1,0 +1,131 @@
+﻿@model WebTrackr.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_MVC.cshtml";
+    ViewBag.Title = "User Log in";
+}
+
+@section headerJumbotron
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1>ASP.NET Identity</h1>
+            <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
+            <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}
+
+@section pageBreadcrumbSection
+{
+    <div class="container animate-panel">
+        <div class="row">
+            <div class="col-md-6 m-t-lg m-b-lg">
+                <h5 class="font-bold text-uppercase text-success">@ViewBag.Title</h5>
+                <p>Register or Log in below to gain access to user only APIs and tools.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+                        @*<li>
+                            <span>Account</span>
+                        </li>*@
+                        <li class="active">
+                            <span>Login</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<section>
+    <div class="content animate-panel">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="hpanel hgreen">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="text-success">Registered Users</h2>
+                                <h4>Use a local account to log in.</h4>
+                                <div class="m">
+                                    <i class="pe-7s-unlock fa-5x text-success"></i>
+                                </div>
+                                <hr />
+                            </div>
+                            <section id="loginForm">
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Value = Model.Email }) @*For Debug Purposes Only - Remove and Uncomment Line Below for Production*@
+                                            @*@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })*@
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @Value = Model.Password }) @*For Debug Purposes Only - Remove and Uncomment Line Below for Production*@
+                                            @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="pull-right">
+                                                @Html.LabelFor(m => m.RememberMe)&nbsp;
+                                                @Html.CheckBoxFor(m => m.RememberMe)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="pull-right">
+                                                <input type="submit" value="Submit" class="btn btn-success">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Enable this once you have account confirmation enabled for password reset functionality
+                                        <p>
+                                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                        </p>
+                                    *@
+                                }
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="hpanel hblue">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h2 class="m-b-xs">Not Registered?</h2>
+                                <p class="font-bold text-success">Register below:</p>
+                                <div class="m">
+                                    <i class="pe-7s-user fa-5x text-primary"></i>
+                                </div>
+                                <p class="small">
+                                    Registration is simple and painless. Sign up with the registration code supplied to you by your Broadvox Sales Representative.
+                                </p>
+
+                                <a href="@Url.Action("Register","Account")" class="btn btn-primary"><i class="fa fa-plus"></i> Register as a new user</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

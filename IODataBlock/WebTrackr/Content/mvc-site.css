@@ -1,0 +1,167 @@
+﻿body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+/* styles for validation helpers */
+.field-validation-error {
+  color: #b94a48;
+}
+.field-validation-valid {
+  display: none;
+}
+input.input-validation-error {
+  border: 1px solid #b94a48;
+}
+input[type="checkbox"].input-validation-error {
+  border: 0 none;
+}
+.validation-summary-errors {
+  color: #b94a48;
+}
+.validation-summary-valid {
+  display: none;
+}
+/* fadeInLeft-fast Section Start */
+.fadeInLeft-0-3 {
+  -webkit-animation: fadeInLeft .3s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .3s;
+  -o-animation: fadeInLeft .3s;
+  animation: fadeInLeft .3s;
+}
+.fadeInLeft-0-4 {
+  -webkit-animation: fadeInLeft .4s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .4s;
+  -o-animation: fadeInLeft .4s;
+  animation: fadeInLeft .4s;
+}
+.fadeInLeft-0-5 {
+  -webkit-animation: fadeInLeft .5s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .5s;
+  -o-animation: fadeInLeft .5s;
+  animation: fadeInLeft .5s;
+}
+.fadeInLeft-0-6 {
+  -webkit-animation: fadeInLeft .6s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .6s;
+  -o-animation: fadeInLeft .6s;
+  animation: fadeInLeft .6s;
+}
+.fadeInLeft-0-7 {
+  -webkit-animation: fadeInLeft .7s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .7s;
+  -o-animation: fadeInLeft .7s;
+  animation: fadeInLeft .7s;
+}
+.fadeInLeft-0-8 {
+  -webkit-animation: fadeInLeft .8s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .8s;
+  -o-animation: fadeInLeft .8s;
+  animation: fadeInLeft .8s;
+}
+.fadeInLeft-0-9 {
+  -webkit-animation: fadeInLeft .9s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft .9s;
+  -o-animation: fadeInLeft .9s;
+  animation: fadeInLeft .9s;
+}
+.fadeInLeft-1600-1-0 {
+  position: relative;
+  -webkit-animation: fadeInLeft1600 1.0s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft1600 1.0s;
+  -o-animation: fadeInLeft1600 1.0s;
+  animation: fadeInLeft1600 1.0s;
+}
+@-webkit-keyframes fadeInLeft1600 {
+  from {
+    left: 1600px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeInLeft1600 {
+  from {
+    left: 1600px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+@keyframes fadeInLeft1600 {
+  from {
+    left: 1600px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+.fadeInLeft-300-1-0 {
+  position: relative;
+  -webkit-animation: fadeInLeft300 1.0s;
+  /* Chrome, Safari, Opera */
+  -moz-animation: fadeInLeft300 1.0s;
+  -o-animation: fadeInLeft300 1.0s;
+  animation: fadeInLeft300 1.0s;
+}
+@-webkit-keyframes fadeInLeft300 {
+  from {
+    left: 300px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeInLeft300 {
+  from {
+    left: 300px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+@keyframes fadeInLeft300 {
+  from {
+    left: 300px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+/* fadeInLeft-fast Section End */
+.ease-out {
+  -webkit-animation-timing-function: ease-out;
+  -moz-animation-timing-function: ease-out;
+  -o-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+}

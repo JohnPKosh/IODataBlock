@@ -33,17 +33,17 @@ namespace HubSpot.Models.Properties
 
         #region Conversion Operators
 
-        static public implicit operator KeyValuePair<string, string>(PropertyUpdateValue item)
+        public static implicit operator KeyValuePair<string, string>(PropertyUpdateValue item)
         {
             return new KeyValuePair<string, string>(item.Key, item.Value);
         }
 
-        static public implicit operator PropertyUpdateValue(KeyValuePair<string, string> value)
+        public static implicit operator PropertyUpdateValue(KeyValuePair<string, string> value)
         {
             return new PropertyUpdateValue(value.Key, value.Value);
         }
 
-        static public implicit operator PropertyUpdateValue(KeyValuePair<string, object> value)
+        public static implicit operator PropertyUpdateValue(KeyValuePair<string, object> value)
         {
             return new PropertyUpdateValue(value.Key, value.Value);
         }

@@ -61,8 +61,6 @@ namespace HubSpot.Services.Companies
 
         #endregion Read Methods
 
-
-
         #region Contact Methods
 
         /* http://developers.hubspot.com/docs/methods/companies/add_contact_to_company */

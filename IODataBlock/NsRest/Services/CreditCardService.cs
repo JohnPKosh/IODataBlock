@@ -172,8 +172,7 @@ namespace NsRest.Services
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJArrayAsync(parameters);
                 var result = rv.Result;
-                if (result.HasValues) ro.ResponseData = result;
-                else ro.ResponseData = new JArray();
+                ro.ResponseData = result.HasValues ? result : new JArray();
                 return ro;
             }
             catch (Exception ex)
@@ -193,8 +192,7 @@ namespace NsRest.Services
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJArrayAsync(parameters);
                 var result = rv.Result;
-                if (result.HasValues) ro.ResponseData = result.Children<JObject>().ToList();
-                else ro.ResponseData = new List<JObject>();
+                ro.ResponseData = result.HasValues ? result.Children<JObject>().ToList() : new List<JObject>();
                 return ro;
             }
             catch (Exception ex)
@@ -214,8 +212,7 @@ namespace NsRest.Services
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
                 var rv = restlet.ExecuteToJArrayAsync(parameters);
                 var result = rv.Result;
-                if (result.HasValues) ro.ResponseData = result.Children<JObject>().Select(x => x.ToObject<T>()).ToList();
-                else ro.ResponseData = new List<T>();
+                ro.ResponseData = result.HasValues ? result.Children<JObject>().Select(x => x.ToObject<T>()).ToList() : new List<T>();
                 return ro;
             }
             catch (Exception ex)

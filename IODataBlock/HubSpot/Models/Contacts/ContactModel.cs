@@ -78,7 +78,7 @@ namespace HubSpot.Models.Contacts
 
         #region Conversion Operators
 
-        static public implicit operator ContactViewModel(ContactModel value)
+        public static implicit operator ContactViewModel(ContactModel value)
         {
             var rv = new ContactViewModel
             {
