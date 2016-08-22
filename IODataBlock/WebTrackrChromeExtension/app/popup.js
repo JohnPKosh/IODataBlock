@@ -18,7 +18,7 @@ window.onload = function () {
         chrome.tabs.query({ active: true, windowId: currentWindow.id },
                           function (activeTabs) {
                               currentUrl = activeTabs[0].url;
-                              chrome.tabs.executeScript(activeTabs[0].id, { file: "send_links.js", allFrames: false });
+                              chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
                           });
     });
 };
@@ -27,7 +27,7 @@ window.onload = function () {
 /* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
 chrome.extension.onRequest.addListener(function (data) {
     /* If the action is send_links Do This*/
-    if (data.action === "send_links")
+    if (data.action === "onTabLoad")
     {
         for (var index in data.links) {
             if (data.links.hasOwnProperty(index))

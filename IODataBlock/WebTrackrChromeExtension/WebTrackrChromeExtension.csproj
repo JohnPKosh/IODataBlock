@@ -81,7 +81,9 @@
     <Content Include="app\Scripts\respond.min.js" />
     <None Include="app\Scripts\_references.js" />
     <Content Include="app\send_url.js" />
-    <Content Include="app\send_links.js" />
+    <Content Include="app\TabScripts\onTabLoad.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
     <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
     <Content Include="screenshots\screenshot.png" />
