@@ -48,6 +48,7 @@
     </Content>
     <Content Include="app\Content\Site.css" />
     <Content Include="app\img\icon.png" />
+    <Content Include="app\img\iconOLD.png" />
     <Content Include="app\popup.html" />
     <Content Include="app\popup.js" />
     <Content Include="app\Scripts\bootstrap.js" />

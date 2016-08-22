@@ -25,5 +25,24 @@ for (var i = 0; i < links.length;) {
     }
 }
 
+var urls = [];
+var emails = [];
+var urlPrefix = "http";
+var mailPrefix = "mailto://";
+for (var i = 0; i < links.length;) {
+    var href = element.href;
+    if (((i > 0) && (links[i] === links[i - 1])) || (links[i] === "") || (urlPrefix === links[i].toLowerCase().substr(0, urlPrefix.length))) {
+        urls.push(links[i]);
+        ++i;
+    }
+    else if (((i > 0) && (links[i] === links[i - 1])) || (links[i] === "") || (mailPrefix === links[i].toLowerCase().substr(0, mailPrefix.length))) {
+        emails.push(links[i]);
+        ++i;
+    }
+    else {
+        ++i;
+    }
+}
+
 /* Set pageurl */
 chrome.extension.sendRequest({ action: "onTabLoad", links: links, url: document.location.url, body: document.documentElement.outerHTML });

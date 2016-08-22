@@ -1,5 +1,8 @@
 
 /* Create variables */
+var urls = [];
+var emails = [];
+
 var allLinks = [];
 var visibleLinks = [];
 var currentUrl = "na";
