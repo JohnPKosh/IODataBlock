@@ -1,16 +1,13 @@
-﻿using System;
-using System.Dynamic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Business.Common.System
 {
     public interface IObjectBase<T>
     {
-        String ToJson(Boolean indented = false);
+        string ToJson(bool indented = false);
 
-        void PopulateFromJson(String value);
+        void PopulateFromJson(string value);
 
         void PopulateFromJson(string value, JsonSerializerSettings settings);
     }
-
 }

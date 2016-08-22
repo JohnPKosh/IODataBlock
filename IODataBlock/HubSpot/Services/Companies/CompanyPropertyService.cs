@@ -1,7 +1,7 @@
-﻿using System;
-using Business.Common.GenericResponses;
+﻿using Business.Common.GenericResponses;
 using Flurl;
 using Flurl.Http;
+using System;
 
 namespace HubSpot.Services.Companies
 {

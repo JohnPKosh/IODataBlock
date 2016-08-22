@@ -1,31 +1,31 @@
 ﻿//using ExBaseData;
 //using ExBaseIoUtil;
 //using ExBaseStringUtil;
+using Business.Common.Extensions;
+using Business.Common.IO;
+using Data.DbClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
-using Business.Common.Extensions;
-using Business.Common.IO;
-using Data.DbClient;
 
 namespace Business.Excel
 {
     public static class MsExcelExtensionBase
     {
-        private const String Provider = "System.Data.OleDb";
-        private const String ConnectionTemplateString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Xml;{1}IMEX=1;""";
+        private const string Provider = "System.Data.OleDb";
+        private const string ConnectionTemplateString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Xml;{1}IMEX=1;""";
 
         #region Query and Execute Methods
 
         public static IEnumerable<dynamic> Query(FileInfo fileInfo,
-            String queryString,
-            Dictionary<String, String> namedArgs = null,
+            string queryString,
+            Dictionary<string, string> namedArgs = null,
             IEnumerable<Object> numberedArgs = null,
             Int32 lockWaitMs = 0,
-            Boolean hasHeaderRow = true,
+            bool hasHeaderRow = true,
             Int32 commandTimeout = 60)
         {
             fileInfo.Refresh();
@@ -36,24 +36,24 @@ namespace Business.Excel
             {
                 using (new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
-                    using (var db = Database.OpenConnectionString(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
+                    using (var db = Database.OpenConnectionString(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
                     {
                         return numberedArgs == null ? db.Query(queryString, commandTimeout) : db.Query(queryString, commandTimeout, numberedArgs.ToArray());
                     }
                 }
             }
-            using (var db = Database.OpenConnectionString(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
+            using (var db = Database.OpenConnectionString(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
             {
                 return numberedArgs == null ? db.Query(queryString, commandTimeout) : db.Query(queryString, commandTimeout, numberedArgs.ToArray());
             }
         }
 
         public static DataTable QueryToDataTable(FileInfo fileInfo,
-            String queryString,
-            Dictionary<String, String> namedArgs = null,
+            string queryString,
+            Dictionary<string, string> namedArgs = null,
             IEnumerable<Object> numberedArgs = null,
             Int32 lockWaitMs = 0,
-            Boolean hasHeaderRow = true,
+            bool hasHeaderRow = true,
             Int32 commandTimeout = 60)
         {
             fileInfo.Refresh();
@@ -65,7 +65,7 @@ namespace Business.Excel
             {
                 using (new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
-                    using (var conn = new OleDbConnection(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;")))
+                    using (var conn = new OleDbConnection(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;")))
                     {
                         conn.Open();
                         var da = new OleDbDataAdapter(queryString, conn);
@@ -77,7 +77,7 @@ namespace Business.Excel
                     }
                 }
             }
-            using (var conn = new OleDbConnection(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;")))
+            using (var conn = new OleDbConnection(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;")))
             {
                 conn.Open();
                 var da = new OleDbDataAdapter(queryString, conn);
@@ -90,11 +90,11 @@ namespace Business.Excel
         }
 
         public static Int32 Execute(FileInfo fileInfo,
-            String queryString,
-            Dictionary<String, String> namedArgs = null,
+            string queryString,
+            Dictionary<string, string> namedArgs = null,
             IEnumerable<Object> numberedArgs = null,
             Int32 lockWaitMs = 60000,
-            Boolean hasHeaderRow = true,
+            bool hasHeaderRow = true,
             Int32 commandTimeout = 60)
         {
             fileInfo.Refresh();
@@ -105,13 +105,13 @@ namespace Business.Excel
             {
                 using (new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
-                    using (var db = Database.OpenConnectionString(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
+                    using (var db = Database.OpenConnectionString(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
                     {
                         return numberedArgs == null ? db.Execute(queryString, commandTimeout) : db.Execute(queryString, commandTimeout, numberedArgs.ToArray());
                     }
                 }
             }
-            using (var db = Database.OpenConnectionString(String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
+            using (var db = Database.OpenConnectionString(string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;"), Provider))
             {
                 return numberedArgs == null ? db.Execute(queryString, commandTimeout) : db.Execute(queryString, commandTimeout, numberedArgs.ToArray());
             }
@@ -120,20 +120,20 @@ namespace Business.Excel
         #endregion Query and Execute Methods
 
         public static FileInfo CreateExcelFromQuery(FileInfo fileInfo
-            , String sqlScript
-            , String connectionString
-            , String providerName = "System.Data.SqlClient"
-            , String workSheetName = "Results"
+            , string sqlScript
+            , string connectionString
+            , string providerName = "System.Data.SqlClient"
+            , string workSheetName = "Results"
             , dynamic officeProperties = null
-            , Boolean overWrite = false
-            , String tempFolderPath = null
-            , Boolean createOnNoResults = false
+            , bool overWrite = false
+            , string tempFolderPath = null
+            , bool createOnNoResults = false
             , Int32 commandTimeout = 60
             , params object[] sqlParameters
             )
         {
-            if (String.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(ArgNullExStr("connectionString"));
-            if (String.IsNullOrWhiteSpace(sqlScript)) throw new ArgumentNullException(ArgNullExStr("SqlScript"));
+            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(ArgNullExStr("connectionString"));
+            if (string.IsNullOrWhiteSpace(sqlScript)) throw new ArgumentNullException(ArgNullExStr("SqlScript"));
             fileInfo.Refresh();
             if (fileInfo.Directory != null && !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
 
@@ -153,9 +153,9 @@ namespace Business.Excel
             return fileInfo;
         }
 
-        private static String ArgNullExStr(String argumentName)
+        private static string ArgNullExStr(string argumentName)
         {
-            return String.Format(@"ArgumentNullException: {0} argument is null or empty!", argumentName);
+            return $@"ArgumentNullException: {argumentName} argument is null or empty!";
         }
     }
 }

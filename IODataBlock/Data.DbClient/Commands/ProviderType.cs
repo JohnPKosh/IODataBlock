@@ -6,6 +6,7 @@ namespace Data.DbClient.Commands
         Npgsql,
         MySql,
         Oracle,
+
         // ReSharper disable once InconsistentNaming
         SQLite
     }

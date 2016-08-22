@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BasicTests.Data
 {
@@ -10,7 +7,7 @@ namespace BasicTests.Data
     {
         public string DomainName { get; set; }
         public int Status { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
     public static class DnInsertBuilder
@@ -28,6 +25,6 @@ namespace BasicTests.Data
                 });
             }
             return rv;
-        } 
+        }
     }
 }

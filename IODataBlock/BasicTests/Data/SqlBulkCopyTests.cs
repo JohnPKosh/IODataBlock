@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Data.DbClient.BulkCopy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace BasicTests.Data
 {
@@ -13,6 +13,7 @@ namespace BasicTests.Data
         {
             _dnssearchConnectionString = _configMgr.GetConnectionString("dnssearch");
         }
+
         private readonly string _dnssearchConnectionString;
         private readonly ConfigMgr _configMgr = new ConfigMgr();
 
@@ -41,7 +42,7 @@ namespace BasicTests.Data
             var con = @"Integrated Security=True; Initial Catalog=TestData; Data Source=.\EXP14;";
             try
             {
-                SqlBulkCopyUtility.BulkInsert(DnInsertBuilder.GetSample1(), con, "DnActiveRecords",sqlBulkCopyColumnMappings: columns);
+                SqlBulkCopyUtility.BulkInsert(DnInsertBuilder.GetSample1(), con, "DnActiveRecords", sqlBulkCopyColumnMappings: columns);
             }
             catch (Exception ex)
             {
@@ -58,7 +59,7 @@ namespace BasicTests.Data
             try
             {
                 SqlBulkCopyUtility bc = new SqlBulkCopyUtility();
-                bc.SqlServerBulkCopy(sourcecon,destcon, @"SELECT * FROM SystemDebugLog", @"SystemDebugLog", 1000, 300, true);
+                bc.SqlServerBulkCopy(sourcecon, destcon, @"SELECT * FROM SystemDebugLog", @"SystemDebugLog", 1000, 300, true);
             }
             catch (Exception ex)
             {
@@ -86,8 +87,6 @@ namespace BasicTests.Data
             BulkInsertTable("SfbSrvResults");
             BulkInsertTable("SipAResults");
             BulkInsertTable("SpfTxtResults");
-
-
         }
 
         private void BulkInsertTable(string tableName)
@@ -104,6 +103,5 @@ namespace BasicTests.Data
                 Assert.Fail(ex.Message);
             }
         }
-
     }
 }

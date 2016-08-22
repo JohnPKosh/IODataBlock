@@ -5,234 +5,219 @@ using System.Reflection;
 
 namespace Business.Common.Extensions
 {
-	public static class GenericListDataReaderExtensions
-	{
-		public static GenericListDataReader<T> GetDataReader<T>(this IEnumerable<T> list)
-		{
-			return new GenericListDataReader<T>(list);
-		}
-	}
+    public static class GenericListDataReaderExtensions
+    {
+        public static GenericListDataReader<T> GetDataReader<T>(this IEnumerable<T> list)
+        {
+            return new GenericListDataReader<T>(list);
+        }
+    }
 
-	public class GenericListDataReader<T> : IDataReader
-	{
-		private IEnumerator<T> list = null;
-		private List<PropertyInfo> properties = new List<PropertyInfo>();
-		private Dictionary<string, int> nameLookup = new Dictionary<string, int>();
+    public class GenericListDataReader<T> : IDataReader
+    {
+        private readonly IEnumerator<T> _list;
+        private readonly List<PropertyInfo> properties = new List<PropertyInfo>();
+        private readonly Dictionary<string, int> nameLookup = new Dictionary<string, int>();
 
-		public GenericListDataReader(IEnumerable<T> list)
-		{
-			this.list = list.GetEnumerator();
+        public GenericListDataReader(IEnumerable<T> list)
+        {
+            _list = list.GetEnumerator();
 
-			properties.AddRange(
-				typeof(T)
-				.GetProperties(
-					BindingFlags.GetProperty |
-					BindingFlags.Instance |
-					BindingFlags.Public |
-					BindingFlags.DeclaredOnly
-					));
+            properties.AddRange(
+                typeof(T)
+                .GetProperties(
+                    BindingFlags.GetProperty |
+                    BindingFlags.Instance |
+                    BindingFlags.Public |
+                    BindingFlags.DeclaredOnly
+                    ));
 
-			for (int i = 0; i < properties.Count; i++)
-			{
-				nameLookup[properties[i].Name] = i;
-			}
-		}
+            for (var i = 0; i < properties.Count; i++)
+            {
+                nameLookup[properties[i].Name] = i;
+            }
+        }
 
-		#region IDataReader Members
+        #region IDataReader Members
 
-		public void Close()
-		{
-			list.Dispose();
-		}
+        public void Close()
+        {
+            _list.Dispose();
+        }
 
-		public int Depth
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public int Depth
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public DataTable GetSchemaTable()
-		{
-			throw new NotImplementedException();
-		}
+        public DataTable GetSchemaTable()
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool IsClosed
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public bool IsClosed
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public bool NextResult()
-		{
-			throw new NotImplementedException();
-		}
+        public bool NextResult()
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool Read()
-		{
-			return list.MoveNext();
-		}
+        public bool Read()
+        {
+            return _list.MoveNext();
+        }
 
-		public int RecordsAffected
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public int RecordsAffected
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		#endregion
+        #endregion IDataReader Members
 
-		#region IDisposable Members
+        #region IDisposable Members
 
-		public void Dispose()
-		{
-			Close();
-		}
+        public void Dispose()
+        {
+            Close();
+        }
 
-		#endregion
+        #endregion IDisposable Members
 
-		#region IDataRecord Members
+        #region IDataRecord Members
 
-		public int FieldCount
-		{
-			get { return properties.Count; }
-		}
+        public int FieldCount => properties.Count;
 
-		public bool GetBoolean(int i)
-		{
-			return (bool)GetValue(i);
-		}
+        public bool GetBoolean(int i)
+        {
+            return (bool)GetValue(i);
+        }
 
-		public byte GetByte(int i)
-		{
-			return (byte)GetValue(i);
-		}
+        public byte GetByte(int i)
+        {
+            return (byte)GetValue(i);
+        }
 
-		public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
-		{
-			throw new NotImplementedException();
-		}
+        public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        {
+            throw new NotImplementedException();
+        }
 
-		public char GetChar(int i)
-		{
-			return (char)GetValue(i);
-		}
+        public char GetChar(int i)
+        {
+            return (char)GetValue(i);
+        }
 
-		public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
-		{
-			throw new NotImplementedException();
-		}
+        public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        {
+            throw new NotImplementedException();
+        }
 
-		public IDataReader GetData(int i)
-		{
-			throw new NotImplementedException();
-		}
+        public IDataReader GetData(int i)
+        {
+            throw new NotImplementedException();
+        }
 
-		public string GetDataTypeName(int i)
-		{
-			throw new NotImplementedException();
-		}
+        public string GetDataTypeName(int i)
+        {
+            throw new NotImplementedException();
+        }
 
-		public DateTime GetDateTime(int i)
-		{
-			return (DateTime)GetValue(i);
-		}
+        public DateTime GetDateTime(int i)
+        {
+            return (DateTime)GetValue(i);
+        }
 
-		public decimal GetDecimal(int i)
-		{
-			return (decimal)GetValue(i);
-		}
+        public decimal GetDecimal(int i)
+        {
+            return (decimal)GetValue(i);
+        }
 
-		public double GetDouble(int i)
-		{
-			return (double)GetValue(i);
-		}
+        public double GetDouble(int i)
+        {
+            return (double)GetValue(i);
+        }
 
-		public Type GetFieldType(int i)
-		{
-			return properties[i].PropertyType;
-		}
+        public Type GetFieldType(int i)
+        {
+            return properties[i].PropertyType;
+        }
 
-		public float GetFloat(int i)
-		{
-			return (float)GetValue(i);
-		}
+        public float GetFloat(int i)
+        {
+            return (float)GetValue(i);
+        }
 
-		public Guid GetGuid(int i)
-		{
-			return (Guid)GetValue(i);
-		}
+        public Guid GetGuid(int i)
+        {
+            return (Guid)GetValue(i);
+        }
 
-		public short GetInt16(int i)
-		{
-			return (short)GetValue(i);
-		}
+        public short GetInt16(int i)
+        {
+            return (short)GetValue(i);
+        }
 
-		public int GetInt32(int i)
-		{
-			return (int)GetValue(i);
-		}
+        public int GetInt32(int i)
+        {
+            return (int)GetValue(i);
+        }
 
-		public long GetInt64(int i)
-		{
-			return (long)GetValue(i);
-		}
+        public long GetInt64(int i)
+        {
+            return (long)GetValue(i);
+        }
 
-		public string GetName(int i)
-		{
-			return properties[i].Name;
-		}
+        public string GetName(int i)
+        {
+            return properties[i].Name;
+        }
 
-		public int GetOrdinal(string name)
-		{
-			if (nameLookup.ContainsKey(name))
-			{
-				return nameLookup[name];
-			}
-			else
-			{
-				return -1;
-			}
-		}
+        public int GetOrdinal(string name)
+        {
+            if (nameLookup.ContainsKey(name))
+            {
+                return nameLookup[name];
+            }
+            else
+            {
+                return -1;
+            }
+        }
 
-		public string GetString(int i)
-		{
-			return (string)GetValue(i);
-		}
+        public string GetString(int i)
+        {
+            return (string)GetValue(i);
+        }
 
-		public object GetValue(int i)
-		{
-			return properties[i].GetValue(list.Current, null);
-		}
+        public object GetValue(int i)
+        {
+            return properties[i].GetValue(_list.Current, null);
+        }
 
-		public int GetValues(object[] values)
-		{
-			int getValues = Math.Max(FieldCount, values.Length);
+        public int GetValues(object[] values)
+        {
+            var getValues = Math.Max(FieldCount, values.Length);
 
-			for (int i = 0; i < getValues; i++)
-			{
-				values[i] = GetValue(i);
-			}
+            for (var i = 0; i < getValues; i++)
+            {
+                values[i] = GetValue(i);
+            }
 
-			return getValues;
-		}
+            return getValues;
+        }
 
-		public bool IsDBNull(int i)
-		{
-			return GetValue(i) == null;
-		}
+        public bool IsDBNull(int i)
+        {
+            return GetValue(i) == null;
+        }
 
-		public object this[string name]
-		{
-			get
-			{
-				return GetValue(GetOrdinal(name));
-			}
-		}
+        public object this[string name] => GetValue(GetOrdinal(name));
 
-		public object this[int i]
-		{
-			get
-			{
-				return GetValue(i);
-			}
-		}
+        public object this[int i] => GetValue(i);
 
-		#endregion
-	}
+        #endregion IDataRecord Members
+    }
 }

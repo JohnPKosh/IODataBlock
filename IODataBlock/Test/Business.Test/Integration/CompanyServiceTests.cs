@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
+using Business.Common.Extensions;
 using HubSpot.Services.Companies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using Business.Common.Extensions;
 
 namespace Business.Test.Integration
 {
@@ -24,12 +21,9 @@ namespace Business.Test.Integration
         }
 
         private readonly string _hapiKey;
-        private TestContext testContextInstance; 
+        private TestContext testContextInstance;
 
-
-        #endregion
-
-
+        #endregion Class Initialization
 
         [TestMethod]
         public void GetById()
@@ -70,7 +64,6 @@ namespace Business.Test.Integration
             });
         }
 
-
         [TestMethod]
         public void GetAllContactIds()
         {
@@ -83,7 +76,6 @@ namespace Business.Test.Integration
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
         }
-
 
         [TestMethod]
         public void GetAllContactViewModels()
@@ -99,6 +91,5 @@ namespace Business.Test.Integration
         }
 
         //112942323
-
     }
 }

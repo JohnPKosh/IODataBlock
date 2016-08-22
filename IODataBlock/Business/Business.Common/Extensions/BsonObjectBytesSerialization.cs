@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace Business.Common.Extensions
 {
@@ -11,12 +9,12 @@ namespace Business.Common.Extensions
     {
         #region Json.net object Serialization
 
-        public static Byte[] ToBsonBytes(this object value)
+        public static byte[] ToBsonBytes(this object value)
         {
             return value.BsonSerializeToBytes(new ExpandoObjectConverter(), new StringEnumConverter());
         }
 
-        public static Byte[] ToBsonBytes(this object value, params JsonConverter[] converters)
+        public static byte[] ToBsonBytes(this object value, params JsonConverter[] converters)
         {
             var converterList = new List<JsonConverter>(converters)
             {
@@ -27,7 +25,7 @@ namespace Business.Common.Extensions
             return value.BsonSerializeToBytes(settings);
         }
 
-        public static Byte[] ToBsonBytes(this object value, Type type, params JsonConverter[] converters)
+        public static byte[] ToBsonBytes(this object value, Type type, params JsonConverter[] converters)
         {
             var converterList = new List<JsonConverter>(converters)
             {
@@ -38,7 +36,7 @@ namespace Business.Common.Extensions
             return value.BsonSerializeToBytes(type, settings);
         }
 
-        public static Byte[] ToBsonBytes(this object value, JsonSerializerSettings settings)
+        public static byte[] ToBsonBytes(this object value, JsonSerializerSettings settings)
         {
             var converterList = new List<JsonConverter>(settings.Converters)
             {
@@ -49,7 +47,7 @@ namespace Business.Common.Extensions
             return value.BsonSerializeToBytes(settings);
         }
 
-        public static Byte[] ToBsonBytes(this object value, Type type, JsonSerializerSettings settings)
+        public static byte[] ToBsonBytes(this object value, Type type, JsonSerializerSettings settings)
         {
             var converterList = new List<JsonConverter>(settings.Converters)
             {

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using System;
 using System.ComponentModel.DataAnnotations;
-using Business.Common.Extensions;
-using Newtonsoft.Json;
 
 namespace Business.Common.System
 {
@@ -13,7 +12,7 @@ namespace Business.Common.System
         #region Class Initialization
 
         //[JsonConstructor]
-        public UnixMsTimestamp(){}
+        public UnixMsTimestamp() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnixMsTimestamp"/> class.
@@ -61,7 +60,6 @@ namespace Business.Common.System
 
         #region Conversion Operators
 
-
         /// <summary>
         /// Performs an implicit conversion from <see cref="UnixMsTimestamp"/> to <see cref="Nullable{T}"/>.
         /// </summary>
@@ -69,7 +67,7 @@ namespace Business.Common.System
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        static public implicit operator Int64?(UnixMsTimestamp value)
+        public static implicit operator Int64? (UnixMsTimestamp value)
         {
             return value.Value;
         }
@@ -81,11 +79,11 @@ namespace Business.Common.System
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        static public implicit operator DateTime?(UnixMsTimestamp value)
+        public static implicit operator DateTime? (UnixMsTimestamp value)
         {
             if (value.Value.HasValue)
             {
-                return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((double) value.Value);
+                return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((double)value.Value);
             }
             return null;
         }
@@ -97,7 +95,7 @@ namespace Business.Common.System
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        static public implicit operator UnixMsTimestamp(Int64? value)
+        public static implicit operator UnixMsTimestamp(Int64? value)
         {
             return new UnixMsTimestamp() { Value = value };
         }
@@ -109,7 +107,7 @@ namespace Business.Common.System
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        static public implicit operator UnixMsTimestamp(DateTime? value)
+        public static implicit operator UnixMsTimestamp(DateTime? value)
         {
             var date1 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var val = value.HasValue && value.Value > date1 ? (Int64?)Convert.ToInt64((value.Value.ToUniversalTime() - date1).TotalMilliseconds) : null;
@@ -124,7 +122,7 @@ namespace Business.Common.System
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        static public implicit operator UnixMsTimestamp(string value)
+        public static implicit operator UnixMsTimestamp(string value)
         {
             long? val;
             if (value.IsNullOrWhiteSpace()) val = null;
@@ -133,6 +131,5 @@ namespace Business.Common.System
         }
 
         #endregion Conversion Operators
-
     }
 }

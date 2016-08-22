@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.IO;
 using Business.Common.System.States;
 using HubSpot.Models.Properties;
 using HubSpot.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HubSpot.Models.Companies
 {
@@ -46,7 +46,7 @@ namespace HubSpot.Models.Companies
         private void SetPropertyState()
         {
             var result = _propertyService.GetAllProperties();
-            if(result.HasExceptions)throw new Exception(result.ExceptionList.Exceptions.First().Message);
+            if (result.HasExceptions) throw new Exception(result.ExceptionList.Exceptions.First().Message);
             var data = result.ResponseData.ConvertJson<List<PropertyTypeModel>>();
             CompanyPropertyState.Instance.Value = new PropertyTypeListModel
             {
@@ -79,7 +79,5 @@ namespace HubSpot.Models.Companies
         public DateTime? LastUpdated => CompanyPropertyState.Instance.Value.LastUpdated;
 
         public List<PropertyTypeModel> Properties => CompanyPropertyState.Instance.Value.Properties;
-
-        
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Dynamic;
-using Business.Common.System.States;
+﻿using Business.Common.System.States;
+using System.Dynamic;
 
 namespace Business.Common.System.App
 {
@@ -11,10 +11,7 @@ namespace Business.Common.System.App
         {
         }
 
-        public static DynamicAppState Instance
-        {
-            get { return _instance ?? (_instance = new DynamicAppState()); }
-        }
+        public static DynamicAppState Instance => _instance ?? (_instance = new DynamicAppState());
 
         private dynamic _value = new ExpandoObject();
 

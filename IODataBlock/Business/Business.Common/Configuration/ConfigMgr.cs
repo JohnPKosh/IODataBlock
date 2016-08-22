@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Business.Common.Configuration
+﻿namespace Business.Common.Configuration
 {
     public partial class ConfigMgr
     {
@@ -29,27 +27,27 @@ namespace Business.Common.Configuration
 
         #region ConnectionString Section
 
-        public String GetConnectionString(String name)
+        public string GetConnectionString(string name)
         {
             return _connectionStrings.GetConnectionStringByName(name);
         }
 
-        public String GetConnectionProvider(String name)
+        public string GetConnectionProvider(string name)
         {
             return _connectionStrings.GetProviderByName(name);
         }
 
-        public void SetConnectionString(String name, String value)
+        public void SetConnectionString(string name, string value)
         {
             _connectionStrings.SetElementByName(name, value);
         }
 
-        public void SetConnectionString(String name, String value, String provider)
+        public void SetConnectionString(string name, string value, string provider)
         {
             _connectionStrings.SetElementByName(name, value, provider);
         }
 
-        public void RemoveConnectionString(String name)
+        public void RemoveConnectionString(string name)
         {
             _connectionStrings.RemoveElementByName(name);
         }
@@ -68,17 +66,17 @@ namespace Business.Common.Configuration
 
         #region AppSettings Section
 
-        public String GetAppSetting(String name)
+        public string GetAppSetting(string name)
         {
             return _appSettings.GetAppSettingByName(name);
         }
 
-        public void SetAppSetting(String name, String value)
+        public void SetAppSetting(string name, string value)
         {
             _appSettings.SetElementByName(name, value);
         }
 
-        public void RemoveAppSetting(String name)
+        public void RemoveAppSetting(string name)
         {
             _appSettings.RemoveElementByName(name);
         }

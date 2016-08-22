@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fasterflect;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,9 +7,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Fasterflect;
 
 namespace Business.Common.Extensions
 {
@@ -24,7 +22,7 @@ namespace Business.Common.Extensions
             return Convert.ChangeType(enval, undertype);
         }
 
-        public static Object GetAsType(this IConvertible obj, String typeCodeName)
+        public static object GetAsType(this IConvertible obj, string typeCodeName)
         {
             return Convert.ChangeType(obj, (TypeCode)Enum.Parse(typeof(TypeCode), typeCodeName));
         }
@@ -48,12 +46,12 @@ namespace Business.Common.Extensions
         //    Console.WriteLine("exists");
         //}
 
-        public static String GetTypeCodeAsString(this IConvertible obj)
+        public static string GetTypeCodeAsString(this IConvertible obj)
         {
             return GetTypeCode(obj).ToString();
         }
 
-        public static Boolean IsNull<T>(this T obj) where T : class
+        public static bool IsNull<T>(this T obj) where T : class
         {
             return obj == null;
         }
@@ -156,50 +154,50 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static Type GetPropertyType(this Object obj, String propertyName)
+        public static Type GetPropertyType(this object obj, string propertyName)
         {
             var propInfo = obj.GetType().GetProperty(propertyName);
             return propInfo.GetType();
         }
 
-        public static T GetPropertyValue<T>(this Object obj, String propertyName)
+        public static T GetPropertyValue<T>(this object obj, string propertyName)
         {
             var propInfo = obj.GetType().GetProperty(propertyName);
             return (T)Convert.ChangeType(propInfo.GetValue(obj, null), typeof(T));
         }
 
-        public static void SetPropertyValue(this Object obj, String propertyName, Object value)
+        public static void SetPropertyValue(this object obj, string propertyName, object value)
         {
             obj.GetType().GetProperty(propertyName).SetValue(obj, value, null);
         }
 
         #region New Basic Methods
 
-        public static String AsString(this IConvertible obj)
+        public static string AsString(this IConvertible obj)
         {
             return AsString(obj, true);
         }
 
-        public static String AsString(this IConvertible obj, Boolean asEmpty)
+        public static string AsString(this IConvertible obj, bool asEmpty)
         {
             if (obj != null) return obj.ToString(CultureInfo.InvariantCulture);
-            return asEmpty ? String.Empty : null;
+            return asEmpty ? string.Empty : null;
         }
 
-        public static T ParseAs<T>(this String obj)
+        public static T ParseAs<T>(this string obj)
         {
             var t = typeof(T);
 
             if (!t.IsGenericType || (t.GetGenericTypeDefinition() != typeof(Nullable<>)))
                 return (T)Convert.ChangeType(obj.Trim(), t);
-            if (String.IsNullOrEmpty(obj.Trim()) || obj.Trim().ToUpper() == "NULL")
+            if (string.IsNullOrEmpty(obj.Trim()) || obj.Trim().ToUpper() == "NULL")
             {
                 return (T)(object)null;
             }
             return (T)Convert.ChangeType(obj.Trim(), Nullable.GetUnderlyingType(t));
         }
 
-        public static Object ParseAs(this String obj, Type t)
+        public static object ParseAs(this string obj, Type t)
         {
             //Type t = typeof(T);
             if (t.IsEnum)
@@ -208,14 +206,14 @@ namespace Business.Common.Extensions
             }
             if (!t.IsGenericType || (t.GetGenericTypeDefinition() != typeof(Nullable<>)))
                 return Convert.ChangeType(obj.Trim(), t);
-            if (String.IsNullOrEmpty(obj.Trim()) || obj.Trim().ToUpper() == "NULL")
+            if (string.IsNullOrEmpty(obj.Trim()) || obj.Trim().ToUpper() == "NULL")
             {
                 return null;
             }
             return Convert.ChangeType(obj.Trim(), Nullable.GetUnderlyingType(t));
         }
 
-        public static T ParseAsOrDefault<T>(this String obj)
+        public static T ParseAsOrDefault<T>(this string obj)
         {
             try
             {
@@ -227,7 +225,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static bool ParseAsOrDefault<T>(this String obj, out T newObj)
+        public static bool ParseAsOrDefault<T>(this string obj, out T newObj)
         {
             try
             {
@@ -241,7 +239,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static T ParseAsOrOther<T>(this String obj, T other)
+        public static T ParseAsOrOther<T>(this string obj, T other)
         {
             try
             {
@@ -253,7 +251,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static bool ParseAsOrOther<T>(this String obj, out T newObj, T other)
+        public static bool ParseAsOrOther<T>(this string obj, out T newObj, T other)
         {
             try
             {
@@ -283,7 +281,7 @@ namespace Business.Common.Extensions
 
         #region ToString Formatted
 
-        public static String ToStringWithFormat(this IConvertible obj, ref Dictionary<Type, Func<Object, String>> formatDictionary)
+        public static string ToStringWithFormat(this IConvertible obj, ref Dictionary<Type, Func<object, string>> formatDictionary)
         {
             var t = obj.GetType();
 
@@ -312,7 +310,7 @@ namespace Business.Common.Extensions
             return (ExpandoObject)expando;
         }
 
-        public static ExpandoObject ToExpando(this object anonymousObject, IDictionary<Type, Func<Object, Object>> propertyTypeConverters)
+        public static ExpandoObject ToExpando(this object anonymousObject, IDictionary<Type, Func<object, object>> propertyTypeConverters)
         {
             IDictionary<string, object> expando = new ExpandoObject();
             foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(anonymousObject))
@@ -363,10 +361,7 @@ namespace Business.Common.Extensions
             , IEnumerable<Type> ignorePropertyTypes = null
             )
         {
-            if (inputConverter != null)
-            {
-                inputConverter.Invoke(source);
-            }
+            inputConverter?.Invoke(source);
             var values = source as IDictionary<string, object>;
             if (values == null) return;
 
@@ -475,13 +470,10 @@ namespace Business.Common.Extensions
             , IDictionary<string, object> values
             , Action<IDictionary<string, object>> inputConverter = null
             , IEnumerable<Type> ignorePropertyTypes = null
-            , Dictionary<Type, Func<Object, Object>> typeConversionDictionary = null
+            , Dictionary<Type, Func<object, object>> typeConversionDictionary = null
             )
         {
-            if (inputConverter != null)
-            {
-                inputConverter.Invoke(values);
-            }
+            inputConverter?.Invoke(values);
             if (values == null) return;
 
             foreach (var item in anonymousObject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
@@ -553,10 +545,7 @@ namespace Business.Common.Extensions
         {
             var anonymousObject = Activator.CreateInstance<T>();
 
-            if (inputConverter != null)
-            {
-                inputConverter.Invoke(source);
-            }
+            inputConverter?.Invoke(source);
             var values = source;
             if (values == null) return anonymousObject;
 
@@ -586,19 +575,17 @@ namespace Business.Common.Extensions
                     {
                         if (ti.IsGenericType && (ti.GetGenericTypeDefinition() == typeof(Nullable<>)))
                         {
-                            if (propertyList != null)
-                                propertyList.Add(Convert.ChangeType(o, Nullable.GetUnderlyingType(ti)));
+                            propertyList?.Add(Convert.ChangeType(o, Nullable.GetUnderlyingType(ti)));
                         }
-                        else if (ti.Namespace != null && (ti.IsClass && !ti.Namespace.StartsWith("System")))
+                        else if (ti.Namespace != null && ti.IsClass && !ti.Namespace.StartsWith("System"))
                         {
                             var newti = ti.CreateInstance();
                             newti.ConvertFromDynamic(o);
-                            if (propertyList != null) propertyList.Add(newti);
+                            propertyList?.Add(newti);
                         }
                         else
                         {
-                            if (propertyList != null)
-                                propertyList.Add(vi == typeof(string) ? ((string)o).ParseAs(ti) : Convert.ChangeType(o, ti));
+                            propertyList?.Add(vi == typeof(string) ? ((string)o).ParseAs(ti) : Convert.ChangeType(o, ti));
                         }
                     }
                     prop.SetValue(anonymousObject, propertyList, null);
@@ -642,12 +629,12 @@ namespace Business.Common.Extensions
 
         #endregion NEW Dynamic to Static Typed Objects
 
-        public static IEnumerable<Dictionary<String, Object>> ToIEnumerableDictionaryObjects(this IEnumerable<dynamic> data)
+        public static IEnumerable<Dictionary<string, object>> ToIEnumerableDictionaryObjects(this IEnumerable<dynamic> data)
         {
             return data.Cast<IDictionary<string, object>>().Select(d => d.ToDictionary(x => x.Key, x => x.Value));
         }
 
-        public static IEnumerable<Dictionary<String, String>> ToIEnumerableDictionaryStrings(this IEnumerable<dynamic> data)
+        public static IEnumerable<Dictionary<string, string>> ToIEnumerableDictionaryStrings(this IEnumerable<dynamic> data)
         {
             return
                 data.Cast<IDictionary<string, object>>()

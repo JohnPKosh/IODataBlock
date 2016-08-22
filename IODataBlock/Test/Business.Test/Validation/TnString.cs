@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Business.Common.Validation;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Business.Common.Validation;
 
 namespace Business.Test.Validation
 {

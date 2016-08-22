@@ -10,15 +10,11 @@ namespace Business.Common.IO.Serialization
 {
     public static class SerializationExtensionBase
     {
-        public static String TrimXmlBom(this String value, Boolean trimWhitespace = true)
+        public static string TrimXmlBom(this string value, bool trimWhitespace = true)
         {
             if (trimWhitespace) value = value.Trim();
             var index = value.IndexOf('<');
-            if (index > 0)
-            {
-                return value.Substring(index, value.Length - index);
-            }
-            return value;
+            return index > 0 ? value.Substring(index, value.Length - index) : value;
         }
 
         #region Serialization Extensions
@@ -63,7 +59,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -119,7 +115,7 @@ namespace Business.Common.IO.Serialization
             IEnumerable<Type> knownTypes = null) where T : class
         {
             T returnvalue;
-            DataContractSerializer dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
+            var dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
             if (settings == null) settings = new XmlReaderSettings();
             settings.CloseInput = false;  // leave the underlying stream still open.
 
@@ -181,7 +177,7 @@ namespace Business.Common.IO.Serialization
 
         #region T Object to Byte[] Serialization Extensions
 
-        public static Byte[] SerializeToBytes<T>(this T obj,
+        public static byte[] SerializeToBytes<T>(this T obj,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -195,7 +191,7 @@ namespace Business.Common.IO.Serialization
 
         #region Byte[] to T Object Deserialization Extensions
 
-        public static T DeserializeBytes<T>(this Byte[] data,
+        public static T DeserializeBytes<T>(this byte[] data,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -210,7 +206,7 @@ namespace Business.Common.IO.Serialization
 
         #region String Serialization Extensions
 
-        public static String SerializeToString<T>(this T obj,
+        public static string SerializeToString<T>(this T obj,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -220,7 +216,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -236,7 +232,7 @@ namespace Business.Common.IO.Serialization
                         xw.Close();
                     }
                     //stream.Flush();
-                    var value = (settings.Encoding.GetString(stream.ToArray()));
+                    var value = settings.Encoding.GetString(stream.ToArray());
                     return value.TrimXmlBom();  // FYI return string will include byte order marks use Trim() to remove
                 }
             }
@@ -244,7 +240,7 @@ namespace Business.Common.IO.Serialization
             {
                 dcs.WriteObject(stream, obj);
                 stream.Flush();
-                var value = (Encoding.Default.GetString(stream.ToArray()));
+                var value = Encoding.Default.GetString(stream.ToArray());
                 return value.TrimXmlBom();
             }
         }
@@ -253,7 +249,7 @@ namespace Business.Common.IO.Serialization
 
         #region String Deserialization Extensions
 
-        public static T DeserializeString<T>(this String value,
+        public static T DeserializeString<T>(this string value,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {
@@ -275,7 +271,7 @@ namespace Business.Common.IO.Serialization
 
         #region Base64String Serialization Extensions
 
-        public static String SerializeToBase64String<T>(this T obj,
+        public static string SerializeToBase64String<T>(this T obj,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -287,7 +283,7 @@ namespace Business.Common.IO.Serialization
 
         #region Base64String Deserialization Extensions
 
-        public static T DeserializeBase64String<T>(this String value,
+        public static T DeserializeBase64String<T>(this string value,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -309,7 +305,7 @@ namespace Business.Common.IO.Serialization
             {
                 if (settings == null)
                 {
-                    settings = new XmlWriterSettings {Encoding = encodingType, OmitXmlDeclaration = false};
+                    settings = new XmlWriterSettings { Encoding = encodingType, OmitXmlDeclaration = false };
                 }
                 else if (encodingType != null)
                 {
@@ -376,8 +372,8 @@ namespace Business.Common.IO.Serialization
 
         #region File Serialization Extensions
 
-        public static FileInfo Serialize<T>(this T obj, String filePath,
-            Int32 lockWaitMs = 60000,
+        public static FileInfo Serialize<T>(this T obj, string filePath,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null,
@@ -387,7 +383,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo Serialize<T>(this T obj, FileInfo fileInfo,
-            Int32 lockWaitMs = 60000,
+            int lockWaitMs = 60000,
             IoRollbackType rollbackType = IoRollbackType.None,
             XmlWriterSettings settings = null,
             Encoding encodingType = null,
@@ -426,7 +422,7 @@ namespace Business.Common.IO.Serialization
         #region Private FileInfo Serializer Methods
 
         private static FileInfo SerializeNoRollback<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -446,14 +442,14 @@ namespace Business.Common.IO.Serialization
         }
 
         private static FileInfo SerializeRollbackFromCopy<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {
             fileInfo.Refresh();
             if (fileInfo.Directory == null || !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
-// ReSharper disable once AssignNullToNotNullAttribute
+            // ReSharper disable once AssignNullToNotNullAttribute
             var tempfileinfo = new FileInfo(Path.Combine(fileInfo.DirectoryName, Path.GetRandomFileName()));
             try
             {
@@ -486,7 +482,7 @@ namespace Business.Common.IO.Serialization
         }
 
         private static FileInfo SerializeRollbackInMemory<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -514,8 +510,8 @@ namespace Business.Common.IO.Serialization
 
         #region File Deserialization Extensions
 
-        public static T Deserialize<T>(this String filePath,
-        Int32 lockWaitMs = 60000,
+        public static T Deserialize<T>(this string filePath,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {
@@ -523,7 +519,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T Deserialize<T>(this FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {
@@ -540,7 +536,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T Deserialize<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {
@@ -548,7 +544,7 @@ namespace Business.Common.IO.Serialization
         }
 
         public static T Deserialize<T>(this T obj, string filePath,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         IEnumerable<Type> knownTypes = null) where T : class
         {

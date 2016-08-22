@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using Business.Common.Extensions;
-using Business.Common.System;
+﻿using Business.Common.Extensions;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
 
 namespace Business.Test.Common
 {
@@ -480,7 +479,7 @@ namespace Business.Test.Common
             var person = FakePerson.CreateKirk();
             JObject jperson = person;
             string newpersonObject = jperson.ToString();
-            
+
             Assert.IsNotNull(newpersonObject);
 
             FakePerson secondPerson = jperson.ToObject<FakePerson>();

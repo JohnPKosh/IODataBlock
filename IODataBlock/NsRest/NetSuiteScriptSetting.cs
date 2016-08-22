@@ -4,7 +4,9 @@ namespace NsRest
 {
     public class NetSuiteScriptSetting : INetSuiteScriptSetting
     {
-        public NetSuiteScriptSetting() { }
+        public NetSuiteScriptSetting()
+        {
+        }
 
         public NetSuiteScriptSetting(String scriptName, String deploymentName)
         {
@@ -14,7 +16,7 @@ namespace NsRest
 
         public static NetSuiteScriptSetting Create(String scriptName, String deploymentName)
         {
-            return new NetSuiteScriptSetting(scriptName,deploymentName);
+            return new NetSuiteScriptSetting(scriptName, deploymentName);
         }
 
         public string ScriptName { get; set; }

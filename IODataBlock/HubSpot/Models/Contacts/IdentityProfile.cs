@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Business.Common.System;
+﻿using Business.Common.System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HubSpot.Models.Contacts
 {

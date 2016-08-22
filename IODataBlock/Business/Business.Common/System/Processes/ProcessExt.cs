@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,12 +7,12 @@ namespace Business.Common.System.Processes
 {
     public static class ProcessExt
     {
-        public static void OpenFileWithDefaultApplication(this String targeFilePath)
+        public static void OpenFileWithDefaultApplication(this string targeFilePath)
         {
             Process.Start(targeFilePath);
         }
 
-        public static void OpenFileWithDefaultApplication(this String targeFilePath, string arguments)
+        public static void OpenFileWithDefaultApplication(this string targeFilePath, string arguments)
         {
             Process.Start(targeFilePath, arguments);
         }
@@ -28,12 +27,11 @@ namespace Business.Common.System.Processes
             Process.Start(targeFileInfo.FullName, arguments);
         }
 
-        public static IEnumerable<String> GetRunningLocalProcesses()
+        public static IEnumerable<string> GetRunningLocalProcesses()
         {
             var processes = Process.GetProcesses();
             var rv = processes.Select(x => x.ProcessName);
             return rv;
         }
-
     }
 }

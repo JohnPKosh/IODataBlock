@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 // ReSharper disable InconsistentNaming
 
@@ -33,8 +33,10 @@ namespace HubSpot.Models.Properties
             public string description { get; set; }
             public bool hidden { get; set; }
             public string value { get; set; }
+
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, NullValueHandling = NullValueHandling.Ignore)]
             public bool readOnly { get; set; }
+
             public double? doubleData { get; set; }
             public string label { get; set; }
             public int displayOrder { get; set; }

@@ -3,7 +3,7 @@ namespace NsRest.Search
     public enum SearchMultiSelectFieldOperatorType
     {
         AnyOf
-        , NoneOf 
+        , NoneOf
     }
 
     public static class SearchMultiSelectFieldOperatorTypeExtensions
@@ -14,8 +14,10 @@ namespace NsRest.Search
             {
                 case SearchMultiSelectFieldOperatorType.AnyOf:
                     return "anyOf";
+
                 case SearchMultiSelectFieldOperatorType.NoneOf:
                     return "noneOf";
+
                 default:
                     return null;
             }

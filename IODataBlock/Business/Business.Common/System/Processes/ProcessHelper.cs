@@ -13,7 +13,7 @@ namespace Business.Common.System.Processes
     /// StandardOutput and StandardError streams concurrently (this must be done with
     /// callbacks). See http://msdn2.microsoft.com/en-us/library/system.diagnostics.process.standarderror.aspx
     /// </summary>
-    public class ProcessHelper:IDisposable
+    public class ProcessHelper : IDisposable
     {
         private Process _mProcess = new Process();
         private TextWriter _mError = Console.Error;
@@ -64,7 +64,7 @@ namespace Business.Common.System.Processes
             {
                 exeIndex++;
             }
-            string[] pieces = SplitOn(str, exeIndex + 3, true);
+            var pieces = SplitOn(str, exeIndex + 3, true);
             pieces[0] = pieces[0].Trim();
             pieces[1] = pieces[1].Trim();
             if (pieces[0].Length > 0 && pieces[0][0] == '\"')
@@ -75,7 +75,7 @@ namespace Business.Common.System.Processes
             {
                 pieces[0] = pieces[0].Substring(0, pieces[0].Length - 1);
             }
-            var result = new ProcessHelper {FileName = pieces[0], Arguments = pieces[1]};
+            var result = new ProcessHelper { FileName = pieces[0], Arguments = pieces[1] };
             return result;
         }
 
@@ -164,7 +164,7 @@ namespace Business.Common.System.Processes
         public void SetArguments(params string[] args)
         {
             if (args == null) return;
-            StringBuilder sb = GetMangledArguments(args);
+            var sb = GetMangledArguments(args);
             Arguments = sb.ToString();
         }
 
@@ -183,7 +183,7 @@ namespace Business.Common.System.Processes
                 {
                     sb.Append(' ');
                 }
-                bool containsSpace = (val.IndexOf(' ') != -1);
+                var containsSpace = val.IndexOf(' ') != -1;
                 if (containsSpace)
                 {
                     sb.Append('\"');
@@ -205,7 +205,7 @@ namespace Business.Common.System.Processes
         public void AddArguments(params string[] args)
         {
             if (args == null) return;
-            StringBuilder sb = GetMangledArguments(args);
+            var sb = GetMangledArguments(args);
             if (!string.IsNullOrEmpty(Arguments))
             {
                 sb.Insert(0, ' ');
@@ -260,13 +260,7 @@ namespace Business.Common.System.Processes
         /// Gets the start info.
         /// </summary>
         /// <value>The start info.</value>
-        public ProcessStartInfo StartInfo
-        {
-            get
-            {
-                return _mProcess.StartInfo;
-            }
-        }
+        public ProcessStartInfo StartInfo => _mProcess.StartInfo;
 
         /// <summary>
         /// Starts this instance.
@@ -300,7 +294,7 @@ namespace Business.Common.System.Processes
         }
 
         /// <summary>
-        /// Starts with a timeout of 
+        /// Starts with a timeout of
         /// milliseconds and does not throw an exception when it sees an error, but returns
         /// the standard error and output.
         /// </summary>
@@ -335,7 +329,7 @@ namespace Business.Common.System.Processes
 
             _mProcess.WaitForExit(timeoutMs);
 
-            int exit = _mProcess.ExitCode;
+            var exit = _mProcess.ExitCode;
 
             if (throwOnError)
             {
@@ -394,37 +388,19 @@ namespace Business.Common.System.Processes
         /// Gets the exit code.
         /// </summary>
         /// <value>The exit code.</value>
-        public int ExitCode
-        {
-            get
-            {
-                return _mProcess.ExitCode;
-            }
-        }
+        public int ExitCode => _mProcess.ExitCode;
 
         /// <summary>
         /// Gets the standard output.
         /// </summary>
         /// <value>The standard output.</value>
-        public string StandardOutput
-        {
-            get
-            {
-                return _mOutBuilder == null ? null : _mOutBuilder.ToString();
-            }
-        }
+        public string StandardOutput => _mOutBuilder?.ToString();
 
         /// <summary>
         /// Gets the standard error.
         /// </summary>
         /// <value>The standard error.</value>
-        public string StandardError
-        {
-            get
-            {
-                return _mErrorBuilder == null ? null : _mErrorBuilder.ToString();
-            }
-        }
+        public string StandardError => _mErrorBuilder?.ToString();
 
         /// <summary>
         /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
@@ -435,7 +411,7 @@ namespace Business.Common.System.Processes
         public override string ToString()
         {
             if (string.IsNullOrEmpty(FileName)) return base.ToString();
-            string result = FileName;
+            var result = FileName;
             if (result.IndexOf(' ') != -1)
             {
                 result = "\"" + result + "\"";
@@ -482,14 +458,13 @@ namespace Business.Common.System.Processes
             return error;
         }
 
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing) return;
             // dispose managed resources
-            if(_mProcess != null)_mProcess.Close();
-            if (_mError != null) _mError.Close();
-            if (_mOut != null) _mOut.Close();
+            _mProcess?.Close();
+            _mError?.Close();
+            _mOut?.Close();
             // free native resources
         }
 
@@ -498,15 +473,10 @@ namespace Business.Common.System.Processes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
     }
 }
 
-
-
 /*  Sample code
-
 
         private static string StartProcessTask()
         {
@@ -522,13 +492,11 @@ namespace Business.Common.System.Processes
                 rv = p.StandardOutput;
             }
             catch (Exception ex)
-            {                
+            {
                 throw ex;
             }
-            
+
             return rv;
         }
 
-
 */
-

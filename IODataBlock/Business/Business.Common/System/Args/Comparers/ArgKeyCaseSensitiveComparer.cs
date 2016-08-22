@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Business.Common.System.Args;
+using System;
 using System.Collections.Generic;
-using Business.Common.System.Args;
 
 // ReSharper disable once CheckNamespace
 namespace ExBaseArguments
 {
-
     public class ArgKeyCaseSensitiveComparer : EqualityComparer<Arg>
     {
         public override bool Equals(Arg arg1, Arg arg2)
@@ -18,5 +17,4 @@ namespace ExBaseArguments
             return value.K.GetHashCode();
         }
     }
-
 }

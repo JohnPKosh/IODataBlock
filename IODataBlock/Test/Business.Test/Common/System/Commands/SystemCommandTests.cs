@@ -1,9 +1,6 @@
-﻿using System;
-using System.Dynamic;
-using System.Text;
-using System.Collections.Generic;
-using Business.Common.System;
+﻿using Business.Common.System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Dynamic;
 
 namespace Business.Test.Common.System.Commands
 {
@@ -39,6 +36,7 @@ namespace Business.Test.Common.System.Commands
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -50,7 +48,7 @@ namespace Business.Test.Common.System.Commands
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -58,7 +56,8 @@ namespace Business.Test.Common.System.Commands
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void GetSetTest()
@@ -80,6 +79,5 @@ namespace Business.Test.Common.System.Commands
             dynamic getResult = SystemCommandParser.ExecuteCommand("System.App.DynamicAppState", "GetDynamicAppState", null).ResponseData;
             Assert.IsNotNull(getResult);
         }
-
     }
 }

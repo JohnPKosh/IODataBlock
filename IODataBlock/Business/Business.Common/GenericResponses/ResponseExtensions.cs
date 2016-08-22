@@ -1,7 +1,6 @@
-﻿using System;
-using System.Web.UI.WebControls;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Responses;
+using System;
 
 namespace Business.Common.GenericResponses
 {
@@ -10,8 +9,8 @@ namespace Business.Common.GenericResponses
         public static IResponseObject<TIn, TOut> ToUncompletedGenericResponse<TIn, TOut>(this TIn requestData, int? id, string code, string correlationId = null)
         {
             ResponseCode rc;
-            if (!id.HasValue && String.IsNullOrWhiteSpace(code)) rc = null;
-            else rc = new ResponseCode(id,code);
+            if (!id.HasValue && string.IsNullOrWhiteSpace(code)) rc = null;
+            else rc = new ResponseCode(id, code);
             return new ResponseObject<TIn, TOut> { RequestData = requestData, ResponseCode = rc, CorrelationId = correlationId };
         }
 

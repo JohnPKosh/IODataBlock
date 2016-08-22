@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Configuration;
-using Newtonsoft.Json.Linq;
-using NsRest;
+﻿using Newtonsoft.Json.Linq;
 using NsRest.Search;
 using NsRest.Services;
+using System.Linq;
 
 namespace BasicTests.Integration.NsRest.Sandbox
 {
@@ -29,7 +26,6 @@ namespace BasicTests.Integration.NsRest.Sandbox
 
             baseService = BaseService.Create(true);
             TypeName = "contact";
-
         }
 
         //private ConfigMgr configMgr { get; set; }
@@ -40,6 +36,7 @@ namespace BasicTests.Integration.NsRest.Sandbox
         //private string NsRole { get; set; }
         //private string NsPassword { get; set; }
         private BaseService baseService { get; set; }
+
         //private IDictionary<string, INetSuiteScriptSetting> scriptSettings { get; set; }
         private string TypeName { get; set; }
 
@@ -62,6 +59,5 @@ namespace BasicTests.Integration.NsRest.Sandbox
             //}
             return contact;
         }
-
     }
 }

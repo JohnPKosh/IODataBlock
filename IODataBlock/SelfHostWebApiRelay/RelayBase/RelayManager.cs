@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using Business.Common.System.App;
+using System;
 using System.ServiceModel;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using Business.Common.System.App;
 
 namespace SelfHostWebApiRelay.RelayBase
 {
@@ -16,8 +15,8 @@ namespace SelfHostWebApiRelay.RelayBase
             config.HostNameComparisonMode = HostNameComparisonMode.Exact;
 
             // Turn on streaming in selfhost for both requests and responses.
-            // if you do this in ASP.NET then please see this blog from @filip_woj for details 
-            // on how to turn off buffering in ASP.NET: 
+            // if you do this in ASP.NET then please see this blog from @filip_woj for details
+            // on how to turn off buffering in ASP.NET:
             // http://www.strathweb.com/2012/09/dealing-with-large-files-in-asp-net-web-api/
             config.TransferMode = TransferMode.Streamed;
 
@@ -62,14 +61,9 @@ namespace SelfHostWebApiRelay.RelayBase
             }
             finally
             {
-                if (server != null)
-                {
-                    // Close server
-                    server.CloseAsync().Wait();
-                }
+                // Close server
+                server?.CloseAsync().Wait();
             }
         }
-
-
     }
 }

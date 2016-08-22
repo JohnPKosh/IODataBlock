@@ -1,5 +1,5 @@
-﻿using System;
-using Data.DbClient.Configuration;
+﻿using Data.DbClient.Configuration;
+using System;
 
 namespace Data.DbClient
 {
@@ -9,10 +9,7 @@ namespace Data.DbClient
 
         private void OnConnectionOpened()
         {
-            if (ConnectionOpenedEvent != null)
-            {
-                ConnectionOpenedEvent(this, new ConnectionEventArgs(Connection));
-            }
+            ConnectionOpenedEvent?.Invoke(this, new ConnectionEventArgs(Connection));
         }
 
         private static event EventHandler<ConnectionEventArgs> ConnectionOpenedEvent;

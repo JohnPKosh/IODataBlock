@@ -14,7 +14,7 @@ namespace HubSpot.Models
             return JsonConvert.SerializeObject(this, indented ? Formatting.Indented : Formatting.None);
         }
 
-        #endregion
+        #endregion Json Serialization
 
         #region Json Deserialization
 
@@ -31,9 +31,9 @@ namespace HubSpot.Models
         public static T CreateFromJson(string value)
         {
             return ClassExtensions.CreateFromJson<T>(value);
-        } 
+        }
 
-        #endregion
+        #endregion Json Deserialization
 
         #region Conversion Operators
 

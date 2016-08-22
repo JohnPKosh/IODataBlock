@@ -1,6 +1,4 @@
-﻿
-:connect CLEHBSQL0301
-
+﻿:connect CLEHBSQL0301
 
 USE [@Model.name]
 GO
@@ -37,10 +35,7 @@ EXECUTE [db_manager].[dbo].[COPY_File]
 ,@@tofilepath = N'\\172.16.5.82\e$\SqlMigration\FullBackup\@{@Model.name}_backup.bak'
 GO
 
-
-
 :connect 172.16.5.82
-
 
 IF EXISTS(SELECT [name] FROM sys.databases WHERE [name] = N'@{@Model.name}')
 BEGIN
@@ -58,7 +53,6 @@ BEGIN
 END
 GO
 
-
 RESTORE DATABASE [@{@Model.name}] FROM  DISK = N'E:\SqlMigration\FullBackup\@{@Model.name}_backup.bak' WITH  FILE = 1
 ,  MOVE N'@Model.dataFileName' TO N'I:\Database\@{@Model.name}_Data.mdf'
 ,  MOVE N'@Model.logFileName' TO N'G:\Database\@{@Model.name}_Log.ldf'
@@ -66,6 +60,3 @@ RESTORE DATABASE [@{@Model.name}] FROM  DISK = N'E:\SqlMigration\FullBackup\@{@M
 ,  REPLACE
 ,  STATS = 10
 GO
-
-
-

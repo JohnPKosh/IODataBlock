@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-
 namespace Business.Common.Extensions
 {
     /// <summary>
@@ -21,7 +20,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static String GetUnixTimestampString(this DateTime value, Boolean useUtc = true)
+        public static string GetUnixTimestampString(this DateTime value, bool useUtc = true)
         {
             return DateTimeToUnixTimestampString(value, useUtc);
         }
@@ -32,20 +31,20 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static Int64 DateTimeToUnixTimestampInt64(DateTime? value = null, Boolean useUtc = true)
+        public static Int64 DateTimeToUnixTimestampInt64(DateTime? value = null, bool useUtc = true)
         {
             if (useUtc)
             {
                 var date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 if (value < date1) value = date1;
-                var ts = value.HasValue ? (value.Value.ToUniversalTime() - date1) : (DateTime.UtcNow - date1);
+                var ts = value.HasValue ? value.Value.ToUniversalTime() - date1 : DateTime.UtcNow - date1;
                 return Convert.ToInt64(ts.TotalSeconds);
             }
             else
             {
                 var date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
                 if (value < date1) value = date1;
-                var ts = value.HasValue ? (value.Value - date1) : (DateTime.Now - date1);
+                var ts = value.HasValue ? value.Value - date1 : DateTime.Now - date1;
                 return Convert.ToInt64(ts.TotalSeconds);
             }
         }
@@ -56,7 +55,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static String DateTimeToUnixTimestampString(DateTime? value = null, Boolean useUtc = true)
+        public static string DateTimeToUnixTimestampString(DateTime? value = null, bool useUtc = true)
         {
             return Convert.ToString(DateTimeToUnixTimestampInt64(value, useUtc));
         }
@@ -67,7 +66,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static DateTime DateTimeFromUnixTimestampString(String value, Boolean useUtc = true)
+        public static DateTime DateTimeFromUnixTimestampString(string value, bool useUtc = true)
         {
             // ReSharper disable once RedundantAssignment
             var outvar = 0L;
@@ -80,7 +79,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static DateTime DateTimeFromUnixTimestampInt64(Int64 value, Boolean useUtc = true)
+        public static DateTime DateTimeFromUnixTimestampInt64(Int64 value, bool useUtc = true)
         {
             return useUtc ? new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(value) : new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local).AddSeconds(value);
         }
@@ -91,7 +90,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static String GetUnixMsTimestampString(this DateTime value, Boolean useUtc = true)
+        public static string GetUnixMsTimestampString(this DateTime value, bool useUtc = true)
         {
             return DateTimeToUnixMsTimestampString(value, useUtc);
         }
@@ -102,20 +101,20 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static Int64 DateTimeToUnixMsTimestampInt64(DateTime? value = null, Boolean useUtc = true)
+        public static Int64 DateTimeToUnixMsTimestampInt64(DateTime? value = null, bool useUtc = true)
         {
             if (useUtc)
             {
                 var date1 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 if (value < date1) value = date1;
-                var ts = value.HasValue ? (value.Value.ToUniversalTime() - date1) : (DateTime.UtcNow - date1);
+                var ts = value.HasValue ? value.Value.ToUniversalTime() - date1 : DateTime.UtcNow - date1;
                 return Convert.ToInt64(ts.TotalMilliseconds);
             }
             else
             {
                 var date1 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
                 if (value < date1) value = date1;
-                var ts = value.HasValue ? (value.Value - date1) : (DateTime.Now - date1);
+                var ts = value.HasValue ? value.Value - date1 : DateTime.Now - date1;
                 return Convert.ToInt64(ts.TotalMilliseconds);
             }
         }
@@ -126,7 +125,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static String DateTimeToUnixMsTimestampString(DateTime? value = null, Boolean useUtc = true)
+        public static string DateTimeToUnixMsTimestampString(DateTime? value = null, bool useUtc = true)
         {
             return Convert.ToString(DateTimeToUnixMsTimestampInt64(value, useUtc));
         }
@@ -137,7 +136,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static DateTime DateTimeFromUnixMsTimestampString(String value, Boolean useUtc = true)
+        public static DateTime DateTimeFromUnixMsTimestampString(string value, bool useUtc = true)
         {
             // ReSharper disable once RedundantAssignment
             var outvar = 0L;
@@ -150,7 +149,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="useUtc">if set to <c>true</c> [use UTC].</param>
         /// <returns></returns>
-        public static DateTime DateTimeFromUnixMsTimestampInt64(Int64 value, Boolean useUtc = true)
+        public static DateTime DateTimeFromUnixMsTimestampInt64(Int64 value, bool useUtc = true)
         {
             return useUtc ? new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(value) : new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local).AddMilliseconds(value);
         }
@@ -165,17 +164,17 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="endDateTime">The end date time.</param>
         /// <returns></returns>
-        public static String HoursMinutesOffsetFrom(this DateTime value, DateTime endDateTime)
+        public static string HoursMinutesOffsetFrom(this DateTime value, DateTime endDateTime)
         {
             if (endDateTime > value)
             {
                 var tspan = endDateTime.Subtract(value);
-                return string.Format("{0}:{1}", tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours, tspan.Minutes);
+                return $"{(tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
             }
             else
             {
                 var tspan = value.Subtract(endDateTime);
-                return string.Format("-{0}:{1}", tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours, tspan.Minutes);
+                return $"-{(tspan.Hours > 24 ? tspan.Days * 24 + tspan.Hours : tspan.Hours)}:{tspan.Minutes}";
             }
         }
 
@@ -185,19 +184,19 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="endDateTime">The end date time.</param>
         /// <returns></returns>
-        public static String DaysHoursMinutesOffsetFrom(this DateTime value, DateTime endDateTime)
+        public static string DaysHoursMinutesOffsetFrom(this DateTime value, DateTime endDateTime)
         {
             if (endDateTime > value)
             {
                 var tspan = endDateTime.Subtract(value);
-                if (tspan.Days > 0) return string.Format("{0} days, {1} hours, {2} minutes until", tspan.Days, tspan.Hours, tspan.Minutes);
-                return string.Format("{0} hours, {1} minutes until", tspan.Hours, tspan.Minutes);
+                if (tspan.Days > 0) return $"{tspan.Days} days, {tspan.Hours} hours, {tspan.Minutes} minutes until";
+                return $"{tspan.Hours} hours, {tspan.Minutes} minutes until";
             }
             else
             {
                 var tspan = value.Subtract(endDateTime);
-                if (tspan.Days > 0) return string.Format("{0} days, {1} hours, {2} minutes since", tspan.Days, tspan.Hours, tspan.Minutes);
-                return string.Format("{0} hours, {1} minutes since", tspan.Hours, tspan.Minutes);
+                if (tspan.Days > 0) return $"{tspan.Days} days, {tspan.Hours} hours, {tspan.Minutes} minutes since";
+                return $"{tspan.Hours} hours, {tspan.Minutes} minutes since";
             }
         }
 
@@ -226,7 +225,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 ToDayTicks(this DateTime value)
+        public static int ToDayTicks(this DateTime value)
         {
             var sqldt = new SqlDateTime(value);
             return sqldt.DayTicks;
@@ -237,9 +236,9 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 ToQHourInt(this DateTime value)
+        public static int ToQHourInt(this DateTime value)
         {
-            return (value.Hour * 4) + (value.Minute / 15);
+            return value.Hour * 4 + value.Minute / 15;
         }
 
         /// <summary>
@@ -251,7 +250,7 @@ namespace Business.Common.Extensions
         /// <param name="seconds">The seconds.</param>
         /// <param name="milliseconds">The milliseconds.</param>
         /// <returns></returns>
-        public static DateTime ToSpecificTime(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds)
+        public static DateTime ToSpecificTime(this DateTime value, int hours, int minutes, int seconds, int milliseconds)
         {
             return value.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
         }
@@ -264,7 +263,7 @@ namespace Business.Common.Extensions
         /// <param name="minutes">The minutes.</param>
         /// <param name="seconds">The seconds.</param>
         /// <returns></returns>
-        public static DateTime ToSpecificTime(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds)
+        public static DateTime ToSpecificTime(this DateTime value, int hours, int minutes, int seconds)
         {
             return value.Date.Add(new TimeSpan(0, hours, minutes, seconds));
         }
@@ -276,7 +275,7 @@ namespace Business.Common.Extensions
         /// <param name="hours">The hours.</param>
         /// <param name="minutes">The minutes.</param>
         /// <returns></returns>
-        public static DateTime ToSpecificTime(this DateTime value, Int32 hours, Int32 minutes)
+        public static DateTime ToSpecificTime(this DateTime value, int hours, int minutes)
         {
             return value.Date.Add(new TimeSpan(0, hours, minutes));
         }
@@ -289,7 +288,7 @@ namespace Business.Common.Extensions
         /// <param name="seperatorString">The seperator string.</param>
         /// <param name="endDateTime">The end date time.</param>
         /// <returns></returns>
-        public static String ToRangeOfDateTimeString(this DateTime value, String dateFormat, String seperatorString, DateTime endDateTime)
+        public static string ToRangeOfDateTimeString(this DateTime value, string dateFormat, string seperatorString, DateTime endDateTime)
         {
             return value.ToString(dateFormat) + seperatorString + endDateTime.ToString(dateFormat);
         }
@@ -302,7 +301,7 @@ namespace Business.Common.Extensions
         /// <param name="prefix">The prefix.</param>
         /// <param name="suffix">The suffix.</param>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public static String ToString(this DateTime value, String format, String prefix, String suffix)
+        public static string ToString(this DateTime value, string format, string prefix, string suffix)
         {
             return prefix + value.ToString(format) + suffix;
         }
@@ -314,7 +313,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringAs8601Format(this DateTime value)  // ISO 8601 with Time Zone Info
+        public static string ToStringAs8601Format(this DateTime value)  // ISO 8601 with Time Zone Info
         {
             return value.ToString("O");
         }
@@ -335,7 +334,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringAsUtcOffset(this DateTime value)
+        public static string ToStringAsUtcOffset(this DateTime value)
         {
             return new DateTimeOffset(value, TimeZoneInfo.Local.GetUtcOffset(value)).ToString("o");
         }
@@ -346,7 +345,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
-        public static String ToStringAsRFC1123Format(this DateTime value)
+        public static string ToStringAsRFC1123Format(this DateTime value)
         {
             return value.ToString("r");
         }
@@ -356,7 +355,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringAsSortable(this DateTime value)
+        public static string ToStringAsSortable(this DateTime value)
         {
             return value.ToString("s");
         }
@@ -366,7 +365,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringAsUSortable(this DateTime value)
+        public static string ToStringAsUSortable(this DateTime value)
         {
             return value.ToString("u");
         }
@@ -376,7 +375,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringDefault(this DateTime value)
+        public static string ToStringDefault(this DateTime value)
         {
             return value.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
@@ -386,7 +385,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringDefaultShort(this DateTime value)
+        public static string ToStringDefaultShort(this DateTime value)
         {
             return value.ToString("yyyy-MM-dd HH:mm:ss");
         }
@@ -396,7 +395,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringDefaultDate(this DateTime value)
+        public static string ToStringDefaultDate(this DateTime value)
         {
             return value.ToString("yyyy-MM-dd");
         }
@@ -406,7 +405,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringDefaultUtc(this DateTime value)
+        public static string ToStringDefaultUtc(this DateTime value)
         {
             return value.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
@@ -416,7 +415,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String ToStringDefaultDateUtc(this DateTime value)
+        public static string ToStringDefaultDateUtc(this DateTime value)
         {
             return value.ToUniversalTime().ToString("yyyy-MM-dd");
         }
@@ -427,7 +426,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
-        public static DateTime ParseFromRoundTripUTC(String value)  // not an extension method - just a helper method to convert string to datetime!
+        public static DateTime ParseFromRoundTripUTC(string value)  // not an extension method - just a helper method to convert string to datetime!
         {
             return DateTime.Parse(value, null, DateTimeStyles.RoundtripKind);
         }
@@ -439,7 +438,7 @@ namespace Business.Common.Extensions
         /// <param name="format">The format.</param>
         /// <param name="culture">The culture.</param>
         /// <returns></returns>
-        public static DateTime ParseExactDateTimeString(String value, String format, CultureInfo culture)
+        public static DateTime ParseExactDateTimeString(string value, string format, CultureInfo culture)
         {
             return DateTime.ParseExact(value, format, culture);
         }
@@ -451,7 +450,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if the specified value contains date; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean ContainsDate(this String value)
+        public static bool ContainsDate(this string value)
         {
             if (Regex.IsMatch(value, "[0-9]{4}[-/._]{1}[0-9]{1,2}[-/._]{1}[0-9]{1,2}")) return true;
             if (Regex.IsMatch(value, "[0-9]{1,2}[-/._]{1}[0-9]{1,2}[-/._]{1}[0-9]{4}")) return true;
@@ -468,7 +467,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [contains date time] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean ContainsDateTime(this String value)
+        public static bool ContainsDateTime(this string value)
         {
             if (Regex.IsMatch(value, "[0-9]{4}[-/._]{1}[0-9]{1,2}[-/._]{1}[0-9]{1,2}[-/._]{1}[0-9]{1,2}[-/._:]{1}[0-9]{1,2}[-/._:]{1}[0-9]{1,2}")) return true;
             if (Regex.IsMatch(value, "[0-9]{1,2}[-/._]{1}[0-9]{1,2}[-/._]{1}[0-9]{4}[-/._]{1}[0-9]{1,2}[-/._:]{1}[0-9]{1,2}[-/._:]{1}[0-9]{1,2}")) return true;
@@ -482,7 +481,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static List<DateTime> DatesInString(this String value)
+        public static List<DateTime> DatesInString(this string value)
         {
             var returnvalue = new List<DateTime>();
 
@@ -504,9 +503,9 @@ namespace Business.Common.Extensions
             foreach (var match in Regex.Matches(value, "[1-2]{1}[0-9]{7}[^0-9]+"))
             {
                 var matchstr = match.ToString();
-                var yr = Int32.Parse(matchstr.Substring(0, 4));
-                var month = Int32.Parse(matchstr.Substring(4, 2));
-                var date = Int32.Parse(matchstr.Substring(6, 2));
+                var yr = int.Parse(matchstr.Substring(0, 4));
+                var month = int.Parse(matchstr.Substring(4, 2));
+                var date = int.Parse(matchstr.Substring(6, 2));
                 var dt = new DateTime(yr, month, date);
                 returnvalue.Add(dt);
             }
@@ -526,9 +525,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same second] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameSecond(this DateTime value, DateTime compareDate)
+        public static bool IsInSameSecond(this DateTime value, DateTime compareDate)
         {
-            return (value.Date == compareDate.Date && value.Hour == compareDate.Hour && value.Minute == compareDate.Minute && value.Second == compareDate.Second);
+            return value.Date == compareDate.Date && value.Hour == compareDate.Hour && value.Minute == compareDate.Minute && value.Second == compareDate.Second;
         }
 
         /// <summary>
@@ -539,9 +538,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same minute] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameMinute(this DateTime value, DateTime compareDate)
+        public static bool IsInSameMinute(this DateTime value, DateTime compareDate)
         {
-            return (value.Date == compareDate.Date && value.Hour == compareDate.Hour && value.Minute == compareDate.Minute);
+            return value.Date == compareDate.Date && value.Hour == compareDate.Hour && value.Minute == compareDate.Minute;
         }
 
         /// <summary>
@@ -552,9 +551,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same Q hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameQHour(this DateTime value, DateTime compareDate)
+        public static bool IsInSameQHour(this DateTime value, DateTime compareDate)
         {
-            return (value.StartOfQHour() == compareDate.StartOfQHour());
+            return value.StartOfQHour() == compareDate.StartOfQHour();
         }
 
         /// <summary>
@@ -565,9 +564,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameHour(this DateTime value, DateTime compareDate)
+        public static bool IsInSameHour(this DateTime value, DateTime compareDate)
         {
-            return (value.Date == compareDate.Date && value.Hour == compareDate.Hour);
+            return value.Date == compareDate.Date && value.Hour == compareDate.Hour;
         }
 
         /// <summary>
@@ -578,9 +577,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameDay(this DateTime value, DateTime compareDate)
+        public static bool IsInSameDay(this DateTime value, DateTime compareDate)
         {
-            return (value.Date == compareDate.Date);
+            return value.Date == compareDate.Date;
         }
 
         /// <summary>
@@ -591,9 +590,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameWeek(this DateTime value, DateTime compareDate)
+        public static bool IsInSameWeek(this DateTime value, DateTime compareDate)
         {
-            return (value.Date.StartOfWeek() == compareDate.Date.StartOfWeek());
+            return value.Date.StartOfWeek() == compareDate.Date.StartOfWeek();
         }
 
         /// <summary>
@@ -604,9 +603,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same work week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameWorkWeek(this DateTime value, DateTime compareDate)
+        public static bool IsInSameWorkWeek(this DateTime value, DateTime compareDate)
         {
-            return (value.Date.StartOfWorkWeek() == compareDate.Date.StartOfWorkWeek());
+            return value.Date.StartOfWorkWeek() == compareDate.Date.StartOfWorkWeek();
         }
 
         /// <summary>
@@ -617,9 +616,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same Q month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameQMonth(this DateTime value, DateTime compareDate)
+        public static bool IsInSameQMonth(this DateTime value, DateTime compareDate)
         {
-            return (value.StartOfQMonth() == compareDate.StartOfQMonth());
+            return value.StartOfQMonth() == compareDate.StartOfQMonth();
         }
 
         /// <summary>
@@ -630,9 +629,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameMonth(this DateTime value, DateTime compareDate)
+        public static bool IsInSameMonth(this DateTime value, DateTime compareDate)
         {
-            return (value.StartOfMonth() == compareDate.StartOfMonth());
+            return value.StartOfMonth() == compareDate.StartOfMonth();
         }
 
         /// <summary>
@@ -643,9 +642,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in same year] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInSameYear(this DateTime value, DateTime compareDate)
+        public static bool IsInSameYear(this DateTime value, DateTime compareDate)
         {
-            return (value.StartOfYear() == compareDate.StartOfYear());
+            return value.StartOfYear() == compareDate.StartOfYear();
         }
 
         /// <summary>
@@ -655,9 +654,9 @@ namespace Business.Common.Extensions
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         /// <returns><c>true</c> if the specified value is between; otherwise, <c>false</c>.</returns>
-        public static Boolean IsBetween(this DateTime value, DateTime startDate, DateTime endDate)
+        public static bool IsBetween(this DateTime value, DateTime startDate, DateTime endDate)
         {
-            return (value >= startDate && value <= endDate);
+            return value >= startDate && value <= endDate;
         }
 
         /// <summary>
@@ -671,7 +670,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is greater than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsGreaterThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds)
+        public static bool IsGreaterThanEqToTimeOfDay(this DateTime value, int hours, int minutes, int seconds, int milliseconds)
         {
             return value >= value.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
         }
@@ -686,7 +685,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is greater than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsGreaterThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds)
+        public static bool IsGreaterThanEqToTimeOfDay(this DateTime value, int hours, int minutes, int seconds)
         {
             return value >= value.Date.Add(new TimeSpan(0, hours, minutes, seconds));
         }
@@ -700,7 +699,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is greater than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsGreaterThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes)
+        public static bool IsGreaterThanEqToTimeOfDay(this DateTime value, int hours, int minutes)
         {
             return value >= value.Date.Add(new TimeSpan(0, hours, minutes));
         }
@@ -713,7 +712,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is greater than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsGreaterThanEqToTimeOfDay(this DateTime value, Int32 hours)
+        public static bool IsGreaterThanEqToTimeOfDay(this DateTime value, int hours)
         {
             return value >= value.Date.Add(new TimeSpan(0, hours, 0));
         }
@@ -729,7 +728,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is less than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLessThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds)
+        public static bool IsLessThanEqToTimeOfDay(this DateTime value, int hours, int minutes, int seconds, int milliseconds)
         {
             return value <= value.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
         }
@@ -744,7 +743,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is less than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLessThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes, Int32 seconds)
+        public static bool IsLessThanEqToTimeOfDay(this DateTime value, int hours, int minutes, int seconds)
         {
             return value <= value.Date.Add(new TimeSpan(0, hours, minutes, seconds, 999));
         }
@@ -758,7 +757,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is less than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLessThanEqToTimeOfDay(this DateTime value, Int32 hours, Int32 minutes)
+        public static bool IsLessThanEqToTimeOfDay(this DateTime value, int hours, int minutes)
         {
             return value <= value.Date.Add(new TimeSpan(0, hours, minutes, 60, 999));
         }
@@ -771,7 +770,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is less than eq to time of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLessThanEqToTimeOfDay(this DateTime value, Int32 hours)
+        public static bool IsLessThanEqToTimeOfDay(this DateTime value, int hours)
         {
             return value <= value.Date.Add(new TimeSpan(0, hours, 60, 60, 999));
         }
@@ -785,9 +784,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is between hours of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsBetweenHoursOfDay(this DateTime value, Int32 startHour, Int32 endHour)
+        public static bool IsBetweenHoursOfDay(this DateTime value, int startHour, int endHour)
         {
-            return (value.IsGreaterThanEqToTimeOfDay(startHour) && value.IsLessThanEqToTimeOfDay(endHour));
+            return value.IsGreaterThanEqToTimeOfDay(startHour) && value.IsLessThanEqToTimeOfDay(endHour);
         }
 
         /// <summary>
@@ -801,9 +800,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is between minutes of day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsBetweenMinutesOfDay(this DateTime value, Int32 startHour, Int32 startMinute, Int32 endHour, Int32 endMinute)
+        public static bool IsBetweenMinutesOfDay(this DateTime value, int startHour, int startMinute, int endHour, int endMinute)
         {
-            return (value.IsGreaterThanEqToTimeOfDay(startHour, startMinute) && value.IsLessThanEqToTimeOfDay(endHour, endMinute));
+            return value.IsGreaterThanEqToTimeOfDay(startHour, startMinute) && value.IsLessThanEqToTimeOfDay(endHour, endMinute);
         }
 
         /// <summary>
@@ -813,10 +812,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in current second] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInCurrentSecond(this DateTime value)
+        public static bool IsInCurrentSecond(this DateTime value)
         {
             var now = DateTime.Now;
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second;
         }
 
         /// <summary>
@@ -826,10 +825,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in previous second] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInPreviousSecond(this DateTime value)
+        public static bool IsInPreviousSecond(this DateTime value)
         {
             var now = DateTime.Now.AddSeconds(-1);
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second;
         }
 
         /// <summary>
@@ -839,10 +838,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in next second] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInNextSecond(this DateTime value)
+        public static bool IsInNextSecond(this DateTime value)
         {
             var now = DateTime.Now.AddSeconds(1);
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute && value.Second == now.Second;
         }
 
         /// <summary>
@@ -852,10 +851,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in current minute] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInCurrentMinute(this DateTime value)
+        public static bool IsInCurrentMinute(this DateTime value)
         {
             var now = DateTime.Now;
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute;
         }
 
         /// <summary>
@@ -865,10 +864,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in previous minute] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInPreviousMinute(this DateTime value)
+        public static bool IsInPreviousMinute(this DateTime value)
         {
             var now = DateTime.Now.AddMinutes(-1);
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute;
         }
 
         /// <summary>
@@ -878,10 +877,10 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in next minute] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInNextMinute(this DateTime value)
+        public static bool IsInNextMinute(this DateTime value)
         {
             var now = DateTime.Now.AddMinutes(1);
-            return (value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute);
+            return value.Date == now.Date && value.Hour == now.Hour && value.Minute == now.Minute;
         }
 
         /// <summary>
@@ -891,9 +890,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in current Q hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInCurrentQHour(this DateTime value)
+        public static bool IsInCurrentQHour(this DateTime value)
         {
-            return (value.StartOfQHour() == DateTime.Now.StartOfQHour());
+            return value.StartOfQHour() == DateTime.Now.StartOfQHour();
         }
 
         /// <summary>
@@ -903,9 +902,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in previous Q hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInPreviousQHour(this DateTime value)
+        public static bool IsInPreviousQHour(this DateTime value)
         {
-            return (value.StartOfQHour() == DateTime.Now.StartOfQHour().AddMinutes(-15));
+            return value.StartOfQHour() == DateTime.Now.StartOfQHour().AddMinutes(-15);
         }
 
         /// <summary>
@@ -915,9 +914,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in next Q hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInNextQHour(this DateTime value)
+        public static bool IsInNextQHour(this DateTime value)
         {
-            return (value.StartOfQHour() == DateTime.Now.StartOfQHour().AddMinutes(15));
+            return value.StartOfQHour() == DateTime.Now.StartOfQHour().AddMinutes(15);
         }
 
         /// <summary>
@@ -927,9 +926,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in current hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInCurrentHour(this DateTime value)
+        public static bool IsInCurrentHour(this DateTime value)
         {
-            return (value.Date == DateTime.Today && value.Date.Hour == DateTime.Now.Hour);
+            return value.Date == DateTime.Today && value.Date.Hour == DateTime.Now.Hour;
         }
 
         /// <summary>
@@ -939,9 +938,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in previous hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInPreviousHour(this DateTime value)
+        public static bool IsInPreviousHour(this DateTime value)
         {
-            return (value.Date == DateTime.Now.AddHours(-1).Date && value.Hour == DateTime.Now.AddHours(-1).Hour);
+            return value.Date == DateTime.Now.AddHours(-1).Date && value.Hour == DateTime.Now.AddHours(-1).Hour;
         }
 
         /// <summary>
@@ -951,9 +950,9 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in next hour] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInNextHour(this DateTime value)
+        public static bool IsInNextHour(this DateTime value)
         {
-            return (value.Date == DateTime.Now.AddHours(1).Date && value.Hour == DateTime.Now.AddHours(1).Hour);
+            return value.Date == DateTime.Now.AddHours(1).Date && value.Hour == DateTime.Now.AddHours(1).Hour;
         }
 
         /// <summary>
@@ -961,7 +960,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if the specified value is today; otherwise, <c>false</c>.</returns>
-        public static Boolean IsToday(this DateTime value)
+        public static bool IsToday(this DateTime value)
         {
             return value.Date == DateTime.Today;
         }
@@ -973,7 +972,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in past] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInPast(this DateTime value)
+        public static bool IsInPast(this DateTime value)
         {
             return value < DateTime.Now;
         }
@@ -985,7 +984,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is in future] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsInFuture(this DateTime value)
+        public static bool IsInFuture(this DateTime value)
         {
             return value > DateTime.Now;
         }
@@ -997,7 +996,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is week day] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsWeekDay(this DateTime value)
+        public static bool IsWeekDay(this DateTime value)
         {
             switch (value.DayOfWeek)
             {
@@ -1012,7 +1011,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if the specified value is weekend; otherwise, <c>false</c>.</returns>
-        public static Boolean IsWeekend(this DateTime value)
+        public static bool IsWeekend(this DateTime value)
         {
             return !value.IsWeekDay();
         }
@@ -1024,7 +1023,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is start of work week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsStartOfWorkWeek(this DateTime value)
+        public static bool IsStartOfWorkWeek(this DateTime value)
         {
             return value.StartOfWorkWeek() == value.Date;
         }
@@ -1036,7 +1035,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is end of work week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsEndOfWorkWeek(this DateTime value)
+        public static bool IsEndOfWorkWeek(this DateTime value)
         {
             return value.EndOfWorkWeek() == value.Date;
         }
@@ -1048,7 +1047,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is start of week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsStartOfWeek(this DateTime value)
+        public static bool IsStartOfWeek(this DateTime value)
         {
             return value.StartOfWorkWeek() == value.Date;
         }
@@ -1060,7 +1059,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is end of week] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsEndOfWeek(this DateTime value)
+        public static bool IsEndOfWeek(this DateTime value)
         {
             return value.EndOfWeek() == value.Date;
         }
@@ -1073,7 +1072,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total milliseconds old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalMillisecondsOld(this DateTime value, Int32 milliseconds)
+        public static bool IsOverNTotalMillisecondsOld(this DateTime value, int milliseconds)
         {
             return DateTime.Now.Subtract(value).TotalMilliseconds > milliseconds;
         }
@@ -1086,7 +1085,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total milliseconds until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalMillisecondsUntil(this DateTime value, Int32 milliseconds)
+        public static bool IsOverNTotalMillisecondsUntil(this DateTime value, int milliseconds)
         {
             return DateTime.Now.Subtract(value).TotalMilliseconds < -milliseconds;
         }
@@ -1099,7 +1098,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total seconds old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalSecondsOld(this DateTime value, Int32 seconds)
+        public static bool IsOverNTotalSecondsOld(this DateTime value, int seconds)
         {
             return DateTime.Now.Subtract(value).TotalSeconds > seconds;
         }
@@ -1112,7 +1111,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total seconds until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalSecondsUntil(this DateTime value, Int32 seconds)
+        public static bool IsOverNTotalSecondsUntil(this DateTime value, int seconds)
         {
             return DateTime.Now.Subtract(value).TotalSeconds < -seconds;
         }
@@ -1125,7 +1124,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total minutes old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalMinutesOld(this DateTime value, Int32 minutes)
+        public static bool IsOverNTotalMinutesOld(this DateTime value, int minutes)
         {
             return DateTime.Now.Subtract(value).TotalMinutes > minutes;
         }
@@ -1138,7 +1137,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total minutes until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalMinutesUntil(this DateTime value, Int32 minutes)
+        public static bool IsOverNTotalMinutesUntil(this DateTime value, int minutes)
         {
             return DateTime.Now.Subtract(value).TotalMinutes < -minutes;
         }
@@ -1153,7 +1152,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total hours old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalHoursOld(this DateTime value, Int32 hours)
+        public static bool IsOverNTotalHoursOld(this DateTime value, int hours)
         {
             return DateTime.Now.Subtract(value).TotalHours > hours;
         }
@@ -1166,7 +1165,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total hours until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalHoursUntil(this DateTime value, Int32 hours)
+        public static bool IsOverNTotalHoursUntil(this DateTime value, int hours)
         {
             return DateTime.Now.Subtract(value).TotalHours < -hours;
         }
@@ -1179,7 +1178,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total days old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalDaysOld(this DateTime value, Int32 days)
+        public static bool IsOverNTotalDaysOld(this DateTime value, int days)
         {
             return DateTime.Now.Subtract(value).TotalDays > days;
             // can also be expressed like so:
@@ -1201,7 +1200,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N total days until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNTotalDaysUntil(this DateTime value, Int32 days)
+        public static bool IsOverNTotalDaysUntil(this DateTime value, int days)
         {
             return value.Subtract(DateTime.Now).TotalDays > days;
             // can also be expressed like so:
@@ -1223,7 +1222,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N dates old] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNDatesOld(this DateTime value, Int32 days)
+        public static bool IsOverNDatesOld(this DateTime value, int days)
         {
             return DateTime.Today.Subtract(value.Date).TotalDays > days;
         }
@@ -1236,7 +1235,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is over N dates until] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsOverNDatesUntil(this DateTime value, Int32 days)
+        public static bool IsOverNDatesUntil(this DateTime value, int days)
         {
             return value.Date.Subtract(DateTime.Today).TotalDays > days;
             // can also be expressed like so:
@@ -1258,7 +1257,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is N day of month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsNDayOfMonth(this DateTime value, Int32 day)
+        public static bool IsNDayOfMonth(this DateTime value, int day)
         {
             return value.Day == day;
         }
@@ -1272,7 +1271,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is N day of week in month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsNDayOfWeekInMonth(this DateTime value, Int32 n, DayOfWeek day)
+        public static bool IsNDayOfWeekInMonth(this DateTime value, int n, DayOfWeek day)
         {
             return value.DayOfWeek == day && value.WeekOfMonth() == n;
         }
@@ -1285,7 +1284,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is first day of week in month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsFirstDayOfWeekInMonth(this DateTime value, DayOfWeek day)
+        public static bool IsFirstDayOfWeekInMonth(this DateTime value, DayOfWeek day)
         {
             return value.DayOfWeek == day && value.WeekOfMonth() == 1;
         }
@@ -1298,7 +1297,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is last day of week in month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLastDayOfWeekInMonth(this DateTime value, DayOfWeek day)
+        public static bool IsLastDayOfWeekInMonth(this DateTime value, DayOfWeek day)
         {
             return value.GetMonthList().Where(x => x.DayOfWeek == day).Max() == value.Date;
         }
@@ -1310,7 +1309,7 @@ namespace Business.Common.Extensions
         /// <returns>
         /// <c>true</c> if [is last day of month] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static Boolean IsLastDayOfMonth(this DateTime value)
+        public static bool IsLastDayOfMonth(this DateTime value)
         {
             return value.IsInSameDay(value.StartOfMonth());
         }
@@ -1327,7 +1326,7 @@ namespace Business.Common.Extensions
         /// <param name="minuteOffset">The minute offset.</param>
         /// <param name="secondOffset">The second offset.</param>
         /// <returns></returns>
-        public static DateTime OffsetNValues(this DateTime value, Int32 hoursOffset, Int32 minuteOffset, Int32 secondOffset)
+        public static DateTime OffsetNValues(this DateTime value, int hoursOffset, int minuteOffset, int secondOffset)
         {
             return value.Add(new TimeSpan(hoursOffset, minuteOffset, secondOffset));
         }
@@ -1342,7 +1341,7 @@ namespace Business.Common.Extensions
         /// <param name="secondOffset">The second offset.</param>
         /// <param name="millisecondOffset">The millisecond offset.</param>
         /// <returns></returns>
-        public static DateTime OffsetNValues(this DateTime value, Int32 daysOffset, Int32 hoursOffset, Int32 minuteOffset, Int32 secondOffset, Int32 millisecondOffset)
+        public static DateTime OffsetNValues(this DateTime value, int daysOffset, int hoursOffset, int minuteOffset, int secondOffset, int millisecondOffset)
         {
             return value.Add(new TimeSpan(daysOffset, hoursOffset, minuteOffset, secondOffset, millisecondOffset));
         }
@@ -1357,7 +1356,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="secondOffset">The second offset.</param>
         /// <returns></returns>
-        public static DateTime ExactlyNSecondsFromNow(this DateTime value, Int32 secondOffset)
+        public static DateTime ExactlyNSecondsFromNow(this DateTime value, int secondOffset)
         {
             return value.Add(new TimeSpan(0, 0, secondOffset));
         }
@@ -1378,7 +1377,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="secondOffset">The second offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfSecond(this DateTime value, Int32 secondOffset)
+        public static DateTime StartOfSecond(this DateTime value, int secondOffset)
         {
             return value.StartOfSecond().AddSeconds(secondOffset);
         }
@@ -1399,7 +1398,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="secondOffset">The second offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfSecond(this DateTime value, Int32 secondOffset)
+        public static DateTime EndOfSecond(this DateTime value, int secondOffset)
         {
             return value.EndOfSecond().AddSeconds(secondOffset);
         }
@@ -1444,7 +1443,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="minuteOffset">The minute offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfMinute(this DateTime value, Int32 minuteOffset)
+        public static DateTime StartOfMinute(this DateTime value, int minuteOffset)
         {
             return value.StartOfMinute().AddMinutes(minuteOffset);
         }
@@ -1465,7 +1464,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="minuteOffset">The minute offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfMinute(this DateTime value, Int32 minuteOffset)
+        public static DateTime EndOfMinute(this DateTime value, int minuteOffset)
         {
             return value.EndOfMinute().AddMinutes(minuteOffset);
         }
@@ -1501,7 +1500,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime StartOfQHour(this DateTime value)
         {
-            return value.Date.AddMinutes(((value.Hour * 4) + (value.Minute / 15)) * 15);
+            return value.Date.AddMinutes((value.Hour * 4 + value.Minute / 15) * 15);
         }
 
         /// <summary>
@@ -1510,7 +1509,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfQHour(this DateTime value, Int32 offset)
+        public static DateTime StartOfQHour(this DateTime value, int offset)
         {
             return value.StartOfQHour().AddMinutes(offset * 15);
         }
@@ -1522,7 +1521,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime EndOfQHour(this DateTime value)
         {
-            return value.Date.AddMinutes(((value.Hour * 4) + (value.Minute / 15)) * 15).AddSeconds(899).AddMilliseconds(999);
+            return value.Date.AddMinutes((value.Hour * 4 + value.Minute / 15) * 15).AddSeconds(899).AddMilliseconds(999);
         }
 
         /// <summary>
@@ -1531,7 +1530,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfQHour(this DateTime value, Int32 offset)
+        public static DateTime EndOfQHour(this DateTime value, int offset)
         {
             return value.EndOfQHour().AddMinutes(offset * 15);
         }
@@ -1576,7 +1575,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfHour(this DateTime value, Int32 offset)
+        public static DateTime StartOfHour(this DateTime value, int offset)
         {
             return value.StartOfHour().AddHours(offset);
         }
@@ -1597,7 +1596,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfHour(this DateTime value, Int32 offset)
+        public static DateTime EndOfHour(this DateTime value, int offset)
         {
             return value.EndOfHour().AddHours(offset);
         }
@@ -1666,7 +1665,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="dayOffset">The day offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfDay(this DateTime value, Int32 dayOffset)
+        public static DateTime StartOfDay(this DateTime value, int dayOffset)
         {
             return value.StartOfDay().AddDays(dayOffset);
         }
@@ -1687,7 +1686,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="dayOffset">The day offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfDay(this DateTime value, Int32 dayOffset)
+        public static DateTime EndOfDay(this DateTime value, int dayOffset)
         {
             return value.EndOfDay().AddDays(dayOffset);
         }
@@ -1746,9 +1745,9 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="compareDate">The compare date.</param>
         /// <returns></returns>
-        public static Int32 NTotalDaysUntil(this DateTime value, DateTime compareDate)
+        public static int NTotalDaysUntil(this DateTime value, DateTime compareDate)
         {
-            return (Int32)compareDate.Subtract(value).TotalDays;
+            return (int)compareDate.Subtract(value).TotalDays;
         }
 
         /// <summary>
@@ -1757,7 +1756,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="compareDate">The compare date.</param>
         /// <returns></returns>
-        public static Int32 NDatesUntil(this DateTime value, DateTime compareDate)
+        public static int NDatesUntil(this DateTime value, DateTime compareDate)
         {
             return compareDate.Date.Subtract(value.Date).Days;
         }
@@ -1767,9 +1766,9 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 DayOfWeekInt(this DateTime value)
+        public static int DayOfWeekInt(this DateTime value)
         {
-            return (Int32)value.StartOfMonth().DayOfWeek;
+            return (int)value.StartOfMonth().DayOfWeek;
         }
 
         #endregion Day Methods
@@ -1783,7 +1782,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime StartOfWeek(this DateTime value)
         {
-            return value.Date.AddDays(0 - (Int32)value.DayOfWeek);
+            return value.Date.AddDays(0 - (int)value.DayOfWeek);
         }
 
         /// <summary>
@@ -1792,7 +1791,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfWeek(this DateTime value, Int32 weekOffset)
+        public static DateTime StartOfWeek(this DateTime value, int weekOffset)
         {
             return value.StartOfWeek().AddDays(weekOffset * 7);
         }
@@ -1813,7 +1812,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfWeek(this DateTime value, Int32 weekOffset)
+        public static DateTime EndOfWeek(this DateTime value, int weekOffset)
         {
             return value.EndOfWeek().AddDays(weekOffset * 7);
         }
@@ -1845,7 +1844,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime StartOfWorkWeek(this DateTime value)
         {
-            return value.Date.AddDays(0 - (Int32)value.DayOfWeek + 1);
+            return value.Date.AddDays(0 - (int)value.DayOfWeek + 1);
         }
 
         /// <summary>
@@ -1854,7 +1853,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfWorkWeek(this DateTime value, Int32 offset)
+        public static DateTime StartOfWorkWeek(this DateTime value, int offset)
         {
             return value.StartOfWorkWeek().AddDays(offset * 7);
         }
@@ -1866,7 +1865,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime EndOfWorkWeek(this DateTime value)
         {
-            return value.Date.AddDays(0 - (Int32)value.DayOfWeek + 5);
+            return value.Date.AddDays(0 - (int)value.DayOfWeek + 5);
         }
 
         /// <summary>
@@ -1875,7 +1874,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfWorkWeek(this DateTime value, Int32 offset)
+        public static DateTime EndOfWorkWeek(this DateTime value, int offset)
         {
             return value.EndOfWorkWeek().AddDays(offset * 7);
         }
@@ -1896,7 +1895,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfWeekBillDate(this DateTime value, Int32 weekOffset)
+        public static DateTime EndOfWeekBillDate(this DateTime value, int weekOffset)
         {
             return value.StartOfWeek(weekOffset + 1);
         }
@@ -1922,7 +1921,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfWeekWorkBillDate(this DateTime value, Int32 weekOffset)
+        public static DateTime EndOfWeekWorkBillDate(this DateTime value, int weekOffset)
         {
             value = value.StartOfWeek(weekOffset + 1);
             while (value.IsWeekend())
@@ -1940,7 +1939,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static DateTime GetDayOfWeekDate(this DateTime value, DayOfWeek dayOfWeek)
         {
-            return value.Date.AddDays((Int32)dayOfWeek - value.DayOfWeekInt());
+            return value.Date.AddDays((int)dayOfWeek - value.DayOfWeekInt());
         }
 
         /// <summary>
@@ -1950,7 +1949,7 @@ namespace Business.Common.Extensions
         /// <param name="dayOfWeek">The day of week.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static DateTime GetDayOfWeekDate(this DateTime value, DayOfWeek dayOfWeek, Int32 weekOffset)
+        public static DateTime GetDayOfWeekDate(this DateTime value, DayOfWeek dayOfWeek, int weekOffset)
         {
             return value.AddDays(weekOffset * 7).GetDayOfWeekDate(dayOfWeek);
         }
@@ -1964,7 +1963,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 QMonthValue(this DateTime value)
+        public static int QMonthValue(this DateTime value)
         {
             if (value.Day <= 8) return 1;
             if (value.Day >= 24) return 4;
@@ -1977,7 +1976,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String QMonthCode(this DateTime value)
+        public static string QMonthCode(this DateTime value)
         {
             return value.Year + value.Month.ToString("00") + "QM" + QMonthValue(value).ToString("00");
         }
@@ -2001,7 +2000,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfQMonth(this DateTime value, Int32 qMonthOffset)
+        public static DateTime StartOfQMonth(this DateTime value, int qMonthOffset)
         {
             if (qMonthOffset > 0)
             {
@@ -2061,7 +2060,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfQMonth(this DateTime value, Int32 qMonthOffset)
+        public static DateTime EndOfQMonth(this DateTime value, int qMonthOffset)
         {
             if (qMonthOffset > 0)
             {
@@ -2098,7 +2097,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfQMonthBillDate(this DateTime value, Int32 qMonthOffset)
+        public static DateTime EndOfQMonthBillDate(this DateTime value, int qMonthOffset)
         {
             return value.StartOfQMonth(qMonthOffset + 1);
         }
@@ -2124,7 +2123,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfQMonthWorkBillDate(this DateTime value, Int32 qMonthOffset)
+        public static DateTime EndOfQMonthWorkBillDate(this DateTime value, int qMonthOffset)
         {
             value = value.StartOfQMonth(qMonthOffset + 1);
             while (value.IsWeekend())
@@ -2143,7 +2142,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 SemiMonthValue(this DateTime value)
+        public static int SemiMonthValue(this DateTime value)
         {
             if (value.Day <= 15) return 1;
             return 2;
@@ -2154,7 +2153,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String SemiMonthCode(this DateTime value)
+        public static string SemiMonthCode(this DateTime value)
         {
             return value.Year + value.Month.ToString("00") + "SM" + SemiMonthValue(value).ToString("00");
         }
@@ -2176,7 +2175,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfSemiMonth(this DateTime value, Int32 semiMonthOffset)
+        public static DateTime StartOfSemiMonth(this DateTime value, int semiMonthOffset)
         {
             if (semiMonthOffset > 0)
             {
@@ -2234,7 +2233,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfSemiMonth(this DateTime value, Int32 semiMonthOffset)
+        public static DateTime EndOfSemiMonth(this DateTime value, int semiMonthOffset)
         {
             if (semiMonthOffset > 0)
             {
@@ -2271,7 +2270,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfSemiMonthBillDate(this DateTime value, Int32 semiMonthOffset)
+        public static DateTime EndOfSemiMonthBillDate(this DateTime value, int semiMonthOffset)
         {
             return value.StartOfSemiMonth(semiMonthOffset + 1);
         }
@@ -2297,7 +2296,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfSemiMonthWorkBillDate(this DateTime value, Int32 semiMonthOffset)
+        public static DateTime EndOfSemiMonthWorkBillDate(this DateTime value, int semiMonthOffset)
         {
             value = value.StartOfSemiMonth(semiMonthOffset + 1);
             while (value.IsWeekend())
@@ -2316,7 +2315,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static String MonthCode(this DateTime value)
+        public static string MonthCode(this DateTime value)
         {
             return value.Year + value.Month.ToString("00");
         }
@@ -2337,7 +2336,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="monthOffset">The month offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfMonth(this DateTime value, Int32 monthOffset)
+        public static DateTime StartOfMonth(this DateTime value, int monthOffset)
         {
             return new DateTime(value.Year, value.Month, 1).AddMonths(monthOffset);
         }
@@ -2378,7 +2377,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="monthOffset">The month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfMonth(this DateTime value, Int32 monthOffset)
+        public static DateTime EndOfMonth(this DateTime value, int monthOffset)
         {
             value = value.AddMonths(monthOffset);
             return new DateTime(value.Year, value.Month, DateTime.DaysInMonth(value.Year, value.Month));
@@ -2400,7 +2399,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="monthOffset">The month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfMonthBillDate(this DateTime value, Int32 monthOffset)
+        public static DateTime EndOfMonthBillDate(this DateTime value, int monthOffset)
         {
             return value.StartOfMonth(monthOffset + 1);
         }
@@ -2426,7 +2425,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="monthOffset">The month offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfMonthWorkBillDate(this DateTime value, Int32 monthOffset)
+        public static DateTime EndOfMonthWorkBillDate(this DateTime value, int monthOffset)
         {
             value = value.StartOfMonth(monthOffset + 1);
             while (value.IsWeekend())
@@ -2441,9 +2440,9 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 WeekOfMonth(this DateTime value)
+        public static int WeekOfMonth(this DateTime value)
         {
-            return (Int32)(((value - value.StartOfMonth()).TotalDays + value.StartOfMonth().DayOfWeekInt()) / 7) + 1;
+            return (int)(((value - value.StartOfMonth()).TotalDays + value.StartOfMonth().DayOfWeekInt()) / 7) + 1;
         }
 
         /// <summary>
@@ -2451,7 +2450,7 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Int32 WeeksInMonth(this DateTime value)
+        public static int WeeksInMonth(this DateTime value)
         {
             return value.EndOfMonth().WeekOfMonth();
         }
@@ -2476,7 +2475,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="yearOffset">The year offset.</param>
         /// <returns></returns>
-        public static DateTime StartOfYear(this DateTime value, Int32 yearOffset)
+        public static DateTime StartOfYear(this DateTime value, int yearOffset)
         {
             return value.StartOfYear().AddYears(yearOffset);
         }
@@ -2497,7 +2496,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="yearOffset">The year offset.</param>
         /// <returns></returns>
-        public static DateTime EndOfYear(this DateTime value, Int32 yearOffset)
+        public static DateTime EndOfYear(this DateTime value, int yearOffset)
         {
             return value.EndOfYear().AddYears(yearOffset);
         }
@@ -2611,7 +2610,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetMinutesInHourList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetMinutesInHourList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfHour();
@@ -2630,13 +2629,12 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="minutes">The minutes.</param>
         /// <returns></returns>
-        public static List<DateTime> GetNMinutesToList(this DateTime value, Int32 minutes)
+        public static List<DateTime> GetNMinutesToList(this DateTime value, int minutes)
         {
             return value.GetMinutesToList(value.EndOfMinute().AddMinutes(minutes));
         }
 
         #endregion List Methods
-
 
         #region IEnumerable Methods
 
@@ -2675,7 +2673,6 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static IEnumerable<DateTime> GetMinutesFromToIEnumerable(DateTime startMinute, DateTime endMinute) // helper method
         {
-            
             if (endMinute > startMinute)
             {
                 var tempdt = startMinute.StartOfMinute().AddMinutes(-1);
@@ -2698,8 +2695,6 @@ namespace Business.Common.Extensions
             }
         }
 
-
-
         /// <summary>
         /// Gets the minutes in hour IEnumerable.
         /// </summary>
@@ -2707,9 +2702,9 @@ namespace Business.Common.Extensions
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <param name="excludePastDates">if set to <c>true</c> [exclude past dates].</param>
         /// <returns></returns>
-        public static IEnumerable<DateTime> GetMinutesInHourIEnumerable(this DateTime value, Boolean excludeFutureDates = false, Boolean excludePastDates = false)
+        public static IEnumerable<DateTime> GetMinutesInHourIEnumerable(this DateTime value, bool excludeFutureDates = false, bool excludePastDates = false)
         {
-            var tempdt = excludePastDates ? value.StartOfMinute().AddMinutes(-1): value.StartOfHour().AddMinutes(-1);
+            var tempdt = excludePastDates ? value.StartOfMinute().AddMinutes(-1) : value.StartOfHour().AddMinutes(-1);
             while (tempdt <= value.EndOfHour())
             {
                 tempdt = tempdt.AddMinutes(1);
@@ -2724,7 +2719,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="minutes">The minutes.</param>
         /// <returns></returns>
-        public static IEnumerable<DateTime> GetNextNMinutesToIEnumerable(this DateTime value, Int32 minutes)
+        public static IEnumerable<DateTime> GetNextNMinutesToIEnumerable(this DateTime value, int minutes)
         {
             return value.GetMinutesToIEnumerable(value.StartOfMinute().AddMinutes(minutes));
         }
@@ -2735,7 +2730,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="minutes">The minutes.</param>
         /// <returns></returns>
-        public static IEnumerable<DateTime> GetPreviousNMinutesToIEnumerable(this DateTime value, Int32 minutes)
+        public static IEnumerable<DateTime> GetPreviousNMinutesToIEnumerable(this DateTime value, int minutes)
         {
             return value.GetMinutesToIEnumerable(value.StartOfMinute().AddMinutes(-minutes));
         }
@@ -2752,7 +2747,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime AddStartOfQHours(this DateTime value, Int32 offset)
+        public static DateTime AddStartOfQHours(this DateTime value, int offset)
         {
             return value.StartOfQHour().AddMinutes(offset * 15);
         }
@@ -2838,7 +2833,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetStartOfQHoursInDayList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetStartOfQHoursInDayList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfDay();
@@ -2857,7 +2852,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qHours">The Q hours.</param>
         /// <returns></returns>
-        public static List<DateTime> GetNStartOfQHoursToList(this DateTime value, Int32 qHours)
+        public static List<DateTime> GetNStartOfQHoursToList(this DateTime value, int qHours)
         {
             return value.GetStartOfQHoursToList(value.AddStartOfQHours(qHours));
         }
@@ -2868,7 +2863,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="offset">The offset.</param>
         /// <returns></returns>
-        public static DateTime AddEndOfQHours(this DateTime value, Int32 offset)
+        public static DateTime AddEndOfQHours(this DateTime value, int offset)
         {
             return value.EndOfQHour().AddMinutes(offset * 15);
         }
@@ -2954,7 +2949,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetEndOfQHoursInDayList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetEndOfQHoursInDayList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfDay().EndOfQHour();
@@ -2973,7 +2968,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qHours">The Q hours.</param>
         /// <returns></returns>
-        public static List<DateTime> GetNEndOfQHoursToList(this DateTime value, Int32 qHours)
+        public static List<DateTime> GetNEndOfQHoursToList(this DateTime value, int qHours)
         {
             return value.GetEndOfQHoursToList(value.AddEndOfQHours(qHours));
         }
@@ -3063,7 +3058,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetStartOfHoursInDayList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetStartOfHoursInDayList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfDay();
@@ -3082,7 +3077,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="hours">The hours.</param>
         /// <returns></returns>
-        public static List<DateTime> GetNStartOfHoursToList(this DateTime value, Int32 hours)
+        public static List<DateTime> GetNStartOfHoursToList(this DateTime value, int hours)
         {
             return value.GetStartOfHoursToList(value.EndOfHour().AddHours(hours));
         }
@@ -3168,7 +3163,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetEndOfHoursInDayList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetEndOfHoursInDayList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfDay();
@@ -3187,7 +3182,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="hours">The hours.</param>
         /// <returns></returns>
-        public static List<DateTime> GetNEndOfHoursToList(this DateTime value, Int32 hours)
+        public static List<DateTime> GetNEndOfHoursToList(this DateTime value, int hours)
         {
             return value.GetEndOfHoursToList(value.EndOfHour().AddHours(hours));
         }
@@ -3232,7 +3227,7 @@ namespace Business.Common.Extensions
         /// <param name="to">To.</param>
         /// <param name="dayOffset">The day offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetDatesToList(this DateTime value, DateTime to, Int32 dayOffset)
+        public static List<DateTime> GetDatesToList(this DateTime value, DateTime to, int dayOffset)
         {
             return value.AddDays(dayOffset).GetDatesToList(to);
         }
@@ -3291,7 +3286,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetWeekList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetWeekList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             for (var i = 0; i < 7; i++)
@@ -3309,12 +3304,12 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetWeekList(this DateTime value, Int32 weekOffset)
+        public static List<DateTime> GetWeekList(this DateTime value, int weekOffset)
         {
             var rv = new List<DateTime>();
             for (var i = 0; i < 7; i++)
             {
-                rv.Add(value.StartOfWeek().AddDays(i + (weekOffset * 7)));
+                rv.Add(value.StartOfWeek().AddDays(i + weekOffset * 7));
             }
             return rv;
         }
@@ -3340,7 +3335,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetWorkWeekList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetWorkWeekList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             for (var i = 1; i < 6; i++)
@@ -3358,12 +3353,12 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="weekOffset">The week offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetWorkWeekList(this DateTime value, Int32 weekOffset)
+        public static List<DateTime> GetWorkWeekList(this DateTime value, int weekOffset)
         {
             var rv = new List<DateTime>();
             for (var i = 1; i < 6; i++)
             {
-                rv.Add(value.StartOfWeek().AddDays(i + (weekOffset * 7)));
+                rv.Add(value.StartOfWeek().AddDays(i + weekOffset * 7));
             }
             return rv;
         }
@@ -3408,7 +3403,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetQMonthList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetQMonthList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             if (excludeFutureDates)
@@ -3491,7 +3486,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetQMonthList(this DateTime value, Int32 qMonthOffset)
+        public static List<DateTime> GetQMonthList(this DateTime value, int qMonthOffset)
         {
             return GetQMonthList(value.StartOfQMonth(qMonthOffset));
         }
@@ -3503,7 +3498,7 @@ namespace Business.Common.Extensions
         /// <param name="qMonthOffset">The Q month offset.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetQMonthList(this DateTime value, Int32 qMonthOffset, Boolean excludeFutureDates)
+        public static List<DateTime> GetQMonthList(this DateTime value, int qMonthOffset, bool excludeFutureDates)
         {
             return GetQMonthList(value.StartOfQMonth(qMonthOffset), excludeFutureDates);
         }
@@ -3564,7 +3559,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetSemiMonthList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetSemiMonthList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             DateTime tempdate;
@@ -3595,7 +3590,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetSemiMonthList(this DateTime value, Int32 semiMonthOffset)
+        public static List<DateTime> GetSemiMonthList(this DateTime value, int semiMonthOffset)
         {
             if (semiMonthOffset > 0)
             {
@@ -3621,7 +3616,7 @@ namespace Business.Common.Extensions
         /// <param name="semiMonthOffset">The semi month offset.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetSemiMonthList(this DateTime value, Int32 semiMonthOffset, Boolean excludeFutureDates)
+        public static List<DateTime> GetSemiMonthList(this DateTime value, int semiMonthOffset, bool excludeFutureDates)
         {
             if (semiMonthOffset > 0)
             {
@@ -3685,7 +3680,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetMonthList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetMonthList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             for (var i = 1; i <= DateTime.DaysInMonth(value.Year, value.Month); i++)
@@ -3703,7 +3698,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="monthOffset">The month offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetMonthList(this DateTime value, Int32 monthOffset)
+        public static List<DateTime> GetMonthList(this DateTime value, int monthOffset)
         {
             value = value.AddMonths(monthOffset);
             return value.GetMonthList();
@@ -3716,7 +3711,7 @@ namespace Business.Common.Extensions
         /// <param name="monthOffset">The month offset.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetMonthList(this DateTime value, Int32 monthOffset, Boolean excludeFutureDates)
+        public static List<DateTime> GetMonthList(this DateTime value, int monthOffset, bool excludeFutureDates)
         {
             value = value.AddMonths(monthOffset);
             return value.GetMonthList(excludeFutureDates);
@@ -3749,7 +3744,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="excludeFutureDates">if set to <c>true</c> [exclude future dates].</param>
         /// <returns></returns>
-        public static List<DateTime> GetYearList(this DateTime value, Boolean excludeFutureDates)
+        public static List<DateTime> GetYearList(this DateTime value, bool excludeFutureDates)
         {
             var rv = new List<DateTime>();
             var tempdt = value.StartOfYear();
@@ -3779,7 +3774,7 @@ namespace Business.Common.Extensions
         /// <param name="value">The value.</param>
         /// <param name="yearOffset">The year offset.</param>
         /// <returns></returns>
-        public static List<DateTime> GetYearList(this DateTime value, Int32 yearOffset)
+        public static List<DateTime> GetYearList(this DateTime value, int yearOffset)
         {
             value = value.AddYears(yearOffset);
             return value.GetYearList();

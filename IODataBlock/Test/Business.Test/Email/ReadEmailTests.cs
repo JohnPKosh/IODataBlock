@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Business.Common.Configuration;
+using Business.EWS.Mail;
+using Microsoft.Exchange.WebServices.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using Business.Common.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.EWS.Mail;
-using Fasterflect;
-using Microsoft.Exchange.WebServices.Data;
 
 namespace Business.Test.Email
 {
@@ -62,7 +60,7 @@ namespace Business.Test.Email
                     var body = GetExtPropOrEmpty(item, "TempId"); // must do this first before reloading item data below.
                     item.Load();
                     var subject = item.Subject;
-                    
+
                     Assert.IsNotNull(body);
                 }
             }
@@ -71,7 +69,6 @@ namespace Business.Test.Email
                 throw;
             }
         }
-
 
         [TestMethod]
         public void TestMethod3()
@@ -122,7 +119,6 @@ namespace Business.Test.Email
             }
         }
 
-
         [TestMethod]
         public void TestMethod5()
         {
@@ -162,6 +158,5 @@ namespace Business.Test.Email
             //    result = extendedProperty.Value.ToString();
             //}
         }
-
     }
 }

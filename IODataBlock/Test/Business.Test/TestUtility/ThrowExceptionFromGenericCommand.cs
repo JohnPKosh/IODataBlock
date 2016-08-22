@@ -1,10 +1,6 @@
-﻿using System;
-using Business.Common.Exceptions;
-using Business.Common.Generic;
+﻿using Business.Common.Generic;
 using Business.Common.GenericRequests;
-using Business.Common.Requests;
-using Business.Common.Responses;
-using Business.Common.System;
+using System;
 
 namespace Business.Test.TestUtility
 {
@@ -29,14 +25,14 @@ namespace Business.Test.TestUtility
                     //var rv = RequestObject.ToUncompletedResponse(null, RequestObject.CorrelationId);
                     //try
                     //{
-                        // do some work
+                    // do some work
 
-                        var zero = 0;
-                        var errorHere = 10 / zero;
-                        var neverGetHere = errorHere;
+                    var zero = 0;
+                    var errorHere = 10 / zero;
+                    var neverGetHere = errorHere;
 
-                        var rv = String.Format("hello {0} from ReadFromFileGenericCommand!", o.RequestData);
-                        return rv;
+                    var rv = String.Format("hello {0} from ReadFromFileGenericCommand!", o.RequestData);
+                    return rv;
                     //}
                     //catch (Exception ex)
                     //{
@@ -46,5 +42,4 @@ namespace Business.Test.TestUtility
             };
         }
     }
-
 }

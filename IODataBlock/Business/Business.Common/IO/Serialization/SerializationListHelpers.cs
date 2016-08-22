@@ -15,8 +15,8 @@ namespace Business.Common.IO.Serialization
 
         public static FileInfo AddToSerializedXml<T, K>(this T obj,
         K objToAdd,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -32,8 +32,8 @@ namespace Business.Common.IO.Serialization
 
         public static FileInfo AddRangeToSerializedXml<T, K>(this T obj,
         IEnumerable<K> objToAdd,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -47,9 +47,9 @@ namespace Business.Common.IO.Serialization
             return args.Serialize(filePath, lockWaitMs, rollbackType, writeSettings, encodingType, typs);
         }
 
-        public static Int32 CountInSerializedXml<T, K>(this T obj,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        public static int CountInSerializedXml<T, K>(this T obj,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -60,10 +60,10 @@ namespace Business.Common.IO.Serialization
             return args.Count;
         }
 
-        public static Boolean ExistsInSerializedXml<T, K>(this T obj,
+        public static bool ExistsInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -76,8 +76,8 @@ namespace Business.Common.IO.Serialization
 
         public static K FindInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -90,8 +90,8 @@ namespace Business.Common.IO.Serialization
 
         public static List<K> FindAllInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -102,10 +102,10 @@ namespace Business.Common.IO.Serialization
             return args.FindAll(match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -116,11 +116,11 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -131,12 +131,12 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(startIndex, match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -149,8 +149,8 @@ namespace Business.Common.IO.Serialization
 
         public static K FindLastInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -161,10 +161,10 @@ namespace Business.Common.IO.Serialization
             return args.FindLast(match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -175,11 +175,11 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -190,12 +190,12 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -208,8 +208,8 @@ namespace Business.Common.IO.Serialization
 
         public static FileInfo ForEachInSerializedXml<T, K>(this T obj,
         Action<K> action,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -226,8 +226,8 @@ namespace Business.Common.IO.Serialization
         public static List<K> GetRangeInSerializedXml<T, K>(this T obj,
         int index,
         int count,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -239,10 +239,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo InsertToSerializedXml<T, K>(this T obj,
-        Int32 index,
+        int index,
         K objToAdd,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -257,10 +257,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo InsertRangeToSerializedXml<T, K>(this T obj,
-        Int32 index,
+        int index,
         IEnumerable<K> objToAdd,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -295,8 +295,8 @@ namespace Business.Common.IO.Serialization
 
         public static FileInfo RemoveAnyInSerializedXml<T, K>(this T obj,
         Func<K, bool> predicate,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -315,9 +315,9 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo RemoveAtInSerializedXml<T, K>(this T obj,
-        Int32 index,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        int index,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -332,10 +332,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo RemoveRangeInSerializedXml<T, K>(this T obj,
-        Int32 index,
-        Int32 count,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        int index,
+        int count,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -350,8 +350,8 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo ReverseInSerializedXml<T, K>(this T obj,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -366,10 +366,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo ReverseInSerializedXml<T, K>(this T obj,
-        String filePath,
+        string filePath,
         int index,
         int count,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -383,10 +383,10 @@ namespace Business.Common.IO.Serialization
             return args.Serialize(filePath, lockWaitMs, rollbackType, writeSettings, encodingType, typs);
         }
 
-        public static Boolean TrueForAllInSerializedXml<T, K>(this T obj,
+        public static bool TrueForAllInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
-        String filePath,
-        Int32 lockWaitMs = 60000,
+        string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -404,7 +404,7 @@ namespace Business.Common.IO.Serialization
         public static FileInfo AddToSerializedXml<T, K>(this T obj,
         K objToAdd,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -421,7 +421,7 @@ namespace Business.Common.IO.Serialization
         public static FileInfo AddRangeToSerializedXml<T, K>(this T obj,
         IEnumerable<K> objToAdd,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -435,9 +435,9 @@ namespace Business.Common.IO.Serialization
             return args.Serialize(fileInfo, lockWaitMs, rollbackType, writeSettings, encodingType, typs);
         }
 
-        public static Int32 CountInSerializedXml<T, K>(this T obj,
+        public static int CountInSerializedXml<T, K>(this T obj,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -448,10 +448,10 @@ namespace Business.Common.IO.Serialization
             return args.Count;
         }
 
-        public static Boolean ExistsInSerializedXml<T, K>(this T obj,
+        public static bool ExistsInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -465,7 +465,7 @@ namespace Business.Common.IO.Serialization
         public static K FindInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -479,7 +479,7 @@ namespace Business.Common.IO.Serialization
         public static List<K> FindAllInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -490,10 +490,10 @@ namespace Business.Common.IO.Serialization
             return args.FindAll(match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -504,11 +504,11 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -519,12 +519,12 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(startIndex, match);
         }
 
-        public static Int32 FindIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -538,7 +538,7 @@ namespace Business.Common.IO.Serialization
         public static K FindLastInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -549,10 +549,10 @@ namespace Business.Common.IO.Serialization
             return args.FindLast(match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -563,11 +563,11 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -578,12 +578,12 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, match);
         }
 
-        public static Int32 FindLastIndexInSerializedXml<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedXml<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -597,7 +597,7 @@ namespace Business.Common.IO.Serialization
         public static FileInfo ForEachInSerializedXml<T, K>(this T obj,
         Action<K> action,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -615,7 +615,7 @@ namespace Business.Common.IO.Serialization
         int index,
         int count,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -627,10 +627,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo InsertToSerializedXml<T, K>(this T obj,
-        Int32 index,
+        int index,
         K objToAdd,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -645,10 +645,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo InsertRangeToSerializedXml<T, K>(this T obj,
-        Int32 index,
+        int index,
         IEnumerable<K> objToAdd,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -684,7 +684,7 @@ namespace Business.Common.IO.Serialization
         public static FileInfo RemoveAnyInSerializedXml<T, K>(this T obj,
         Func<K, bool> predicate,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -703,9 +703,9 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo RemoveAtInSerializedXml<T, K>(this T obj,
-        Int32 index,
+        int index,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -720,10 +720,10 @@ namespace Business.Common.IO.Serialization
         }
 
         public static FileInfo RemoveRangeInSerializedXml<T, K>(this T obj,
-        Int32 index,
-        Int32 count,
+        int index,
+        int count,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -739,7 +739,7 @@ namespace Business.Common.IO.Serialization
 
         public static FileInfo ReverseInSerializedXml<T, K>(this T obj,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -757,7 +757,7 @@ namespace Business.Common.IO.Serialization
         FileInfo fileInfo,
         int index,
         int count,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
@@ -771,10 +771,10 @@ namespace Business.Common.IO.Serialization
             return args.Serialize(fileInfo, lockWaitMs, rollbackType, writeSettings, encodingType, typs);
         }
 
-        public static Boolean TrueForAllInSerializedXml<T, K>(this T obj,
+        public static bool TrueForAllInSerializedXml<T, K>(this T obj,
         Predicate<K> match,
         FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlReaderSettings readSettings = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -789,9 +789,9 @@ namespace Business.Common.IO.Serialization
 
         #region List Byte[] Helper Extension Methods
 
-        public static Byte[] AddToSerializedBytes<T, K>(this T obj,
+        public static byte[] AddToSerializedBytes<T, K>(this T obj,
         K objToAdd,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -804,9 +804,9 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] AddRangeToSerializedBytes<T, K>(this T obj,
+        public static byte[] AddRangeToSerializedBytes<T, K>(this T obj,
         IEnumerable<K> objToAdd,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -819,8 +819,8 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Int32 CountInSerializedBytes<T, K>(this T obj,
-        Byte[] data,
+        public static int CountInSerializedBytes<T, K>(this T obj,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -831,9 +831,9 @@ namespace Business.Common.IO.Serialization
             return args.Count;
         }
 
-        public static Boolean ExistsInSerializedBytes<T, K>(this T obj,
+        public static bool ExistsInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -846,7 +846,7 @@ namespace Business.Common.IO.Serialization
 
         public static K FindInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -859,7 +859,7 @@ namespace Business.Common.IO.Serialization
 
         public static List<K> FindAllInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -870,9 +870,9 @@ namespace Business.Common.IO.Serialization
             return args.FindAll(match);
         }
 
-        public static Int32 FindIndexInSerializedBytes<T, K>(this T obj,
+        public static int FindIndexInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -883,10 +883,10 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(match);
         }
 
-        public static Int32 FindIndexInSerializedBytes<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedBytes<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -897,11 +897,11 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(startIndex, match);
         }
 
-        public static Int32 FindIndexInSerializedBytes<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedBytes<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -914,7 +914,7 @@ namespace Business.Common.IO.Serialization
 
         public static K FindLastInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -925,9 +925,9 @@ namespace Business.Common.IO.Serialization
             return args.FindLast(match);
         }
 
-        public static Int32 FindLastIndexInSerializedBytes<T, K>(this T obj,
+        public static int FindLastIndexInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -938,10 +938,10 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(match);
         }
 
-        public static Int32 FindLastIndexInSerializedBytes<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedBytes<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -952,11 +952,11 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, match);
         }
 
-        public static Int32 FindLastIndexInSerializedBytes<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedBytes<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -967,9 +967,9 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, count, match);
         }
 
-        public static Byte[] ForEachInSerializedBytes<T, K>(this T obj,
+        public static byte[] ForEachInSerializedBytes<T, K>(this T obj,
         Action<K> action,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -985,7 +985,7 @@ namespace Business.Common.IO.Serialization
         public static List<K> GetRangeInSerializedBytes<T, K>(this T obj,
         int index,
         int count,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -996,10 +996,10 @@ namespace Business.Common.IO.Serialization
             return args.GetRange(index, count);
         }
 
-        public static Byte[] InsertToSerializedBytes<T, K>(this T obj,
-        Int32 index,
+        public static byte[] InsertToSerializedBytes<T, K>(this T obj,
+        int index,
         K objToAdd,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1012,10 +1012,10 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] InsertRangeToSerializedBytes<T, K>(this T obj,
-        Int32 index,
+        public static byte[] InsertRangeToSerializedBytes<T, K>(this T obj,
+        int index,
         IEnumerable<K> objToAdd,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1047,9 +1047,9 @@ namespace Business.Common.IO.Serialization
         //    return args.SerializedBytes<T>(filePath, writeSettings, encodingType, typs);
         //}
 
-        public static Byte[] RemoveAnyInSerializedBytes<T, K>(this T obj,
+        public static byte[] RemoveAnyInSerializedBytes<T, K>(this T obj,
         Func<K, bool> predicate,
-        Byte[] data,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1066,9 +1066,9 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] RemoveAtInSerializedBytes<T, K>(this T obj,
-        Int32 index,
-        Byte[] data,
+        public static byte[] RemoveAtInSerializedBytes<T, K>(this T obj,
+        int index,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1081,10 +1081,10 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] RemoveRangeInSerializedBytes<T, K>(this T obj,
-        Int32 index,
-        Int32 count,
-        Byte[] data,
+        public static byte[] RemoveRangeInSerializedBytes<T, K>(this T obj,
+        int index,
+        int count,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1097,8 +1097,8 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] ReverseInSerializedBytes<T, K>(this T obj,
-        Byte[] data,
+        public static byte[] ReverseInSerializedBytes<T, K>(this T obj,
+        byte[] data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1111,8 +1111,8 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Byte[] ReverseInSerializedBytes<T, K>(this T obj,
-        Byte[] data,
+        public static byte[] ReverseInSerializedBytes<T, K>(this T obj,
+        byte[] data,
         int index,
         int count,
         XmlWriterSettings writeSettings = null,
@@ -1127,9 +1127,9 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToBytes(writeSettings, encodingType, typs);
         }
 
-        public static Boolean TrueForAllInSerializedBytes<T, K>(this T obj,
+        public static bool TrueForAllInSerializedBytes<T, K>(this T obj,
         Predicate<K> match,
-        Byte[] data,
+        byte[] data,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
@@ -1144,9 +1144,9 @@ namespace Business.Common.IO.Serialization
 
         #region List String Helper Extension Methods
 
-        public static String AddToSerializedString<T, K>(this T obj,
+        public static string AddToSerializedString<T, K>(this T obj,
         K objToAdd,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1159,9 +1159,9 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String AddRangeToSerializedString<T, K>(this T obj,
+        public static string AddRangeToSerializedString<T, K>(this T obj,
         IEnumerable<K> objToAdd,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1174,10 +1174,10 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static Int32 CountInSerializedString<T, K>(this T obj,
-        String data,
+        public static int CountInSerializedString<T, K>(this T obj,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1186,11 +1186,11 @@ namespace Business.Common.IO.Serialization
             return args.Count;
         }
 
-        public static Boolean ExistsInSerializedString<T, K>(this T obj,
+        public static bool ExistsInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1201,9 +1201,9 @@ namespace Business.Common.IO.Serialization
 
         public static K FindInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1214,9 +1214,9 @@ namespace Business.Common.IO.Serialization
 
         public static List<K> FindAllInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1225,11 +1225,11 @@ namespace Business.Common.IO.Serialization
             return args.FindAll(match);
         }
 
-        public static Int32 FindIndexInSerializedString<T, K>(this T obj,
+        public static int FindIndexInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1238,12 +1238,12 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(match);
         }
 
-        public static Int32 FindIndexInSerializedString<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedString<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1252,13 +1252,13 @@ namespace Business.Common.IO.Serialization
             return args.FindIndex(startIndex, match);
         }
 
-        public static Int32 FindIndexInSerializedString<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindIndexInSerializedString<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1269,9 +1269,9 @@ namespace Business.Common.IO.Serialization
 
         public static K FindLastInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1280,11 +1280,11 @@ namespace Business.Common.IO.Serialization
             return args.FindLast(match);
         }
 
-        public static Int32 FindLastIndexInSerializedString<T, K>(this T obj,
+        public static int FindLastIndexInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1293,12 +1293,12 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(match);
         }
 
-        public static Int32 FindLastIndexInSerializedString<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedString<T, K>(this T obj,
+        int startIndex,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1307,13 +1307,13 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, match);
         }
 
-        public static Int32 FindLastIndexInSerializedString<T, K>(this T obj,
-        Int32 startIndex,
+        public static int FindLastIndexInSerializedString<T, K>(this T obj,
+        int startIndex,
         int count,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1322,9 +1322,9 @@ namespace Business.Common.IO.Serialization
             return args.FindLastIndex(startIndex, count, match);
         }
 
-        public static String ForEachInSerializedString<T, K>(this T obj,
+        public static string ForEachInSerializedString<T, K>(this T obj,
         Action<K> action,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1340,9 +1340,9 @@ namespace Business.Common.IO.Serialization
         public static List<K> GetRangeInSerializedString<T, K>(this T obj,
         int index,
         int count,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };
@@ -1351,10 +1351,10 @@ namespace Business.Common.IO.Serialization
             return args.GetRange(index, count);
         }
 
-        public static String InsertToSerializedString<T, K>(this T obj,
-        Int32 index,
+        public static string InsertToSerializedString<T, K>(this T obj,
+        int index,
         K objToAdd,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1367,10 +1367,10 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String InsertRangeToSerializedString<T, K>(this T obj,
-        Int32 index,
+        public static string InsertRangeToSerializedString<T, K>(this T obj,
+        int index,
         IEnumerable<K> objToAdd,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1402,9 +1402,9 @@ namespace Business.Common.IO.Serialization
         //    return args.SerializedString<T>(filePath, writeSettings, encodingType, typs);
         //}
 
-        public static String RemoveAnyInSerializedString<T, K>(this T obj,
+        public static string RemoveAnyInSerializedString<T, K>(this T obj,
         Func<K, bool> predicate,
-        String data,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1421,9 +1421,9 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String RemoveAtInSerializedString<T, K>(this T obj,
-        Int32 index,
-        String data,
+        public static string RemoveAtInSerializedString<T, K>(this T obj,
+        int index,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1436,10 +1436,10 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String RemoveRangeInSerializedString<T, K>(this T obj,
-        Int32 index,
-        Int32 count,
-        String data,
+        public static string RemoveRangeInSerializedString<T, K>(this T obj,
+        int index,
+        int count,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1452,8 +1452,8 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String ReverseInSerializedString<T, K>(this T obj,
-        String data,
+        public static string ReverseInSerializedString<T, K>(this T obj,
+        string data,
         XmlWriterSettings writeSettings = null,
         XmlReaderSettings readSettings = null,
         Encoding encodingType = null,
@@ -1466,8 +1466,8 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static String ReverseInSerializedString<T, K>(this T obj,
-        String data,
+        public static string ReverseInSerializedString<T, K>(this T obj,
+        string data,
         int index,
         int count,
         XmlWriterSettings writeSettings = null,
@@ -1482,11 +1482,11 @@ namespace Business.Common.IO.Serialization
             return args.SerializeToString(writeSettings, encodingType, typs);
         }
 
-        public static Boolean TrueForAllInSerializedString<T, K>(this T obj,
+        public static bool TrueForAllInSerializedString<T, K>(this T obj,
         Predicate<K> match,
-        String data,
+        string data,
         XmlReaderSettings readSettings = null,
-            //Encoding encodingType = null,
+        //Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : List<K>
         {
             var typs = new List<Type> { typeof(T), typeof(K) };

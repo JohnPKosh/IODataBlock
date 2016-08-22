@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.HttpClient.Navigation;
 using Flurl;
 using Flurl.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Collections.Generic;
+using System.IO;
 
 namespace BasicTests.HttpClient
 {
@@ -24,25 +21,14 @@ namespace BasicTests.HttpClient
             //
         }
 
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -54,7 +40,7 @@ namespace BasicTests.HttpClient
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -62,7 +48,8 @@ namespace BasicTests.HttpClient
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void TestMethod1()
@@ -71,8 +58,8 @@ namespace BasicTests.HttpClient
             var url = new ApiUrl
             {
                 Root = @"https://api.hubapi.com",
-                PathSegments = new[] {"contacts", "v1", "contact", "vid", "41", "profile"},
-                QueryParams = new Dictionary<string, object>() {{"hapikey", "4c8d196f-7105-4c06-a17c-9fb83e6dcd10"}}
+                PathSegments = new[] { "contacts", "v1", "contact", "vid", "41", "profile" },
+                QueryParams = new Dictionary<string, object>() { { "hapikey", "4c8d196f-7105-4c06-a17c-9fb83e6dcd10" } }
             };
 
             string _out = url;
@@ -143,8 +130,6 @@ namespace BasicTests.HttpClient
 
             string _out = x.GetStringAsync().Result;
             Assert.IsNotNull(_out);
-
-            
         }
     }
 }

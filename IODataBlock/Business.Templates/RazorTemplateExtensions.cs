@@ -1,15 +1,11 @@
-﻿using System;
+﻿//using Fasterflect;
+using RazorEngine.Templating;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-//using Fasterflect;
-using Business.Common.Reflection;
-using RazorEngine;
-using RazorEngine.Configuration;
-using RazorEngine.Templating;
-using RazorEngine.Text;
 
 namespace Business.Templates
 {
@@ -17,37 +13,37 @@ namespace Business.Templates
     {
         #region Parse From Files
 
-        public static String ParseWithRazorFromFile<T>(this T obj, FileInfo templateFile, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromFile<T>(this T obj, FileInfo templateFile, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(templateFile.FullName);
             return obj.ParseWithRazor(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorFromFile<T>(this T obj, String templatePath, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromFile<T>(this T obj, string templatePath, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(templatePath);
             return obj.ParseWithRazor(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorFromDirectory<T>(this T obj, String templateFileName, String templateFileExtension = ".cshtml", String templateDirectoryName = "", String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromDirectory<T>(this T obj, string templateFileName, string templateFileExtension = ".cshtml", string templateDirectoryName = "", string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(Path.Combine(templateDirectoryName, templateFileName) + templateFileExtension);
             return obj.ParseWithRazor(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorFromFileRaw<T>(this T obj, FileInfo templateFile, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromFileRaw<T>(this T obj, FileInfo templateFile, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(templateFile.FullName);
             return obj.ParseWithRazorRaw(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorFromFileRaw<T>(this T obj, String templatePath, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromFileRaw<T>(this T obj, string templatePath, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(templatePath);
             return obj.ParseWithRazorRaw(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorFromDirectoryRaw<T>(this T obj, String templateFileName, String templateFileExtension = ".cshtml", String templateDirectoryName = "", String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorFromDirectoryRaw<T>(this T obj, string templateFileName, string templateFileExtension = ".cshtml", string templateDirectoryName = "", string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var templateString = File.ReadAllText(Path.Combine(templateDirectoryName, templateFileName) + templateFileExtension);
             return obj.ParseWithRazorRaw(templateString, templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
@@ -57,34 +53,34 @@ namespace Business.Templates
 
         #region ParseWithRazor Methods
 
-        public static String ParseWithRazor<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, string templateString, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var parser = new GenericTemplateParser<T>();
-            return parser.RenderTemplate(obj, templateString,viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, false, allowMissingPropertiesOnDynamic, nameSpaceNames,templateBase);
+            return parser.RenderTemplate(obj, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, false, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             //return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, parser.RenderTemplate(obj, typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T), templateString, viewBag, templateName, sectionTemplates, false, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase));
         }
 
-        public static String ParseWithRazor<T>(this T obj, Func<T, String> templateModelFunction, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, Func<T, string> templateModelFunction, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazor(templateModelFunction(obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazor<T>(this T obj, String keySelector, ref IDictionary<String, String> templateDictionary, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, string keySelector, ref IDictionary<string, string> templateDictionary, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazor(templateDictionary[keySelector], templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazor<T>(this T obj, Int32 keySelector, ref List<String> templateList, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, Int32 keySelector, ref List<string> templateList, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazor(templateList[keySelector], templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazor<T>(this T obj, String keySelector, ref IDictionary<String, Func<T, String>> templateDictionary, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, string keySelector, ref IDictionary<string, Func<T, string>> templateDictionary, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazor(templateDictionary[keySelector](obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazor<T>(this T obj, Int32 keySelector, ref List<Func<T, String>> templateList, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazor<T>(this T obj, Int32 keySelector, ref List<Func<T, string>> templateList, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazor(templateList[keySelector](obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
@@ -93,34 +89,34 @@ namespace Business.Templates
 
         #region ParseWithRazorRaw Methods
 
-        public static String ParseWithRazorRaw<T>(this T obj, String templateString, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, string templateString, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             var parser = new GenericTemplateParser<T>();
             return parser.RenderTemplate(obj, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, true, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             //return _wrapPrefixAndSuffix(templatePrefix, templateSuffix, parser.RenderTemplate(obj, typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T), templateString, viewBag, templateName, sectionTemplates, true, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase));
         }
 
-        public static String ParseWithRazorRaw<T>(this T obj, Func<T, String> templateModelFunction, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, Func<T, string> templateModelFunction, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazorRaw(templateModelFunction(obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorRaw<T>(this T obj, String keySelector, ref IDictionary<String, String> templateDictionary, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, string keySelector, ref IDictionary<string, string> templateDictionary, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazorRaw(templateDictionary[keySelector], templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorRaw<T>(this T obj, Int32 keySelector, ref List<String> templateList, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, Int32 keySelector, ref List<string> templateList, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazorRaw(templateList[keySelector], templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorRaw<T>(this T obj, String keySelector, ref IDictionary<String, Func<T, String>> templateDictionary, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, string keySelector, ref IDictionary<string, Func<T, string>> templateDictionary, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazorRaw(templateDictionary[keySelector](obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
 
-        public static String ParseWithRazorRaw<T>(this T obj, Int32 keySelector, ref List<Func<T, String>> templateList, String templatePrefix = null, String templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
+        public static string ParseWithRazorRaw<T>(this T obj, Int32 keySelector, ref List<Func<T, string>> templateList, string templatePrefix = null, string templateSuffix = null, DynamicViewBag viewBag = null, Type templateBase = null, RazorTemplateSections sectionTemplates = null, string templateName = null, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null)
         {
             return obj.ParseWithRazorRaw(templateList[keySelector](obj), templatePrefix, templateSuffix, viewBag, templateBase, sectionTemplates, templateName, allowMissingPropertiesOnDynamic, nameSpaceNames);
         }
@@ -154,11 +150,11 @@ namespace Business.Templates
         //    }
         //}
 
-        public static IEnumerable<String> ParseIEnumerableWithRazor<T>(
+        public static IEnumerable<string> ParseIEnumerableWithRazor<T>(
             this IEnumerable<T> obj,
-            String templateString,
-            String templatePrefix = null,
-            String templateSuffix = null,
+            string templateString,
+            string templatePrefix = null,
+            string templateSuffix = null,
             DynamicViewBag viewBag = null,
             Type templateBase = null,
             RazorTemplateSections sectionTemplates = null,
@@ -171,11 +167,11 @@ namespace Business.Templates
             return parser.RenderTemplates(obj, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, false, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
         }
 
-        public static IEnumerable<String> ParseIEnumerableWithRazor<T>(
+        public static IEnumerable<string> ParseIEnumerableWithRazor<T>(
             this IEnumerable<T> obj,
-            Func<T, String> templateModelFunction,
-            String templatePrefix = null,
-            String templateSuffix = null,
+            Func<T, string> templateModelFunction,
+            string templatePrefix = null,
+            string templateSuffix = null,
             DynamicViewBag viewBag = null,
             Type templateBase = null,
             RazorTemplateSections sectionTemplates = null,
@@ -187,7 +183,6 @@ namespace Business.Templates
             var parser = new GenericTemplateParser<T>();
             return parser.RenderTemplates(obj, templateModelFunction, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, false, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
         }
-
 
         //public static IEnumerable<String> ParseIEnumerableWithRazorRaw<T>(
         //    this IEnumerable<T> obj,
@@ -218,11 +213,11 @@ namespace Business.Templates
         //    }
         //}
 
-        public static IEnumerable<String> ParseIEnumerableWithRazorRaw<T>(
+        public static IEnumerable<string> ParseIEnumerableWithRazorRaw<T>(
             this IEnumerable<T> obj,
-            String templateString,
-            String templatePrefix = null,
-            String templateSuffix = null,
+            string templateString,
+            string templatePrefix = null,
+            string templateSuffix = null,
             DynamicViewBag viewBag = null,
             Type templateBase = null,
             RazorTemplateSections sectionTemplates = null,
@@ -235,11 +230,11 @@ namespace Business.Templates
             return parser.RenderTemplates(obj, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, true, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
         }
 
-        public static IEnumerable<String> ParseIEnumerableWithRazorRaw<T>(
+        public static IEnumerable<string> ParseIEnumerableWithRazorRaw<T>(
             this IEnumerable<T> obj,
-            Func<T, String> templateModelFunction,
-            String templatePrefix = null,
-            String templateSuffix = null,
+            Func<T, string> templateModelFunction,
+            string templatePrefix = null,
+            string templateSuffix = null,
             DynamicViewBag viewBag = null,
             Type templateBase = null,
             RazorTemplateSections sectionTemplates = null,
@@ -255,21 +250,22 @@ namespace Business.Templates
         #endregion ParseIEnumerableWithRazor Methods
 
         // TODO: update code below
+
         #region ParseIEnumerableWithRazorToLines Methods
 
-        public static String ParseIEnumerableWithRazorToLines<T>(
-            this IEnumerable<T> obj, Func<T, String> templateModelFunction,
-            String newLineChar = "\r\n",
-            String templatePrefix = null,
-            String templateSuffix = null,
-            String itemTemplatePrefix = null,
-            String itemTemplateSuffix = null
+        public static string ParseIEnumerableWithRazorToLines<T>(
+            this IEnumerable<T> obj, Func<T, string> templateModelFunction,
+            string newLineChar = "\r\n",
+            string templatePrefix = null,
+            string templateSuffix = null,
+            string itemTemplatePrefix = null,
+            string itemTemplateSuffix = null
             )
         {
             using (var sw = new StringWriter())
             {
-                if (!String.IsNullOrWhiteSpace(templatePrefix)) sw.Write(templatePrefix);
-                if (String.IsNullOrWhiteSpace(itemTemplatePrefix) && String.IsNullOrWhiteSpace(itemTemplateSuffix))
+                if (!string.IsNullOrWhiteSpace(templatePrefix)) sw.Write(templatePrefix);
+                if (string.IsNullOrWhiteSpace(itemTemplatePrefix) && string.IsNullOrWhiteSpace(itemTemplateSuffix))
                 {
                     foreach (var o in obj.ParseIEnumerableWithRazor(templateModelFunction))
                     {
@@ -279,34 +275,34 @@ namespace Business.Templates
                 }
                 else
                 {
-                    itemTemplatePrefix = String.IsNullOrWhiteSpace(itemTemplatePrefix) ? String.Empty : itemTemplatePrefix;
-                    itemTemplateSuffix = String.IsNullOrWhiteSpace(itemTemplateSuffix) ? String.Empty : itemTemplateSuffix;
+                    itemTemplatePrefix = string.IsNullOrWhiteSpace(itemTemplatePrefix) ? string.Empty : itemTemplatePrefix;
+                    itemTemplateSuffix = string.IsNullOrWhiteSpace(itemTemplateSuffix) ? string.Empty : itemTemplateSuffix;
                     foreach (var o in obj.ParseIEnumerableWithRazor(templateModelFunction))
                     {
                         sw.Write(itemTemplatePrefix + o + itemTemplateSuffix);
                         sw.Write(newLineChar);
                     }
                 }
-                if (!String.IsNullOrWhiteSpace(templateSuffix)) sw.Write(templateSuffix);
+                if (!string.IsNullOrWhiteSpace(templateSuffix)) sw.Write(templateSuffix);
                 sw.Flush();
                 return sw.ToString();
             }
         }
 
-        public static String ParseIEnumerableWithRazorRawToLines<T>(
+        public static string ParseIEnumerableWithRazorRawToLines<T>(
             this IEnumerable<T> obj,
-            Func<T, String> templateModelFunction,
-            String newLineChar = "\r\n",
-            String templatePrefix = null,
-            String templateSuffix = null,
-            String itemTemplatePrefix = null,
-            String itemTemplateSuffix = null
+            Func<T, string> templateModelFunction,
+            string newLineChar = "\r\n",
+            string templatePrefix = null,
+            string templateSuffix = null,
+            string itemTemplatePrefix = null,
+            string itemTemplateSuffix = null
             )
         {
             using (var sw = new StringWriter())
             {
-                if (!String.IsNullOrWhiteSpace(templatePrefix)) sw.Write(templatePrefix);
-                if (String.IsNullOrWhiteSpace(itemTemplatePrefix) && String.IsNullOrWhiteSpace(itemTemplateSuffix))
+                if (!string.IsNullOrWhiteSpace(templatePrefix)) sw.Write(templatePrefix);
+                if (string.IsNullOrWhiteSpace(itemTemplatePrefix) && string.IsNullOrWhiteSpace(itemTemplateSuffix))
                 {
                     foreach (var o in obj.ParseIEnumerableWithRazorRaw(templateModelFunction))
                     {
@@ -316,15 +312,15 @@ namespace Business.Templates
                 }
                 else
                 {
-                    itemTemplatePrefix = String.IsNullOrWhiteSpace(itemTemplatePrefix) ? String.Empty : itemTemplatePrefix;
-                    itemTemplateSuffix = String.IsNullOrWhiteSpace(itemTemplateSuffix) ? String.Empty : itemTemplateSuffix;
+                    itemTemplatePrefix = string.IsNullOrWhiteSpace(itemTemplatePrefix) ? string.Empty : itemTemplatePrefix;
+                    itemTemplateSuffix = string.IsNullOrWhiteSpace(itemTemplateSuffix) ? string.Empty : itemTemplateSuffix;
                     foreach (var o in obj.ParseIEnumerableWithRazorRaw(templateModelFunction))
                     {
                         sw.Write(itemTemplatePrefix + o + itemTemplateSuffix);
                         sw.Write(newLineChar);
                     }
                 }
-                if (!String.IsNullOrWhiteSpace(templateSuffix)) sw.Write(templateSuffix);
+                if (!string.IsNullOrWhiteSpace(templateSuffix)) sw.Write(templateSuffix);
                 sw.Flush();
                 return sw.ToString();
             }
@@ -341,7 +337,7 @@ namespace Business.Templates
             {
                 dynamic e = new ExpandoObject();
                 var d = e as IDictionary<string, object>;
-                for (int i = 0; i < rdr.Columns.Count; i++)
+                for (var i = 0; i < rdr.Columns.Count; i++)
                     d.Add(rdr.Columns[i].ColumnName, r[i]);
                 result.Add(e);
             }
@@ -360,7 +356,7 @@ namespace Business.Templates
             {
                 dynamic e = new ExpandoObject();
                 var d = e as IDictionary<string, object>;
-                for (int i = 0; i < rdr.FieldCount; i++)
+                for (var i = 0; i < rdr.FieldCount; i++)
                     d.Add(rdr.GetName(i), rdr[i]);
                 result.Add(e);
             }
@@ -374,7 +370,7 @@ namespace Business.Templates
             {
                 dynamic e = new ExpandoObject();
                 var d = e as IDictionary<string, object>;
-                for (int i = 0; i < rdr.FieldCount; i++)
+                for (var i = 0; i < rdr.FieldCount; i++)
                     d.Add(rdr.GetName(i), rdr[i]);
                 result.Add(e);
                 yield return e;

@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using Business.Common.System;
-using Newtonsoft.Json;
 
 namespace HubSpot.Models.Properties
 {
-    public class PropertyValue: IPropertyValue
+    public class PropertyValue : IPropertyValue
     {
         public PropertyValue(string key, string value, HashSet<PropertyVersion> versions = null, PropertyTypeModel propertyType = null)
         {
-            this.Key = key;
-            this.Value = value;
-            this.Versions = versions;
-            this.PropertyType = propertyType;
+            Key = key;
+            Value = value;
+            Versions = versions;
+            PropertyType = propertyType;
         }
 
         //public PropertyValue(string key, object value, HashSet<PropertyVersion> versions = null)

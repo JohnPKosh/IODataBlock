@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Business.Common.Extensions
 {
     public static class StreamExtensions
     {
-
         public static void BufferCopyStream(this byte[] data, Stream outputStream, int bufferSize = 4096)
         {
             var inputStream = new MemoryStream(data);
@@ -28,6 +22,5 @@ namespace Business.Common.Extensions
             while ((readCount = inputStream.Read(buffer, 0, bufferSize)) != 0)
                 outputStream.Write(buffer, 0, readCount);
         }
-
     }
 }

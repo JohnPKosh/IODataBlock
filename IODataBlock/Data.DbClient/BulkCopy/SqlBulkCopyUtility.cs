@@ -1,3 +1,4 @@
+using Data.DbClient.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Data.DbClient.Extensions;
 
 namespace Data.DbClient.BulkCopy
 {
@@ -22,15 +22,15 @@ namespace Data.DbClient.BulkCopy
         //TODO: Rework into new SqlServerBulkCopy method similiar to below methods.
         public void ImportDataTableToSql(
             ref DataTable dt,
-            String server,
-            String database,
-            String destinationTableName,
-            Int32 connectTimeout = 360,
-            Int32 packetSize = 8192,
+            string server,
+            string database,
+            string destinationTableName,
+            int connectTimeout = 360,
+            int packetSize = 8192,
             IEnumerable<SqlBulkCopyColumnMapping> sqlBulkCopyColumnMappings = null,
-            Int32 batchSize = 0,
-            Int32 bulkCopyTimeout = 0, 
-            Boolean enableIndentityInsert = false
+            int batchSize = 0,
+            int bulkCopyTimeout = 0,
+            bool enableIndentityInsert = false
             )
         {
             var cb = new SqlConnectionStringBuilder
@@ -58,13 +58,13 @@ namespace Data.DbClient.BulkCopy
         }
 
         public void SqlServerBulkCopy(
-            String sourceConnStr, 
-            String destConnStr, 
-            String sourceCmdStr, 
-            String destTableName,
-            Int32 batchSize = 0,
-            Int32 bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false,
+            string sourceConnStr,
+            string destConnStr,
+            string sourceCmdStr,
+            string destTableName,
+            int batchSize = 0,
+            int bulkCopyTimeout = 0,
+            bool enableIndentityInsert = false,
             IDictionary<string, string> sqlBulkCopyColumnMappings = null
             )
         {
@@ -94,11 +94,11 @@ namespace Data.DbClient.BulkCopy
 
         public void SqlServerBulkCopy(
             ref DbDataReader dataReader,
-            String destConnStr,
-            String destTableName,
-            Int32 batchSize = 0,
-            Int32 bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false,
+            string destConnStr,
+            string destTableName,
+            int batchSize = 0,
+            int bulkCopyTimeout = 0,
+            bool enableIndentityInsert = false,
             IDictionary<string, string> sqlBulkCopyColumnMappings = null
             )
         {
@@ -122,9 +122,9 @@ namespace Data.DbClient.BulkCopy
             IEnumerable<T> list,
             string destConnStr,
             string destTableName,
-            Int32 batchSize = 0,
-            Int32 bulkCopyTimeout = 0,
-            Boolean enableIndentityInsert = false,
+            int batchSize = 0,
+            int bulkCopyTimeout = 0,
+            bool enableIndentityInsert = false,
             IDictionary<string, string> sqlBulkCopyColumnMappings = null
             )
         {
@@ -135,10 +135,10 @@ namespace Data.DbClient.BulkCopy
                 if (bulkCopyTimeout > 0) bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
                 var table = new DataTable();
                 var props = TypeDescriptor.GetProperties(typeof(T))
-                                           //Dirty hack to make sure we only have system data types 
+                                           //Dirty hack to make sure we only have system data types
                                            //i.e. filter out the relationships/collections
                                            .Cast<PropertyDescriptor>()
-                                           .Where(propertyInfo => propertyInfo.PropertyType.Namespace.Equals("System"))
+                                           .Where(propertyInfo => propertyInfo.PropertyType.Namespace != null && propertyInfo.PropertyType.Namespace.Equals("System"))
                                            .ToArray();
 
                 if (sqlBulkCopyColumnMappings != null)
@@ -200,7 +200,7 @@ namespace Data.DbClient.BulkCopy
 
         //        var table = new DataTable();
         //        var props = TypeDescriptor.GetProperties(typeof(T))
-        //            //Dirty hack to make sure we only have system data types 
+        //            //Dirty hack to make sure we only have system data types
         //            //i.e. filter out the relationships/collections
         //                                   .Cast<PropertyDescriptor>()
         //                                   .Where(propertyInfo => propertyInfo.PropertyType.Namespace.Equals("System"))
@@ -235,7 +235,7 @@ namespace Data.DbClient.BulkCopy
 
         //        var table = new DataTable();
         //        var props = TypeDescriptor.GetProperties(typeof(T))
-        //            //Dirty hack to make sure we only have system data types 
+        //            //Dirty hack to make sure we only have system data types
         //            //i.e. filter out the relationships/collections
         //                                   .Cast<PropertyDescriptor>()
         //                                   .Where(propertyInfo => propertyInfo.PropertyType.Namespace.Equals("System"))
@@ -262,7 +262,7 @@ namespace Data.DbClient.BulkCopy
         //    }
         //}
 
-        public Boolean ImportSeperatedTxtToSql(String connectionString, String tableName, Int32 timeOutSeconds, String filePathStr, String schemaFilePath, Int32 batchRowSize, Boolean colHeaders, String fieldSeperator, String textQualifier, String nullValue, Boolean enableIndentityInsert = false)
+        public bool ImportSeperatedTxtToSql(string connectionString, string tableName, int timeOutSeconds, string filePathStr, string schemaFilePath, int batchRowSize, bool colHeaders, string fieldSeperator, string textQualifier, string nullValue, bool enableIndentityInsert = false)
         {
             var dt = new DataTable(tableName);
             var fi = new FileInfo(filePathStr);
@@ -285,7 +285,7 @@ namespace Data.DbClient.BulkCopy
                     finally
                     {
                         if (conn != null && conn.State != ConnectionState.Closed) conn.Close();
-                        if (conn != null) conn.Dispose();
+                        conn?.Dispose();
                     }
                 }
                 else
@@ -313,10 +313,10 @@ namespace Data.DbClient.BulkCopy
                     {
                         if (!tempStr.Contains(fieldSeperator)) continue;
                         var drow = dt.NewRow();
-                        var stringArray = csvParser.Split(tempStr).Select(x=> x.Replace(textQualifier, String.Empty)).ToArray();
+                        var stringArray = csvParser.Split(tempStr).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
                         for (var j = 0; j < dt.Columns.Count; j++)
                         {
-                            if (stringArray[j] == nullValue || stringArray[j].Trim() == String.Empty)
+                            if (stringArray[j] == nullValue || stringArray[j].Trim() == string.Empty)
                             {
                                 drow[j] = DBNull.Value;
                             }
@@ -342,7 +342,7 @@ namespace Data.DbClient.BulkCopy
             return true;
         }
 
-        public Boolean ImportSeperatedTxtToSql(String connectionString, String tableName, Int32 timeOutSeconds, String filePathStr, String schemaFilePath, Int32 batchRowSize, Boolean colHeaders, String fieldSeperator, String textQualifier, String nullValue, String filterExpression, Boolean enableIndentityInsert = false)
+        public bool ImportSeperatedTxtToSql(string connectionString, string tableName, int timeOutSeconds, string filePathStr, string schemaFilePath, int batchRowSize, bool colHeaders, string fieldSeperator, string textQualifier, string nullValue, string filterExpression, bool enableIndentityInsert = false)
         {
             var dt = new DataTable(tableName);
             var fi = new FileInfo(filePathStr);
@@ -365,7 +365,7 @@ namespace Data.DbClient.BulkCopy
                     finally
                     {
                         if (conn != null && conn.State != ConnectionState.Closed) conn.Close();
-                        if (conn != null) conn.Dispose();
+                        conn?.Dispose();
                     }
                 }
                 else
@@ -393,10 +393,10 @@ namespace Data.DbClient.BulkCopy
                     {
                         if (!tempStr.Contains(fieldSeperator)) continue;
                         var drow = dt.NewRow();
-                        var stringArray = csvParser.Split(tempStr).Select(x => x.Replace(textQualifier, String.Empty)).ToArray();
+                        var stringArray = csvParser.Split(tempStr).Select(x => x.Replace(textQualifier, string.Empty)).ToArray();
                         for (var j = 0; j < dt.Columns.Count; j++)
                         {
-                            if (stringArray[j] == nullValue || stringArray[j].Trim() == String.Empty)
+                            if (stringArray[j] == nullValue || stringArray[j].Trim() == string.Empty)
                             {
                                 drow[j] = DBNull.Value;
                             }
@@ -426,32 +426,32 @@ namespace Data.DbClient.BulkCopy
 
         #region Export Methods
 
-        public Int32 ExportSeperatedTxt(
-            String connectionString,
-            String commandString,
-            String filePathStr,
-            Int32 batchRowSize = 1000,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "",
-            Int32? timeOutSeconds = 600)
+        public int ExportSeperatedTxt(
+            string connectionString,
+            string commandString,
+            string filePathStr,
+            int batchRowSize = 1000,
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "",
+            int? timeOutSeconds = 600)
         {
             return ExportSeperatedTxt(connectionString, new SqlCommand(commandString), filePathStr, batchRowSize, colHeaders, fieldSeperator, textQualifier, newLineChar, nullValue, timeOutSeconds);
         }
 
-        public Int32 ExportSeperatedTxt(
-            String connectionString,
+        public int ExportSeperatedTxt(
+            string connectionString,
             SqlCommand commandObj,
-            String filePathStr,
-            Int32 batchRowSize = 1000,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "",
-            Int32? timeOutSeconds = 600)
+            string filePathStr,
+            int batchRowSize = 1000,
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "",
+            int? timeOutSeconds = 600)
         {
             var returnvalue = 0;
             using (var conn = new SqlConnection(connectionString))
@@ -472,8 +472,8 @@ namespace Data.DbClient.BulkCopy
                     if (schemaDt != null)
                     {
                         var colCnt = schemaDt.Rows.Count;
-                        var useFormat = new Boolean[colCnt];
-                        var fmtString = new String[colCnt];
+                        var useFormat = new bool[colCnt];
+                        var fmtString = new string[colCnt];
                         for (var i = 0; i < colCnt; i++)
                         {
                             var fieldtype = sqlDr.GetProviderSpecificFieldType(i);
@@ -541,7 +541,7 @@ namespace Data.DbClient.BulkCopy
                                             var fieldtype = sqlDr.GetProviderSpecificFieldType(i);
                                             if (fieldtype == typeof(SqlBoolean))
                                             {
-                                                if ((Boolean)rec.GetValue(i))
+                                                if ((bool)rec.GetValue(i))
                                                 {
                                                     sw.Write(1);
                                                 }
@@ -577,7 +577,7 @@ namespace Data.DbClient.BulkCopy
                                         sw.Write(rec.GetValue(i));
                                     }
                                 }
-                                else if (!String.IsNullOrWhiteSpace(nullValue))
+                                else if (!string.IsNullOrWhiteSpace(nullValue))
                                 {
                                     sw.Write(nullValue);
                                 }
@@ -597,7 +597,7 @@ namespace Data.DbClient.BulkCopy
                                         var fieldtype = sqlDr.GetProviderSpecificFieldType(colCnt - 1);
                                         if (fieldtype == typeof(SqlBoolean))
                                         {
-                                            if ((Boolean)rec.GetValue(colCnt - 1))
+                                            if ((bool)rec.GetValue(colCnt - 1))
                                             {
                                                 sw.Write(1);
                                             }
@@ -626,7 +626,7 @@ namespace Data.DbClient.BulkCopy
                                     sw.Write(rec.GetValue(colCnt - 1));
                                 }
                             }
-                            else if (!String.IsNullOrWhiteSpace(nullValue))
+                            else if (!string.IsNullOrWhiteSpace(nullValue))
                             {
                                 sw.Write(nullValue);
                             }
@@ -645,30 +645,30 @@ namespace Data.DbClient.BulkCopy
             return returnvalue;
         }
 
-        public Int32 ExportSeperatedGZipTxt(
-            String connectionString,
-            String commandString,
-            String filePathStr,
-            Int32 batchRowSize = 1000,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "")
+        public int ExportSeperatedGZipTxt(
+            string connectionString,
+            string commandString,
+            string filePathStr,
+            int batchRowSize = 1000,
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "")
         {
             return ExportSeperatedGZipTxt(connectionString, new SqlCommand(commandString), filePathStr, batchRowSize, colHeaders, fieldSeperator, textQualifier, newLineChar, nullValue);
         }
 
-        public Int32 ExportSeperatedGZipTxt(
-            String connectionString,
+        public int ExportSeperatedGZipTxt(
+            string connectionString,
             SqlCommand commandObj,
-            String filePathStr,
-            Int32 batchRowSize = 1000,
-            Boolean colHeaders = false,
-            String fieldSeperator = "\t",
-            String textQualifier = null,
-            String newLineChar = "\r\n",
-            String nullValue = "")
+            string filePathStr,
+            int batchRowSize = 1000,
+            bool colHeaders = false,
+            string fieldSeperator = "\t",
+            string textQualifier = null,
+            string newLineChar = "\r\n",
+            string nullValue = "")
         {
             var returnvalue = 0;
             using (var conn = new SqlConnection(connectionString))
@@ -695,8 +695,8 @@ namespace Data.DbClient.BulkCopy
                                 if (schemaDt != null)
                                 {
                                     var colCnt = schemaDt.Rows.Count;
-                                    var useFormat = new Boolean[colCnt];
-                                    var fmtString = new String[colCnt];
+                                    var useFormat = new bool[colCnt];
+                                    var fmtString = new string[colCnt];
                                     for (var i = 0; i < colCnt; i++)
                                     {
                                         var fieldtype = sqlDr.GetProviderSpecificFieldType(i);
@@ -764,7 +764,7 @@ namespace Data.DbClient.BulkCopy
                                                         var fieldtype = sqlDr.GetProviderSpecificFieldType(i);
                                                         if (fieldtype == typeof(SqlBoolean))
                                                         {
-                                                            if ((Boolean)rec.GetValue(i))
+                                                            if ((bool)rec.GetValue(i))
                                                             {
                                                                 sw.Write(1);
                                                             }
@@ -800,7 +800,7 @@ namespace Data.DbClient.BulkCopy
                                                     sw.Write(rec.GetValue(i));
                                                 }
                                             }
-                                            else if (!String.IsNullOrWhiteSpace(nullValue))
+                                            else if (!string.IsNullOrWhiteSpace(nullValue))
                                             {
                                                 sw.Write(nullValue);
                                             }
@@ -820,7 +820,7 @@ namespace Data.DbClient.BulkCopy
                                                     var fieldtype = sqlDr.GetProviderSpecificFieldType(colCnt - 1);
                                                     if (fieldtype == typeof(SqlBoolean))
                                                     {
-                                                        if ((Boolean)rec.GetValue(colCnt - 1))
+                                                        if ((bool)rec.GetValue(colCnt - 1))
                                                         {
                                                             sw.Write(1);
                                                         }
@@ -849,7 +849,7 @@ namespace Data.DbClient.BulkCopy
                                                 sw.Write(rec.GetValue(colCnt - 1));
                                             }
                                         }
-                                        else if (!String.IsNullOrWhiteSpace(nullValue))
+                                        else if (!string.IsNullOrWhiteSpace(nullValue))
                                         {
                                             sw.Write(nullValue);
                                         }
@@ -877,7 +877,7 @@ namespace Data.DbClient.BulkCopy
 
         #region Helper Methods
 
-        public DataTable GetDataTableWithSchema(String server, String database, String table)
+        public DataTable GetDataTableWithSchema(string server, string database, string table)
         {
             var dt = new DataTable();
             var cb = new SqlConnectionStringBuilder
@@ -900,7 +900,7 @@ namespace Data.DbClient.BulkCopy
             return dt;
         }
 
-        private String AddNull(String str)
+        private string AddNull(string str)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -909,20 +909,19 @@ namespace Data.DbClient.BulkCopy
             return str;
         }
 
-        private String AddStrNull(String str)
+        private string AddStrNull(string str)
         {
             if (!string.IsNullOrWhiteSpace(str)) return "\"" + str + "\"";
             str = "NULL";
             return str;
         }
 
-        private Regex SeperatedLineParser(String fieldSeperator, String textQualifier)
+        private Regex SeperatedLineParser(string fieldSeperator, string textQualifier)
         {
             //if (String.IsNullOrWhiteSpace(textQualifier))
             //{
-                
             //}
-            var regexPattern = String.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", fieldSeperator, textQualifier);
+            var regexPattern = string.Format("{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", fieldSeperator, textQualifier);
             return new Regex(regexPattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant);
 
             // alternative http://www.schiffhauer.com/c-split-csv-values-with-a-regular-expression/
@@ -933,4 +932,3 @@ namespace Data.DbClient.BulkCopy
         #endregion Helper Methods
     }
 }
-

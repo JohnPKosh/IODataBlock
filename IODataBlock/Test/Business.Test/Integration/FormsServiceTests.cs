@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
-using HubSpot.Models;
-using HubSpot.Services;
 using HubSpot.Services.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace Business.Test.Integration
 {
     [TestClass]
     public class FormsServiceTests
     {
-
         public FormsServiceTests()
         {
             var configMgr = new ConfigMgr();
@@ -21,7 +17,6 @@ namespace Business.Test.Integration
         }
 
         private readonly string _hapiKey;
-
 
         [TestMethod]
         public void TestMethod1()
@@ -36,7 +31,7 @@ namespace Business.Test.Integration
             {
                 var data = ro.ResponseData;
                 var dto = data.ConvertJson<List<JObject>>();
-                if(dto == null)Assert.Fail();
+                if (dto == null) Assert.Fail();
 
                 dto.WriteJsonToFilePath(@"c:\junk\formlist.json");
             }

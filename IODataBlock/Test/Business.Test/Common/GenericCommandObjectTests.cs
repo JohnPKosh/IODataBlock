@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.Generic;
+﻿using Business.Common.Generic;
 using Business.Common.GenericRequests;
-using Business.Common.Requests;
-using Business.Common.Responses;
-using Business.Common.System;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace Business.Test.Common
 {
@@ -330,7 +327,6 @@ namespace Business.Test.Common
 
             #endregion Json result
         }
-
 
         private string NewGuid()
         {

@@ -1,4 +1,3 @@
-using System;
 using Business.Common.Exceptions;
 using Business.Common.Responses;
 using Newtonsoft.Json;
@@ -11,7 +10,7 @@ namespace Business.Common.GenericResponses
         TIn RequestData { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        String CorrelationId { get; set; }
+        string CorrelationId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         TOut ResponseData { get; set; }

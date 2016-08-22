@@ -1,11 +1,14 @@
 ﻿using System;
+
 //using System.Net.PeerToPeer.Collaboration;
 
 namespace NsRest
 {
-    public class NetSuiteLogin: INetSuiteLogin
+    public class NetSuiteLogin : INetSuiteLogin
     {
-        public NetSuiteLogin() { }
+        public NetSuiteLogin()
+        {
+        }
 
         public NetSuiteLogin(String account, String email, String password, String role)
         {

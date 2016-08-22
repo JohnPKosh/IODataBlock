@@ -1,25 +1,21 @@
-﻿// ------------------------------------------------------------------ 
-// 
+﻿// ------------------------------------------------------------------
+//
 // Description:
-//  
-// Author: John Kosh 
+//
+// Author: John Kosh
 // E-mail: jkosh@broadvox.com
 // Created:
-// ------------------------------------------------------------------ 
-// 
+// ------------------------------------------------------------------
+//
 // Copyright © Broadvox LLC 2010
-// 
-// ------------------------------------------------------------------ 
+//
+// ------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
 using Business.Common.System.App;
 using Business.Common.System.Args;
 using SelfHostWebApiRelay.RelayBase;
-using ExBaseArguments;
+using System;
+using System.Dynamic;
 
 namespace SelfHostWebApiRelay
 {
@@ -60,7 +56,7 @@ namespace SelfHostWebApiRelay
             return ExitCodeType.Success;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields / Properties
 
@@ -69,7 +65,7 @@ namespace SelfHostWebApiRelay
         /// </summary>
         private Arguments args = null;
 
-        #endregion
+        #endregion Fields / Properties
 
         #region Helper Methods
 
@@ -82,75 +78,58 @@ namespace SelfHostWebApiRelay
 
 ==============SelfHostWebApiRelay==============
 
-
 [-InputFilePath:] | [-i:]
 
 * Required:
-Full Path of input file to recurse over 
-
+Full Path of input file to recurse over
 
 [-OutputFilePath:] | [-o:]
 
 * Required:
 Full Path of output file to write
 
-
 [-FromDate:]
-
 * Required:
 From date (eg. 2010-07-01)
 
-
 [-ToDate:]
-
 * Required:
 To date (eg. 2010-07-01)
 
- 
 [-DateStrFormat:]
-
 Optional:
 Format string for $(DateStr) var
 default format is yyyy-MM-dd
 
-
 [-DateVarFormat:]
-
 Optional:
-Format string for $(DateVar) var 
+Format string for $(DateVar) var
 default format is yyyyMMdd
 
-
 [-MergeInto:]
-
 Optional:
-Full Path of a merge 
+Full Path of a merge
 template file to apply
 
- 
-[-MergeIntoVar:]              
-
+[-MergeIntoVar:]
 * Required (If MergeInto is specified!):
 Name of variable in the MergeInto
 file to replace.
 eg. MergeIntoVar becomes $(MergeIntoVar)
 
-
 -OpenSSMS
 
-Optional: 
-Opens the output file in 
+Optional:
+Opens the output file in
 Sql Server Management Studio
 or default .sql editor.
 
 ";
 
             Console.Write(usagestr);
-
         }
 
-        #endregion
-
+        #endregion Helper Methods
 
         /// <summary>
         /// Main Entry Point for Application with no Arguments. PLACE RUN CODE HERE!

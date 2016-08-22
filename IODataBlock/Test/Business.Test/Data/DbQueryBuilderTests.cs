@@ -1,9 +1,8 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Data.DbClient.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data.SqlClient;
+using System.Linq;
 using Database = Data.DbClient.Database;
 using dbe = DbExtensions;
 
@@ -26,7 +25,6 @@ namespace Business.Test.Data
         private const string SqlServer = @".\EXP14";
         private const string SqlServerDatabase = @"TestData";
         private readonly string _TestDataConnectionString;
-
 
         private static string SqlServerConnectionString
         {
@@ -79,8 +77,6 @@ ORDER BY [ORDINAL_POSITION]
             var q = _db.From(sqlb).Skip(10).Take(10).ToString();
             Assert.IsNotNull(q);
 
-
-
             //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToList();
             //Assert.IsNotNull(q);
 
@@ -97,7 +93,6 @@ ORDER BY [ORDINAL_POSITION]
             //var reader = sb.ExecuteReader(CommandBehavior.CloseConnection);
             //reader.HasRows
             //Assert.IsNotNull(sb);
-
 
             var qb = new DbQueryBuilder();
 
@@ -180,9 +175,6 @@ ORDER BY [ORDINAL_POSITION]
             }
         }
 
-
-
-
         [TestMethod]
         public void SimpleDbQueryBuilderTest6()
         {
@@ -191,8 +183,6 @@ ORDER BY [ORDINAL_POSITION]
             var sqlb = new dbe.SqlBuilder(@"SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]");
             var q = db.From(sqlb).Skip(10).Take(10).ToString();
             Assert.IsNotNull(q);
-
-
 
             //var q = _db.From("[INFORMATION_SCHEMA].[COLUMNS]").Skip(10).Take(10).ToList();
             //Assert.IsNotNull(q);
@@ -211,7 +201,6 @@ ORDER BY [ORDINAL_POSITION]
             //reader.HasRows
             //Assert.IsNotNull(sb);
 
-
             var qb = new DbQueryBuilder();
 
             // build a query
@@ -225,7 +214,5 @@ ORDER BY [ORDINAL_POSITION]
                 Assert.Fail();
             }
         }
-
-
     }
 }

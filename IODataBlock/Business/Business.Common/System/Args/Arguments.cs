@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Business.Common.IO.Serialization;
+using ExBaseArguments;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Business.Common.IO.Serialization;
-using ExBaseArguments;
 
 namespace Business.Common.System.Args
 {
@@ -22,9 +22,10 @@ namespace Business.Common.System.Args
     {
         #region Class Initialization
 
-        public Arguments(String id = null, IEqualityComparer<Arg> comparer = null)
+        public Arguments(string id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
+            _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
             if (comparer != null && comparer.GetType() == typeof(ArgKeyCaseSensitiveComparer))
             {
                 Items = new HashSet<Arg>(comparer);
@@ -39,9 +40,10 @@ namespace Business.Common.System.Args
             }
         }
 
-        public Arguments(IEnumerable<String> items, String id = null, IEqualityComparer<Arg> comparer = null)
+        public Arguments(IEnumerable<string> items, string id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
+            _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
             if (comparer != null && comparer.GetType() == typeof(ArgKeyCaseSensitiveComparer))
             {
                 Items = new HashSet<Arg>(comparer);
@@ -57,9 +59,10 @@ namespace Business.Common.System.Args
             BuildArguments(items);
         }
 
-        public Arguments(IEnumerable<Arg> items, String id = null, IEqualityComparer<Arg> comparer = null)
+        public Arguments(IEnumerable<Arg> items, string id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
+            _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
             if (comparer != null && comparer.GetType() == typeof(ArgKeyCaseSensitiveComparer))
             {
                 Items = new HashSet<Arg>(comparer);
@@ -75,9 +78,10 @@ namespace Business.Common.System.Args
             Items.UnionWith(items);
         }
 
-        public Arguments(IDictionary<String, String> items, String id = null, IEqualityComparer<Arg> comparer = null)
+        public Arguments(IDictionary<string, string> items, string id = null, IEqualityComparer<Arg> comparer = null)
         {
             Id = id;
+            _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
             if (comparer != null && comparer.GetType() == typeof(ArgKeyCaseSensitiveComparer))
             {
                 Items = new HashSet<Arg>(comparer);
@@ -102,7 +106,7 @@ namespace Business.Common.System.Args
         /* Start DataMembers */
 
         [DataMember(EmitDefaultValue = false, IsRequired = false, Order = 1)]
-        public String Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the HashSet items public property.
@@ -120,7 +124,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <value>The keys.</value>
         [IgnoreDataMember]
-        public IEnumerable<String> Keys
+        public IEnumerable<string> Keys
         {
             get
             {
@@ -133,7 +137,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <value>The values.</value>
         [IgnoreDataMember]
-        public IEnumerable<String> Values
+        public IEnumerable<string> Values
         {
             get
             {
@@ -146,13 +150,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <value>The count.</value>
         [IgnoreDataMember]
-        public int Count
-        {
-            get
-            {
-                return Items.Count;
-            }
-        }
+        public int Count => Items.Count;
 
         #endregion Ignored Members
 
@@ -168,7 +166,7 @@ namespace Business.Common.System.Args
         /// <summary>
         /// Private StringComparison enum field for the class.
         /// </summary>
-        private readonly StringComparison _stringComparisonType = StringComparison.InvariantCultureIgnoreCase;
+        private readonly StringComparison _stringComparisonType;
 
         /// <summary>
         /// Private Regex for locating argument Keys in the console's args String[].
@@ -187,7 +185,7 @@ namespace Business.Common.System.Args
         /// <param name="args">IEnumerable String arguments to convert.</param>
         /// <param name="id">The identifier.</param>
         /// <returns>Returns an instance of the Arguments class.</returns>
-        public static Arguments CreateArguments(String args, String id = null)
+        public static Arguments CreateArguments(string args, string id = null)
         {
             var argarr = args.Split(" ".ToArray(), StringSplitOptions.None);
             return new Arguments(argarr, id);
@@ -199,7 +197,7 @@ namespace Business.Common.System.Args
         /// <param name="args">IEnumerable String arguments to convert.</param>
         /// <param name="id">The identifier.</param>
         /// <returns>Returns an instance of the Arguments class.</returns>
-        public static Arguments CreateArguments(IEnumerable<String> args, String id = null)
+        public static Arguments CreateArguments(IEnumerable<string> args, string id = null)
         {
             return new Arguments(args, id);
         }
@@ -210,7 +208,7 @@ namespace Business.Common.System.Args
         /// <param name="filePath">The file path.</param>
         /// <param name="id">The identifier.</param>
         /// <returns>Returns an instance of the Arguments class.</returns>
-        public static Arguments ReadStringArgumentsFromFile(String filePath, String id = null)
+        public static Arguments ReadStringArgumentsFromFile(string filePath, string id = null)
         {
             return ReadStringArgumentsFromFile(new FileInfo(Path.GetFullPath(filePath)), id);
         }
@@ -221,7 +219,7 @@ namespace Business.Common.System.Args
         /// <param name="fi">The FileInfo object.</param>
         /// <param name="id">The identifier.</param>
         /// <returns>Returns an instance of the Arguments class.</returns>
-        public static Arguments ReadStringArgumentsFromFile(FileInfo fi, String id = null)
+        public static Arguments ReadStringArgumentsFromFile(FileInfo fi, string id = null)
         {
             if (!fi.Exists)
                 throw new FileNotFoundException(
@@ -239,9 +237,8 @@ namespace Business.Common.System.Args
             }
             finally
             {
-                if (fs != null) fs.Dispose();
+                fs?.Dispose();
             }
-            throw new FileNotFoundException("Arguments.LoadStringArgumentsFromFile: FileNotFoundException - The file was not found!");
         }
 
         /// <summary>
@@ -249,7 +246,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <param name="argumentsFilePath">The arguments file path.</param>
         /// <returns></returns>
-        public static Arguments ReadArgumentsFromFile(String argumentsFilePath)
+        public static Arguments ReadArgumentsFromFile(string argumentsFilePath)
         {
             return ReadArgumentsFromFile(new FileInfo(argumentsFilePath));
         }
@@ -270,7 +267,7 @@ namespace Business.Common.System.Args
         /// <param name="node">The node.</param>
         /// <param name="formatString">The format string.</param>
         /// <returns></returns>
-        public static Arguments ExpandoToArguments(dynamic node, String formatString = null)
+        public static Arguments ExpandoToArguments(dynamic node, string formatString = null)
         {
             var rv = new Arguments();
             foreach (var property in node)
@@ -278,7 +275,7 @@ namespace Business.Common.System.Args
                 var t = property.Value.GetType();
                 if (t.IsGenericType && !t.UnderlyingSystemType.IsValueType) continue;
                 var value = property.Value.ToString();
-                rv.Add(property.Key, String.IsNullOrWhiteSpace(formatString) ? value : String.Format(formatString, value));
+                rv.Add(property.Key, string.IsNullOrWhiteSpace(formatString) ? value : string.Format(formatString, value));
             }
             return rv;
         }
@@ -302,13 +299,13 @@ namespace Business.Common.System.Args
 
         #region Indexers
 
-        public String this[String key]
+        public string this[string key]
         {
             get { return Items.FirstOrDefault(x => x.K.Equals(key, _stringComparisonType)).V; }
             set { Upsert(key, value); }
         }
 
-        public String this[IEnumerable<String> i]
+        public string this[IEnumerable<string> i]
         {
             get
             {
@@ -331,15 +328,15 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <param name="args">IEnumerable String arguments to convert.</param>
         /// <param name="defaultsPrefix">Specifies prefix for defaults. Default value is default_</param>
-        private void BuildArguments(IEnumerable<String> args, String defaultsPrefix = "default_")
+        private void BuildArguments(IEnumerable<string> args, string defaultsPrefix = "default_")
         {
             var inputStringArgs = args.ToList();
-            var str = String.Join(" ", inputStringArgs) + " ";
+            var str = string.Join(" ", inputStringArgs) + " ";
             str = str.EscapeArgs();
             var matches = _r.Matches(str);
             if (matches.Count == 0)
             {
-                for (var i = 0; i < inputStringArgs.Count(); i++)
+                for (var i = 0; i < inputStringArgs.Count; i++)
                 {
                     Add(i.ToString(CultureInfo.InvariantCulture), inputStringArgs[i].UnEscapeArgs());
                 }
@@ -347,7 +344,7 @@ namespace Business.Common.System.Args
             else if (matches.Count > 0 && matches[0].Index > 1)
             {
                 var defaultvar = str.Substring(0, matches[0].Index).Trim();
-                if (!String.IsNullOrEmpty(defaultvar))
+                if (!string.IsNullOrEmpty(defaultvar))
                 {
                     for (var i = 0; i < inputStringArgs.Count; i++)
                     {
@@ -360,24 +357,24 @@ namespace Business.Common.System.Args
             {
                 var start = matches[i].Index;
                 var keylen = matches[i].Length;
-                var keyend = (matches[i].Index + matches[i].Length) + 1;
+                var keyend = matches[i].Index + matches[i].Length + 1;
 
                 if (i < matches.Count - 1)
                 {
                     var end = matches[i + 1].Index;
                     var key = str.Substring(start, keylen).Trim();
-                    key = Regex.Replace(key, @"[-/]?", String.Empty);
-                    key = Regex.Replace(key, @"[:=]?\s{0,1}", String.Empty);
+                    key = Regex.Replace(key, @"[-/]?", string.Empty);
+                    key = Regex.Replace(key, @"[:=]?\s{0,1}", string.Empty);
                     var val = end > keyend ? str.Substring(keyend, end - keyend).Trim() : "True";
                     if (!ContainsKey(key)) Add(key, val.UnEscapeArgs());
                 }
                 else
                 {
                     var key = str.Substring(start, keylen).Trim();
-                    key = Regex.Replace(key, @"[-/]?", String.Empty);
-                    key = Regex.Replace(key, @"[:=]?", String.Empty);
+                    key = Regex.Replace(key, @"[-/]?", string.Empty);
+                    key = Regex.Replace(key, @"[:=]?", string.Empty);
                     var val = str.Substring(keyend).Trim();
-                    if (String.IsNullOrEmpty(val)) val = "True";
+                    if (string.IsNullOrEmpty(val)) val = "True";
                     if (!ContainsKey(key)) Add(key, val.UnEscapeArgs());
                 }
             }
@@ -390,10 +387,10 @@ namespace Business.Common.System.Args
         /// <param name="keySuffix">The key suffix.</param>
         /// <param name="seperator">The seperator.</param>
         /// <returns></returns>
-        public String GetArgumentsAsCommandLineString(String keyPrefix = "-", String keySuffix = ":", String seperator = @" ")
+        public string GetArgumentsAsCommandLineString(string keyPrefix = "-", string keySuffix = ":", string seperator = @" ")
         {
-            var strlist = Items.Select(a => String.Format(@"{0}{1}{2}{3}", keyPrefix, a.K, keySuffix, a.V)).ToList();
-            return String.Join(seperator, strlist);
+            var strlist = Items.Select(a => $@"{keyPrefix}{a.K}{keySuffix}{a.V}").ToList();
+            return string.Join(seperator, strlist);
         }
 
         #region HashSet Helper Methods
@@ -404,7 +401,7 @@ namespace Business.Common.System.Args
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns>Returns true if new record inserted, false if upserted.</returns>
-        public Boolean Upsert(String key, String value)
+        public bool Upsert(string key, string value)
         {
             key = key.Trim();
             if (Add(key, value)) return true;
@@ -418,7 +415,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <param name="arg">The arg.</param>
         /// <returns>Returns true if new record inserted, false if upserted.</returns>
-        public Boolean Upsert(Arg arg)
+        public bool Upsert(Arg arg)
         {
             if (Items.Add(arg)) return true;
             Items.Remove(arg);
@@ -426,7 +423,7 @@ namespace Business.Common.System.Args
             return false;
         }
 
-        public Boolean ContainsOneOfTheseKeys(IEnumerable<String> values)
+        public bool ContainsOneOfTheseKeys(IEnumerable<string> values)
         {
             return values.Any(ContainsKey);
         }
@@ -438,19 +435,19 @@ namespace Business.Common.System.Args
         /// <summary>
         /// Read Only Dictionary property for Boolean KeyValuePairs in Arguments Dictionary.
         /// </summary>
-        public Dictionary<String, Boolean> BooleanValues
+        public Dictionary<string, bool> BooleanValues
         {
             get
             {
                 var tempout = false;
-                return Items.Where(a => Boolean.TryParse(a.V, out tempout)).ToDictionary(a => a.K, a => tempout);
+                return Items.Where(a => bool.TryParse(a.V, out tempout)).ToDictionary(a => a.K, a => tempout);
             }
         }
 
         /// <summary>
         /// Read Only Dictionary property for DateTime KeyValuePairs in Arguments Dictionary.
         /// </summary>
-        public Dictionary<String, DateTime> DateTimeValues
+        public Dictionary<string, DateTime> DateTimeValues
         {
             get
             {
@@ -462,12 +459,12 @@ namespace Business.Common.System.Args
         /// <summary>
         /// Public Read Only Dictionary property for non-Boolean KeyValuePairs in Arguments Dictionary.
         /// </summary>
-        public Dictionary<String, String> NonBooleanValues
+        public Dictionary<string, string> NonBooleanValues
         {
             get
             {
-                Boolean tempout;
-                return Items.Where(a => !Boolean.TryParse(a.V, out tempout)).ToDictionary(a => a.K, a => a.V);
+                bool tempout;
+                return Items.Where(a => !bool.TryParse(a.V, out tempout)).ToDictionary(a => a.K, a => a.V);
             }
         }
 
@@ -476,7 +473,7 @@ namespace Business.Common.System.Args
         /// </summary>
         /// <param name="seperator">Seperator character used to split Value string on.</param>
         /// <returns>Returns a Dictionary of KeyValuePairs that contain character seperated values.</returns>
-        public Dictionary<String, String[]> GetStringArrayValues(String seperator)
+        public Dictionary<string, string[]> GetStringArrayValues(string seperator)
         {
             return GetStringArrayValues(seperator, StringSplitOptions.None);
         }
@@ -487,7 +484,7 @@ namespace Business.Common.System.Args
         /// <param name="seperator">Seperator String used to split Value string on.</param>
         /// <param name="options">StringSplitOptions enumeration for handling empty values.</param>
         /// <returns>Returns a Dictionary of KeyValuePairs that contain character seperated values.</returns>
-        public Dictionary<String, String[]> GetStringArrayValues(String seperator, StringSplitOptions options)
+        public Dictionary<string, string[]> GetStringArrayValues(string seperator, StringSplitOptions options)
         {
             var rv = new Dictionary<string, string[]>();
             foreach (var a in Items)
@@ -505,7 +502,7 @@ namespace Business.Common.System.Args
         /// Public Helper Method to find only DefaultArgsN (unnamed args from commandline) in Arguments.
         /// </summary>
         /// <returns>Returns a Dictionary of default arguments.</returns>
-        public Dictionary<String, String> GetDefaultArgs(String defaultsPrefix = "default_")
+        public Dictionary<string, string> GetDefaultArgs(string defaultsPrefix = "default_")
         {
             return Where(x => x.K.StartsWith(defaultsPrefix)).ToDictionary(di => di.K, di => di.V);
         }
@@ -516,7 +513,7 @@ namespace Business.Common.System.Args
         /// <param name="seperator">Seperator String used to concatenate the Value strings on.</param>
         /// <param name="defaultsPrefix"></param>
         /// <returns>String</returns>
-        public String ConcatenateDefaultArgs(String seperator, String defaultsPrefix = "default_")
+        public string ConcatenateDefaultArgs(string seperator, string defaultsPrefix = "default_")
         {
             var s = new StringBuilder();
             foreach (var d in GetDefaultArgs(defaultsPrefix))
@@ -532,7 +529,7 @@ namespace Business.Common.System.Args
 
         #region Inherited HashSet Helper Methods
 
-        public Boolean Add(String key, String value)
+        public bool Add(string key, string value)
         {
             return Items.Add(new Arg { K = key.Trim(), V = value });
         }
@@ -552,22 +549,22 @@ namespace Business.Common.System.Args
             return Items.Contains(arg, comparer);
         }
 
-        public bool ContainsKey(String key)
+        public bool ContainsKey(string key)
         {
             return Items.Contains(new Arg { K = key }, Items.Comparer);
         }
 
-        public bool ContainsValue(String value)
+        public bool ContainsValue(string value)
         {
             return Items.Contains(new Arg { V = value }, _valueComparer);
         }
 
-        public bool ContainsKey(String key, IEqualityComparer<Arg> comparer)
+        public bool ContainsKey(string key, IEqualityComparer<Arg> comparer)
         {
             return Items.Contains(new Arg { K = key }, comparer);
         }
 
-        public bool ContainsValue(String value, IEqualityComparer<Arg> comparer)
+        public bool ContainsValue(string value, IEqualityComparer<Arg> comparer)
         {
             return Items.Contains(new Arg { V = value }, comparer);
         }
@@ -597,9 +594,9 @@ namespace Business.Common.System.Args
             Items.ExceptWith(other);
         }
 
-        public void ExceptWith(IEnumerable<String> other)
+        public void ExceptWith(IEnumerable<string> other)
         {
-            Items.ExceptWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            Items.ExceptWith(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public HashSet<Arg>.Enumerator GetEnumerator()
@@ -617,9 +614,9 @@ namespace Business.Common.System.Args
             Items.IntersectWith(other);
         }
 
-        public void IntersectWith(IEnumerable<String> other)
+        public void IntersectWith(IEnumerable<string> other)
         {
-            Items.IntersectWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            Items.IntersectWith(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool IsProperSubsetOf(Arguments other)
@@ -632,9 +629,9 @@ namespace Business.Common.System.Args
             return Items.IsProperSubsetOf(other);
         }
 
-        public bool IsProperSubsetOf(IEnumerable<String> other)
+        public bool IsProperSubsetOf(IEnumerable<string> other)
         {
-            return Items.IsProperSubsetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.IsProperSubsetOf(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool IsProperSupersetOf(Arguments other)
@@ -647,9 +644,9 @@ namespace Business.Common.System.Args
             return Items.IsProperSupersetOf(other);
         }
 
-        public bool IsProperSupersetOf(IEnumerable<String> other)
+        public bool IsProperSupersetOf(IEnumerable<string> other)
         {
-            return Items.IsProperSupersetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.IsProperSupersetOf(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool IsSubsetOf(Arguments other)
@@ -662,9 +659,9 @@ namespace Business.Common.System.Args
             return Items.IsSubsetOf(other);
         }
 
-        public bool IsSubsetOf(IEnumerable<String> other)
+        public bool IsSubsetOf(IEnumerable<string> other)
         {
-            return Items.IsSubsetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.IsSubsetOf(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool IsSupersetOf(Arguments other)
@@ -677,9 +674,9 @@ namespace Business.Common.System.Args
             return Items.IsSupersetOf(other);
         }
 
-        public bool IsSupersetOf(IEnumerable<String> other)
+        public bool IsSupersetOf(IEnumerable<string> other)
         {
-            return Items.IsSupersetOf(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.IsSupersetOf(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool Overlaps(Arguments other)
@@ -692,9 +689,9 @@ namespace Business.Common.System.Args
             return Items.Overlaps(other);
         }
 
-        public bool Overlaps(IEnumerable<String> other)
+        public bool Overlaps(IEnumerable<string> other)
         {
-            return Items.Overlaps(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.Overlaps(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public bool Remove(Arg item)
@@ -702,7 +699,7 @@ namespace Business.Common.System.Args
             return Items.Remove(item);
         }
 
-        public bool Remove(String item)
+        public bool Remove(string item)
         {
             return Items.Remove(new Arg { K = item });
         }
@@ -722,9 +719,9 @@ namespace Business.Common.System.Args
             return Items.SetEquals(other);
         }
 
-        public bool SetEquals(IEnumerable<String> other)
+        public bool SetEquals(IEnumerable<string> other)
         {
-            return Items.SetEquals(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.SetEquals(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public void SymmetricExceptWith(Arguments other)
@@ -737,9 +734,9 @@ namespace Business.Common.System.Args
             Items.SymmetricExceptWith(other);
         }
 
-        public void SymmetricExceptWith(IEnumerable<String> other)
+        public void SymmetricExceptWith(IEnumerable<string> other)
         {
-            Items.SymmetricExceptWith(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            Items.SymmetricExceptWith(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public void TrimExcess()
@@ -757,15 +754,15 @@ namespace Business.Common.System.Args
             Items.UnionWith(other);
         }
 
-        public void UnionWith(IDictionary<String, String> other)
+        public void UnionWith(IDictionary<string, string> other)
         {
-            foreach (KeyValuePair<String, String> kp in other)
+            foreach (var kp in other)
             {
                 Add(kp.Key, kp.Value);
             }
         }
 
-        public void UnionWith(Hashtable other, Func<Object, String> keyConverter = null, Func<Object, String> valueConverter = null)
+        public void UnionWith(Hashtable other, Func<object, string> keyConverter = null, Func<object, string> valueConverter = null)
         {
             if (keyConverter == null) keyConverter = x => x.ToString();
             if (valueConverter == null) valueConverter = x => x.ToString();
@@ -819,7 +816,7 @@ namespace Business.Common.System.Args
             return Items.Concat(other.Items);
         }
 
-        public Int32 CountArgs(Func<Arg, bool> predicate)
+        public int CountArgs(Func<Arg, bool> predicate)
         {
             return Items.Count(predicate);
         }
@@ -834,9 +831,9 @@ namespace Business.Common.System.Args
             return Items.Except(other);
         }
 
-        public IEnumerable<Arg> Except(IEnumerable<String> other)
+        public IEnumerable<Arg> Except(IEnumerable<string> other)
         {
-            return Items.Except(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.Except(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public Arg First(Func<Arg, bool> predicate)
@@ -859,9 +856,9 @@ namespace Business.Common.System.Args
             return Items.Intersect(other);
         }
 
-        public IEnumerable<Arg> Intersect(IEnumerable<String> other)
+        public IEnumerable<Arg> Intersect(IEnumerable<string> other)
         {
-            return Items.Intersect(other.Where(x => !String.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
+            return Items.Intersect(other.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => new Arg { K = x }));
         }
 
         public Int64 LongCount()
@@ -879,7 +876,7 @@ namespace Business.Common.System.Args
             return Items.Select(selector);
         }
 
-        public Dictionary<String, String> ToDictionary()
+        public Dictionary<string, string> ToDictionary()
         {
             return Items.ToDictionary(x => x.K, y => y.V);
         }

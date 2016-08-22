@@ -1,9 +1,9 @@
 ﻿//using Microsoft.Win32;
+using Business.Common.IO;
 using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Business.Common.IO;
 
 namespace Business.Wpf.Dialogs
 {
@@ -12,31 +12,31 @@ namespace Business.Wpf.Dialogs
         /* http://msdn.microsoft.com/en-us/library/system.environment.specialfolder.aspx */
         /* var result = IoDialogUtility.ShowOpenFileDialog(out fil, "MyDocuments", "Access 2007 document(.accdb)|*.accdb", ".accdb"); */
 
-        public static bool ShowOpenFileDialog(out String FilePath,
-            String InitialDirectoryOrSpecialFolder,
-            String Filter,
-            String DefaultExt = ".*",
-            String Title = "Open File...",
-            Boolean AddExtension = true,
-            Boolean CheckPathExists = true
+        public static bool ShowOpenFileDialog(out string FilePath,
+            string InitialDirectoryOrSpecialFolder,
+            string Filter,
+            string DefaultExt = ".*",
+            string Title = "Open File...",
+            bool AddExtension = true,
+            bool CheckPathExists = true
             )
         {
-            FilePath = String.Empty;
+            FilePath = string.Empty;
 
-            using (OpenFileDialog dlg = new OpenFileDialog())
+            using (var dlg = new OpenFileDialog())
             {
                 dlg.Title = Title;
                 dlg.DefaultExt = DefaultExt;
                 dlg.AddExtension = AddExtension;
                 dlg.CheckPathExists = CheckPathExists;
-                if (!String.IsNullOrWhiteSpace(InitialDirectoryOrSpecialFolder))
+                if (!string.IsNullOrWhiteSpace(InitialDirectoryOrSpecialFolder))
                 {
                     dlg.InitialDirectory = IOUtility.GetInitialDirectoryOrSpecialFolder(InitialDirectoryOrSpecialFolder);
                 }
 
                 //dlg.Filter = "Access 2007 document(.accdb)|*.accdb";
                 dlg.Filter = Filter;
-                DialogResult result = dlg.ShowDialog();
+                var result = dlg.ShowDialog();
                 if (result == DialogResult.OK)
                 {
                     FilePath = dlg.FileName;
@@ -46,18 +46,18 @@ namespace Business.Wpf.Dialogs
             return false;
         }
 
-        public static bool ShowSaveFileDialog(out String FilePath,
-            String InitialDirectoryOrSpecialFolder,
-            String Filter,
-            String DefaultExt = ".*",
-            String DefaultName = "New Document",
-            String Title = "Save File...",
-            Boolean AddExtension = true,
-            Boolean CheckPathExists = true,
-            Boolean OverwritePrompt = true
+        public static bool ShowSaveFileDialog(out string FilePath,
+            string InitialDirectoryOrSpecialFolder,
+            string Filter,
+            string DefaultExt = ".*",
+            string DefaultName = "New Document",
+            string Title = "Save File...",
+            bool AddExtension = true,
+            bool CheckPathExists = true,
+            bool OverwritePrompt = true
             )
         {
-            using (SaveFileDialog dlg = new SaveFileDialog())
+            using (var dlg = new SaveFileDialog())
             {
                 dlg.FileName = DefaultName;
                 dlg.Title = Title;
@@ -65,14 +65,14 @@ namespace Business.Wpf.Dialogs
                 dlg.AddExtension = AddExtension;
                 dlg.CheckPathExists = CheckPathExists;
                 dlg.OverwritePrompt = OverwritePrompt;
-                if (!String.IsNullOrWhiteSpace(InitialDirectoryOrSpecialFolder))
+                if (!string.IsNullOrWhiteSpace(InitialDirectoryOrSpecialFolder))
                 {
                     dlg.InitialDirectory = IOUtility.GetInitialDirectoryOrSpecialFolder(InitialDirectoryOrSpecialFolder);
                 }
 
                 //dlg.Filter = "Access 2007 document(.accdb)|*.accdb";
                 dlg.Filter = Filter;
-                DialogResult result = dlg.ShowDialog();
+                var result = dlg.ShowDialog();
                 if (result == DialogResult.OK)
                 {
                     FilePath = dlg.FileName;
@@ -80,23 +80,23 @@ namespace Business.Wpf.Dialogs
                 }
                 else
                 {
-                    FilePath = String.Empty;
+                    FilePath = string.Empty;
                 }
             }
             return false;
         }
 
-        public static bool ShowFolderBrowserDialog(out String selectedFolder,
-            String initialFolder = null,
+        public static bool ShowFolderBrowserDialog(out string selectedFolder,
+            string initialFolder = null,
             Environment.SpecialFolder rootFolder = Environment.SpecialFolder.MyDocuments,
-            String description = "Browse to Directory...",
-            Boolean showNewFolderButton = true
+            string description = "Browse to Directory...",
+            bool showNewFolderButton = true
             )
         {
-            selectedFolder = String.Empty;
+            selectedFolder = string.Empty;
             using (var dlg = new FolderBrowserDialog())
             {
-                if (String.IsNullOrWhiteSpace(initialFolder) || !Directory.Exists(initialFolder.Trim()))
+                if (string.IsNullOrWhiteSpace(initialFolder) || !Directory.Exists(initialFolder.Trim()))
                 {
                     dlg.SelectedPath = Environment.GetFolderPath(rootFolder);
                 }
@@ -106,33 +106,32 @@ namespace Business.Wpf.Dialogs
                 }
                 dlg.Description = description;
                 dlg.ShowNewFolderButton = showNewFolderButton;
-                DialogResult result = dlg.ShowDialog();
+                var result = dlg.ShowDialog();
                 if (result == DialogResult.OK)
                 {
                     selectedFolder = dlg.SelectedPath;
                     return true;
                 }
-                
             }
             return false;
         }
 
-        public static bool ShowMyPicturesBrowserDialog(out String selectedFolder,
-            String initialFolder = null,
+        public static bool ShowMyPicturesBrowserDialog(out string selectedFolder,
+            string initialFolder = null,
             Environment.SpecialFolder rootFolder = Environment.SpecialFolder.MyPictures,
-            String description = "Browse to Directory...",
-            Boolean showNewFolderButton = true
+            string description = "Browse to Directory...",
+            bool showNewFolderButton = true
             )
         {
             return ShowFolderBrowserDialog(out selectedFolder, initialFolder, rootFolder, description, showNewFolderButton);
         }
 
-        public static void OpenFileWithDefaultApplication(String TargeFilePath)
+        public static void OpenFileWithDefaultApplication(string TargeFilePath)
         {
             new Thread(() => System.Diagnostics.Process.Start(TargeFilePath)) { IsBackground = true }.Start();
         }
 
-        public static void OpenFileWithSpecificApplication(String AppString, String TargeFilePath)
+        public static void OpenFileWithSpecificApplication(string AppString, string TargeFilePath)
         {
             new Thread(() => System.Diagnostics.Process.Start(AppString, TargeFilePath)) { IsBackground = true }.Start();
         }

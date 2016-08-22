@@ -1,13 +1,12 @@
-using System.Data.Common;
-using System.Data.SQLite;
 using MySql.Data.MySqlClient;
 using Npgsql;
-using Oracle;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.Common;
+using System.Data.SQLite;
 
 namespace Data.DbClient.Configuration
 {
-    internal class DbProviderFactoryWrapper : IDbProviderFactory
+    public class DbProviderFactoryWrapper : IDbProviderFactory
     {
         private DbProviderFactory _providerFactory;
 
@@ -33,15 +32,19 @@ namespace Data.DbClient.Configuration
                     case "MySql.Data.MySqlClient":
                         _providerFactory = new MySqlClientFactory();
                         break;
+
                     case "Oracle.ManagedDataAccess.Client":
                         _providerFactory = new OracleClientFactory();
                         break;
+
                     case "System.Data.SQLite":
                         _providerFactory = new SQLiteFactory();
                         break;
+
                     case "Npgsql":
                         _providerFactory = NpgsqlFactory.Instance;
                         break;
+
                     default:
                         _providerFactory = DbProviderFactories.GetFactory(_providerName);
                         break;

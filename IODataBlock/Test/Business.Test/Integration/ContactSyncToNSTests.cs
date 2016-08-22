@@ -1,20 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
-using Business.Common.Security.Aes;
-using Business.Common.System;
-using Fasterflect;
+﻿using Business.Common.Configuration;
 using HubSpot.Models.Contacts;
 using HubSpot.Models.Properties;
-using HubSpot.Services;
 using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NsRest;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace Business.Test.Integration
 {
@@ -57,6 +51,7 @@ namespace Business.Test.Integration
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -68,7 +63,7 @@ namespace Business.Test.Integration
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -76,7 +71,8 @@ namespace Business.Test.Integration
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         //[TestMethod]
         //public void DeleteNsContactWhereHsStageIsOther()
@@ -108,7 +104,6 @@ namespace Business.Test.Integration
         //        }
         //    }
         //}
-
 
         [TestMethod]
         public void DeleteNsContactWhereHsStageIsOther()
@@ -174,7 +169,7 @@ namespace Business.Test.Integration
                         UpdateHubspotContactId(c, o.id);
                     }
 
-                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>); 
+                    var leadDictionary = nsleads.Select(x => x as IDictionary<string, object>);
                     foreach (var o in nsleads.Where(o => !(o as IDictionary<string, object>).ContainsKey("columns") || !(o.columns as IDictionary<string, object>).ContainsKey("custentity_cr_hs_profile_url") || o.columns.custentity_cr_hs_profile_url != c.profile_url))
                     {
                         UpdateNsLeadProfileUrlByEmail(c, o.id as string);
@@ -187,7 +182,7 @@ namespace Business.Test.Integration
         public void InsertNsContactWhereHsFormSubmitted()
         {
             var nscolumns = new string[] { "entitystatus", "email", "balance", "stage", "custentity_cr_hs_profile_url" };
-            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f" , "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
+            var partnerForms = new List<string>() { "1952d04a-7c08-484c-9920-5c78838f0b7f", "da714af6-e4d7-40b2-9f0c-fa3873b01dc4" };
 
             //var contacts = GetRecentContactViewModels(100, new UnixMsTimestamp(DateTime.Today.AddDays(-15)), propertyMode: PropertyModeType.value_only)
 
@@ -199,7 +194,7 @@ namespace Business.Test.Integration
 
             foreach (var c in contacts)
             {
-                var email = (string)c.Properties.First(x=>x.Key == "email").Value;
+                var email = (string)c.Properties.First(x => x.Key == "email").Value;
                 //var email = c.identity_profiles.First(x => x.vid == c.vid).identities.First(y => y.type == "EMAIL").value;
                 if (string.IsNullOrWhiteSpace(email)) continue;
                 var nsleads = SearchNsLeadsByEmail(email, nscolumns);
@@ -232,13 +227,11 @@ namespace Business.Test.Integration
             var nsleads = SearchNsLeadsByEmail(email, nscolumns);
             if (nsleads != null)
             {
-                // get NS id 
+                // get NS id
                 foreach (var o in nsleads)
                 {
-
                 }
             }
-
         }
 
         [TestMethod]
@@ -249,13 +242,11 @@ namespace Business.Test.Integration
             var nsleads = SearchPreSalesContactEmails();
             if (nsleads != null)
             {
-                // get NS id 
+                // get NS id
                 foreach (var o in nsleads)
                 {
-
                 }
             }
-
         }
 
         [TestMethod]
@@ -266,7 +257,6 @@ namespace Business.Test.Integration
             {
                 var id = target.id;
             }
-
         }
 
         #region Utility Methods
@@ -316,7 +306,7 @@ namespace Business.Test.Integration
         private IEnumerable<dynamic> SearchPreSalesContactEmails()
         {
             //customsearch_cr_presales_contact_emails
-            var parameters = new Dictionary<string, object> { { "type", "contact" }, {"savedsearch", "customsearch_cr_presales_contact_emails" }, {"columns", null} };
+            var parameters = new Dictionary<string, object> { { "type", "contact" }, { "savedsearch", "customsearch_cr_presales_contact_emails" }, { "columns", null } };
             var restlet = PostRestletBase.Create(BaseUrl, GetSearchRecordScriptSetting(), GetLogin());
             var rv = restlet.ExecuteToDynamicListAsync(parameters);
             if (rv.Exception != null) throw rv.Exception;
@@ -345,7 +335,7 @@ namespace Business.Test.Integration
                 var props = c.Properties;
                 //var updateModel = (ContactUpdateModel) c;
                 dynamic o = new ExpandoObject();
-                o.phone = c.Properties.First(x=>x.Key == "phone").Value;
+                o.phone = c.Properties.First(x => x.Key == "phone").Value;
                 o.lastname = c.Properties.First(x => x.Key == "lastname").Value;
                 o.mobilephone = c.Properties.First(x => x.Key == "mobilephone").Value;
                 o.title = c.Properties.First(x => x.Key == "jobtitle").Value;
@@ -415,7 +405,7 @@ namespace Business.Test.Integration
             }
         }
 
-        #endregion
+        #endregion Utility Methods
 
         #region NS Login helpers
 
@@ -435,8 +425,8 @@ namespace Business.Test.Integration
         public NetSuiteLogin GetLogin()
         {
             return NetSuiteLogin.Create(NsAccount, NsEmail, NsPassword, "3");
-        } 
+        }
 
-        #endregion
+        #endregion NS Login helpers
     }
 }

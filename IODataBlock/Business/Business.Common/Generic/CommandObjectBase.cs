@@ -1,9 +1,9 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
 using Fasterflect;
+using System;
 
 namespace Business.Common.Generic
 {
@@ -19,7 +19,7 @@ namespace Business.Common.Generic
         {
             get
             {
-                return String.IsNullOrWhiteSpace(_commandName) ? this.GetType().Name() : _commandName;
+                return string.IsNullOrWhiteSpace(_commandName) ? GetType().Name() : _commandName;
             }
             set { _commandName = value; }
         }
@@ -66,7 +66,7 @@ namespace Business.Common.Generic
             {
                 // Execute the CommandFunction here!
 
-                return RequestObject.RequestData.ToSuccessfullGenericResponse<TIn, TOut>(CommandFunction.Invoke(RequestObject), SuccessResponseCode, RequestObject.CorrelationId);
+                return RequestObject.RequestData.ToSuccessfullGenericResponse(CommandFunction.Invoke(RequestObject), SuccessResponseCode, RequestObject.CorrelationId);
 
                 //var rv = CommandFunction.Invoke(RequestObject);
                 //if (rv.GetType().Implements<IResponseObject<TIn, TOut>>()) return rv as IResponseObject<TIn, TOut>;
@@ -74,7 +74,7 @@ namespace Business.Common.Generic
             }
             catch (Exception ex)
             {
-                return RequestObject.RequestData.ToFailedGenericResponse<TIn, TOut>(default(TOut), ExceptionObjectListBase.Create(ex), ErrorResponseCode, RequestObject.CorrelationId);
+                return RequestObject.RequestData.ToFailedGenericResponse(default(TOut), ExceptionObjectListBase.Create(ex), ErrorResponseCode, RequestObject.CorrelationId);
             }
         }
 

@@ -1,8 +1,8 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Business.Test.Common
 {
@@ -133,7 +133,7 @@ namespace Business.Test.Common
             {
                 // There is not much room for error here so I should succeed!
                 responseObject.ResponseData = "Since there were no errors I am okay!";
-                responseObject.ResponseCode = new ResponseCode(200,"200 OK");
+                responseObject.ResponseCode = new ResponseCode(200, "200 OK");
             }
             catch (Exception exception)
             {

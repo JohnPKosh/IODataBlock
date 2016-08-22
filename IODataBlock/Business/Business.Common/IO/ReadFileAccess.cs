@@ -11,17 +11,17 @@ namespace Business.Common.IO
     {
         #region Class Initialization
 
-        public ReadFileAccess(String filePath)
+        public ReadFileAccess(string filePath)
             : this(new FileInfo(filePath), 180000, TimeSpan.FromSeconds(30))
         {
         }
 
-        public ReadFileAccess(String filePath, TimeSpan lockDuration)
+        public ReadFileAccess(string filePath, TimeSpan lockDuration)
             : this(new FileInfo(filePath), 180000, lockDuration)
         {
         }
 
-        public ReadFileAccess(String filePath, Int32 lockWaitMs, TimeSpan lockDuration)
+        public ReadFileAccess(string filePath, int lockWaitMs, TimeSpan lockDuration)
             : this(new FileInfo(filePath), lockWaitMs, lockDuration)
         {
         }
@@ -36,7 +36,7 @@ namespace Business.Common.IO
         {
         }
 
-        public ReadFileAccess(FileInfo fi, Int32 lockWaitMs, TimeSpan lockDuration)
+        public ReadFileAccess(FileInfo fi, int lockWaitMs, TimeSpan lockDuration)
         {
             _file = fi;
             _file.Refresh();
@@ -49,7 +49,7 @@ namespace Business.Common.IO
 
             if (fi.Directory != null && fi.Directory.Exists) IsAccessible = GetLockAccess(DefaultLockWaitMs, lockDuration);
             else if (fi.Directory != null)
-                throw new DirectoryNotFoundException(String.Format(@"DirectoryNotFoundException: {0} not found!", fi.Directory.FullName));
+                throw new DirectoryNotFoundException($@"DirectoryNotFoundException: {fi.Directory.FullName} not found!");
             else
                 throw new DirectoryNotFoundException(@"DirectoryNotFoundException: No directory found!");
         }
@@ -68,23 +68,21 @@ namespace Business.Common.IO
 
         public TimeSpan DefaultLockDuration { get; set; }
 
-        public Boolean UpdatingLock { get; set; }
+        public bool UpdatingLock { get; set; }
 
-        public Boolean IsAccessible { get; set; }
+        public bool IsAccessible { get; set; }
 
-        public Boolean IsLockExpired { get; set; }
+        public bool IsLockExpired { get; set; }
 
-        public Boolean AutoEscalateLock { get; set; }
+        public bool AutoEscalateLock { get; set; }
 
-        public Boolean LockAcquired { get; set; }
-
-
+        public bool LockAcquired { get; set; }
 
         #endregion Fields and Properties
 
         #region Public Methods
 
-        public FileStream OpenReadFileStream(Int32 bufferSize = 4096, Boolean lockStream = true)
+        public FileStream OpenReadFileStream(int bufferSize = 4096, bool lockStream = true)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(DefaultLockWaitMs);
             while (true)
@@ -103,13 +101,13 @@ namespace Business.Common.IO
             }
         }
 
-        public Boolean TempLockExists()
+        public bool TempLockExists()
         {
             _templockfile.Refresh();
             return _templockfile.Exists;
         }
 
-        public Boolean FileExists()
+        public bool FileExists()
         {
             _file.Refresh();
             return _file.Exists;
@@ -123,7 +121,7 @@ namespace Business.Common.IO
             LockUpdateTimer.Enabled = true;
         }
 
-        public Boolean ClearExpiredTempLock(Int32 lockWaitMs)
+        public bool ClearExpiredTempLock(int lockWaitMs)
         {
             if (!IsAccessible && !TempLockExists()) return false;
             var lockFileRemoved = false;
@@ -135,7 +133,7 @@ namespace Business.Common.IO
                 var hasMutex = false;
                 try
                 {
-                    Boolean createdNew;
+                    bool createdNew;
                     mutex = new Mutex(false, @"Global\" + _file.FullName.GetHashCode(), out createdNew);
                     try
                     {
@@ -197,13 +195,13 @@ namespace Business.Common.IO
                         mutex.ReleaseMutex();
                         mutex.Close();
                     }
-                    if (mutex != null) mutex.Dispose();
+                    mutex?.Dispose();
                 }
             }
             return lockFileRemoved;
         }
 
-        public Boolean GetLockAccess(Int32 lockWaitMs, TimeSpan lockDuration)
+        public bool GetLockAccess(int lockWaitMs, TimeSpan lockDuration)
         {
             bool isAccessible;
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
@@ -213,7 +211,7 @@ namespace Business.Common.IO
                 var hasMutex = false;
                 try
                 {
-                    Boolean createdNew;
+                    bool createdNew;
                     mutex = new Mutex(false, @"Global\" + _file.FullName.GetHashCode(), out createdNew);
                     try
                     {
@@ -293,14 +291,14 @@ namespace Business.Common.IO
                         mutex.ReleaseMutex();
                         mutex.Close();
                     }
-                    if (mutex != null) mutex.Dispose();
+                    mutex?.Dispose();
                 }
             }
             if (LockAcquired) StartLockUpdateTimer();
             return isAccessible;
         }
 
-        public Boolean UpdateTempLockFile(Int32 lockWaitMs, TimeSpan lockDuration)
+        public bool UpdateTempLockFile(int lockWaitMs, TimeSpan lockDuration)
         {
             bool lockFileCreated;
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
@@ -310,7 +308,7 @@ namespace Business.Common.IO
                 var hasMutex = false;
                 try
                 {
-                    Boolean createdNew;
+                    bool createdNew;
                     mutex = new Mutex(false, @"Global\" + _file.FullName.GetHashCode(), out createdNew);
                     try
                     {
@@ -368,13 +366,13 @@ namespace Business.Common.IO
                         mutex.ReleaseMutex();
                         mutex.Close();
                     }
-                    if (mutex != null) mutex.Dispose();
+                    mutex?.Dispose();
                 }
             }
             return lockFileCreated;
         }
 
-        public Boolean RemoveTempLockFile(Int32 lockWaitMs)
+        public bool RemoveTempLockFile(int lockWaitMs)
         {
             if (!TempLockExists()) return true;
             var lockFileRemoved = false;
@@ -389,7 +387,7 @@ namespace Business.Common.IO
                     var hasMutex = false;
                     try
                     {
-                        Boolean createdNew;
+                        bool createdNew;
                         mutex = new Mutex(false, @"Global\" + _file.FullName.GetHashCode(), out createdNew);
                         try
                         {
@@ -424,7 +422,7 @@ namespace Business.Common.IO
                             mutex.ReleaseMutex();
                             mutex.Close();
                         }
-                        if (mutex != null) mutex.Dispose();
+                        mutex?.Dispose();
                     }
                 }
             }
@@ -495,7 +493,7 @@ namespace Business.Common.IO
                     }
                     RemoveTempLockFile(DefaultLockWaitMs);
                 }
-                if (LockUpdateTimer != null) LockUpdateTimer.Close();
+                LockUpdateTimer?.Close();
             }
             catch (ObjectDisposedException)
             {

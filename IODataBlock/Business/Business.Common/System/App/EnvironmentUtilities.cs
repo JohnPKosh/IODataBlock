@@ -8,9 +8,9 @@ namespace Business.Common.System.App
 {
     public static class EnvironmentUtilities
     {
-        public static String GetComputerName()
+        public static string GetComputerName()
         {
-            var computerName = String.Empty;
+            var computerName = string.Empty;
 
             var environmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
             foreach (var de in environmentVariables.Cast<DictionaryEntry>().Where(de => de.Key.ToString() == "COMPUTERNAME"))
@@ -20,9 +20,9 @@ namespace Business.Common.System.App
             return computerName;
         }
 
-        public static String GetUserDomain()
+        public static string GetUserDomain()
         {
-            var userDomain = String.Empty;
+            var userDomain = string.Empty;
             var environmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
             foreach (var de in environmentVariables.Cast<DictionaryEntry>().Where(de => de.Key.ToString() == "USERDOMAIN"))
             {
@@ -31,28 +31,28 @@ namespace Business.Common.System.App
             return userDomain;
         }
 
-        public static String GetUserName()
+        public static string GetUserName()
         {
             return Environment.UserName;
         }
 
-        public static Boolean IsWebAssembly()
+        public static bool IsWebAssembly()
         {
             var entry = Assembly.GetEntryAssembly();
             return entry == null || Assembly.GetCallingAssembly().FullName.Contains(@"App_");
         }
 
-        public static String GetAssemblyName()
+        public static string GetAssemblyName()
         {
             return IsWebAssembly() ? Assembly.GetCallingAssembly().FullName : Assembly.GetEntryAssembly().FullName;
         }
 
-        public static String GetAssemblyLocation()
+        public static string GetAssemblyLocation()
         {
             return IsWebAssembly() ? Assembly.GetCallingAssembly().Location : Assembly.GetEntryAssembly().Location;
         }
 
-        public static String GetAssemblyDirectory()
+        public static string GetAssemblyDirectory()
         {
             return new FileInfo(GetAssemblyLocation()).DirectoryName;
         }

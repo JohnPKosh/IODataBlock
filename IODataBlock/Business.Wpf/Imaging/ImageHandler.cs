@@ -26,7 +26,6 @@ namespace Business.Wpf.Imaging
             }
         }
 
-
         /// <summary>
         /// Method to resize, convert and save the image.
         /// </summary>
@@ -34,7 +33,7 @@ namespace Business.Wpf.Imaging
         /// <param name="maxWidth">resize width.</param>
         /// <param name="maxHeight">resize height.</param>
         /// <param name="quality">quality setting value.</param>
-        /// <param name="filePath">file path.</param>      
+        /// <param name="filePath">file path.</param>
         public void Save(Bitmap image, int maxWidth, int maxHeight, int quality, string filePath)
         {
             // Get the image's original width and height
@@ -68,7 +67,7 @@ namespace Business.Wpf.Imaging
             // Create an Encoder object for the Quality parameter.
             var encoder = Encoder.Quality;
 
-            // Create an EncoderParameters object. 
+            // Create an EncoderParameters object.
             var encoderParameters = new EncoderParameters(1);
 
             // Save the image as a JPEG file with quality level.

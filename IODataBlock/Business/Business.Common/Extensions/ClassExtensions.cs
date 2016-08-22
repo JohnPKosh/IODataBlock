@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace Business.Common.Extensions
 {
@@ -43,7 +43,7 @@ namespace Business.Common.Extensions
 
         public static JObject ConvertJson(this string value, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             return JsonConvert.DeserializeObject(value, null, settings) as JObject;
         }
 
@@ -58,7 +58,7 @@ namespace Business.Common.Extensions
 
         public static object ConvertJson(this string value, Type type, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             return JsonConvert.DeserializeObject(value, type, settings);
         }
 
@@ -151,7 +151,7 @@ namespace Business.Common.Extensions
 
         public static T ReadJsonFile<T>(this FileInfo file, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             using (var sr = file.OpenText())
             {
                 using (var jr = new JsonTextReader(sr))
@@ -181,7 +181,7 @@ namespace Business.Common.Extensions
 
         public static ExpandoObject ReadJsonFile(this FileInfo file, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+            var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
             using (var sr = file.OpenText())
             {
                 return sr.ReadToEnd().ConvertJsonExpando(settings);
@@ -239,7 +239,7 @@ namespace Business.Common.Extensions
         public static XmlDocument ToJObjectXml(this object value)
         {
             //return (JObject)JToken.FromObject(value);
-            return JsonConvert.DeserializeXmlNode(JToken.FromObject(value).ToString(),"Root");
+            return JsonConvert.DeserializeXmlNode(JToken.FromObject(value).ToString(), "Root");
         }
 
         #endregion Json.net JObject
@@ -253,7 +253,7 @@ namespace Business.Common.Extensions
 
         #region BSON Serialization
 
-        public static Byte[] ToBsonByteArray(this object value)
+        public static byte[] ToBsonByteArray(this object value)
         {
             var ms = new MemoryStream();
             using (var writer = new BsonWriter(ms))
@@ -264,7 +264,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static Byte[] ToBsonByteArray(this object value, params JsonConverter[] converters)
+        public static byte[] ToBsonByteArray(this object value, params JsonConverter[] converters)
         {
             var ms = new MemoryStream();
             using (var writer = new BsonWriter(ms))
@@ -359,7 +359,7 @@ namespace Business.Common.Extensions
         }
 
         /*
-        
+
         public static T CreateFromJson(string value)
         {
             return value.ConvertJson<T>();
@@ -387,6 +387,6 @@ namespace Business.Common.Extensions
 
         */
 
-        #endregion
+        #endregion From IObjectBase
     }
 }

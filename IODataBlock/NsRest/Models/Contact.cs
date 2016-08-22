@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NsRest
 {
@@ -83,7 +79,5 @@ namespace NsRest
         public string externalId { get; set; }
 
         public String[] nullFieldList { get; set; }
-
-
     }
 }

@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Reflection;
+﻿using Business.Common.Reflection;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
 using RazorEngine.Text;
+using System;
+using System.Collections.Generic;
 
 namespace Business.Templates
 {
     public class GenericTemplateParser<T>
     {
-        public String RenderTemplate(T model, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public string RenderTemplate(T model, string templateString, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             return RunTemplate(model, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public String RenderTemplate(T model, Func<T, String> templateModelFunction, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public string RenderTemplate(T model, Func<T, string> templateModelFunction, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             return RunTemplate(model, templateModelFunction(model), viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public String RunTemplate(T model, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
+        public string RunTemplate(T model, string templateString, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
         {
-            var modelType = typeof(T).IsAnonymousOrDynamicType() ? null : typeof (T);
-            templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_Template", model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name) : templateName;
+            var modelType = typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T);
+            templateName = string.IsNullOrWhiteSpace(templateName) ?
+                $"{(model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name)}_Template"
+                : templateName;
             if (config == null) config = new TemplateServiceConfiguration();
             using (var service = RazorEngineService.Create(config))
             {
@@ -43,16 +42,18 @@ namespace Business.Templates
             }
         }
 
-        public IEnumerable<String> RenderTemplates(IEnumerable<T> model, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public IEnumerable<string> RenderTemplates(IEnumerable<T> model, string templateString, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             return RunTemplates(model, templateString, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public IEnumerable<String> RunTemplates(IEnumerable<T> model, string templateString, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
+        public IEnumerable<string> RunTemplates(IEnumerable<T> model, string templateString, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
         {
             var modelType = typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T);
-            templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_ItemTemplate", model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name) : templateName;
+            templateName = string.IsNullOrWhiteSpace(templateName) ?
+                $"{(model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name)}_ItemTemplate"
+                : templateName;
             if (config == null) config = new TemplateServiceConfiguration();
             using (var service = RazorEngineService.Create(config))
             {
@@ -71,16 +72,18 @@ namespace Business.Templates
             }
         }
 
-        public IEnumerable<String> RenderTemplates(IEnumerable<T> model, Func<T, String> templateModelFunction, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
+        public IEnumerable<string> RenderTemplates(IEnumerable<T> model, Func<T, string> templateModelFunction, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, bool rawStringFactory = true, bool allowMissingPropertiesOnDynamic = false, IEnumerable<string> nameSpaceNames = null, Type templateBase = null)
         {
             var config = GetConfiguration(rawStringFactory, allowMissingPropertiesOnDynamic, nameSpaceNames, templateBase);
             return RunTemplates(model, templateModelFunction, viewBag, templatePrefix, templateSuffix, templateName, sectionTemplates, config);
         }
 
-        public IEnumerable<String> RunTemplates(IEnumerable<T> model, Func<T, String> templateModelFunction, DynamicViewBag viewBag = null, String templatePrefix = null, String templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
+        public IEnumerable<string> RunTemplates(IEnumerable<T> model, Func<T, string> templateModelFunction, DynamicViewBag viewBag = null, string templatePrefix = null, string templateSuffix = null, string templateName = null, RazorTemplateSections sectionTemplates = null, TemplateServiceConfiguration config = null)
         {
             var modelType = typeof(T).IsAnonymousOrDynamicType() ? null : typeof(T);
-            templateName = String.IsNullOrWhiteSpace(templateName) ? String.Format("{0}_ItemTemplate", model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name) : templateName;
+            templateName = string.IsNullOrWhiteSpace(templateName) ?
+                $"{(model.GetType().IsAnonymousOrDynamicType() ? "anonymous" : model.GetType().Name)}_ItemTemplate"
+                : templateName;
             if (config == null) config = new TemplateServiceConfiguration();
             using (var service = RazorEngineService.Create(config))
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
-using Data.DbClient;
+﻿using Data.DbClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Business.Test.Data
@@ -25,7 +21,7 @@ namespace Business.Test.Data
             }
         }
 
-        // TODO: implement CsvHelper library for all 
+        // TODO: implement CsvHelper library for all
 
         [TestMethod]
         public void BAN_VENDOR_LISTING_ImportTest()
@@ -48,7 +44,6 @@ namespace Business.Test.Data
                 Assert.IsTrue(rv);
             }
         }
-
 
         [TestMethod]
         public void BAN_VENDOR_LISTING_ImportTabSeperatedTest()
@@ -160,7 +155,6 @@ namespace Business.Test.Data
             }
         }
 
-
         [TestMethod]
         public void TAX_SURCHARGE_LPC_DETAIL_ImportTest()
         {
@@ -249,8 +243,6 @@ namespace Business.Test.Data
             }
         }
 
-
-
         [TestMethod]
         public void QueryToSqlServerBulkTest()
         {
@@ -263,7 +255,7 @@ namespace Business.Test.Data
                     "USAGE_DETAIL_Import_copy",
                     300,
                     1000,
-                    300, 
+                    300,
                     true
                     );
             }
@@ -317,9 +309,9 @@ ORDER BY cnt, productid",
             using (var db = Database.OpenConnectionString(NpgsqlConnectionString, "Npgsql"))
             {
                 db.QueryToSqlServerBulk(
-                    @"SELECT trunkgroupid, productid, productpriority, sourcerating, penaltyrate, 
-       rateperiod, initialperiod, initialrate, initialratetype, objid, 
-       recid, ratio, forcelrn, created_by, created_at, updated_by, updated_at, 
+                    @"SELECT trunkgroupid, productid, productpriority, sourcerating, penaltyrate,
+       rateperiod, initialperiod, initialrate, initialratetype, objid,
+       recid, ratio, forcelrn, created_by, created_at, updated_by, updated_at,
        lcrrtype
   FROM trunkgroups;",
                     SqlServerConnectionString,
@@ -331,9 +323,7 @@ ORDER BY cnt, productid",
                     );
             }
         }
-
     }
 }
-
 
 // 99,3124220928116,AT&T Ameritech CHG (C),,ATT Retail,YOY,,,,N,,3124220928,CYC,N,,,,C-0004893,PO BOX 8100 | Aurora, IL 60507-8100,2015-05-14 21:34:18.000,InActive,,,,,,maxelrod,2012-04-20 11:21:32.000,9999

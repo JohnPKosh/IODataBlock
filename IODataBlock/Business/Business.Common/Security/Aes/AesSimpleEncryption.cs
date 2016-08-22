@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Business.Common.IO;
+using Business.Common.IO.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using Business.Common.IO;
-using Business.Common.IO.Serialization;
 
 namespace Business.Common.Security.Aes
 {
@@ -18,7 +18,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Base64 Encryption Initalization Vector.
         /// </summary>
         /// <returns>String Base64 Encryption Initalization Vector</returns>
-        public static String MakeAesBase64Iv()
+        public static string MakeAesBase64Iv()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateIV();
@@ -29,7 +29,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Base64 Encryption Key.
         /// </summary>
         /// <returns>String Base64 Encryption Key</returns>
-        public static String MakeAesBase64Key()
+        public static string MakeAesBase64Key()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateKey();
@@ -40,7 +40,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Byte[] Encryption Initalization Vector.
         /// </summary>
         /// <returns>Byte[] Encryption Initalization Vector</returns>
-        public static Byte[] MakeAesIv()
+        public static byte[] MakeAesIv()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateIV();
@@ -51,7 +51,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Byte[] Encryption Key.
         /// </summary>
         /// <returns>Byte[] Encryption Key</returns>
-        public static Byte[] MakeAesKey()
+        public static byte[] MakeAesKey()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateKey();
@@ -67,10 +67,10 @@ namespace Business.Common.Security.Aes
         /// </summary>
         /// <param name="encryptstr">The String to Encrypt.</param>
         /// <returns>Encrypted Base64 Encoded String</returns>
-        public static String AesSimpleEncryptBase64(this String encryptstr)
+        public static string AesSimpleEncryptBase64(this string encryptstr)
         {
-            String returnstr;
-            encryptstr = encryptstr ?? String.Empty;
+            string returnstr;
+            encryptstr = encryptstr ?? string.Empty;
             var key = MakeAesBase64Key();
             var iv = MakeAesBase64Iv();
 
@@ -83,7 +83,7 @@ namespace Business.Common.Security.Aes
                     cryptoStream.Write(byteArray, 0, byteArray.Length);
                     cryptoStream.FlushFinalBlock();
                 }
-                var encstr = String.Concat((MakeAesBase64Iv() + @"q4XjXd1=" + key + @"jt0dX4qI" + iv + @"q3jy4ixh" + Convert.ToBase64String(memoryStream.ToArray())).Reverse());
+                var encstr = string.Concat((MakeAesBase64Iv() + @"q4XjXd1=" + key + @"jt0dX4qI" + iv + @"q3jy4ixh" + Convert.ToBase64String(memoryStream.ToArray())).Reverse());
                 returnstr = global::System.Web.HttpUtility.UrlEncode(encstr);
             }
             return returnstr;
@@ -94,10 +94,10 @@ namespace Business.Common.Security.Aes
         /// </summary>
         /// <param name="decryptstr">The String to Decrypt.</param>
         /// <returns>Decrypted String</returns>
-        public static String AesSimpleDecryptBase64(this String decryptstr)
+        public static string AesSimpleDecryptBase64(this string decryptstr)
         {
-            String returnstr;
-            decryptstr = String.Concat(global::System.Web.HttpUtility.UrlDecode(decryptstr).Reverse());
+            string returnstr;
+            decryptstr = string.Concat(global::System.Web.HttpUtility.UrlDecode(decryptstr).Reverse());
             var entries = decryptstr.Split(new[] { @"q4XjXd1=", @"jt0dX4qI", @"q3jy4ixh" }, StringSplitOptions.None);
 
             var byteArray = Convert.FromBase64String(entries[3]);
@@ -141,9 +141,9 @@ namespace Business.Common.Security.Aes
                 encryptstream.Write(IVarr, 0, 16);
                 encryptstream.Write(MakeAesIv(), 0, 16);  // ignore on decrypt
 
-                var buffersize = inputStream.Length > 4096 ? 4096 : (Int32)inputStream.Length;
+                var buffersize = inputStream.Length > 4096 ? 4096 : (int)inputStream.Length;
 
-                var bytes = new Byte[buffersize];
+                var bytes = new byte[buffersize];
 
                 while (true) // Loops Rule!!!!!!!!
                 {
@@ -187,8 +187,8 @@ namespace Business.Common.Security.Aes
                     encryptstream.Write(IVarr, 0, 16);
                     encryptstream.Write(MakeAesIv(), 0, 16);  // ignore on decrypt
 
-                    var buffersize = inputStream.Length > 4096 ? 4096 : (Int32)inputStream.Length;
-                    var bytes = new Byte[buffersize];
+                    var buffersize = inputStream.Length > 4096 ? 4096 : (int)inputStream.Length;
+                    var bytes = new byte[buffersize];
 
                     while (true) // Loops Rule!!!!!!!!
                     {
@@ -218,7 +218,7 @@ namespace Business.Common.Security.Aes
         /// </summary>
         /// <param name="inputStream">The input stream.</param>
         /// <param name="outputFilePath">The output file path.</param>
-        public static void AesSimpleEncryptToFile(this Stream inputStream, String outputFilePath)
+        public static void AesSimpleEncryptToFile(this Stream inputStream, string outputFilePath)
         {
             inputStream.AesSimpleEncryptToFile(new FileInfo(outputFilePath));
         }
@@ -247,8 +247,8 @@ namespace Business.Common.Security.Aes
 
                     using (new StreamReader(inputStream))
                     {
-                        var buffersize = inputStream.Length > 4096 ? 4096 : (Int32)inputStream.Length;
-                        var bytes = new Byte[buffersize];
+                        var buffersize = inputStream.Length > 4096 ? 4096 : (int)inputStream.Length;
+                        var bytes = new byte[buffersize];
 
                         while (true) // Loops Rule!!!!!!!!
                         {
@@ -282,8 +282,8 @@ namespace Business.Common.Security.Aes
         {
             var r = new AesCryptoServiceProvider();
 
-            var keyarr = new Byte[32];  // 32
-            var IVarr = new Byte[16];  // 16
+            var keyarr = new byte[32];  // 32
+            var IVarr = new byte[16];  // 16
 
             inputStream.Seek(32, SeekOrigin.Begin);
             inputStream.Read(keyarr, 0, 32);
@@ -293,12 +293,12 @@ namespace Business.Common.Security.Aes
             var decryptstream = new MemoryStream();
             using (var cryptor = new CryptoStream(inputStream, r.CreateDecryptor(keyarr, IVarr), CryptoStreamMode.Read))
             {
-                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (Int32)inputStream.Length - 96;
-                var bytes = new Byte[buffersize];
+                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (int)inputStream.Length - 96;
+                var bytes = new byte[buffersize];
 
                 while (true) // Loops Rule!!!!!!!!
                 {
-                    Int32 bytecount = cryptor.Read(bytes, 0, bytes.Length);
+                    var bytecount = cryptor.Read(bytes, 0, bytes.Length);
                     if (bytecount > 0)
                     {
                         decryptstream.Write(bytes, 0, bytecount);
@@ -321,8 +321,8 @@ namespace Business.Common.Security.Aes
         public static void AesSimpleDecryptStream(this Stream inputStream)
         {
             var r = new AesCryptoServiceProvider();
-            var keyarr = new Byte[32];  // 32
-            var IVarr = new Byte[16];  // 16
+            var keyarr = new byte[32];  // 32
+            var IVarr = new byte[16];  // 16
 
             inputStream.Seek(32, SeekOrigin.Begin);
             inputStream.Read(keyarr, 0, 32);
@@ -333,8 +333,8 @@ namespace Business.Common.Security.Aes
             {
                 var cryptor = new CryptoStream(inputStream, r.CreateDecryptor(keyarr, IVarr), CryptoStreamMode.Read);
 
-                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (Int32)inputStream.Length - 96;
-                var bytes = new Byte[buffersize];
+                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (int)inputStream.Length - 96;
+                var bytes = new byte[buffersize];
 
                 while (true) // Loops Rule!!!!!!!!
                 {
@@ -361,7 +361,7 @@ namespace Business.Common.Security.Aes
         /// </summary>
         /// <param name="inputStream">The input stream.</param>
         /// <param name="outputFilePath">The output file path.</param>
-        public static void AesSimpleDecryptToFile(this Stream inputStream, String outputFilePath)
+        public static void AesSimpleDecryptToFile(this Stream inputStream, string outputFilePath)
         {
             inputStream.AesSimpleDecryptToFile(new FileInfo(outputFilePath));
         }
@@ -374,8 +374,8 @@ namespace Business.Common.Security.Aes
         public static void AesSimpleDecryptToFile(this Stream inputStream, FileInfo outputFileInfo)
         {
             var r = new AesCryptoServiceProvider();
-            var keyarr = new Byte[32];  // 32
-            var IVarr = new Byte[16];  // 16
+            var keyarr = new byte[32];  // 32
+            var IVarr = new byte[16];  // 16
 
             inputStream.Seek(32, SeekOrigin.Begin);
             inputStream.Read(keyarr, 0, 32);
@@ -386,8 +386,8 @@ namespace Business.Common.Security.Aes
             {
                 var cryptor = new CryptoStream(inputStream, r.CreateDecryptor(keyarr, IVarr), CryptoStreamMode.Read);
 
-                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (Int32)inputStream.Length - 96;
-                var bytes = new Byte[buffersize];
+                var buffersize = inputStream.Length - 96 > 4096 ? 4096 : (int)inputStream.Length - 96;
+                var bytes = new byte[buffersize];
 
                 while (true) // Loops Rule!!!!!!!!
                 {
@@ -415,7 +415,7 @@ namespace Business.Common.Security.Aes
         /// <param name="inputFileInfo">The input file.</param>
         /// <param name="outputFilePath">The output file path.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesSimpleEncryptToFile(this FileInfo inputFileInfo, String outputFilePath, Int32 lockWaitMs = 60000)
+        public static void AesSimpleEncryptToFile(this FileInfo inputFileInfo, string outputFilePath, int lockWaitMs = 60000)
         {
             inputFileInfo.AesSimpleEncryptToFile(new FileInfo(outputFilePath), lockWaitMs);
         }
@@ -430,7 +430,7 @@ namespace Business.Common.Security.Aes
         /// <exception cref="Exception">
         /// @Can not open locked file! The file is locked by another process.
         /// </exception>
-        public static void AesSimpleEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, Int32 lockWaitMs = 60000)
+        public static void AesSimpleEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -454,7 +454,7 @@ namespace Business.Common.Security.Aes
         /// <param name="inputFileInfo">The input file.</param>
         /// <param name="outputFilePath">The output file path.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesSimpleDecryptToFile(this FileInfo inputFileInfo, String outputFilePath, Int32 lockWaitMs = 60000)
+        public static void AesSimpleDecryptToFile(this FileInfo inputFileInfo, string outputFilePath, int lockWaitMs = 60000)
         {
             inputFileInfo.AesSimpleDecryptToFile(new FileInfo(outputFilePath), lockWaitMs);
         }
@@ -469,7 +469,7 @@ namespace Business.Common.Security.Aes
         /// <exception cref="Exception">
         /// @Can not open locked file! The file is locked by another process.
         /// </exception>
-        public static void AesSimpleDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, Int32 lockWaitMs = 60000)
+        public static void AesSimpleDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -595,8 +595,8 @@ namespace Business.Common.Security.Aes
         /// <param name="encodingType">Type of the encoding.</param>
         /// <param name="knownTypes">The known types.</param>
         /// <returns></returns>
-        public static FileInfo AesSimpleEncryptSerializeToFile<T>(this T obj, String filePath,
-        Int32 lockWaitMs = 60000,
+        public static FileInfo AesSimpleEncryptSerializeToFile<T>(this T obj, string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -619,7 +619,7 @@ namespace Business.Common.Security.Aes
         /// <returns></returns>
         /// <exception cref="DirectoryNotFoundException"></exception>
         public static FileInfo AesSimpleEncryptSerializeToFile<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -658,7 +658,7 @@ namespace Business.Common.Security.Aes
         #region Private FileInfo AesEncrypt Serializer Methods
 
         private static FileInfo AesSimpleEncryptSerializeNoRollback<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -684,7 +684,7 @@ namespace Business.Common.Security.Aes
         }
 
         private static FileInfo AesSimpleEncryptSerializeRollbackFromCopy<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -735,7 +735,7 @@ namespace Business.Common.Security.Aes
         }
 
         private static FileInfo AesSimpleEncryptSerializeRollbackInMemory<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -780,7 +780,7 @@ namespace Business.Common.Security.Aes
         /// @Can not open locked file! The file is locked by another process.
         /// </exception>
         public static T AesSimpleDecryptDeserializeFile<T>(this FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -813,8 +813,8 @@ namespace Business.Common.Security.Aes
         /// <param name="encodingType">Type of the encoding.</param>
         /// <param name="knownTypes">The known types.</param>
         /// <returns></returns>
-        public static FileInfo AesSimpleEncryptGZipSerializeToFile<T>(this T obj, String filePath,
-        Int32 lockWaitMs = 60000,
+        public static FileInfo AesSimpleEncryptGZipSerializeToFile<T>(this T obj, string filePath,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -837,7 +837,7 @@ namespace Business.Common.Security.Aes
         /// <returns></returns>
         /// <exception cref="DirectoryNotFoundException"></exception>
         public static FileInfo AesSimpleEncryptGZipSerializeToFile<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         IoRollbackType rollbackType = IoRollbackType.None,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
@@ -876,7 +876,7 @@ namespace Business.Common.Security.Aes
         #region Private FileInfo AesEncryptGZip Serializer Methods
 
         private static FileInfo AesSimpleEncryptGZipSerializeNoRollback<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -902,7 +902,7 @@ namespace Business.Common.Security.Aes
         }
 
         private static FileInfo AesSimpleEncryptGZipSerializeRollbackFromCopy<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -953,7 +953,7 @@ namespace Business.Common.Security.Aes
         }
 
         private static FileInfo AesSimpleEncryptGZipSerializeRollbackInMemory<T>(this T obj, FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlWriterSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -998,7 +998,7 @@ namespace Business.Common.Security.Aes
         /// @Can not open locked file! The file is locked by another process.
         /// </exception>
         public static T AesSimpleDecryptGZipDeserializeFile<T>(this FileInfo fileInfo,
-        Int32 lockWaitMs = 60000,
+        int lockWaitMs = 60000,
         XmlReaderSettings settings = null,
         Encoding encodingType = null,
         IEnumerable<Type> knownTypes = null) where T : class
@@ -1020,7 +1020,5 @@ namespace Business.Common.Security.Aes
         #endregion File Serialization Extensions
 
         #endregion Serialization Extensions
-
-
     }
 }

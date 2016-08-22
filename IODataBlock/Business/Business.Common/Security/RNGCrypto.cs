@@ -52,7 +52,7 @@ namespace Business.Common.Security
             var derivedBytes = GetDerivedBytes(pwd, Convert.FromBase64String(salt), iterations);
             return derivedBytes.GetBytes(length);
         }
-        
+
         #region TripleDesCryptoServiceProvider Methods
 
         public static byte[] GetTripleDesKeyBytes(string pwd, byte[] salt, int length = 24, int iterations = 1000)
@@ -81,7 +81,7 @@ namespace Business.Common.Security
 
         #region TripleDesCryptoServiceProvider Basic Generate Methods
 
-        public static Byte[] GenerateTripleDesKey(bool useGenerateMethod = true) // 24 bytes default length.
+        public static byte[] GenerateTripleDesKey(bool useGenerateMethod = true) // 24 bytes default length.
         {
             var cryptoProvider = new TripleDESCryptoServiceProvider();
             if (useGenerateMethod)
@@ -91,7 +91,7 @@ namespace Business.Common.Security
             return cryptoProvider.Key;
         }
 
-        public static Byte[] GenerateTripleDesIv(bool useGenerateMethod = true) // 8 bytes default length.
+        public static byte[] GenerateTripleDesIv(bool useGenerateMethod = true) // 8 bytes default length.
         {
             var cryptoProvider = new TripleDESCryptoServiceProvider();
             if (useGenerateMethod)
@@ -133,7 +133,7 @@ namespace Business.Common.Security
 
         #region AesCryptoServiceProvider Basic Generate Methods
 
-        public static Byte[] GenerateAesKey(bool useGenerateMethod = true) //32 bytes default length.
+        public static byte[] GenerateAesKey(bool useGenerateMethod = true) //32 bytes default length.
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             if (useGenerateMethod)
@@ -143,7 +143,7 @@ namespace Business.Common.Security
             return cryptoProvider.Key;
         }
 
-        public static Byte[] GenerateAesIv(bool useGenerateMethod = true) //16 bytes default length.
+        public static byte[] GenerateAesIv(bool useGenerateMethod = true) //16 bytes default length.
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             if (useGenerateMethod)

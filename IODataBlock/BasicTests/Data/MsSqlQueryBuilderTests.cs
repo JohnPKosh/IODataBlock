@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Data.DbClient.Fluent.Select;
+﻿using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace BasicTests.Data
 {
     [TestClass]
     public class MsSqlQueryBuilderTests
     {
-
         [TestMethod]
         public void SelectQueryBuilderTest()
         {
@@ -25,7 +23,6 @@ namespace BasicTests.Data
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
-
 
         [TestMethod]
         public void SelectQueryBuilderTest2()

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Common.Generic
 {
@@ -29,15 +29,8 @@ namespace Business.Common.Generic
 
         public ICommandObject<TIn, TOut> Parse(string collectionName, IRequestObject<TIn> requestObject)
         {
-            try
-            {
-                var command = Find(collectionName, requestObject.CommandName);
-                return ((ICommandObjectFactory<TIn, TOut>)command).Create(requestObject);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var command = Find(collectionName, requestObject.CommandName);
+            return ((ICommandObjectFactory<TIn, TOut>)command).Create(requestObject);
         }
 
         public ICommandObject<TIn, TOut> Parse(string collectionName, string commandName, IRequestObject<TIn> requestObject)
@@ -45,7 +38,6 @@ namespace Business.Common.Generic
             var command = Find(collectionName, commandName);
             return ((ICommandObjectFactory<TIn, TOut>)command).Create(requestObject);
         }
-
 
         public bool TryParse(string collectionName, IRequestObject<TIn> requestObject, out ICommandObject<TIn, TOut> commandObject)
         {
@@ -90,7 +82,7 @@ namespace Business.Common.Generic
             }
             catch (Exception ex)
             {
-                return requestObject.RequestData.ToFailedGenericResponse<TIn, TOut>(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
+                return requestObject.RequestData.ToFailedGenericResponse(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
             }
         }
 
@@ -116,7 +108,7 @@ namespace Business.Common.Generic
             try
             {
                 var commands = _commandObjectDictionary[collectionName];
-                return commands.First(c => c.CommandName == String.Format(@"{0}Command", commandName));
+                return commands.First(c => c.CommandName == $@"{commandName}Command");
             }
             catch (Exception)
             {

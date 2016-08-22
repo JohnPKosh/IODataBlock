@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Business.Common.IO;
 using System.Configuration;
 using System.Web.Configuration;
-using Business.Common.IO;
 
 namespace Business.Common.Configuration
 {
@@ -25,7 +24,7 @@ namespace Business.Common.Configuration
             /// </summary>
             protected internal void ProtectConnectionStrings()
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var section = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (section == null) return;
                 if (section.SectionInformation.IsProtected) return;
@@ -40,7 +39,7 @@ namespace Business.Common.Configuration
             /// </summary>
             protected internal void UnProtectConnectionStrings()
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var section = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (section == null) return;
                 if (!section.SectionInformation.IsProtected) return;
@@ -50,21 +49,21 @@ namespace Business.Common.Configuration
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
 
-            protected internal String GetConnectionStringByName(String name)
+            protected internal string GetConnectionStringByName(string name)
             {
                 var settings = ConfigurationManager.ConnectionStrings[name];
-                return settings != null ? settings.ConnectionString : null;
+                return settings?.ConnectionString;
             }
 
-            protected internal String GetProviderByName(String name)
+            protected internal string GetProviderByName(string name)
             {
                 var settings = ConfigurationManager.ConnectionStrings[name];
-                return settings != null ? settings.ProviderName : null;
+                return settings?.ProviderName;
             }
 
-            protected internal void SetElementByName(String name, String value)
+            protected internal void SetElementByName(string name, string value)
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var connStrings = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (connStrings == null) return;
                 if (connStrings.ConnectionStrings[name] != null)
@@ -78,9 +77,9 @@ namespace Business.Common.Configuration
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
 
-            protected internal void SetElementByName(String name, String value, String provider)
+            protected internal void SetElementByName(string name, string value, string provider)
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var connStrings = config.GetSection("connectionStrings") as ConnectionStringsSection;
                 if (connStrings == null) return;
                 if (connStrings.ConnectionStrings[name] != null)
@@ -94,21 +93,16 @@ namespace Business.Common.Configuration
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
 
-            protected internal void RemoveElementByName(String name)
+            protected internal void RemoveElementByName(string name)
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var connStrings = config.GetSection("connectionStrings") as ConnectionStringsSection;
-                if (connStrings == null) return;
-                if (connStrings.ConnectionStrings[name] == null) return;
+                if (connStrings?.ConnectionStrings[name] == null) return;
                 connStrings.ConnectionStrings.Remove(name);
                 connStrings.SectionInformation.ForceSave = true;
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("connectionStrings");
             }
-
-
-
-
 
             #endregion "Methods"
         }

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Business.Common.Extensions;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.Extensions;
-using Business.Common.Security;
-using Business.Common.System;
 
 namespace Business.Common.Configuration
 {
@@ -17,16 +10,16 @@ namespace Business.Common.Configuration
         public static bool TryLoad(out CspDefault value, bool deleteOnLoad = true)
         {
             var fi = new FileInfo(Location);
-            if (fi.Directory != null && (fi.Directory.Exists && fi.Exists))
+            if (fi.Directory != null && fi.Directory.Exists && fi.Exists)
             {
                 try
                 {
                     value = fi.BsonDeserialize<CspDefault>();
-                    if(deleteOnLoad)fi.Delete();
+                    if (deleteOnLoad) fi.Delete();
                     return true;
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
-                catch{}
+                catch { }
             }
             value = null;
             return false;

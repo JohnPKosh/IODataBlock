@@ -1,16 +1,12 @@
-﻿using System;
-using Business.Common.Requests;
-using Business.Common.Responses;
+﻿using Business.Common.Requests;
 using Business.Common.System.App;
+using System;
 
 namespace Business.Common.System.Commands
 {
     public class SetDynamicAppStateCommand : CommandObjectBase
     {
-        public override string Description
-        {
-            get { return "SetDynamicAppState - Sets the current app state."; }
-        }
+        public override string Description => "SetDynamicAppState - Sets the current app state.";
 
         public override Func<IRequestObject, object> CommandFunction { get; set; }
 

@@ -1,30 +1,26 @@
-﻿// ------------------------------------------------------------------ 
-// 
+﻿// ------------------------------------------------------------------
+//
 // Description:
-//  
-// Author: John Kosh 
+//
+// Author: John Kosh
 // E-mail: jkosh@broadvox.com
 // Created:
-// ------------------------------------------------------------------ 
-// 
+// ------------------------------------------------------------------
+//
 // Copyright © Broadvox LLC 2010
-// 
-// ------------------------------------------------------------------ 
+//
+// ------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Business.Common.System.Args;
-using ExBaseArguments;
+using System;
+using System.Linq;
 
 namespace SelfHostWebApi
 {
     /// <summary>
     /// ExitCode Enumeration to be returned as ExitCode for the Application on Exit.
     /// </summary>
-    public enum ExitCodeType : int
+    public enum ExitCodeType
     {
         Success = 0,
         Failure = 1
@@ -33,13 +29,13 @@ namespace SelfHostWebApi
     /// <summary>
     /// Primary entry point class of the Application.
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
         /// Primary entry point method of the Application.
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Arguments ArgumentDictionary = null;
             try // Parse Arguments

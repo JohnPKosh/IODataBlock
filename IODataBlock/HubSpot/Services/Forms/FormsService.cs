@@ -1,7 +1,7 @@
-﻿using System;
-using Business.Common.GenericResponses;
+﻿using Business.Common.GenericResponses;
 using Flurl;
 using Flurl.Http;
+using System;
 
 namespace HubSpot.Services.Forms
 {
@@ -13,7 +13,6 @@ namespace HubSpot.Services.Forms
         }
 
         private readonly string _hapiKey;
-
 
         public IResponseObject<string, string> GetForms()
         {

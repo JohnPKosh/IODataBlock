@@ -16,21 +16,9 @@ namespace BasicTests.TemplateTests.bak
 
         private const string SqlServerDatabase = @"master";
 
-        private static string SqlServerConnectionString
-        {
-            get
-            {
-                return Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
-            }
-        }
+        private static string SqlServerConnectionString => Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
 
-        private static string NewSqlServerConnectionString
-        {
-            get
-            {
-                return Database.CreateSqlConnectionString(NewSqlServer, SqlServerDatabase);
-            }
-        }
+        private static string NewSqlServerConnectionString => Database.CreateSqlConnectionString(NewSqlServer, SqlServerDatabase);
 
         [TestMethod]
         public void TestMethod1()
@@ -77,8 +65,6 @@ namespace BasicTests.TemplateTests.bak
 
             var sqlcmd = ParseTemplates(data.Select(x => x.name as string).Distinct(), @"C:\Users\jkosh\Documents\GitHub\IODataBlock\IODataBlock\BasicTests\TemplateTests\bak\sqlcmd_dropNewDbs.cshtml");
             System.IO.File.WriteAllText(System.IO.Path.Combine(@"C:\junk\migration\deletes", @"dropNewDbs.sql"), sqlcmd);
-
-
         }
 
         private IEnumerable<dynamic> GetModels()
@@ -158,8 +144,6 @@ ORDER BY 1,2
 
             return Database.Query(NewSqlServerConnectionString, "System.Data.SqlClient", sql, 120);
         }
-
-
 
         private string ParseTemplate(string name, string dataFileName, string logFileName, string razorfile)
         {

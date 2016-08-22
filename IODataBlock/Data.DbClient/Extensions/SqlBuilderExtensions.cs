@@ -12,14 +12,9 @@ namespace Data.DbClient.Extensions
         //{
         //}
 
-
         public static IEnumerable<SqlBulkCopyColumnMapping> GetSqlBulkCopyColumnMappings(this IDictionary<string, string> mappings)
         {
-            if (mappings != null)
-            {
-                return mappings.Select(mapId => new SqlBulkCopyColumnMapping(mapId.Key, mapId.Value));
-            }
-            return null;
+            return mappings?.Select(mapId => new SqlBulkCopyColumnMapping(mapId.Key, mapId.Value));
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Business.Common.Requests;
+﻿using Business.Common.Requests;
 using Business.Common.System;
 using Business.Test.TestUtility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace Business.Test.Common
 {

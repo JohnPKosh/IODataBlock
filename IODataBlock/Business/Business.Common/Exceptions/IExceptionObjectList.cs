@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Business.Common.Exceptions
 {
@@ -9,7 +9,7 @@ namespace Business.Common.Exceptions
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         IList<IExceptionObject> Exceptions { get; set; }
 
-        String ToJson(Boolean indented = false);
+        string ToJson(bool indented = false);
 
         void Add(
             Exception exception

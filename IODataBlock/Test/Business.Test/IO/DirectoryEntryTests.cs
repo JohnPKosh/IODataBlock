@@ -1,9 +1,10 @@
-﻿using System;
-using System.IO;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.IO;
+
 //using Business.Utilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 
 namespace Business.Test.IO
 {

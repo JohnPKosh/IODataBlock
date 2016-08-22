@@ -96,6 +96,7 @@
     <Compile Include="Data\DbQueryBuilderTests.cs" />
     <Compile Include="Data\DbSqlQueryBuilderTests.cs" />
     <Compile Include="Data\DnInsert.cs" />
+    <Compile Include="Data\MsAccessTests.cs" />
     <Compile Include="Data\MsSqlQueryBuilderTests.cs" />
     <Compile Include="Data\SqlBulkCopyTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
@@ -133,6 +134,10 @@
     <ProjectReference Include="..\Data.DbClient\Data.DbClient.csproj">
       <Project>{43768c83-b6d7-49ad-8685-ab76f0cd5b82}</Project>
       <Name>Data.DbClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.MsAccess\Data.MsAccess.csproj">
+      <Project>{03d196db-da9d-4455-bd3c-f6e28f600def}</Project>
+      <Name>Data.MsAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\HubSpot\HubSpot.csproj">
       <Project>{37a6b3d6-018e-493c-957a-c92d6cf78df5}</Project>

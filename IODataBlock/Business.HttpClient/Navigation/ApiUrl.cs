@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.System;
-using Business.Common.System.App;
 using Flurl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace Business.HttpClient.Navigation
 {
@@ -51,29 +47,29 @@ namespace Business.HttpClient.Navigation
             this.PopulateObjectFromJson(value, settings);
         }
 
-        static public implicit operator string(ApiUrl value)
+        public static implicit operator string(ApiUrl value)
         {
             return value.GetUrl();
         }
 
-        static public implicit operator Url(ApiUrl value)
+        public static implicit operator Url(ApiUrl value)
         {
             return value.GetUrl();
         }
 
-        static public implicit operator JObject(ApiUrl value)
+        public static implicit operator JObject(ApiUrl value)
         {
             return value.ToJObject();
         }
 
-        static public implicit operator ApiUrl(JObject value)
+        public static implicit operator ApiUrl(JObject value)
         {
             return value.ToObject<ApiUrl>();
         }
 
         public string Format(params object[] args)
         {
-            return String.Format(GetUrl(), args);
+            return string.Format(GetUrl(), args);
         }
 
         //private string parseUrl()

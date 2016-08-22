@@ -108,7 +108,7 @@ namespace Business.Common.IO.Serialization
             IEnumerable<Type> knownTypes = null) where T : class
         {
             T returnvalue;
-            DataContractSerializer dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
+            var dcs = knownTypes != null ? new DataContractSerializer(typeof(T), knownTypes) : new DataContractSerializer(typeof(T));
             if (settings == null) settings = new XmlReaderSettings();
             settings.CloseInput = false;  // leave the underlying stream still open.
 

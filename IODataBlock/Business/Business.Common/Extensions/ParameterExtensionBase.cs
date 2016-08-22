@@ -22,32 +22,32 @@ namespace Business.Common.Extensions
         /// <param name="startTag"></param>
         /// <param name="endTag"></param>
         /// <returns></returns>
-        public static String ReplaceNumberParameters(this String value,
-            String startTag = @"@",
-            String endTag = null,
-            String quotedIdentifier = @"'",
-            IEnumerable<Object> numberedArgs = null)
+        public static string ReplaceNumberParameters(this string value,
+            string startTag = @"@",
+            string endTag = null,
+            string quotedIdentifier = @"'",
+            IEnumerable<object> numberedArgs = null)
         {
             return numberedArgs == null ? value : value.ReplaceNumberParametersInternal(startTag, endTag, quotedIdentifier, numberedArgs.ToArray());
         }
 
-        private static String ReplaceNumberParametersInternal(this String value,
-            String startTag = @"@",
-            String endTag = null,
-            String quotedIdentifier = @"'",
-            params Object[] numberedArgs)
+        private static string ReplaceNumberParametersInternal(this string value,
+            string startTag = @"@",
+            string endTag = null,
+            string quotedIdentifier = @"'",
+            params object[] numberedArgs)
         {
             if (numberedArgs == null) return value;
-            startTag = String.IsNullOrWhiteSpace(startTag) ? String.Empty : startTag;
-            endTag = String.IsNullOrWhiteSpace(endTag) ? String.Empty : endTag;
+            startTag = string.IsNullOrWhiteSpace(startTag) ? string.Empty : startTag;
+            endTag = string.IsNullOrWhiteSpace(endTag) ? string.Empty : endTag;
             for (var i = 0; i < numberedArgs.Length; i++)
             {
                 var arg = numberedArgs[i];
-                if (!String.IsNullOrWhiteSpace(quotedIdentifier) && numberedArgs[i] is string)
+                if (!string.IsNullOrWhiteSpace(quotedIdentifier) && numberedArgs[i] is string)
                 {
                     arg = quotedIdentifier + numberedArgs[i] + quotedIdentifier;
                 }
-                value = value.Replace(String.Format(@"{0}{1}{2}", startTag, i, endTag), arg.ToString());
+                value = value.Replace($@"{startTag}{i}{endTag}", arg.ToString());
             }
             return value;
         }
@@ -82,16 +82,16 @@ namespace Business.Common.Extensions
         /// <param name="startTag">The start tag.</param>
         /// <param name="endTag">The end tag.</param>
         /// <returns></returns>
-        public static String ReplaceNamedParameters(this String value,
-            IDictionary<String, String> namedArgs,
-            String startTag = null,
-            String endTag = null
+        public static string ReplaceNamedParameters(this string value,
+            IDictionary<string, string> namedArgs,
+            string startTag = null,
+            string endTag = null
             )
         {
             if (namedArgs == null) return value;
-            startTag = String.IsNullOrWhiteSpace(startTag) ? String.Empty : startTag;
-            endTag = String.IsNullOrWhiteSpace(endTag) ? String.Empty : endTag;
-            return namedArgs.Aggregate(value, (current, k) => current.Replace(String.Format(@"{0}{1}{2}", startTag, k.Key, endTag), k.Value));
+            startTag = string.IsNullOrWhiteSpace(startTag) ? string.Empty : startTag;
+            endTag = string.IsNullOrWhiteSpace(endTag) ? string.Empty : endTag;
+            return namedArgs.Aggregate(value, (current, k) => current.Replace($@"{startTag}{k.Key}{endTag}", k.Value));
         }
 
         /// <summary>
@@ -102,16 +102,17 @@ namespace Business.Common.Extensions
         /// <param name="startTag">The start tag.</param>
         /// <param name="endTag">The end tag.</param>
         /// <returns></returns>
-        public static String ReplaceNamedParameters(this String value,
+        public static string ReplaceNamedParameters(this string value,
             NameValueCollection namedArgs,
-            String startTag = null,
-            String endTag = null
+            string startTag = null,
+            string endTag = null
             )
         {
             if (namedArgs == null) return value;
-            startTag = String.IsNullOrWhiteSpace(startTag) ? String.Empty : startTag;
-            endTag = String.IsNullOrWhiteSpace(endTag) ? String.Empty : endTag;
-            return namedArgs.Cast<KeyValuePair<string, string>>().Aggregate(value, (current, k) => current.Replace(String.Format(@"{0}{1}{2}", startTag, k.Key, endTag), k.Value));
+            startTag = string.IsNullOrWhiteSpace(startTag) ? string.Empty : startTag;
+            endTag = string.IsNullOrWhiteSpace(endTag) ? string.Empty : endTag;
+            return namedArgs.Cast<KeyValuePair<string, string>>().Aggregate(value, (current, k) => current.Replace(
+                $@"{startTag}{k.Key}{endTag}", k.Value));
         }
 
         /// <summary>
@@ -124,81 +125,84 @@ namespace Business.Common.Extensions
         /// <param name="parameterSeparator">The parameter separator.</param>
         /// <param name="valueSeparator">The value separator.</param>
         /// <returns></returns>
-        public static String ReplaceNamedParameters(this String value,
-            String namedArgString,
-            String startTag = @"$(",
-            String endTag = @")",
-            String parameterSeparator = ";",
-            String valueSeparator = "="
+        public static string ReplaceNamedParameters(this string value,
+            string namedArgString,
+            string startTag = @"$(",
+            string endTag = @")",
+            string parameterSeparator = ";",
+            string valueSeparator = "="
             )
         {
             var paramlist = namedArgString.ParseAsNameValueCollection(parameterSeparator, valueSeparator);
             // ReSharper disable once AssignNullToNotNullAttribute
-            return paramlist == null ? value : paramlist.Keys.Cast<string>().Aggregate(value, (current1, p) => paramlist.GetValues(p).Aggregate(current1, (current, v) => current.Replace(String.Format(@"{0}{1}{2}", startTag, p, endTag), v)));
+            return paramlist == null ? value : paramlist.Keys.Cast<string>().Aggregate(value, (current1, p) => paramlist.GetValues(p).Aggregate(current1, (current, v) => current.Replace(
+                $@"{startTag}{p}{endTag}", v)));
         }
 
-        public static String ReplaceSqlcmdParameters(this String value, IDictionary<String, String> namedArgs)
+        public static string ReplaceSqlcmdParameters(this string value, IDictionary<string, string> namedArgs)
         {
-            return namedArgs == null ? value : namedArgs.Aggregate(value, (current, k) => current.Replace(String.Format(@"$({0})", k.Key), k.Value));
+            return namedArgs == null ? value : namedArgs.Aggregate(value, (current, k) => current.Replace(
+                $@"$({k.Key})", k.Value));
         }
 
-        public static String ReplaceSqlcmdParameter(this String value, String key, String replacement)
+        public static string ReplaceSqlcmdParameter(this string value, string key, string replacement)
         {
-            return value.Replace(String.Format(@"$({0})", key), replacement);
+            return value.Replace($@"$({key})", replacement);
         }
 
         // is this not same as above????
-        public static String ReplaceParameters(this String value, IDictionary<String, String> namedArgs, String startTag = @"$(", String endTag = @")")
+        public static string ReplaceParameters(this string value, IDictionary<string, string> namedArgs, string startTag = @"$(", string endTag = @")")
         {
             if (namedArgs == null) return value;
-            return (from k in namedArgs let p = String.Format(@"{0}{1}{2}", startTag, k.Key, endTag) select k).Aggregate(value, (current, k) => current.Replace(String.Format(@"{0}{1}{2}", startTag, k.Key, endTag), k.Value));
+            return (from k in namedArgs let p = $@"{startTag}{k.Key}{endTag}" select k).Aggregate(value, (current, k) => current.Replace(
+                $@"{startTag}{k.Key}{endTag}", k.Value));
         }
 
         #endregion Named Parameters
 
         #region Replace Named Parameters with value collections
 
-        public static String ReplaceNamedParameterByIEnumerableStrings(this String value,
-            String namedArg,
-            IEnumerable<String> listValues,
-            Func<IEnumerable<String>, IEnumerable<String>> valueFormatter = null,
-            String valueSeperator = ",\r\n",
-            Func<String, String> replacementFormatter = null,
-            String startTag = @"$(",
-            String endTag = @")"
+        public static string ReplaceNamedParameterByIEnumerableStrings(this string value,
+            string namedArg,
+            IEnumerable<string> listValues,
+            Func<IEnumerable<string>, IEnumerable<string>> valueFormatter = null,
+            string valueSeperator = ",\r\n",
+            Func<string, string> replacementFormatter = null,
+            string startTag = @"$(",
+            string endTag = @")"
             )
         {
             if (namedArg == null) return value;
-            startTag = String.IsNullOrWhiteSpace(startTag) ? String.Empty : startTag;
-            endTag = String.IsNullOrWhiteSpace(endTag) ? String.Empty : endTag;
+            startTag = string.IsNullOrWhiteSpace(startTag) ? string.Empty : startTag;
+            endTag = string.IsNullOrWhiteSpace(endTag) ? string.Empty : endTag;
 
             var outputItems = valueFormatter != null ? new List<string>(valueFormatter(listValues)) : new List<string>(listValues);
 
             var outputstring = outputItems.ToDelimitedString(valueSeperator);
             if (replacementFormatter != null) outputstring = replacementFormatter(outputstring);
-            value = value.Replace(String.Format(@"{0}{1}{2}", startTag, namedArg, endTag), outputstring);
+            value = value.Replace($@"{startTag}{namedArg}{endTag}", outputstring);
             return value;
         }
 
-        public static String ReplaceNamedParameterByIEnumerableObjects(this String value,
-            String namedArg,
-            IEnumerable<Object> listValues,
-            Func<IEnumerable<Object>, IEnumerable<String>> valueFormatter = null,
-            String valueSeperator = ",\r\n",
-            Func<String, String> replacementFormatter = null,
-            String startTag = @"$(",
-            String endTag = @")"
+        public static string ReplaceNamedParameterByIEnumerableObjects(this string value,
+            string namedArg,
+            IEnumerable<object> listValues,
+            Func<IEnumerable<object>, IEnumerable<string>> valueFormatter = null,
+            string valueSeperator = ",\r\n",
+            Func<string, string> replacementFormatter = null,
+            string startTag = @"$(",
+            string endTag = @")"
             )
         {
             if (namedArg == null) return value;
-            startTag = String.IsNullOrWhiteSpace(startTag) ? String.Empty : startTag;
-            endTag = String.IsNullOrWhiteSpace(endTag) ? String.Empty : endTag;
+            startTag = string.IsNullOrWhiteSpace(startTag) ? string.Empty : startTag;
+            endTag = string.IsNullOrWhiteSpace(endTag) ? string.Empty : endTag;
 
             var outputItems = valueFormatter != null ? new List<string>(valueFormatter(listValues)) : new List<string>(listValues.Select(x => x.ToString()));
 
             var outputstring = outputItems.ToDelimitedString(valueSeperator);
             if (replacementFormatter != null) outputstring = replacementFormatter(outputstring);
-            value = value.Replace(String.Format(@"{0}{1}{2}", startTag, namedArg, endTag), outputstring);
+            value = value.Replace($@"{startTag}{namedArg}{endTag}", outputstring);
             return value;
         }
 
@@ -209,9 +213,9 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static string ConvertValueToSqlInParam(String value)
+        public static string ConvertValueToSqlInParam(string value)
         {
-            return String.Format(@"'{0}'", value);
+            return $@"'{value}'";
         }
 
         /// <summary>
@@ -219,9 +223,9 @@ namespace Business.Common.Extensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static string ConvertValueToEscapedSqlInParam(String value)
+        public static string ConvertValueToEscapedSqlInParam(string value)
         {
-            return String.Format(@"''{0}''", value);
+            return $@"''{value}''";
         }
 
         /// <summary>
@@ -231,7 +235,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static IEnumerable<string> ConvertValuesToSqlInValues(IEnumerable<string> values)
         {
-            return values.Where(v => !String.IsNullOrWhiteSpace(v)).Select(ConvertValueToSqlInParam);
+            return values.Where(v => !string.IsNullOrWhiteSpace(v)).Select(ConvertValueToSqlInParam);
         }
 
         /// <summary>
@@ -241,7 +245,7 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static IEnumerable<string> ConvertValuesToEscapedSqlInValues(IEnumerable<string> values)
         {
-            return values.Where(v => !String.IsNullOrWhiteSpace(v)).Select(ConvertValueToEscapedSqlInParam);
+            return values.Where(v => !string.IsNullOrWhiteSpace(v)).Select(ConvertValueToEscapedSqlInParam);
         }
 
         /// <summary>
@@ -251,10 +255,10 @@ namespace Business.Common.Extensions
         /// <returns></returns>
         public static string JoinStringsToSqlValueString(IEnumerable<string> values)
         {
-            return String.Join(",", values.ToArray());
+            return string.Join(",", values.ToArray());
         }
 
-        public static string ReplaceNamedParameterBySqlValueString(this String value, String namedArg, IEnumerable<String> listValues, Boolean escapeValues = false)
+        public static string ReplaceNamedParameterBySqlValueString(this string value, string namedArg, IEnumerable<string> listValues, bool escapeValues = false)
         {
             return escapeValues ?
                 ReplaceNamedParameterByIEnumerableStrings(value, namedArg, listValues, ConvertValuesToEscapedSqlInValues, ",")
@@ -267,38 +271,39 @@ namespace Business.Common.Extensions
 
         #region Find Parameters
 
-        public static IEnumerable<String> FindSqlcmdParameters(this String value)
+        public static IEnumerable<string> FindSqlcmdParameters(this string value)
         {
             var rx = new Regex(@"(?<param>\$\([$\w\d]+\))", RegexOptions.IgnoreCase);
             var matches = rx.Matches(value);
-            var rv = (from Match m in matches select m.Value.Remove(m.Value.Length - 1).Replace("$(", String.Empty)).ToList();
+            var rv = (from Match m in matches select m.Value.Remove(m.Value.Length - 1).Replace("$(", string.Empty)).ToList();
             return rv.Distinct();
         }
 
-        public static IEnumerable<String> FindParameters(this String value, String startTagRegex = @"\$\(", String endTagRegex = @"\)")
+        public static IEnumerable<string> FindParameters(this string value, string startTagRegex = @"\$\(", string endTagRegex = @"\)")
         {
-            var rx = new Regex(String.Format(@"(?<param>{0}[$\w\d]+{1})", startTagRegex, endTagRegex), RegexOptions.IgnoreCase);
+            var rx = new Regex($@"(?<param>{startTagRegex}[$\w\d]+{endTagRegex})", RegexOptions.IgnoreCase);
             var matches = rx.Matches(value);
-            var rv = (from Match m in matches select m.Value.Remove(m.Value.Length - 1).Replace("$(", String.Empty)).ToList();
+            var rv = (from Match m in matches select m.Value.Remove(m.Value.Length - 1).Replace("$(", string.Empty)).ToList();
             return rv.Distinct();
         }
 
-        public static String ToParameterString(
-            this IDictionary<String, String> value,
-            String parameterSeparator = ";",
-            String valueSeparator = "=",
-            String keyPrefix = null,
-            String keySuffix = null,
-            String valuePrefix = null,
-            String valueSuffix = null
+        public static string ToParameterString(
+            this IDictionary<string, string> value,
+            string parameterSeparator = ";",
+            string valueSeparator = "=",
+            string keyPrefix = null,
+            string keySuffix = null,
+            string valuePrefix = null,
+            string valueSuffix = null
             )
         {
-            keyPrefix = String.IsNullOrWhiteSpace(keyPrefix) ? String.Empty : keyPrefix;
-            keySuffix = String.IsNullOrWhiteSpace(keySuffix) ? String.Empty : keySuffix;
-            valuePrefix = String.IsNullOrWhiteSpace(valuePrefix) ? String.Empty : valuePrefix;
-            valueSuffix = String.IsNullOrWhiteSpace(valueSuffix) ? String.Empty : valueSuffix;
-            var items = value.Select(v => String.Format("{0}{1}{2}{3}{4}{5}{6}", keyPrefix, v.Key, keySuffix, valueSeparator, valuePrefix, v.Value, valueSuffix)).ToList();
-            return String.Join(parameterSeparator, items);
+            keyPrefix = string.IsNullOrWhiteSpace(keyPrefix) ? string.Empty : keyPrefix;
+            keySuffix = string.IsNullOrWhiteSpace(keySuffix) ? string.Empty : keySuffix;
+            valuePrefix = string.IsNullOrWhiteSpace(valuePrefix) ? string.Empty : valuePrefix;
+            valueSuffix = string.IsNullOrWhiteSpace(valueSuffix) ? string.Empty : valueSuffix;
+            var items = value.Select(v =>
+                $"{keyPrefix}{v.Key}{keySuffix}{valueSeparator}{valuePrefix}{v.Value}{valueSuffix}").ToList();
+            return string.Join(parameterSeparator, items);
         }
 
         #endregion Find Parameters

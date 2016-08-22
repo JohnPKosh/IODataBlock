@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.IO;
 using Business.Common.System;
 using Business.Common.System.States;
 using HubSpot.Models.Properties;
 using HubSpot.Services.Companies;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HubSpot.Models.Companies
 {
@@ -27,13 +26,13 @@ namespace HubSpot.Models.Companies
             ManagedProperties = propertyManager.Properties;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Private Fields and Properties
 
         private readonly string _hapiKey;
 
-        #endregion
+        #endregion Private Fields and Properties
 
         #region Public Properties
 
@@ -52,9 +51,7 @@ namespace HubSpot.Models.Companies
         [JsonProperty("properties")]
         public HashSet<PropertyValue> Properties { get; set; }
 
-
-        #endregion
-
+        #endregion Public Properties
 
         #region Conversion Operators
 
@@ -87,7 +84,7 @@ namespace HubSpot.Models.Companies
             {
                 var prop = value.ManagedProperties.FirstOrDefault(x => x.name == p.Key);
                 if (prop == null) continue;
-                
+
                 rv.Add(p.Key, GetPropertyValueByType(p.Value, prop.type));
             }
             return rv;
@@ -100,14 +97,15 @@ namespace HubSpot.Models.Companies
                 case "datetime":
                     DateTime? ts = new UnixMsTimestamp(value);
                     return ts?.ToLocalTime();
+
                 case "bool":
-                    return string.IsNullOrWhiteSpace(value) ? (bool?) null : bool.Parse(value);
+                    return string.IsNullOrWhiteSpace(value) ? (bool?)null : bool.Parse(value);
+
                 default:
                     return value;
             }
         }
 
         #endregion Conversion Operators
-
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Business.Common.Exceptions
 {
@@ -100,17 +100,17 @@ namespace Business.Common.Exceptions
         #region Explicit Exception Factory Methods
 
         public static ExceptionObjectListBase Create(
-            String message
+            string message
             , string title = null
             , string description = null
             , string exceptionGroup = null
             , ExceptionLogLevelType logLevel = ExceptionLogLevelType.Error
-            , IDictionary<String, Object> data = null
-            , String helpLink = null
+            , IDictionary<string, object> data = null
+            , string helpLink = null
             , int hResult = 0
             , IExceptionObject innerExceptionDetail = null
-            , String source = null
-            , String stackTrace = null
+            , string source = null
+            , string stackTrace = null
             )
         {
             return new ExceptionObjectListBase(ExceptionObjectBase.Create(message, title, description, exceptionGroup, logLevel, data, helpLink, hResult, innerExceptionDetail, source, stackTrace));

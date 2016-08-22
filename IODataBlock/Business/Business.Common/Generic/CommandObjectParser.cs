@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.GenericRequests;
 using Business.Common.GenericResponses;
 using Business.Common.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Common.Generic
 {
@@ -81,7 +81,7 @@ namespace Business.Common.Generic
             }
             catch (Exception ex)
             {
-                return requestObject.RequestData.ToFailedGenericResponse<TIn, TOut>(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
+                return requestObject.RequestData.ToFailedGenericResponse(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Business.Common.Generic
             }
             catch (Exception ex)
             {
-                return requestObject.RequestData.ToFailedGenericResponse<TIn, TOut>(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
+                return requestObject.RequestData.ToFailedGenericResponse(default(TOut), ExceptionObjectListBase.Create(ex), new ResponseCode(500, @"500 Internal Server Error"), requestObject.CorrelationId);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Business.Common.Generic
         {
             try
             {
-                return _commands.First(c => c.CommandName == String.Format(@"{0}Command", commandName));
+                return _commands.First(c => c.CommandName == $@"{commandName}Command");
             }
             catch (Exception)
             {

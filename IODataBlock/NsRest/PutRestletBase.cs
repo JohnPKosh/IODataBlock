@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Flurl;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
-using Flurl;
-using Flurl.Http;
 
 namespace NsRest
 {
-    public class PutRestletBase:IRestletBase
+    public class PutRestletBase : IRestletBase
     {
         public PutRestletBase(String baseUrl, INetSuiteScriptSetting scriptSetting, INetSuiteLogin login)
         {

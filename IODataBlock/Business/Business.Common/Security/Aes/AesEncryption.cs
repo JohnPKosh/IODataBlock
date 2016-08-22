@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.IO;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
-using Business.Common.Extensions;
-using Business.Common.IO;
 
 namespace Business.Common.Security.Aes
 {
@@ -15,7 +15,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Base64 Encryption Initalization Vector.
         /// </summary>
         /// <returns>String Base64 Encryption Initalization Vector</returns>
-        public static String MakeAesBase64Iv()
+        public static string MakeAesBase64Iv()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateIV();
@@ -26,7 +26,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Base64 Encryption Key.
         /// </summary>
         /// <returns>String Base64 Encryption Key</returns>
-        public static String MakeAesBase64Key()
+        public static string MakeAesBase64Key()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateKey();
@@ -37,7 +37,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Byte[] Encryption Initalization Vector.
         /// </summary>
         /// <returns>Byte[] Encryption Initalization Vector</returns>
-        public static Byte[] MakeAesIv()
+        public static byte[] MakeAesIv()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateIV();
@@ -48,7 +48,7 @@ namespace Business.Common.Security.Aes
         /// Makes the Byte[] Encryption Key.
         /// </summary>
         /// <returns>Byte[] Encryption Key</returns>
-        public static Byte[] MakeAesKey()
+        public static byte[] MakeAesKey()
         {
             var cryptoProvider = new AesCryptoServiceProvider();
             cryptoProvider.GenerateKey();
@@ -195,7 +195,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesEncryptToFile(this Stream inputStream, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesEncryptToFile(this Stream inputStream, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputStream.AesEncryptToFile(new FileInfo(outputFilePath), key, iv);
         }
@@ -209,8 +209,8 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        public static void AesEncryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        public static void AesEncryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             var r = new AesCryptoServiceProvider();
             outputFileInfo.Refresh();
@@ -237,7 +237,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesGzipEncryptToFile(this Stream inputStream, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesGzipEncryptToFile(this Stream inputStream, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputStream.AesGzipEncryptToFile(new FileInfo(outputFilePath), key, iv);
         }
@@ -251,8 +251,8 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        public static void AesGzipEncryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        public static void AesGzipEncryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             var r = new AesCryptoServiceProvider();
             outputFileInfo.Refresh();
@@ -286,7 +286,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesEncryptToFile(this FileInfo inputFileInfo, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesEncryptToFile(this FileInfo inputFileInfo, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.AesEncryptToFile(new FileInfo(outputFilePath), key, iv, bufferSize, lockWaitMs);
         }
@@ -300,11 +300,11 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        /// <exception cref="System.Exception">@Can not open locked file! The file is locked by another process.</exception>
         /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
-        public static void AesEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
+        public static void AesEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -327,7 +327,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesGzipEncryptToFile(this FileInfo inputFileInfo, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesGzipEncryptToFile(this FileInfo inputFileInfo, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.AesGzipEncryptToFile(new FileInfo(outputFilePath), key, iv, bufferSize, lockWaitMs);
         }
@@ -341,11 +341,11 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        /// <exception cref="System.Exception">@Can not open locked file! The file is locked by another process.</exception>
         /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
-        public static void AesGzipEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
+        public static void AesGzipEncryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -358,7 +358,6 @@ namespace Business.Common.Security.Aes
                 }
             }
         }
-
 
         #endregion AesEncrypt FileInfo Extensions
 
@@ -443,7 +442,7 @@ namespace Business.Common.Security.Aes
         /// <param name="outputFilePath">The output file path.</param>
         /// <param name="key">key byte[]</param>
         /// <param name="iv">iv byte[]</param>
-        public static void AesDecryptStreamToFile(this Stream inputStream, String outputFilePath, byte[] key, byte[] iv)
+        public static void AesDecryptStreamToFile(this Stream inputStream, string outputFilePath, byte[] key, byte[] iv)
         {
             inputStream.AesDecryptStreamToFile(new FileInfo(outputFilePath), key, iv);
         }
@@ -467,7 +466,6 @@ namespace Business.Common.Security.Aes
             }
         }
 
-
         /// <summary>
         /// Decrypts a Stream and writes to a file.
         /// </summary>
@@ -477,7 +475,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesGzipDecryptToFile(this Stream inputStream, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesGzipDecryptToFile(this Stream inputStream, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputStream.AesGzipDecryptToFile(new FileInfo(outputFilePath), key, iv, bufferSize, lockWaitMs);
         }
@@ -491,7 +489,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesGzipDecryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesGzipDecryptToFile(this Stream inputStream, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             //var r = new AesCryptoServiceProvider();
             outputFileInfo.Refresh();
@@ -526,7 +524,7 @@ namespace Business.Common.Security.Aes
         /// <param name="key">key byte[]</param>
         /// <param name="iv">iv byte[]</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesDecryptToFile(this FileInfo inputFileInfo, String outputFilePath, byte[] key, byte[] iv, Int32 lockWaitMs = 60000)
+        public static void AesDecryptToFile(this FileInfo inputFileInfo, string outputFilePath, byte[] key, byte[] iv, int lockWaitMs = 60000)
         {
             inputFileInfo.AesDecryptToFile(new FileInfo(outputFilePath), key, iv, lockWaitMs);
         }
@@ -543,7 +541,7 @@ namespace Business.Common.Security.Aes
         /// <exception cref="Exception">
         /// @Can not open locked file! The file is locked by another process.
         /// </exception>
-        public static void AesDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, Int32 lockWaitMs = 60000)
+        public static void AesDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -557,7 +555,6 @@ namespace Business.Common.Security.Aes
             }
         }
 
-
         /// <summary>
         /// Decrypts an existing file and writes to the specified output file.
         /// </summary>
@@ -567,7 +564,7 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        public static void AesGzipDecryptFileToFile(this FileInfo inputFileInfo, String outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        public static void AesGzipDecryptFileToFile(this FileInfo inputFileInfo, string outputFilePath, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.AesGzipDecryptToFile(new FileInfo(outputFilePath), key, iv, bufferSize, lockWaitMs);
         }
@@ -581,11 +578,11 @@ namespace Business.Common.Security.Aes
         /// <param name="iv">iv byte[]</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         /// <param name="lockWaitMs">The lock wait ms.</param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        /// <exception cref="System.Exception">@Can not open locked file! The file is locked by another process.</exception>
         /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
-        public static void AesGzipDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, Int32 lockWaitMs = 60000)
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        /// <exception cref="Exception">@Can not open locked file! The file is locked by another process.</exception>
+        public static void AesGzipDecryptToFile(this FileInfo inputFileInfo, FileInfo outputFileInfo, byte[] key, byte[] iv, int bufferSize = 4096, int lockWaitMs = 60000)
         {
             inputFileInfo.Refresh();
             if (inputFileInfo.Directory == null || !inputFileInfo.Directory.Exists) throw new DirectoryNotFoundException();

@@ -76,22 +76,14 @@ namespace Data.DbClient
         public object Create(DataTable schema, int[] primaryKeys)
         {
             var sql = GetCreateSQL(_tableName, schema, primaryKeys);
-            SqlCommand cmd;
-            if (_transaction != null && _transaction.Connection != null)
-                cmd = new SqlCommand(sql, _connection, _transaction);
-            else
-                cmd = new SqlCommand(sql, _connection);
+            var cmd = _transaction?.Connection != null ? new SqlCommand(sql, _connection, _transaction) : new SqlCommand(sql, _connection);
             return cmd.ExecuteNonQuery();
         }
 
         public object CreateFromDataTable(DataTable table)
         {
             var sql = GetCreateFromDataTableSQL(_tableName, table);
-            SqlCommand cmd;
-            if (_transaction != null && _transaction.Connection != null)
-                cmd = new SqlCommand(sql, _connection, _transaction);
-            else
-                cmd = new SqlCommand(sql, _connection);
+            var cmd = _transaction?.Connection != null ? new SqlCommand(sql, _connection, _transaction) : new SqlCommand(sql, _connection);
             return cmd.ExecuteNonQuery();
         }
 
@@ -99,23 +91,23 @@ namespace Data.DbClient
 
         #region Static Methods
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string GetCreateSQL(string tableName, DataTable schema, int[] primaryKeys)
         {
             var sql = "CREATE TABLE " + tableName + " (\n";
 
             // columns
-// ReSharper disable once LoopCanBeConvertedToQuery
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (DataRow column in schema.Rows)
             {
                 if (!(schema.Columns.Contains("IsHidden") && (bool)column["IsHidden"]))
                     sql += column["ColumnName"] + " " + SQLGetType(column) + ",\n";
             }
-            sql = sql.TrimEnd(new[] { ',', '\n' }) + "\n";
+            sql = sql.TrimEnd(',', '\n') + "\n";
 
             // primary keys
             var pk = "CONSTRAINT PK_" + tableName + " PRIMARY KEY CLUSTERED (";
-            var hasKeys = (primaryKeys != null && primaryKeys.Length > 0);
+            var hasKeys = primaryKeys != null && primaryKeys.Length > 0;
 
             if (hasKeys)
             {
@@ -129,7 +121,7 @@ namespace Data.DbClient
                 pk += keys;
                 hasKeys = keys.Length > 0;
             }
-            pk = pk.TrimEnd(new[] { ',', ' ', '\n' }) + ")\n";
+            pk = pk.TrimEnd(',', ' ', '\n') + ")\n";
             if (hasKeys) sql += pk;
 
             sql += ")";
@@ -137,23 +129,23 @@ namespace Data.DbClient
             return sql;
         }
 
-// ReSharper disable once InconsistentNaming
-        public static string GetCreateFromDataTableSQL(string tableName, DataTable table, Int32 defaultStringColumnSize = -1)
+        // ReSharper disable once InconsistentNaming
+        public static string GetCreateFromDataTableSQL(string tableName, DataTable table, int defaultStringColumnSize = -1)
         {
             var sql = tableName.Contains("[") ? "CREATE TABLE " + tableName + " (\n" : "CREATE TABLE [" + tableName + "] (\n";
             // columns
-            sql = table.Columns.Cast<DataColumn>().Aggregate(sql, (current, column) => current + ("\t[" + column.ColumnName + "] " + SQLGetType(column, defaultStringColumnSize) + ",\n"));
-            sql = sql.TrimEnd(new[] { ',', '\n' }) + "\n";
+            sql = table.Columns.Cast<DataColumn>().Aggregate(sql, (current, column) => current + "\t[" + column.ColumnName + "] " + SQLGetType(column, defaultStringColumnSize) + ",\n");
+            sql = sql.TrimEnd(',', '\n') + "\n";
             // primary keys
             if (table.PrimaryKey.Length > 0)
             {
                 sql += "CONSTRAINT [PK_" + tableName + "] PRIMARY KEY CLUSTERED (";
-                sql = table.PrimaryKey.Aggregate(sql, (current, column) => current + ("\t[" + column.ColumnName + "],"));
-                sql = sql.TrimEnd(new[] { ',' }) + "))\n";
+                sql = table.PrimaryKey.Aggregate(sql, (current, column) => current + "\t[" + column.ColumnName + "],");
+                sql = sql.TrimEnd(',') + "))\n";
             }
 
             //if not ends with ")"
-            if ((table.PrimaryKey.Length == 0) && (!sql.EndsWith(")")))
+            if ((table.PrimaryKey.Length == 0) && !sql.EndsWith(")"))
             {
                 sql += ")";
             }
@@ -163,11 +155,11 @@ namespace Data.DbClient
 
         public static string[] GetPrimaryKeys(DataTable schema)
         {
-            return (from DataRow column in schema.Rows where schema.Columns.Contains("IsKey") && (bool) column["IsKey"] select column["ColumnName"].ToString()).ToArray();
+            return (from DataRow column in schema.Rows where schema.Columns.Contains("IsKey") && (bool)column["IsKey"] select column["ColumnName"].ToString()).ToArray();
         }
 
         // Return T-SQL data type definition, based on schema definition for a column
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetType(object type, int columnSize, int numericPrecision, int numericScale)
         {
             switch (type.ToString())
@@ -215,8 +207,8 @@ namespace Data.DbClient
             }
         }
 
-// ReSharper disable once InconsistentNaming
-        public static string SQLGetTypeFromDataColumn(DataColumn column, Int32 defaultStringColumnSize = -1)
+        // ReSharper disable once InconsistentNaming
+        public static string SQLGetTypeFromDataColumn(DataColumn column, int defaultStringColumnSize = -1)
         {
             var nullsuffix = column.AllowDBNull ? " NULL" : " NOT NULL";
 
@@ -266,20 +258,20 @@ namespace Data.DbClient
             }
         }
 
-        public static String GetNvarcharTypeString(Int32 columnSize = -1)
+        public static string GetNvarcharTypeString(int columnSize = -1)
         {
             var rv = columnSize == -1 ? "MAX" : columnSize.ToString(CultureInfo.InvariantCulture);
-            return String.Format("NVARCHAR({0})", rv);
+            return $"NVARCHAR({rv})";
         }
 
-        public static String GetMaxTypeString(String value, Int32 columnSize = -1)
+        public static string GetMaxTypeString(string value, int columnSize = -1)
         {
             var rv = columnSize == -1 ? "MAX" : columnSize.ToString(CultureInfo.InvariantCulture);
-            return String.Format("{0}({1})", value, rv);
+            return $"{value}({rv})";
         }
 
         // Overload based on row from schema table
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static string SQLGetType(DataRow schemaRow)
         {
             return SQLGetType(schemaRow["DataType"],
@@ -289,8 +281,8 @@ namespace Data.DbClient
         }
 
         // Overload based on DataColumn from DataTable type
-// ReSharper disable once InconsistentNaming
-        public static string SQLGetType(DataColumn column, Int32 defaultStringColumnSize = -1)
+        // ReSharper disable once InconsistentNaming
+        public static string SQLGetType(DataColumn column, int defaultStringColumnSize = -1)
         {
             //return SQLGetType(column.DataType, column.MaxLength, 10, 2);
 

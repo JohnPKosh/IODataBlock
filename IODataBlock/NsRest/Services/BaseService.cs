@@ -1,11 +1,11 @@
-﻿using Business.Common.GenericResponses;
+﻿using Business.Common.Configuration;
+using Business.Common.GenericResponses;
 using Newtonsoft.Json.Linq;
 using NsRest.Search;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
-using Business.Common.Configuration;
 
 namespace NsRest.Services
 {
@@ -136,7 +136,7 @@ namespace NsRest.Services
             try
             {
                 var restlet = DelRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var input = new Dictionary<string, object> {{IdColumnName, id}, {"type", typeName}};
+                var input = new Dictionary<string, object> { { IdColumnName, id }, { "type", typeName } };
                 var rv = Task.Run(() => restlet.DelAsync(input));
                 var result = rv.Result;
                 if (result.IsSuccessStatusCode) ro.ResponseData = true;
@@ -306,7 +306,7 @@ namespace NsRest.Services
             {
                 var parameters = new Dictionary<string, object> { { "type", typeName }, { "searchFilters", filters }, { "savedSearch", savedSearch }, { "columns", columns } };
                 var restlet = PostRestletBase.Create(BaseUrl, ScriptSettings[scriptKey], Login);
-                var rv = Task.Run(()=> restlet.ExecuteToJsonStringAsync(parameters));
+                var rv = Task.Run(() => restlet.ExecuteToJsonStringAsync(parameters));
                 ro.ResponseData = rv.Result;
                 return ro;
             }

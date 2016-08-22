@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using System;
 using System.IO;
-using Business.Common.Extensions;
 
 namespace Business.Common.System.States
 {

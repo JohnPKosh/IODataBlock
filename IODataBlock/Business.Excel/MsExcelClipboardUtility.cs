@@ -115,7 +115,7 @@ namespace Business.Excel
             return strRtf;
         }
 
-        public static string FixHex(String str)
+        public static string FixHex(string str)
         {
             return Regex.Replace(str, @"\p{C}+", "");
         }

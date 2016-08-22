@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Business.Common.System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Business.Common.System;
+using System;
 
 namespace Business.Test.Common.System
 {

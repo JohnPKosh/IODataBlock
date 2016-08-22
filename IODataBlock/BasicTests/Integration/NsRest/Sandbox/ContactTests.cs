@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NsRest.Services;
 
 namespace BasicTests.Integration.NsRest.Sandbox
@@ -27,7 +26,5 @@ namespace BasicTests.Integration.NsRest.Sandbox
             var json = baseService.GetJsonById("200030", "contact");
             Assert.IsNotNull(json);
         }
-
-
     }
 }

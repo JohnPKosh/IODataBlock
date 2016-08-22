@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using Business.Common.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Business.Common.Configuration;
 using Business.EWS.Mail;
 using Microsoft.Exchange.WebServices.Data;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace Business.Test.Email
 {
     [TestClass]
     public class SendEmailTests
     {
-
         public SendEmailTests()
         {
             var configMgr = new ConfigMgr();
@@ -44,6 +41,7 @@ namespace Business.Test.Email
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -55,7 +53,7 @@ namespace Business.Test.Email
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -63,10 +61,8 @@ namespace Business.Test.Email
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
 
-
-
+        #endregion Additional test attributes
 
         [TestMethod]
         public void TestMethod1()
@@ -90,7 +86,7 @@ namespace Business.Test.Email
             {
                 MessageBody msg = new MessageBody(BodyType.Text, "test");
                 var toAddresses = new List<EmailAddress>();
-                var emailto = new EmailAddress {Address = "jkosh@cloudroute.com"};
+                var emailto = new EmailAddress { Address = "jkosh@cloudroute.com" };
                 toAddresses.Add(emailto);
                 mailer.Send("test", msg, toAddresses);
             }
@@ -117,7 +113,6 @@ namespace Business.Test.Email
                 throw;
             }
         }
-
 
         [TestMethod]
         public void TestMethod4()

@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-using System.Runtime.CompilerServices;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -35,7 +33,7 @@ namespace Business.Common.System
         //    return value.ToObject<ObjectBase<T>>();
         //}
 
-        static public implicit operator JObject(ObjectBase<T> value)
+        public static implicit operator JObject(ObjectBase<T> value)
         {
             return value.ToJObject();
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using Business.Common.GenericResponses;
+﻿using Business.Common.GenericResponses;
 using Flurl;
 using Flurl.Http;
+using System;
 
 namespace HubSpot.Services.Contacts
 {
-    public class ContactPropertyService: IPropertyService
+    public class ContactPropertyService : IPropertyService
     {
         public ContactPropertyService(string hapikey)
         {

@@ -224,7 +224,7 @@ namespace NsRest.Services
                 return ro;
             }
         }
-         
-        #endregion
+
+        #endregion Utility Methods
     }
 }

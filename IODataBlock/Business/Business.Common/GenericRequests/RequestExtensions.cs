@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Common.GenericRequests
 {
     public static class RequestExtensions
     {
-
-
         public static IRequestObject<TNew> TransformRequestData<T, TNew>(this IRequestObject<T> value, Func<T, TNew> transformFunc)
         {
             var rv = new RequestObject<TNew>

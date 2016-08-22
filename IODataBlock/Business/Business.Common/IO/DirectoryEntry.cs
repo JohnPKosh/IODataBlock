@@ -21,10 +21,7 @@ namespace Business.Common.IO
 
         private readonly DirectoryInfo _directoryInfo;
 
-        public override long Length
-        {
-            get { return 0; }
-        }
+        public override long Length => 0;
 
         public override string ParentFullName
         {
@@ -32,7 +29,7 @@ namespace Business.Common.IO
             {
                 try
                 {
-                    return _directoryInfo.Parent != null ? _directoryInfo.Parent.FullName : null;
+                    return _directoryInfo.Parent?.FullName;
                 }
                 catch (Exception ex)
                 {

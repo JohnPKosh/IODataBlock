@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Business.Common.Configuration;
+﻿using Business.Common.Configuration;
 using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,6 +6,10 @@ using Newtonsoft.Json.Linq;
 using NsRest;
 using NsRest.Search;
 using NsRest.Services;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace Business.Test.Integration.New
 {
@@ -231,7 +231,6 @@ namespace Business.Test.Integration.New
             CheckJObjectsResponse(response);
         }
 
-
         [TestMethod]
         public void SearchJObjectsContactsSavedSearch()
         {
@@ -278,7 +277,6 @@ namespace Business.Test.Integration.New
                 }
             }
         }
-
 
         #endregion Search
 

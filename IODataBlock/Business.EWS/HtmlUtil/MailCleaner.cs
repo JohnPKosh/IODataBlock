@@ -1,20 +1,14 @@
-﻿using System;
-using System.CodeDom;
+﻿using HtmlAgilityPack;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
 
 namespace Business.EWS.HtmlUtil
 {
     public static class MailCleaner
     {
-
         public static string CleanBody(string html)
         {
-            return RemoveAllAttributes(RemoveOfficeOPTag(GetBody(html)), new List<string>() {"src", "href", "height", "width"});
+            return RemoveAllAttributes(RemoveOfficeOPTag(GetBody(html)), new List<string>() { "src", "href", "height", "width" });
         }
 
         public static string GetBody(string html)
@@ -66,7 +60,5 @@ namespace Business.EWS.HtmlUtil
             var doc = web.Load(path);
             return doc.DocumentNode.OuterHtml;
         }
-
-
     }
 }

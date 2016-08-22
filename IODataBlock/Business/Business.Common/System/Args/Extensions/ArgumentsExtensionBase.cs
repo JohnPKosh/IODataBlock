@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Business.Common.System.Args;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq;
-using Business.Common.System.Args;
 
 // ReSharper disable once CheckNamespace
 namespace ExBaseArguments
@@ -19,21 +19,21 @@ namespace ExBaseArguments
         private const Char E1 = '\u00BE';
         private const Char E2 = '\u00B6';
 
-        private const String UnEscapedSlash = @"\/";
-        private static readonly String EscapedSlash = (E1) + (E2).ToString(CultureInfo.InvariantCulture);
-        private const String UnEscapedDash = @"\-";
-        private static readonly String EscapedDash = (E2) + (E1).ToString(CultureInfo.InvariantCulture);
+        private const string UnEscapedSlash = @"\/";
+        private static readonly string EscapedSlash = E1 + E2.ToString(CultureInfo.InvariantCulture);
+        private const string UnEscapedDash = @"\-";
+        private static readonly string EscapedDash = E2 + E1.ToString(CultureInfo.InvariantCulture);
 
         #endregion Private Properties
 
         #region Helper Methods
 
-        public static String EscapeArgs(this String argumentString)
+        public static string EscapeArgs(this string argumentString)
         {
             return argumentString.Replace(UnEscapedSlash, EscapedSlash).Replace(UnEscapedDash, EscapedDash);
         }
 
-        public static String UnEscapeArgs(this String argumentString)
+        public static string UnEscapeArgs(this string argumentString)
         {
             return argumentString.Replace(EscapedSlash, "/").Replace(EscapedDash, "-");
         }
@@ -47,7 +47,7 @@ namespace ExBaseArguments
         /// </summary>
         /// <param name="value"></param>
         /// <returns>Returns a String[] of preprocessed args from the Arguments Dictionary.</returns>
-        public static String[] ToValueArray(this Arguments value)
+        public static string[] ToValueArray(this Arguments value)
         {
             return value.Values.ToArray();
         }
@@ -61,16 +61,16 @@ namespace ExBaseArguments
         /// errors and return any converted values.
         /// </param>
         /// <returns>Int32[]</returns>
-        public static Int32[] ToIntArray(this String[] value, Boolean throwOnInvalidCast)
+        public static int[] ToIntArray(this string[] value, bool throwOnInvalidCast)
         {
             if (value == null) return null;
             if (throwOnInvalidCast)
             {
                 // ReSharper disable once SuspiciousTypeConversion.Global
-                return value.Cast<Int32>().ToArray();
+                return value.Cast<int>().ToArray();
             }
             var tempout = 0;
-            return (from a in value where Int32.TryParse(a, out tempout) select tempout).ToArray();
+            return (from a in value where int.TryParse(a, out tempout) select tempout).ToArray();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace ExBaseArguments
         /// errors and return any converted values.
         /// </param>
         /// <returns>DateTime[]</returns>
-        public static DateTime[] ToDateTimeArray(this String[] value, Boolean throwOnInvalidCast)
+        public static DateTime[] ToDateTimeArray(this string[] value, bool throwOnInvalidCast)
         {
             if (value == null) return null;
             if (throwOnInvalidCast)
@@ -130,91 +130,91 @@ namespace ExBaseArguments
 
         #region Validation Methods
 
-        public static void RequireOneOfTheseArgs(this Arguments value, params String[] names)
+        public static void RequireOneOfTheseArgs(this Arguments value, params string[] names)
         {
             value.RequireOneOfTheseArgs(names.AsEnumerable());
         }
 
-        public static void RequireOneOfTheseArgs(this Arguments value, IEnumerable<String> arglist)
+        public static void RequireOneOfTheseArgs(this Arguments value, IEnumerable<string> arglist)
         {
             var args = arglist.ToList();
             var exists = args.Any(value.ContainsKey);
             if (exists) return;
-            var argstr = String.Join("' or '", args.ToArray());
+            var argstr = string.Join("' or '", args.ToArray());
             throw new Exception("RecurseWriter.Write(): '" + argstr + "' Missing Argument(s) Error! No matching argument was found!");
         }
 
-        public static void RequireAllOfTheseArgs(this Arguments value, params String[] names)
+        public static void RequireAllOfTheseArgs(this Arguments value, params string[] names)
         {
             value.RequireAllOfTheseArgs(names.AsEnumerable());
         }
 
-        public static void RequireAllOfTheseArgs(this Arguments value, IEnumerable<String> arglist)
+        public static void RequireAllOfTheseArgs(this Arguments value, IEnumerable<string> arglist)
         {
             var args = arglist.ToList();
             var missing = false;
-            var missinglist = new List<String>();
+            var missinglist = new List<string>();
             foreach (var a in args.Where(a => !value.ContainsKey(a)))
             {
                 missing = true;
                 missinglist.Add(a);
             }
             if (!missing && arglist != null && args.Any()) return;
-            var argstr = String.Join("', '", missinglist.ToArray());
+            var argstr = string.Join("', '", missinglist.ToArray());
             throw new Exception("RecurseWriter.Write(): ['" + argstr + "'] Required Argument(s) Error! Not all required arguments exist!");
         }
 
-        public static void RequireAllOfTheseArgs(this Arguments value, IEnumerable<IEnumerable<String>> arglist)
+        public static void RequireAllOfTheseArgs(this Arguments value, IEnumerable<IEnumerable<string>> arglist)
         {
             var args = arglist.ToList();
             var missing = false;
-            var missinglist = new List<String>();
+            var missinglist = new List<string>();
             foreach (var a in args.Where(a => !value.ContainsOneOfTheseKeys(a)))
             {
                 missing = true;
-                missinglist.Add(String.Join(" or ", a.ToArray()));
+                missinglist.Add(string.Join(" or ", a.ToArray()));
             }
             if (!missing && args.Any()) return;
-            var argstr = String.Join("', '", missinglist.ToArray());
+            var argstr = string.Join("', '", missinglist.ToArray());
             throw new Exception("RecurseWriter.Write(): ['" + argstr + "'] Required Argument(s) Error! Not all required arguments exist!");
         }
 
-        public static Boolean ContainsOneOfTheseArgs(this Arguments value, params String[] names)
+        public static bool ContainsOneOfTheseArgs(this Arguments value, params string[] names)
         {
             return value.ContainsOneOfTheseArgs(names.AsEnumerable());
         }
 
-        public static Boolean ContainsOneOfTheseArgs(this Arguments value, IEnumerable<String> arglist)
+        public static bool ContainsOneOfTheseArgs(this Arguments value, IEnumerable<string> arglist)
         {
             return arglist.Any(value.ContainsKey);
         }
 
-        public static Boolean ContainsAllOfTheseArgs(this Arguments value, params String[] names)
+        public static bool ContainsAllOfTheseArgs(this Arguments value, params string[] names)
         {
             return value.ContainsAllOfTheseArgs(names.AsEnumerable());
         }
 
-        public static Boolean ContainsAllOfTheseArgs(this Arguments value, IEnumerable<String> arglist)
+        public static bool ContainsAllOfTheseArgs(this Arguments value, IEnumerable<string> arglist)
         {
             var args = arglist.ToList();
             var missing = args.Any(a => !value.ContainsKey(a));
             return !missing && args.Any();
         }
 
-        public static Boolean ContainsAllOfTheseArgs(this Arguments value, IEnumerable<IEnumerable<String>> arglist)
+        public static bool ContainsAllOfTheseArgs(this Arguments value, IEnumerable<IEnumerable<string>> arglist)
         {
             var args = arglist.ToList();
             var missing = args.Any(a => !value.ContainsOneOfTheseKeys(a));
             return !missing && args.Any();
         }
 
-        public static Boolean ContainsOneOfTheseKeys<T>(this Dictionary<String, T> value, IEnumerable<String> arglist)
+        public static bool ContainsOneOfTheseKeys<T>(this Dictionary<string, T> value, IEnumerable<string> arglist)
         {
             return arglist.Any(value.ContainsKey);
         }
 
         // Same as above: choose one???????
-        public static Boolean ContainsKey<T>(this Dictionary<String, T> value, IEnumerable<String> arglist)
+        public static bool ContainsKey<T>(this Dictionary<string, T> value, IEnumerable<string> arglist)
         {
             return arglist.Any(value.ContainsKey);
         }

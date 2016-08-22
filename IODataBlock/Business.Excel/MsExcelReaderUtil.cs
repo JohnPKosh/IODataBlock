@@ -1,9 +1,9 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml;
 
 namespace Business.Excel
 {
@@ -16,7 +16,7 @@ namespace Business.Excel
 
             if (columnCollection == null)
             {
-                return worksheet.Cells[String.Format(@"{0}:{0}", rowNumber)].Select(x => x.Value);
+                return worksheet.Cells[string.Format(@"{0}:{0}", rowNumber)].Select(x => x.Value);
             }
             var rv = new List<Object>();
             // ReSharper disable once LoopCanBeConvertedToQuery
@@ -41,7 +41,7 @@ namespace Business.Excel
                 IEnumerable<Object> row;
                 if (columnCollection == null)
                 {
-                    row = worksheet.Cells[String.Format(@"{0}:{0}", startRow)].Select(x => x.Value);
+                    row = worksheet.Cells[string.Format(@"{0}:{0}", startRow)].Select(x => x.Value);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace Business.Excel
 
             if (columnCollection == null)
             {
-                return worksheet.Cells[String.Format(@"{0}:{0}", rowNumber)].Select(x => x.Value);
+                return worksheet.Cells[string.Format(@"{0}:{0}", rowNumber)].Select(x => x.Value);
             }
             var rv = new List<Object>();
             // ReSharper disable once LoopCanBeConvertedToQuery
@@ -87,7 +87,7 @@ namespace Business.Excel
                 var collection = columnCollection as IList<Tuple<int, object>>;
                 if (collection == null || !collection.Any())
                 {
-                    row = worksheet.Cells[String.Format(@"{0}:{0}", startRow.ToString(CultureInfo.InvariantCulture))].Select(x => x.Value);
+                    row = worksheet.Cells[string.Format(@"{0}:{0}", startRow.ToString(CultureInfo.InvariantCulture))].Select(x => x.Value);
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Business.Excel
             }
         }
 
-        public static Int32 FindFirstRowContainingAnyStrings(ExcelWorksheet worksheet, IEnumerable<String> matchCollection, Int32 startRow = 1, Int32 endRow = -1)
+        public static Int32 FindFirstRowContainingAnyStrings(ExcelWorksheet worksheet, IEnumerable<string> matchCollection, Int32 startRow = 1, Int32 endRow = -1)
         {
             var rv = -1;
             var cnt = startRow;
@@ -116,15 +116,15 @@ namespace Business.Excel
             return rv;
         }
 
-        public static Int32 FindFirstRowContainingAllStrings(ExcelWorksheet worksheet, IEnumerable<String> matchCollection, Int32 startRow = 1, Int32 endRow = -1)
+        public static Int32 FindFirstRowContainingAllStrings(ExcelWorksheet worksheet, IEnumerable<string> matchCollection, Int32 startRow = 1, Int32 endRow = -1)
         {
             var rv = -1;
             var cnt = startRow;
             foreach (var o in GetWorkSheetRowsAsCollectionWithDefaults(worksheet, startRow, endRow))
             {
                 var found = false;
-                var row = String.Join(", ", o.Select(x => x.ToString()));
-// ReSharper disable once PossibleMultipleEnumeration
+                var row = string.Join(", ", o.Select(x => x.ToString()));
+                // ReSharper disable once PossibleMultipleEnumeration
                 foreach (var field in matchCollection)
                 {
                     if (row.ToLower().Contains(field.ToLower()))
@@ -148,16 +148,16 @@ namespace Business.Excel
             return rv;
         }
 
-        public static Dictionary<Int32, String> GetColumnPositions(ExcelWorksheet worksheet, IEnumerable<String> matchCollection, Int32 rowNumber = 1)
+        public static Dictionary<Int32, string> GetColumnPositions(ExcelWorksheet worksheet, IEnumerable<string> matchCollection, Int32 rowNumber = 1)
         {
-            var rv = new Dictionary<Int32, String>();
+            var rv = new Dictionary<Int32, string>();
             var fid = 1;
             foreach (var o in GetWorkSheetRowAsCollectionWithDefaults(ref worksheet, rowNumber))
             {
                 if (o != null)
                 {
                     var obj = o.ToString();
-// ReSharper disable once PossibleMultipleEnumeration
+                    // ReSharper disable once PossibleMultipleEnumeration
                     if (matchCollection.Any(x => x.ToLower() == obj.ToLower())) rv.Add(fid, obj);
                 }
                 fid++;
@@ -182,19 +182,19 @@ namespace Business.Excel
             return xlPackage.Workbook.Worksheets.AsEnumerable();
         }
 
-        public static IEnumerable<ExcelWorksheet> GetWorkSheetsFromFile(String filePath)
+        public static IEnumerable<ExcelWorksheet> GetWorkSheetsFromFile(string filePath)
         {
             return GetWorkSheetsFromFile(new FileInfo(filePath));
         }
 
-        public static IEnumerable<String> GetWorkSheetNamesFromFile(FileInfo fileInfo)
+        public static IEnumerable<string> GetWorkSheetNamesFromFile(FileInfo fileInfo)
         {
             var edo = new ExcelDynamicObjects();
             var xlPackage = edo.OpenExcelFile(fileInfo);
             return xlPackage.Workbook.Worksheets.Select(x => x.Name);
         }
 
-        public static IEnumerable<String> GetWorkSheetNamesFromFile(String filePath)
+        public static IEnumerable<string> GetWorkSheetNamesFromFile(string filePath)
         {
             return GetWorkSheetNamesFromFile(new FileInfo(filePath));
         }

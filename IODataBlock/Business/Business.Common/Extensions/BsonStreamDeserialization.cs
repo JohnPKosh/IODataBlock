@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using System;
+using System.IO;
 
 namespace Business.Common.Extensions
 {
@@ -26,7 +26,7 @@ namespace Business.Common.Extensions
             if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin);  // set Stream to beginning.
             using (var reader = new BsonReader(stream))
             {
-                var settings = (converters != null && converters.Length > 0) ? new JsonSerializerSettings { Converters = converters } : null;
+                var settings = converters != null && converters.Length > 0 ? new JsonSerializerSettings { Converters = converters } : null;
                 var serializer = JsonSerializer.CreateDefault(settings);
                 returnvalue = serializer.Deserialize<T>(reader);
             }
@@ -54,7 +54,7 @@ namespace Business.Common.Extensions
             return ((Stream)stream).BsonDeserialize<T>(converters);
         }
 
-        public static T BsonDeserializeBytes<T>(this Byte[] data, JsonSerializerSettings settings = null) where T : class
+        public static T BsonDeserializeBytes<T>(this byte[] data, JsonSerializerSettings settings = null) where T : class
         {
             using (var ms = new MemoryStream(data))
             {
@@ -62,7 +62,7 @@ namespace Business.Common.Extensions
             }
         }
 
-        public static T BsonDeserializeBytes<T>(this Byte[] data, params JsonConverter[] converters) where T : class
+        public static T BsonDeserializeBytes<T>(this byte[] data, params JsonConverter[] converters) where T : class
         {
             using (var ms = new MemoryStream(data))
             {
@@ -72,12 +72,12 @@ namespace Business.Common.Extensions
 
         /* Not exactly sure the usefulness of below methods but we will just leave for now. */
 
-        public static T BsonDeserializeBase64String<T>(this String value, JsonSerializerSettings settings = null) where T : class
+        public static T BsonDeserializeBase64String<T>(this string value, JsonSerializerSettings settings = null) where T : class
         {
             return Convert.FromBase64String(value).BsonDeserializeBytes<T>(settings);
         }
 
-        public static T BsonDeserializeBase64String<T>(this String value, params JsonConverter[] converters) where T : class
+        public static T BsonDeserializeBase64String<T>(this string value, params JsonConverter[] converters) where T : class
         {
             return Convert.FromBase64String(value).BsonDeserializeBytes<T>(converters);
         }

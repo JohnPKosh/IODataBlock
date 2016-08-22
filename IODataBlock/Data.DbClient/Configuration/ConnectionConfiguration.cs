@@ -5,13 +5,11 @@ namespace Data.DbClient.Configuration
         public string ConnectionString
         {
             get;
-            private set;
         }
 
         public IDbProviderFactory ProviderFactory
         {
             get;
-            private set;
         }
 
         internal ConnectionConfiguration(string providerName, string connectionString)

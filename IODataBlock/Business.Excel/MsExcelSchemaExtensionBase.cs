@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Business.Common.IO;
+using Data.DbClient;
+using Data.DbClient.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using Business.Common.IO;
-using Data.DbClient.Extensions;
-using Data.DbClient;
 
 namespace Business.Excel
 {
     public static class MsExcelSchemaExtensionBase
     {
-        private const String Provider = "System.Data.OleDb";
-        private const String ConnectionTemplateString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Xml;{1}IMEX=1;""";
-        private const String LockExceptionString = @"Can not open locked file! The file is locked by another process.";
+        private const string Provider = "System.Data.OleDb";
+        private const string ConnectionTemplateString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Xml;{1}IMEX=1;""";
+        private const string LockExceptionString = @"Can not open locked file! The file is locked by another process.";
 
-        public static DataTable GetTablesAsDt(FileInfo fileInfo, 
-            Int32 lockWaitMs = 60000, 
-            String rowFilter = null,
-            String sort = "TABLE_NAME ASC",
-            Boolean hasHeaderRow = true)
+        public static DataTable GetTablesAsDt(FileInfo fileInfo,
+            Int32 lockWaitMs = 60000,
+            string rowFilter = null,
+            string sort = "TABLE_NAME ASC",
+            bool hasHeaderRow = true)
         {
             fileInfo.Refresh();
             if (fileInfo.Directory != null && !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -30,35 +30,33 @@ namespace Business.Excel
                 using (var fileAccess = new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
                     if (!fileAccess.IsAccessible) throw new Exception(LockExceptionString);
-                    conn = String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
+                    conn = string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
                     schema = new SchemaReader(conn, Provider);
-                    if (String.IsNullOrWhiteSpace(rowFilter) && String.IsNullOrWhiteSpace(sort)) return schema.Tables();
+                    if (string.IsNullOrWhiteSpace(rowFilter) && string.IsNullOrWhiteSpace(sort)) return schema.Tables();
                     return schema.Tables().ApplyFilterSort(rowFilter, sort);
                 }
             }
-            conn = String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
+            conn = string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
             schema = new SchemaReader(conn, Provider);
-            if (String.IsNullOrWhiteSpace(rowFilter) && String.IsNullOrWhiteSpace(sort)) return schema.Tables();
+            if (string.IsNullOrWhiteSpace(rowFilter) && string.IsNullOrWhiteSpace(sort)) return schema.Tables();
             return schema.Tables().ApplyFilterSort(rowFilter, sort);
         }
 
-
-        public static List<dynamic> GetTablesAsDynamicList(FileInfo fileInfo, 
-            Int32 lockWaitMs = 60000, 
-            String rowFilter = null,
-            String sort = "TABLE_NAME ASC",
-            Boolean hasHeaderRow = true)
+        public static List<dynamic> GetTablesAsDynamicList(FileInfo fileInfo,
+            Int32 lockWaitMs = 60000,
+            string rowFilter = null,
+            string sort = "TABLE_NAME ASC",
+            bool hasHeaderRow = true)
         {
             return GetTablesAsDt(fileInfo, lockWaitMs, rowFilter, sort, hasHeaderRow).ToExpandoList();
         }
 
-
-        public static DataTable GetTableColumnsAsDt(FileInfo fileInfo, 
-            String tableName, 
-            Int32 lockWaitMs = 60000, 
-            String rowFilter = null,
-            String sort = "ORDINAL_POSITION ASC",
-            Boolean hasHeaderRow = true)
+        public static DataTable GetTableColumnsAsDt(FileInfo fileInfo,
+            string tableName,
+            Int32 lockWaitMs = 60000,
+            string rowFilter = null,
+            string sort = "ORDINAL_POSITION ASC",
+            bool hasHeaderRow = true)
         {
             fileInfo.Refresh();
             if (fileInfo.Directory != null && !fileInfo.Directory.Exists) throw new DirectoryNotFoundException();
@@ -70,29 +68,26 @@ namespace Business.Excel
                 using (var fileAccess = new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
                 {
                     if (!fileAccess.IsAccessible) throw new Exception(LockExceptionString);
-                    conn = String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
+                    conn = string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
                     schema = new SchemaReader(conn, Provider);
-                    if (String.IsNullOrWhiteSpace(rowFilter) && String.IsNullOrWhiteSpace(sort)) return schema.Columns(tableName);
+                    if (string.IsNullOrWhiteSpace(rowFilter) && string.IsNullOrWhiteSpace(sort)) return schema.Columns(tableName);
                     return schema.Columns(tableName).ApplyFilterSort(rowFilter, sort);
                 }
             }
-            conn = String.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
+            conn = string.Format(ConnectionTemplateString, fileInfo.FullName, hasHeaderRow ? "HDR=YES;" : "HDR=NO;");
             schema = new SchemaReader(conn, Provider);
-            if (String.IsNullOrWhiteSpace(rowFilter) && String.IsNullOrWhiteSpace(sort)) return schema.Columns(tableName);
+            if (string.IsNullOrWhiteSpace(rowFilter) && string.IsNullOrWhiteSpace(sort)) return schema.Columns(tableName);
             return schema.Columns(tableName).ApplyFilterSort(rowFilter, sort);
         }
 
-
-        public static List<dynamic> GetTableColumnsAsDynamicList(FileInfo fileInfo, 
-            String tableName, 
-            Int32 lockWaitMs = 60000, 
-            String rowFilter = null,
-            String sort = "ORDINAL_POSITION ASC",
-            Boolean hasHeaderRow = true)
+        public static List<dynamic> GetTableColumnsAsDynamicList(FileInfo fileInfo,
+            string tableName,
+            Int32 lockWaitMs = 60000,
+            string rowFilter = null,
+            string sort = "ORDINAL_POSITION ASC",
+            bool hasHeaderRow = true)
         {
             return GetTableColumnsAsDt(fileInfo, tableName, lockWaitMs, rowFilter, sort, hasHeaderRow).ToExpandoList();
         }
-
-
     }
 }

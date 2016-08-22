@@ -1,4 +1,4 @@
-﻿// Get a standard NetSuite record 
+﻿// Get a standard NetSuite record
 /**
  * @param {Object} dataIn Parameter object
  * @returns {Object} Output object
@@ -46,12 +46,12 @@ function postRecord(dataIn) {
                 for (var fieldname2 in value) {
                     var value2 = value[fieldname2];
                     nlapiLogExecution('DEBUG', '**fieldname=' + fieldname2, '**value2=' + value2 + ' typeof=' + typeof value2);
-                    //Add first line to sublist   
+                    //Add first line to sublist
                     record.selectNewLineItem('addressbook');
                     if (value2 && typeof value2 != 'object') {
-                        //record.setCurrentLineItemValue('addressbook', 'fieldname2', value2); 
+                        //record.setCurrentLineItemValue('addressbook', 'fieldname2', value2);
                     } else {
-                        //var subrecord = record.createCurrentLineItemSubrecord('addressbook', 'addressbookaddress'); 					
+                        //var subrecord = record.createCurrentLineItemSubrecord('addressbook', 'addressbookaddress');
                         for (var fieldname3 in value2) {
                             var value3 = value2[fieldname3];
                             nlapiLogExecution('DEBUG', '@fieldname=' + fieldname3, '**value3=' + value3 + ' typeof=' + typeof value3);
@@ -95,7 +95,6 @@ function postRecord(dataIn) {
     var nlobj = nlapiLoadRecord(dataIn.type, id);
     return nlobj;
 }
-
 
 //Updates a standard NetSuite record via PUT method
 /**

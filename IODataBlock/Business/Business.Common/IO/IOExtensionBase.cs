@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -6,7 +7,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Microsoft.Win32;
 
 namespace Business.Common.IO
 {
@@ -17,13 +17,7 @@ namespace Business.Common.IO
 
         #region DriveInfo Extensions and Properties
 
-        public static IEnumerable<DriveInfo> MyDrives
-        {
-            get
-            {
-                return DriveInfo.GetDrives().AsEnumerable();
-            }
-        }
+        public static IEnumerable<DriveInfo> MyDrives => DriveInfo.GetDrives().AsEnumerable();
 
         public static IEnumerable<DriveInfo> MyCdDrives
         {
@@ -57,75 +51,69 @@ namespace Business.Common.IO
             }
         }
 
-        public static DriveInfo MySystemDrive
-        {
-            get
-            {
-                return new DriveInfo(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, 1));
-            }
-        }
+        public static DriveInfo MySystemDrive => new DriveInfo(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, 1));
 
-        public static String RootDirectoryString(this DriveInfo drive)
+        public static string RootDirectoryString(this DriveInfo drive)
         {
             return drive.RootDirectory.ToString();
         }
 
         public static double TotalSizeInMb(this DriveInfo drive)
         {
-            return (drive.TotalSize / 1048576.0);
+            return drive.TotalSize / 1048576.0;
         }
 
         public static double TotalSizeInGb(this DriveInfo drive)
         {
-            return (drive.TotalSize / 1073741824.0);
+            return drive.TotalSize / 1073741824.0;
         }
 
         public static double AvailableFreeSpaceInMb(this DriveInfo drive)
         {
-            return (drive.AvailableFreeSpace / 1048576.0);
+            return drive.AvailableFreeSpace / 1048576.0;
         }
 
         public static double AvailableFreeSpaceInGb(this DriveInfo drive)
         {
-            return (drive.AvailableFreeSpace / 1073741824.0);
+            return drive.AvailableFreeSpace / 1073741824.0;
         }
 
         public static double TotalFreeSpaceInMb(this DriveInfo drive)
         {
-            return (drive.TotalFreeSpace / 1048576.0);
+            return drive.TotalFreeSpace / 1048576.0;
         }
 
         public static double TotalFreeSpaceInGb(this DriveInfo drive)
         {
-            return (drive.TotalFreeSpace / 1073741824.0);
+            return drive.TotalFreeSpace / 1073741824.0;
         }
 
-        public static String TotalSizeInMbAsString(this DriveInfo drive)
+        public static string TotalSizeInMbAsString(this DriveInfo drive)
         {
             return (drive.TotalSize / 1048576.0).ToString("#,###.# MB");
         }
 
-        public static String TotalSizeInGbAsString(this DriveInfo drive)
+        public static string TotalSizeInGbAsString(this DriveInfo drive)
         {
             return (drive.TotalSize / 1073741824.0).ToString("#,###.## GB");
         }
 
-        public static String AvailableFreeSpaceInMbAsString(this DriveInfo drive)
+        public static string AvailableFreeSpaceInMbAsString(this DriveInfo drive)
         {
             return (drive.AvailableFreeSpace / 1048576.0).ToString("#,###.# MB");
         }
 
-        public static String AvailableFreeSpaceInGbAsString(this DriveInfo drive)
+        public static string AvailableFreeSpaceInGbAsString(this DriveInfo drive)
         {
             return (drive.AvailableFreeSpace / 1073741824.0).ToString("#,###.## GB");
         }
 
-        public static String TotalFreeSpaceInMbAsString(this DriveInfo drive)
+        public static string TotalFreeSpaceInMbAsString(this DriveInfo drive)
         {
             return (drive.TotalFreeSpace / 1048576.0).ToString("#,###.# MB");
         }
 
-        public static String TotalFreeSpaceInGbAsString(this DriveInfo drive)
+        public static string TotalFreeSpaceInGbAsString(this DriveInfo drive)
         {
             return (drive.TotalFreeSpace / 1073741824.0).ToString("#,###.## GB");
         }
@@ -145,22 +133,22 @@ namespace Business.Common.IO
             return drive.RootDirectory.GetDirectories().Where(predicate);
         }
 
-        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, String searchPattern)
+        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, string searchPattern)
         {
             return drive.RootDirectory.GetDirectories(searchPattern).AsEnumerable();
         }
 
-        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, String searchPattern, Func<DirectoryInfo, bool> predicate)
+        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, string searchPattern, Func<DirectoryInfo, bool> predicate)
         {
             return drive.RootDirectory.GetDirectories(searchPattern).Where(predicate);
         }
 
-        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, String searchPattern, SearchOption option)
+        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, string searchPattern, SearchOption option)
         {
             return drive.RootDirectory.GetDirectories(searchPattern, option).AsEnumerable();
         }
 
-        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, String searchPattern, SearchOption option, Func<DirectoryInfo, bool> predicate)
+        public static IEnumerable<DirectoryInfo> Directories(this DriveInfo drive, string searchPattern, SearchOption option, Func<DirectoryInfo, bool> predicate)
         {
             return drive.RootDirectory.GetDirectories(searchPattern, option).Where(predicate);
         }
@@ -171,7 +159,7 @@ namespace Business.Common.IO
 
         #region Conversion Extensions
 
-        public static String ToDirectoryPath(this String path)
+        public static string ToDirectoryPath(this string path)
         {
             if (path == null) throw new NullReferenceException();
             path = path.Trim();
@@ -180,33 +168,33 @@ namespace Business.Common.IO
             return s;
         }
 
-        public static String ToFilePath(this String path)
+        public static string ToFilePath(this string path)
         {
             if (path == null) throw new NullReferenceException();
             return Path.GetFullPath(path.Trim());
         }
 
-        public static Boolean DirectoryExists(this String path)
+        public static bool DirectoryExists(this string path)
         {
-            return (new DirectoryInfo(path.ToDirectoryPath())).Exists;
+            return new DirectoryInfo(path.ToDirectoryPath()).Exists;
         }
 
-        public static Boolean FileExists(this String path)
+        public static bool FileExists(this string path)
         {
-            return (new FileInfo(path.ToFilePath())).Exists;
+            return new FileInfo(path.ToFilePath()).Exists;
         }
 
-        public static DirectoryInfo ToDirectoryInfo(this String path)
+        public static DirectoryInfo ToDirectoryInfo(this string path)
         {
             return new DirectoryInfo(path.ToDirectoryPath());
         }
 
-        public static DirectoryInfo ToDirectoryInfo(this String path, Boolean createDirectory)
+        public static DirectoryInfo ToDirectoryInfo(this string path, bool createDirectory)
         {
             return path.ToDirectoryInfo(createDirectory, false);
         }
 
-        public static DirectoryInfo ToDirectoryInfo(this String path, Boolean createDirectory, Boolean overwrite)
+        public static DirectoryInfo ToDirectoryInfo(this string path, bool createDirectory, bool overwrite)
         {
             var d = new DirectoryInfo(path.ToDirectoryPath());
             if (!createDirectory) return d;
@@ -224,12 +212,12 @@ namespace Business.Common.IO
             return d;
         }
 
-        public static IEnumerable<DirectoryInfo> ToDirectoryInfo(this ICollection<String> paths)
+        public static IEnumerable<DirectoryInfo> ToDirectoryInfo(this ICollection<string> paths)
         {
             return paths.Select(ToDirectoryInfo);
         }
 
-        public static void Create(this DirectoryInfo directory, Boolean overWrite)
+        public static void Create(this DirectoryInfo directory, bool overWrite)
         {
             var exists = directory.Exists;
             if (overWrite && exists)
@@ -245,12 +233,12 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileInfo ToFileInfo(this String path)
+        public static FileInfo ToFileInfo(this string path)
         {
             return new FileInfo(path.ToFilePath());
         }
 
-        public static void AppendTextFile(this FileInfo fileinfo, String textToWrite, Int32 waitDelay = 60, Encoding fileEncoding = null)
+        public static void AppendTextFile(this FileInfo fileinfo, string textToWrite, int waitDelay = 60, Encoding fileEncoding = null)
         {
             FileStream fs = null;
             try
@@ -282,10 +270,7 @@ namespace Business.Common.IO
             }
             finally
             {
-                if (fs != null)
-                {
-                    fs.Close();
-                }
+                fs?.Close();
             }
         }
 
@@ -293,28 +278,28 @@ namespace Business.Common.IO
 
         #region Create Directory Extensions
 
-        public static DirectoryInfo CreateSubDirectory(this DirectoryInfo directory, String subDirectory, Boolean overWrite)
+        public static DirectoryInfo CreateSubDirectory(this DirectoryInfo directory, string subDirectory, bool overWrite)
         {
             if (overWrite && directory.Exists) directory.Delete(true);
             return directory.CreateSubdirectory(subDirectory);
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, String subDirectory)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, string subDirectory)
         {
             return directories.Where(predicate).Select(directory => directory.CreateSubdirectory(subDirectory));
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, IEnumerable<String> subDirectoryList)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, IEnumerable<string> subDirectoryList)
         {
             return directories.SelectMany(directory => subDirectoryList.Select(directory.CreateSubdirectory));
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, IEnumerable<String> subDirectoryList)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, IEnumerable<string> subDirectoryList)
         {
             return directories.Where(predicate).SelectMany(directory => subDirectoryList.Select(directory.CreateSubdirectory));
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, String subDirectory, Boolean overWrite)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, string subDirectory, bool overWrite)
         {
             foreach (var directory in directories)
             {
@@ -329,7 +314,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, String subDirectory, Boolean overWrite)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectory(this IEnumerable<DirectoryInfo> directories, Func<DirectoryInfo, bool> predicate, string subDirectory, bool overWrite)
         {
             foreach (var directory in directories.Where(predicate))
             {
@@ -344,7 +329,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectories(this DirectoryInfo directory, IEnumerable<String> subDirectoryList)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectories(this DirectoryInfo directory, IEnumerable<string> subDirectoryList)
         {
             if (!directory.Exists) yield break;
             foreach (var d in subDirectoryList.Select(directory.CreateSubdirectory))
@@ -353,7 +338,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<DirectoryInfo> CreateSubDirectories(this DirectoryInfo directory, IEnumerable<String> subDirectoryList, Boolean overwrite)
+        public static IEnumerable<DirectoryInfo> CreateSubDirectories(this DirectoryInfo directory, IEnumerable<string> subDirectoryList, bool overwrite)
         {
             if (!directory.Exists) yield break;
             foreach (var sd in subDirectoryList)
@@ -373,7 +358,7 @@ namespace Business.Common.IO
 
         #region Delete Directory Extensions
 
-        public static void DeleteDirectory(this DirectoryInfo directory, Boolean recursive, Boolean continueOnError)
+        public static void DeleteDirectory(this DirectoryInfo directory, bool recursive, bool continueOnError)
         {
             try
             {
@@ -386,7 +371,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Boolean recursive, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, bool recursive, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories())
             {
@@ -404,7 +389,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Boolean recursive, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, bool recursive, string searchPattern, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories(searchPattern))
             {
@@ -422,7 +407,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Boolean recursive, string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, bool recursive, string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories(searchPattern, searchOption))
             {
@@ -440,7 +425,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Boolean recursive, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, bool recursive, SearchOption searchOption, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories("*", searchOption))
             {
@@ -458,7 +443,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, Boolean recursive, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, bool recursive, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories().Where(predicate))
             {
@@ -476,7 +461,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, Boolean recursive, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, bool recursive, string searchPattern, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories(searchPattern).Where(predicate))
             {
@@ -494,7 +479,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, Boolean recursive, string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, bool recursive, string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories(searchPattern, searchOption).Where(predicate))
             {
@@ -512,7 +497,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, Boolean recursive, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteSubDirectoriesEnumerable(this DirectoryInfo directory, Func<DirectoryInfo, bool> predicate, bool recursive, SearchOption searchOption, bool continueOnError)
         {
             foreach (var d in directory.GetDirectories("*", searchOption).Where(predicate))
             {
@@ -614,7 +599,7 @@ namespace Business.Common.IO
             return directories.SelectMany(directory => directory.GetDirectories("*", searchOption).Where(predicate));
         }
 
-        public static IEnumerable<String> GetDirectoryFullNames(this IEnumerable<DirectoryInfo> directories)
+        public static IEnumerable<string> GetDirectoryFullNames(this IEnumerable<DirectoryInfo> directories)
         {
             return directories.Select(directory => directory.FullName);
         }
@@ -623,15 +608,15 @@ namespace Business.Common.IO
 
         #region Move Directory Extensions
 
-        public static IEnumerable<String> MoveDirectoriesFromEnumerable(this IEnumerable<DirectoryInfo> directories, String destinationPathRoot, Boolean continueOnError)
+        public static IEnumerable<string> MoveDirectoriesFromEnumerable(this IEnumerable<DirectoryInfo> directories, string destinationPathRoot, bool continueOnError)
         {
             foreach (var subdirectory in directories.SelectMany(directory => directory.GetDirectories()))
             {
-                String p;
+                string p;
                 try
                 {
                     p = Path.Combine(destinationPathRoot, subdirectory.Name);  // Add is NullOrEmpty condition for DestinationPathRoot
-                    if (!(new DirectoryInfo(p)).Exists) subdirectory.MoveTo(p);
+                    if (!new DirectoryInfo(p).Exists) subdirectory.MoveTo(p);
                     else continue;
                 }
                 catch (Exception)
@@ -680,12 +665,12 @@ namespace Business.Common.IO
 
         #region FileInfo Extensions
 
-        public static StreamWriter AppendText(this FileInfo file, Int32 lockWaitMs)
+        public static StreamWriter AppendText(this FileInfo file, int lockWaitMs)
         {
             return file.AppendText(lockWaitMs, false);
         }
 
-        public static StreamWriter AppendText(this FileInfo file, Int32 lockWaitMs, Boolean lockStream)
+        public static StreamWriter AppendText(this FileInfo file, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -704,7 +689,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileInfo CopyTo(this FileInfo file, string destFileName, Int32 lockWaitMs)
+        public static FileInfo CopyTo(this FileInfo file, string destFileName, int lockWaitMs)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -721,7 +706,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileInfo CopyTo(this FileInfo file, string destFileName, bool overwrite, Int32 lockWaitMs)
+        public static FileInfo CopyTo(this FileInfo file, string destFileName, bool overwrite, int lockWaitMs)
         {
             File.Copy(file.FullName, destFileName, true);
 
@@ -740,7 +725,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileInfo Decrypt(this FileInfo file, Int32 lockWaitMs)
+        public static FileInfo Decrypt(this FileInfo file, int lockWaitMs)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -764,7 +749,7 @@ namespace Business.Common.IO
             return DeleteFile(file, 120000);
         }
 
-        public static FileInfo DeleteFile(this FileInfo file, Int32 lockWaitMs)
+        public static FileInfo DeleteFile(this FileInfo file, int lockWaitMs)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -803,7 +788,7 @@ namespace Business.Common.IO
         //    }
         //}
 
-        public static FileInfo Encrypt(this FileInfo file, Int32 lockWaitMs)
+        public static FileInfo Encrypt(this FileInfo file, int lockWaitMs)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -822,7 +807,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenRead(this FileInfo file, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenRead(this FileInfo file, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -841,7 +826,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static StreamReader OpenText(this FileInfo file, Int32 lockWaitMs, Boolean lockStream)
+        public static StreamReader OpenText(this FileInfo file, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -860,7 +845,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenWrite(this FileInfo file, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenWrite(this FileInfo file, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -879,7 +864,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -898,7 +883,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -917,7 +902,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, FileShare share, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, FileShare share, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -936,7 +921,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Int32 lockWaitMs, Boolean lockStream)
+        public static FileStream OpenFileStream(this FileInfo file, FileMode mode, FileAccess access, FileShare share, int bufferSize, int lockWaitMs, bool lockStream)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -978,7 +963,7 @@ namespace Business.Common.IO
         //    }
         //}
 
-        public static FileInfo MoveTo(this FileInfo file, string destFileName, Int32 lockWaitMs)
+        public static FileInfo MoveTo(this FileInfo file, string destFileName, int lockWaitMs)
         {
             var lockWaitUntil = DateTime.Now.AddMilliseconds(lockWaitMs);
             while (true)
@@ -997,7 +982,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static void WaitForTempLock(this FileInfo file, Int32 lockWaitMs)
+        public static void WaitForTempLock(this FileInfo file, int lockWaitMs)
         {
             if (file.Directory == null || !file.Directory.Exists) return;
             var templock = new FileInfo(file.FullName + ".tlock");
@@ -1011,27 +996,27 @@ namespace Business.Common.IO
                 }
                 else
                 {
-                    throw new IOException(String.Format("A Temporary File Lock Exists for {0}. ", file.FullName));
+                    throw new IOException($"A Temporary File Lock Exists for {file.FullName}. ");
                 }
             }
         }
 
-        public static String GetKbString(this FileInfo file)
+        public static string GetKbString(this FileInfo file)
         {
             return file.Length.DisplayKb();
         }
 
-        public static String GetMbString(this FileInfo file)
+        public static string GetMbString(this FileInfo file)
         {
             return file.Length.DisplayMb();
         }
 
-        public static String GetGbString(this FileInfo file)
+        public static string GetGbString(this FileInfo file)
         {
             return file.Length.DisplayGb();
         }
 
-        public static String GetGbMbKbString(this FileInfo file)
+        public static string GetGbMbKbString(this FileInfo file)
         {
             return file.Length.DisplayGbMbKb();
         }
@@ -1041,7 +1026,7 @@ namespace Business.Common.IO
             var mime = "application/octetstream";
             var ext = Path.GetExtension(fileInfo.Name).ToLower();
             var rk = Registry.ClassesRoot.OpenSubKey(ext);
-            if (rk != null && rk.GetValue("Content Type") != null)
+            if (rk?.GetValue("Content Type") != null)
             {
                 mime = rk.GetValue("Content Type").ToString();
             }
@@ -1136,11 +1121,11 @@ namespace Business.Common.IO
 
         // remove df strings
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, bool continueOnError)
         {
             foreach (var f in directory.GetFiles())
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1156,11 +1141,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, string searchPattern, bool continueOnError)
         {
             foreach (var f in directory.GetFiles(searchPattern))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1176,11 +1161,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var f in directory.GetFiles(searchPattern, searchOption))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1196,11 +1181,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, SearchOption searchOption, bool continueOnError)
         {
             foreach (var f in directory.GetFiles("*", searchOption))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1216,11 +1201,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, bool continueOnError)
         {
             foreach (var f in directory.GetFiles().Where(predicate))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1236,11 +1221,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, string searchPattern, bool continueOnError)
         {
             foreach (var f in directory.GetFiles(searchPattern).Where(predicate))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1256,11 +1241,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var f in directory.GetFiles(searchPattern, searchOption).Where(predicate))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1276,11 +1261,11 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFiles(this DirectoryInfo directory, Func<FileInfo, bool> predicate, SearchOption searchOption, bool continueOnError)
         {
             foreach (var f in directory.GetFiles("*", searchOption).Where(predicate))
             {
-                String df;
+                string df;
                 try
                 {
                     if (f.Exists) f.Delete();
@@ -1296,13 +1281,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles())
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1319,13 +1304,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, string searchPattern, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles(searchPattern, SearchOption.TopDirectoryOnly))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1342,13 +1327,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles(searchPattern, searchOption))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1365,13 +1350,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, SearchOption searchOption, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles("*", searchOption))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1388,13 +1373,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles().Where(predicate))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1411,13 +1396,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, string searchPattern, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, string searchPattern, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles(searchPattern, SearchOption.TopDirectoryOnly).Where(predicate))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1434,14 +1419,14 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate,
-            string searchPattern, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate,
+            string searchPattern, SearchOption searchOption, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles(searchPattern, searchOption).Where(predicate))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1458,13 +1443,13 @@ namespace Business.Common.IO
             }
         }
 
-        public static IEnumerable<String> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, SearchOption searchOption, Boolean continueOnError)
+        public static IEnumerable<string> DeleteFilesFromEnumerable(this IEnumerable<DirectoryInfo> directories, Func<FileInfo, bool> predicate, SearchOption searchOption, bool continueOnError)
         {
             foreach (var directory in directories)
             {
                 foreach (var file in directory.GetFiles("*", searchOption).Where(predicate))
                 {
-                    String df;
+                    string df;
                     try
                     {
                         if (file.Exists) file.Delete();
@@ -1483,16 +1468,16 @@ namespace Business.Common.IO
 
         #endregion Delete Files
 
-        public static Byte[] GetAllBytes(this FileInfo fileInfo, Int32 lockWaitMs)
+        public static byte[] GetAllBytes(this FileInfo fileInfo, int lockWaitMs)
         {
             using (var fileAccess = new ReadFileAccess(fileInfo, lockWaitMs, TimeSpan.FromSeconds(30)))
             {
                 if (!fileAccess.IsAccessible) throw new Exception(@"Can not open locked file! The file is locked by another process.");
                 using (var fs = fileInfo.OpenFileStream(FileMode.Open, FileAccess.Read, FileShare.Read, 60000, true))
                 {
-                    var buffersize = fs.Length > 4096 ? 4096 : (Int32)fs.Length;
+                    var buffersize = fs.Length > 4096 ? 4096 : (int)fs.Length;
 
-                    var bytes = new Byte[buffersize];
+                    var bytes = new byte[buffersize];
                     using (var ms = new MemoryStream())
                     {
                         while (true) // Loops Rule!!!!!!!!
@@ -1513,12 +1498,12 @@ namespace Business.Common.IO
             }
         }
 
-        public static Byte[] GetBytesByRange(this FileInfo fileInfo, Int32 lockWaitMs, long origin, int length)
+        public static byte[] GetBytesByRange(this FileInfo fileInfo, int lockWaitMs, long origin, int length)
         {
             using (var fs = fileInfo.OpenFileStream(FileMode.Open, FileAccess.Read, FileShare.Read, length, lockWaitMs, true))
             {
                 fs.Seek(origin, SeekOrigin.Begin);
-                var rv = new Byte[length];
+                var rv = new byte[length];
                 fs.Read(rv, 0, length);
                 return rv;
             }
@@ -1528,7 +1513,7 @@ namespace Business.Common.IO
 
         #region Display Size as String Extensions
 
-        public static String DisplayKb(this Int64 value)
+        public static string DisplayKb(this Int64 value)
         {
             try
             {
@@ -1540,7 +1525,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static String DisplayMb(this Int64 value)
+        public static string DisplayMb(this Int64 value)
         {
             try
             {
@@ -1556,7 +1541,7 @@ namespace Business.Common.IO
         {
             try
             {
-                return (value / 1048576.0);
+                return value / 1048576.0;
             }
             catch
             {
@@ -1564,7 +1549,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static String DisplayGb(this Int64 value)
+        public static string DisplayGb(this Int64 value)
         {
             try
             {
@@ -1576,7 +1561,7 @@ namespace Business.Common.IO
             }
         }
 
-        public static String DisplayGbMbKb(this Int64 value)
+        public static string DisplayGbMbKb(this Int64 value)
         {
             try
             {
@@ -1592,12 +1577,12 @@ namespace Business.Common.IO
 
         #endregion Display Size as String Extensions
 
-        public static IEnumerable<FileInfo> GZipDirectory(this DirectoryInfo inputDirectory, String searchPattern = @"*.*", Boolean topDirectoryOnly = true, Boolean deleteOriginal = false)
+        public static IEnumerable<FileInfo> GZipDirectory(this DirectoryInfo inputDirectory, string searchPattern = @"*.*", bool topDirectoryOnly = true, bool deleteOriginal = false)
         {
             return GZipDirectory(inputDirectory, null, searchPattern, topDirectoryOnly, deleteOriginal);
         }
 
-        public static IEnumerable<FileInfo> GZipDirectory(this DirectoryInfo inputDirectory, IEnumerable<String> fileNameRestrictions = null, String searchPattern = @"*.*", Boolean topDirectoryOnly = true, Boolean deleteOriginal = false)
+        public static IEnumerable<FileInfo> GZipDirectory(this DirectoryInfo inputDirectory, IEnumerable<string> fileNameRestrictions = null, string searchPattern = @"*.*", bool topDirectoryOnly = true, bool deleteOriginal = false)
         {
             var rv = new List<FileInfo>();
             var option = SearchOption.TopDirectoryOnly;
@@ -1628,7 +1613,7 @@ namespace Business.Common.IO
             return rv;
         }
 
-        public static FileInfo GZip(this FileInfo fileInfo, Int32 lockWaitMs, Boolean overWrite = false, int bufferSize = 4096)
+        public static FileInfo GZip(this FileInfo fileInfo, int lockWaitMs, bool overWrite = false, int bufferSize = 4096)
         {
             fileInfo.Refresh();
             var outputfi = fileInfo.DirectoryName != null ? new FileInfo(Path.Combine(fileInfo.DirectoryName, fileInfo.Name + ".gz")) : new FileInfo(fileInfo.Name + ".gz");
@@ -1654,9 +1639,9 @@ namespace Business.Common.IO
                         {
                             if (inputfs.CanSeek) inputfs.Seek(0, SeekOrigin.Begin); // Important!
 
-                            const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
-                            var length = inputfs.Length < maxint ? (Int32)inputfs.Length : (Int32)maxint;
-                            Int32 buffersize;
+                            const long maxint = int.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
+                            var length = inputfs.Length < maxint ? (int)inputfs.Length : (int)maxint;
+                            int buffersize;
                             if (bufferSize > 0)
                             {
                                 buffersize = length > bufferSize ? bufferSize : length;
@@ -1665,7 +1650,7 @@ namespace Business.Common.IO
                             {
                                 buffersize = length > 4096 ? 4096 : length;
                             }
-                            var bytes = new Byte[buffersize];
+                            var bytes = new byte[buffersize];
 
                             while (true) // Loops Rule!!!!!!!!
                             {
@@ -1688,13 +1673,13 @@ namespace Business.Common.IO
             return fileInfo;
         }
 
-        public static String ReadToEnd(this Stream stream)
+        public static string ReadToEnd(this Stream stream)
         {
             var sr = new StreamReader(stream);
             return sr.ReadToEnd();
         }
 
-        public static Stream GZipToStream(this Byte[] inputBytes)
+        public static Stream GZipToStream(this byte[] inputBytes)
         {
             return GZipToStream(new MemoryStream(inputBytes));
         }
@@ -1704,7 +1689,7 @@ namespace Business.Common.IO
             return stream.GZipToStream(4096);
         }
 
-        public static Stream GZipToStream(this Stream stream, Int32 bufferSize)
+        public static Stream GZipToStream(this Stream stream, int bufferSize)
         {
             var ms = new MemoryStream();
             try
@@ -1713,9 +1698,9 @@ namespace Business.Common.IO
                 {
                     if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin); // Important!
 
-                    const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
-                    var length = stream.Length < maxint ? (Int32)stream.Length : (Int32)maxint;
-                    Int32 buffersize;
+                    const long maxint = int.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
+                    var length = stream.Length < maxint ? (int)stream.Length : (int)maxint;
+                    int buffersize;
                     if (bufferSize > 0)
                     {
                         buffersize = length > bufferSize ? bufferSize : length;
@@ -1724,7 +1709,7 @@ namespace Business.Common.IO
                     {
                         buffersize = length > 4096 ? 4096 : length;
                     }
-                    var bytes = new Byte[buffersize];
+                    var bytes = new byte[buffersize];
 
                     while (true) // Loops Rule!!!!!!!!
                     {
@@ -1749,7 +1734,7 @@ namespace Business.Common.IO
         }
 
         // ReSharper disable once InconsistentNaming
-        public static Stream GUnZipToStream(this Stream stream, Int32 bufferSize = 0)
+        public static Stream GUnZipToStream(this Stream stream, int bufferSize = 0)
         {
             var ms = new MemoryStream();
             try
@@ -1758,9 +1743,9 @@ namespace Business.Common.IO
 
                 using (var gzstream = new GZipStream(stream, CompressionMode.Decompress, true))
                 {
-                    const long maxint = Int32.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
-                    var length = stream.Length < maxint ? (Int32)stream.Length : (Int32)maxint;
-                    Int32 buffersize;
+                    const long maxint = int.MaxValue / 2; // Reduce 2GB limit to around 1GB for Int32.MaxValue********
+                    var length = stream.Length < maxint ? (int)stream.Length : (int)maxint;
+                    int buffersize;
                     if (bufferSize > 0)
                     {
                         buffersize = length > bufferSize ? bufferSize : length;
@@ -1769,7 +1754,7 @@ namespace Business.Common.IO
                     {
                         buffersize = length > 4096 ? 4096 : length;
                     }
-                    var bytes = new Byte[buffersize];
+                    var bytes = new byte[buffersize];
 
                     while (true) // Loops Rule!!!!!!!!
                     {
@@ -1809,7 +1794,7 @@ namespace Business.Common.IO
             inputFile.Delete();
         }
 
-        public static void GUnZipToFileFast(this FileInfo inputFile, String outputFilePath, bool overwrite)
+        public static void GUnZipToFileFast(this FileInfo inputFile, string outputFilePath, bool overwrite)
         {
             var outputFile = new FileInfo(outputFilePath);
             if (overwrite && outputFile.Exists) outputFile.Delete();
@@ -1826,9 +1811,9 @@ namespace Business.Common.IO
             inputFile.Delete();
         }
 
-        public static String GetDateTimeUpdatedFileName(this FileInfo fileInfo, DateTime? dateValue = null, Boolean useUtc = true, String formatString = null)
+        public static string GetDateTimeUpdatedFileName(this FileInfo fileInfo, DateTime? dateValue = null, bool useUtc = true, string formatString = null)
         {
-            if (String.IsNullOrWhiteSpace(formatString)) formatString = @"yyyy-MM-ddTHHmmss";
+            if (string.IsNullOrWhiteSpace(formatString)) formatString = @"yyyy-MM-ddTHHmmss";
             if (useUtc)
             {
                 var dt = dateValue.HasValue ? @"_UTC" + dateValue.Value.ToUniversalTime().ToString(formatString) : @"_UTC" + DateTime.UtcNow.ToString(formatString);

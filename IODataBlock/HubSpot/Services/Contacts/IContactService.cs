@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Business.Common.GenericResponses;
+﻿using Business.Common.GenericResponses;
 using HubSpot.Services.ModeTypes;
+using System.Collections.Generic;
 
 namespace HubSpot.Services.Contacts
 {
@@ -86,8 +86,10 @@ namespace HubSpot.Services.Contacts
 
         IResponseObject<string, string> SearchByQuery(string partialmatchNameOrEmail, int? count = null, int? vidOffset = null, IEnumerable<string> properties = null);
 
-        #endregion Read Contacts 
+        #endregion Read Contacts
 
-        #endregion
+
+
+        #endregion Raw API Implementation
     }
 }

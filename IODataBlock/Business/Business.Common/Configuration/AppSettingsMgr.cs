@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Business.Common.IO;
+using Business.Common.Security;
 using System.Configuration;
 using System.Web.Configuration;
-using Business.Common.Extensions;
-using Business.Common.IO;
-using Business.Common.Security;
 
 namespace Business.Common.Configuration
 {
@@ -20,14 +18,14 @@ namespace Business.Common.Configuration
 
             #endregion "Class Initialization"
 
-            #region "Methods"
+            #region Methods
 
             /// <summary>
             /// Protect AppSettings in .config File
             /// </summary>
             protected internal void ProtectAppSettings()
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
                 if (appsection.SectionInformation.IsProtected) return;
@@ -42,7 +40,7 @@ namespace Business.Common.Configuration
             /// </summary>
             protected internal void UnProtectAppSettings()
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
                 if (!appsection.SectionInformation.IsProtected) return;
@@ -57,7 +55,7 @@ namespace Business.Common.Configuration
             /// </summary>
             /// <param name="name">name of element</param>
             /// <returns>String</returns>
-            protected internal String GetAppSettingByName(String name)
+            protected internal string GetAppSettingByName(string name)
             {
                 return ConfigurationManager.AppSettings[name];
             }
@@ -67,9 +65,9 @@ namespace Business.Common.Configuration
             /// </summary>
             /// <param name="name">name of element</param>
             /// <param name="value">string value to save</param>
-            protected internal void SetElementByName(String name, String value)
+            protected internal void SetElementByName(string name, string value)
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
                 if (appsection.Settings[name] != null)
@@ -86,9 +84,9 @@ namespace Business.Common.Configuration
             /// Remove AppSetting Element By Name
             /// </summary>
             /// <param name="name">name of element</param>
-            protected internal void RemoveElementByName(String name)
+            protected internal void RemoveElementByName(string name)
             {
-                global::System.Configuration.Configuration config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
+                var config = IOUtility.IsWebAssembly() ? ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) : WebConfigurationManager.OpenWebConfiguration(null);
                 var appsection = config.GetSection("appSettings") as AppSettingsSection;
                 if (appsection == null) return;
                 if (appsection.Settings[name] != null)
@@ -99,8 +97,6 @@ namespace Business.Common.Configuration
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("appSettings");
             }
-
-            #endregion "Methods"
 
             protected internal void SetCspDefaults(bool deleteOnLoad = true)
             {
@@ -133,6 +129,8 @@ namespace Business.Common.Configuration
             {
                 return RngCrypto.GetTripleDesIvBytes(GetAppSettingByName("csppI"), GetAppSettingByName("cspsI"));
             }
+
+            #endregion Methods
         }
     }
 }

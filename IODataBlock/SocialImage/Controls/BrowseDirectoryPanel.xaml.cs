@@ -26,17 +26,17 @@ namespace SocialImage.Controls
 
         #region SelectedDirectory Dependency Property
 
-        public String SelectedDirectory
+        public string SelectedDirectory
         {
             get
             {
-                return (String)GetValue(SelectedDirectoryProperty);
+                return (string)GetValue(SelectedDirectoryProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(SelectedDirectoryProperty, value);
                         CoerceValue(DirectoryExistsProperty);
@@ -69,7 +69,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty SelectedDirectoryProperty =
-            DependencyProperty.Register("SelectedDirectory", typeof(String), typeof(BrowseDirectoryPanel), SelectedDirectoryMetaData, new ValidateValueCallback(SelectedDirectory_Validate));
+            DependencyProperty.Register("SelectedDirectory", typeof(string), typeof(BrowseDirectoryPanel), SelectedDirectoryMetaData, new ValidateValueCallback(SelectedDirectory_Validate));
 
         private static void SelectedDirectory_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -104,17 +104,17 @@ namespace SocialImage.Controls
 
         #region LabelText Dependency Property
 
-        public String LabelText
+        public string LabelText
         {
             get
             {
-                return (String)GetValue(LabelTextProperty);
+                return (string)GetValue(LabelTextProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(LabelTextProperty, value);
                     }
@@ -141,7 +141,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty LabelTextProperty =
-            DependencyProperty.Register("LabelText", typeof(String), typeof(BrowseDirectoryPanel), LabelTextMetaData, new ValidateValueCallback(LabelText_Validate));
+            DependencyProperty.Register("LabelText", typeof(string), typeof(BrowseDirectoryPanel), LabelTextMetaData, new ValidateValueCallback(LabelText_Validate));
 
         private static void LabelText_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -169,17 +169,17 @@ namespace SocialImage.Controls
 
         #region ButtonText Dependency Property
 
-        public String ButtonText
+        public string ButtonText
         {
             get
             {
-                return (String)GetValue(ButtonTextProperty);
+                return (string)GetValue(ButtonTextProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(ButtonTextProperty, value);
                     }
@@ -206,7 +206,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty ButtonTextProperty =
-            DependencyProperty.Register("ButtonText", typeof(String), typeof(BrowseDirectoryPanel), ButtonTextMetaData, new ValidateValueCallback(ButtonText_Validate));
+            DependencyProperty.Register("ButtonText", typeof(string), typeof(BrowseDirectoryPanel), ButtonTextMetaData, new ValidateValueCallback(ButtonText_Validate));
 
         private static void ButtonText_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -234,17 +234,17 @@ namespace SocialImage.Controls
 
         #region DirectoryExists Dependency Property
 
-        public Boolean DirectoryExists
+        public bool DirectoryExists
         {
             get
             {
-                return (Boolean)GetValue(DirectoryExistsProperty);
+                return (bool)GetValue(DirectoryExistsProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(DirectoryExistsProperty, value);
                     }
@@ -271,7 +271,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty DirectoryExistsProperty =
-            DependencyProperty.Register("DirectoryExists", typeof(Boolean), typeof(BrowseDirectoryPanel), DirectoryExistsMetaData, new ValidateValueCallback(DirectoryExists_Validate));
+            DependencyProperty.Register("DirectoryExists", typeof(bool), typeof(BrowseDirectoryPanel), DirectoryExistsMetaData, new ValidateValueCallback(DirectoryExists_Validate));
 
         private static void DirectoryExists_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -287,7 +287,7 @@ namespace SocialImage.Controls
 
             var d = (BrowseDirectoryPanel)dobj;
             var current = Value;
-            if (!String.IsNullOrWhiteSpace(d.SelectedDirectory) && Directory.Exists(d.SelectedDirectory)) current = true;
+            if (!string.IsNullOrWhiteSpace(d.SelectedDirectory) && Directory.Exists(d.SelectedDirectory)) current = true;
             else current = false;
             return current;
         }
@@ -304,17 +304,17 @@ namespace SocialImage.Controls
         
         #region AddFolderButtonText Dependency Property
 
-        public String AddFolderButtonText
+        public string AddFolderButtonText
         {
             get
             {
-                return (String)GetValue(AddFolderButtonTextProperty);
+                return (string)GetValue(AddFolderButtonTextProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(AddFolderButtonTextProperty, value);
                     }
@@ -341,7 +341,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty AddFolderButtonTextProperty =
-            DependencyProperty.Register("AddFolderButtonText", typeof(String), typeof(BrowseDirectoryPanel), AddFolderButtonTextMetaData, new ValidateValueCallback(AddFolderButtonText_Validate));
+            DependencyProperty.Register("AddFolderButtonText", typeof(string), typeof(BrowseDirectoryPanel), AddFolderButtonTextMetaData, new ValidateValueCallback(AddFolderButtonText_Validate));
 
         private static void AddFolderButtonText_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -369,17 +369,17 @@ namespace SocialImage.Controls
 
         #region ParentDirectoryExists Dependency Property
 
-        public Boolean ParentDirectoryExists
+        public bool ParentDirectoryExists
         {
             get
             {
-                return (Boolean)GetValue(ParentDirectoryExistsProperty);
+                return (bool)GetValue(ParentDirectoryExistsProperty);
             }
             set
             {
                 try
                 {
-                    if (this.Dispatcher.CheckAccess())
+                    if (Dispatcher.CheckAccess())
                     {
                         SetValue(ParentDirectoryExistsProperty, value);
                     }
@@ -406,7 +406,7 @@ namespace SocialImage.Controls
             , System.Windows.Data.UpdateSourceTrigger.PropertyChanged);
 
         public static readonly DependencyProperty ParentDirectoryExistsProperty =
-            DependencyProperty.Register("ParentDirectoryExists", typeof(Boolean), typeof(BrowseDirectoryPanel), ParentDirectoryExistsMetaData, new ValidateValueCallback(ParentDirectoryExists_Validate));
+            DependencyProperty.Register("ParentDirectoryExists", typeof(bool), typeof(BrowseDirectoryPanel), ParentDirectoryExistsMetaData, new ValidateValueCallback(ParentDirectoryExists_Validate));
 
         private static void ParentDirectoryExists_PropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs e)
         {
@@ -422,7 +422,7 @@ namespace SocialImage.Controls
 
             var d = (BrowseDirectoryPanel)dobj;
             var current = Value;
-            if (!String.IsNullOrWhiteSpace(d.SelectedDirectory) && new DirectoryInfo(d.SelectedDirectory).Parent.Exists && new DirectoryInfo(d.SelectedDirectory).Exists) current = false;
+            if (!string.IsNullOrWhiteSpace(d.SelectedDirectory) && new DirectoryInfo(d.SelectedDirectory).Parent.Exists && new DirectoryInfo(d.SelectedDirectory).Exists) current = false;
             else current = true;
             return current;
         }
@@ -439,7 +439,7 @@ namespace SocialImage.Controls
 
         private void BtnBrowseDirectory_Click(object sender, RoutedEventArgs e)
         {
-            var FilePath = String.Empty;
+            var FilePath = string.Empty;
             if (IoDialogUtility.ShowMyPicturesBrowserDialog(out FilePath, SelectedDirectory))
             {
                 SelectedDirectory = FilePath;
@@ -457,7 +457,7 @@ namespace SocialImage.Controls
 
         private void BtnCreateDirectory_Click(object sender, RoutedEventArgs e)
         {
-            if (!DirectoryExists && !String.IsNullOrWhiteSpace(SelectedDirectory) && ParentDirectoryExists)
+            if (!DirectoryExists && !string.IsNullOrWhiteSpace(SelectedDirectory) && ParentDirectoryExists)
             {
                 Directory.CreateDirectory(SelectedDirectory);
                 CoerceValue(DirectoryExistsProperty);

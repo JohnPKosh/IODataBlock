@@ -1,8 +1,8 @@
-﻿using System;
-using Business.Common.Exceptions;
+﻿using Business.Common.Exceptions;
 using Business.Common.Requests;
 using Business.Common.Responses;
 using Fasterflect;
+using System;
 
 namespace Business.Common.System
 {
@@ -18,7 +18,7 @@ namespace Business.Common.System
         {
             get
             {
-                return String.IsNullOrWhiteSpace(_commandName) ? this.GetType().Name() : _commandName;
+                return string.IsNullOrWhiteSpace(_commandName) ? GetType().Name() : _commandName;
             }
             set { _commandName = value; }
         }

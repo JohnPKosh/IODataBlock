@@ -301,7 +301,7 @@ namespace Business.Common.Security
 
                 while (true) // Loops Rule!!!!!!!!
                 {
-                    Int32 bytecount = cryptor.Read(bytes, 0, bytes.Length);
+                    var bytecount = cryptor.Read(bytes, 0, bytes.Length);
                     if (bytecount > 0)
                     {
                         decryptstream.Write(bytes, 0, bytecount);

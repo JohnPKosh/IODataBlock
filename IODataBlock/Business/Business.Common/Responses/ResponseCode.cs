@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-
-namespace Business.Common.Responses
+﻿namespace Business.Common.Responses
 {
     public class ResponseCode : IResponseCode
     {
-        public ResponseCode(){}
+        public ResponseCode()
+        {
+        }
 
         public ResponseCode(int? id, string code = null)
         {
@@ -23,6 +23,6 @@ namespace Business.Common.Responses
             return Code;
         }
 
-        #endregion
+        #endregion IResponseCode Members
     }
 }

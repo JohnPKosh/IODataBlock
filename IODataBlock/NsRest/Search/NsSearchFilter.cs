@@ -78,7 +78,7 @@ namespace NsRest.Search
                 value1 = value.GetNsValue()
             };
         }
-        
+
         public static NsSearchFilter NewMultiSelectFilter(string field, SearchMultiSelectFieldOperatorType op, string value1, string value2 = null)
         {
             return new NsSearchFilter
@@ -102,6 +102,5 @@ namespace NsRest.Search
         }
 
         /* TODO: implement other filters */
-
     }
 }

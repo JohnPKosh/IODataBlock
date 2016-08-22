@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Common.System.App
+﻿namespace Business.Common.System.App
 {
     public class AppBag
     {
@@ -15,10 +9,7 @@ namespace Business.Common.System.App
             Value = null;
         }
 
-        public static AppBag Data
-        {
-            get { return _data ?? (_data = new AppBag()); }
-        }
+        public static AppBag Data => _data ?? (_data = new AppBag());
 
         public dynamic Value { get; set; }
     }

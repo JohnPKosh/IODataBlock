@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using Business.Common.Extensions;
+﻿using Business.Common.Extensions;
 using Business.Common.GenericResponses;
 using Business.Common.IO;
 using Business.Common.System;
@@ -17,6 +11,12 @@ using HubSpot.Models.Properties;
 using HubSpot.Services.Contacts;
 using HubSpot.Services.ModeTypes;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 
 namespace HubSpot.Services.Companies
 {
@@ -34,7 +34,7 @@ namespace HubSpot.Services.Companies
             ManagedProperties = propertyManager.Properties;
         }
 
-        #endregion
+        #endregion Class Initialization
 
         #region Fields and Properties
 
@@ -42,7 +42,7 @@ namespace HubSpot.Services.Companies
 
         public List<PropertyTypeModel> ManagedProperties;
 
-        #endregion
+        #endregion Fields and Properties
 
         #region Raw API Implementation
 
@@ -158,7 +158,7 @@ namespace HubSpot.Services.Companies
             }
         }
 
-        #endregion
+        #endregion Create / Update / Delete
 
         #region Read Contacts
 
@@ -304,7 +304,7 @@ namespace HubSpot.Services.Companies
             }
         }
 
-        #endregion
+        #endregion Read Contacts
 
         #region Private Utility Methods
 
@@ -328,9 +328,9 @@ namespace HubSpot.Services.Companies
         //    return values.Select(x => string.Format(@"vid={0}", x));
         //}
 
-        #endregion
+        #endregion Private Utility Methods
 
-        #endregion
+        #endregion Raw API Implementation
 
         #region Extended Implementation
 
@@ -367,7 +367,7 @@ namespace HubSpot.Services.Companies
                     NullValueHandling = NullValueHandling.Include,
                     DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
                 });
-            return dto.Select(x=>(CompanyViewModel) x);
+            return dto.Select(x => (CompanyViewModel)x);
         }
 
         public IEnumerable<dynamic> GetAllContactsDynamic(int companyId, int? count = null, int? vidOffset = null)
@@ -460,7 +460,7 @@ namespace HubSpot.Services.Companies
                     contacts.AddRange(dto.vids);
                 }
             }
-            return contacts.Select(x=> GetContact((int) x));
+            return contacts.Select(x => GetContact((int)x));
         }
 
         private ContactViewModel GetContact(int contactId)
@@ -476,7 +476,6 @@ namespace HubSpot.Services.Companies
                 throw new Exception(ro.ExceptionList.Exceptions.First().Message);
             }
         }
-
 
         public IEnumerable<CompanyViewModel> GetChangesCompanyViewModels(int? count = null, long? maxTimeOffset = null, long? minTimeOffset = null)
         {
@@ -503,14 +502,12 @@ namespace HubSpot.Services.Companies
                         });
                     //maxVidOffset = dto.vid_offset;
                     //maxTimeOffset = dto.offset;
-                    
+
                     var currentList = dto.results.Select(c => (CompanyViewModel)c).ToList();
-                    
+
                     if (minTimeOffset.HasValue)
                     {
-                        //if (!minVidOffset.HasValue) minVidOffset = 0;
-                        if (!minTimeOffset.HasValue) minTimeOffset = 0;
-                        contacts.AddRange(currentList.Where(x => long.Parse(x.Properties.First(y=> y.Key == "createdate").Value) >= minTimeOffset.Value));
+                        contacts.AddRange(currentList.Where(x => long.Parse(x.Properties.First(y => y.Key == "createdate").Value) >= minTimeOffset.Value));
                         if (maxTimeOffset != null && maxTimeOffset.Value < minTimeOffset.Value) break;
                         //moreResults = false;
                     }
@@ -527,7 +524,6 @@ namespace HubSpot.Services.Companies
             }
             return contacts;
         }
-
 
         public IEnumerable<CompanyViewModel> GetRecentCompanyViewModels(int? count = null, long? timeOffset = null)
         {
@@ -557,8 +553,6 @@ namespace HubSpot.Services.Companies
             return companies;
         }
 
-
-
         public IEnumerable<CompanyViewModel> GetAllCompanyViewModels(int? count = null, long? offset = null)
         {
             var moreResults = true;
@@ -586,8 +580,6 @@ namespace HubSpot.Services.Companies
             }
             return companies;
         }
-
-
 
         //public IEnumerable<ContactViewModel> GetAllContactViewModels(int? count = null, int? vidOffset = null, IEnumerable<string> properties = null,
         //    PropertyModeType propertyMode = PropertyModeType.value_only, FormSubmissionModeType formSubmissionMode = FormSubmissionModeType.Newest,
@@ -704,7 +696,7 @@ namespace HubSpot.Services.Companies
         //    return contacts;
         //}
 
-        #endregion
+        #endregion Read Contacts
 
         #region Update Contacts
 
@@ -718,14 +710,8 @@ namespace HubSpot.Services.Companies
             return dto;
         }
 
-        #endregion
+        #endregion Update Contacts
 
-        #endregion
-
-
-
-
-
-
+        #endregion Extended Implementation
     }
 }

@@ -12,7 +12,7 @@ namespace Business.Common.Extensions
             var rv = new List<object>();
             foreach (var value in values)
             {
-                var m = value as IDictionary<String, Object>;
+                var m = value as IDictionary<string, object>;
                 if (m == null || !m.ContainsKey(member)) continue;
                 switch (filterOption)
                 {
@@ -64,7 +64,7 @@ namespace Business.Common.Extensions
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException("filterOption");
+                        throw new ArgumentOutOfRangeException(nameof(filterOption));
                 }
             }
             return rv;
@@ -78,7 +78,7 @@ namespace Business.Common.Extensions
             return value =>
             {
                 if (value == null) return null;
-                var members = value as IDictionary<String, Object>;
+                var members = value as IDictionary<string, object>;
                 if (members == null)
                 {
                     throw new ArgumentNullException(member, @"GetMemberStringFilterFunc requires a non-null parameter! No object members exist!");
@@ -89,7 +89,9 @@ namespace Business.Common.Extensions
                 }
                 if (members[member].GetType() != typeof(string))
                 {
-                    throw new ArgumentException(String.Format(@"GetMemberStringFilterFunc requires a string type member! Target member type is {0}", members[member].GetType().Name), member);
+                    throw new ArgumentException(
+                        $@"GetMemberStringFilterFunc requires a string type member! Target member type is {members[
+                            member].GetType().Name}", member);
                 }
                 return value;
             };
@@ -157,7 +159,7 @@ namespace Business.Common.Extensions
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException("filterOption");
+                    throw new ArgumentOutOfRangeException(nameof(filterOption));
             }
             return false;
         }
@@ -182,14 +184,14 @@ namespace Business.Common.Extensions
             return _isBetween(value, lower, upper);
         }
 
-        public static bool IsStringGtString(this String value, string compareTo, StringComparison comparison = StringComparison.Ordinal)
+        public static bool IsStringGtString(this string value, string compareTo, StringComparison comparison = StringComparison.Ordinal)
         {
-            return String.Compare(value, compareTo, comparison) > 0;
+            return string.Compare(value, compareTo, comparison) > 0;
         }
 
-        public static bool IsStringLtString(this String value, string compareTo, StringComparison comparison = StringComparison.Ordinal)
+        public static bool IsStringLtString(this string value, string compareTo, StringComparison comparison = StringComparison.Ordinal)
         {
-            return String.Compare(value, compareTo, comparison) < 0;
+            return string.Compare(value, compareTo, comparison) < 0;
         }
     }
 }

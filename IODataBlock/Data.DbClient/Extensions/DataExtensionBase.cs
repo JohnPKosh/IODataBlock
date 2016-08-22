@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Business.Common.Extensions;
+using Business.Common.System.Args;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -13,9 +15,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Business.Common.Extensions;
-using Business.Common.System.Args;
-
 
 // ReSharper disable once CheckNamespace
 namespace Data.DbClient
@@ -71,9 +70,9 @@ namespace Data.DbClient
             }
         }
 
-        public static List<Dictionary<String, Object>> ToDictionaryList(this IDataReader rdr)
+        public static List<Dictionary<string, object>> ToDictionaryList(this IDataReader rdr)
         {
-            var result = new List<Dictionary<String, Object>>();
+            var result = new List<Dictionary<string, object>>();
             while (rdr.Read())
             {
                 dynamic e = new ExpandoObject();
@@ -85,7 +84,7 @@ namespace Data.DbClient
             return result;
         }
 
-        public static IEnumerable<Dictionary<String, Object>> ToIEnumerableDictionaryObjects(this IDataReader rdr)
+        public static IEnumerable<Dictionary<string, object>> ToIEnumerableDictionaryObjects(this IDataReader rdr)
         {
             while (rdr.Read())
             {
@@ -97,7 +96,7 @@ namespace Data.DbClient
             }
         }
 
-        public static XElement ExpandoToXml(dynamic node, String nodeName)
+        public static XElement ExpandoToXml(dynamic node, string nodeName)
         {
             var xmlNode = new XElement(nodeName);
 
@@ -148,15 +147,15 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<String, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
-                            var colType = prop.Value == null || prop.Value.GetType() == typeof(System.DBNull) ? typeof(object) : prop.Value.GetType();
+                            var colType = prop.Value == null || prop.Value is DBNull ? typeof(object) : prop.Value.GetType();
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
                         }
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<String, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -171,7 +170,7 @@ namespace Data.DbClient
                         foreach (var pi in oProps)
                         {
                             var colType = pi.PropertyType;
-                            if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                            if (colType.IsGenericType && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
                             {
                                 colType = colType.GetGenericArguments()[0];
                             }
@@ -205,15 +204,15 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<String, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
-                            var colType = prop.Value == null ? typeof(object) : prop.Value.GetType();
+                            var colType = prop.Value?.GetType() ?? typeof(object);
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
                         }
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<String, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -228,7 +227,7 @@ namespace Data.DbClient
                         foreach (var pi in oProps)
                         {
                             var colType = pi.PropertyType;
-                            if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                            if (colType.IsGenericType && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
                             {
                                 colType = colType.GetGenericArguments()[0];
                             }
@@ -263,15 +262,15 @@ namespace Data.DbClient
                     if (!columnsExist)
                     {
                         isExpando = true;
-                        foreach (var prop in (IDictionary<String, Object>)rec)
+                        foreach (var prop in (IDictionary<string, object>)rec)
                         {
-                            var colType = prop.Value == null ? typeof(object) : prop.Value.GetType();
+                            var colType = prop.Value?.GetType() ?? typeof(object);
                             rv.Columns.Add(new DataColumn(prop.Key, colType));
                         }
                         columnsExist = true;
                     }
                     var dr = rv.NewRow();
-                    foreach (var prop in ((IDictionary<String, Object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
+                    foreach (var prop in ((IDictionary<string, object>)rec).Where(prop => rv.Columns.IndexOf(prop.Key) > -1))
                     {
                         dr[prop.Key] = prop.Value ?? DBNull.Value;
                     }
@@ -286,7 +285,7 @@ namespace Data.DbClient
                         foreach (var pi in oProps)
                         {
                             var colType = pi.PropertyType;
-                            if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                            if (colType.IsGenericType && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
                             {
                                 colType = colType.GetGenericArguments()[0];
                             }
@@ -305,14 +304,14 @@ namespace Data.DbClient
             return rv;
         }
 
-        public static DataTable ApplyFilterSort(this DataTable table, String rowFilter = null, String sort = null)
+        public static DataTable ApplyFilterSort(this DataTable table, string rowFilter = null, string sort = null)
         {
-            if (!String.IsNullOrWhiteSpace(rowFilter)) table.DefaultView.RowFilter = rowFilter;
-            if (!String.IsNullOrWhiteSpace(sort)) table.DefaultView.Sort = sort;
+            if (!string.IsNullOrWhiteSpace(rowFilter)) table.DefaultView.RowFilter = rowFilter;
+            if (!string.IsNullOrWhiteSpace(sort)) table.DefaultView.Sort = sort;
             return table.DefaultView.ToTable();
         }
 
-        public static void RemoveColumns(this DataTable input, String columnNames, String seperator = ",")
+        public static void RemoveColumns(this DataTable input, string columnNames, string seperator = ",")
         {
             var columnNameList = columnNames.Split(seperator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
             foreach (var n in columnNameList)
@@ -332,41 +331,41 @@ namespace Data.DbClient
 
         public static void RemoveNonSystemTypeColumns(this DataTable input, bool removeByteArrayColumns = true)
         {
-            var columnNameList = (input.Columns.Cast<DataColumn>()
+            var columnNameList = input.Columns.Cast<DataColumn>()
                 .Where(
                     c =>
                         c.DataType.Namespace != "System" ||
                         (removeByteArrayColumns && c.DataType.UnderlyingSystemType.Name.ToLower() == "byte[]"))
-                .Select(c => c.ColumnName)).ToList();
+                .Select(c => c.ColumnName).ToList();
             foreach (var n in columnNameList)
             {
                 input.Columns.Remove(n);
             }
         }
 
-        public static DataTable GetDataTableBySqlDataAdapter(String selectCommandText, String sqlServer
-            , String databaseName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
-            , String tableName = null
+        public static DataTable GetDataTableBySqlDataAdapter(string selectCommandText, string sqlServer
+            , string databaseName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
+            , string tableName = null
             )
         {
             var constr = GetSqlConnectionString(sqlServer, databaseName, sqlUserName, sqlPassword, applicationName, connectTimeout);
             return GetDataTableBySqlDataAdapter(selectCommandText, constr, tableName);
         }
 
-        public static DataTable GetDataTableBySqlDataAdapter(String selectCommandText, String constr, String tableName = null)
+        public static DataTable GetDataTableBySqlDataAdapter(string selectCommandText, string constr, string tableName = null)
         {
             DataTable rv;
             SqlConnection con = null;
             try
             {
                 con = new SqlConnection(constr);
-                var tname = String.IsNullOrWhiteSpace(tableName) ? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture) : tableName;
+                var tname = string.IsNullOrWhiteSpace(tableName) ? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture) : tableName;
                 rv = new DataTable(tname);
-                var da = new SqlDataAdapter(selectCommandText, con) {SelectCommand = {CommandTimeout = 600}};
+                var da = new SqlDataAdapter(selectCommandText, con) { SelectCommand = { CommandTimeout = 600 } };
                 if (con.State != ConnectionState.Open) con.Open();
                 da.Fill(rv);
                 if (con.State == ConnectionState.Open) con.Close();
@@ -374,25 +373,25 @@ namespace Data.DbClient
             finally
             {
                 if (con != null && con.State != ConnectionState.Closed) con.Close();
-                if (con != null) con.Dispose();
+                con?.Dispose();
             }
             return rv;
         }
 
         public static void ImportDataTableToSql(
             ref DataTable dt
-            , String destinationTableName
-            , String sqlServer
-            , String databaseName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
-            , Int32 packetSize = 8192
+            , string destinationTableName
+            , string sqlServer
+            , string databaseName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
+            , int packetSize = 8192
             , IEnumerable<SqlBulkCopyColumnMapping> sqlBulkCopyColumnMappings = null
-            , Int32 batchSize = 0
-            , Int32 bulkCopyTimeout = 0
-            , Boolean enableIndentityInsert = false
+            , int batchSize = 0
+            , int bulkCopyTimeout = 0
+            , bool enableIndentityInsert = false
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -424,9 +423,9 @@ namespace Data.DbClient
 
         public static SqlParameter[] DiscoverSqlSpParameterSet(SqlConnection connection, string spName, bool includeReturnValueParameter)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException("spName");
-            var cmd = new SqlCommand(spName, connection) {CommandType = CommandType.StoredProcedure};
+            if (connection == null) throw new ArgumentException("connection is NULL!");
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentException("spName is NULL!");
+            var cmd = new SqlCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
             connection.Open();
             SqlCommandBuilder.DeriveParameters(cmd);
             connection.Close();
@@ -447,9 +446,9 @@ namespace Data.DbClient
 
         public static OleDbParameter[] DiscoverOleDbSpParameterSet(OleDbConnection connection, string spName, bool includeReturnValueParameter)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException("spName");
-            var cmd = new OleDbCommand(spName, connection) {CommandType = CommandType.StoredProcedure};
+            if (connection == null) throw new ArgumentException("connection is NULL!");
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentException("spName is NULL!");
+            var cmd = new OleDbCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
             connection.Open();
             OleDbCommandBuilder.DeriveParameters(cmd);
             connection.Close();
@@ -468,27 +467,27 @@ namespace Data.DbClient
             return discoveredParameters;
         }
 
-        public static DataTable GetSchemaDataTableBySqlDataAdapter(String selectCommandText, String sqlServer
-            , String databaseName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
-            , String tableName = null
+        public static DataTable GetSchemaDataTableBySqlDataAdapter(string selectCommandText, string sqlServer
+            , string databaseName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
+            , string tableName = null
             )
         {
             var constr = GetSqlConnectionString(sqlServer, databaseName, sqlUserName, sqlPassword, applicationName, connectTimeout);
             return GetSchemaDataTableBySqlDataAdapter(selectCommandText, constr, tableName);
         }
 
-        public static DataTable GetSchemaDataTableBySqlDataAdapter(String selectCommandText, String constr, String tableName = null)
+        public static DataTable GetSchemaDataTableBySqlDataAdapter(string selectCommandText, string constr, string tableName = null)
         {
             DataTable rv;
             SqlConnection con = null;
             try
             {
                 con = new SqlConnection(constr);
-                var tname = String.IsNullOrWhiteSpace(tableName) ? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture) : tableName;
+                var tname = string.IsNullOrWhiteSpace(tableName) ? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture) : tableName;
                 rv = new DataTable(tname);
                 var da = new SqlDataAdapter(selectCommandText, con);
                 if (con.State != ConnectionState.Open) con.Open();
@@ -498,7 +497,7 @@ namespace Data.DbClient
             finally
             {
                 if (con != null && con.State != ConnectionState.Closed) con.Close();
-                if (con != null) con.Dispose();
+                con?.Dispose();
             }
             return rv;
         }
@@ -507,16 +506,16 @@ namespace Data.DbClient
 
         #region ConnectionString Methods
 
-        public static String GetSqlConnectionString(String sqlServer
-            , String databaseName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static string GetSqlConnectionString(string sqlServer
+            , string databaseName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
-            var cb = new SqlConnectionStringBuilder {DataSource = sqlServer, InitialCatalog = databaseName};
-            if (!String.IsNullOrWhiteSpace(sqlUserName) && !String.IsNullOrWhiteSpace(sqlPassword))
+            var cb = new SqlConnectionStringBuilder { DataSource = sqlServer, InitialCatalog = databaseName };
+            if (!string.IsNullOrWhiteSpace(sqlUserName) && !string.IsNullOrWhiteSpace(sqlPassword))
             {
                 cb.UserID = sqlUserName;
                 cb.Password = sqlPassword;
@@ -525,12 +524,12 @@ namespace Data.DbClient
             {
                 cb.IntegratedSecurity = true;
             }
-            if (!String.IsNullOrWhiteSpace(applicationName)) cb.ApplicationName = applicationName;
+            if (!string.IsNullOrWhiteSpace(applicationName)) cb.ApplicationName = applicationName;
             if (connectTimeout > -1) cb.ConnectTimeout = connectTimeout;
             return cb.ConnectionString;
         }
 
-        public static String ConnectionStringFromEntityConnectionString(String entityConnectionString)
+        public static string ConnectionStringFromEntityConnectionString(string entityConnectionString)
         {
             var cb = new EntityConnectionStringBuilder(entityConnectionString);
             return cb.ProviderConnectionString;
@@ -538,14 +537,14 @@ namespace Data.DbClient
 
         #region Create SqlServer EntityConnection Methods
 
-        public static EntityConnection CreateEntityConnection(String sqlServer
-            , String databaseName
-            , String metaDataPath
-            , String metaModelName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateEntityConnection(string sqlServer
+            , string databaseName
+            , string metaDataPath
+            , string metaModelName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -558,21 +557,21 @@ namespace Data.DbClient
 
             var cb = new EntityConnectionStringBuilder();
             var metaPath = Path.Combine(metaDataPath, metaModelName);
-            cb.Metadata = String.Format(@"{0}.csdl|{0}.ssdl|{0}.msl", metaPath);
+            cb.Metadata = string.Format(@"{0}.csdl|{0}.ssdl|{0}.msl", metaPath);
             cb.Provider = @"System.Data.SqlClient";
             cb.ProviderConnectionString = providerConnectionString;
             return new EntityConnection(cb.ConnectionString);
         }
 
-        public static EntityConnection CreateEntityConnection(String sqlServer
-            , String databaseName
-            , String csdlPath
-            , String ssdlPath
-            , String mslPath
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateEntityConnection(string sqlServer
+            , string databaseName
+            , string csdlPath
+            , string ssdlPath
+            , string mslPath
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -585,20 +584,20 @@ namespace Data.DbClient
 
             var cb = new EntityConnectionStringBuilder
             {
-                Metadata = string.Format("{0}|{1}|{2}", csdlPath, ssdlPath, mslPath),
+                Metadata = $"{csdlPath}|{ssdlPath}|{mslPath}",
                 Provider = @"System.Data.SqlClient",
                 ProviderConnectionString = providerConnectionString
             };
             return new EntityConnection(cb.ConnectionString);
         }
 
-        public static EntityConnection CreateEntityConnection(String sqlServer
-            , String databaseName
-            , String metaPath
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateEntityConnection(string sqlServer
+            , string databaseName
+            , string metaPath
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -622,14 +621,14 @@ namespace Data.DbClient
 
         #region Create SqlCe EntityConnection Methods
 
-        public static EntityConnection CreateSqlCeEntityConnection(String sqlServer
-            , String databaseName
-            , String metaDataPath
-            , String metaModelName
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateSqlCeEntityConnection(string sqlServer
+            , string databaseName
+            , string metaDataPath
+            , string metaModelName
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -642,21 +641,21 @@ namespace Data.DbClient
 
             var cb = new EntityConnectionStringBuilder();
             var metaPath = Path.Combine(metaDataPath, metaModelName);
-            cb.Metadata = String.Format(@"{0}.csdl|{0}.ssdl|{0}.msl", metaPath);
+            cb.Metadata = string.Format(@"{0}.csdl|{0}.ssdl|{0}.msl", metaPath);
             cb.Provider = @"System.Data.SqlServerCe.4.0";
             cb.ProviderConnectionString = providerConnectionString;
             return new EntityConnection(cb.ConnectionString);
         }
 
-        public static EntityConnection CreateSqlCeEntityConnection(String sqlServer
-            , String databaseName
-            , String csdlPath
-            , String ssdlPath
-            , String mslPath
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateSqlCeEntityConnection(string sqlServer
+            , string databaseName
+            , string csdlPath
+            , string ssdlPath
+            , string mslPath
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -669,20 +668,20 @@ namespace Data.DbClient
 
             var cb = new EntityConnectionStringBuilder
             {
-                Metadata = string.Format("{0}|{1}|{2}", csdlPath, ssdlPath, mslPath),
+                Metadata = $"{csdlPath}|{ssdlPath}|{mslPath}",
                 Provider = @"System.Data.SqlServerCe.4.0",
                 ProviderConnectionString = providerConnectionString
             };
             return new EntityConnection(cb.ConnectionString);
         }
 
-        public static EntityConnection CreateSqlCeEntityConnection(String sqlServer
-            , String databaseName
-            , String metaPath
-            , String sqlUserName = null
-            , String sqlPassword = null
-            , String applicationName = null
-            , Int32 connectTimeout = -1
+        public static EntityConnection CreateSqlCeEntityConnection(string sqlServer
+            , string databaseName
+            , string metaPath
+            , string sqlUserName = null
+            , string sqlPassword = null
+            , string applicationName = null
+            , int connectTimeout = -1
             )
         {
             var providerConnectionString = GetSqlConnectionString(sqlServer
@@ -708,9 +707,9 @@ namespace Data.DbClient
 
         #region Sql Script Methods
 
-        public static IEnumerable<String> ReadSqlScriptArgumentListFromFile(String filePath)
+        public static IEnumerable<string> ReadSqlScriptArgumentListFromFile(string filePath)
         {
-            var rawscripts = ArgumentList.ReadXml(filePath).Items.OrderBy(x => Int32.Parse(x["step"])).Select(x => x["script"]);
+            var rawscripts = ArgumentList.ReadXml(filePath).Items.OrderBy(x => int.Parse(x["step"])).Select(x => x["script"]);
             var rv = new List<string>();
             foreach (var s in rawscripts)
             {
@@ -719,60 +718,60 @@ namespace Data.DbClient
             return rv.AsEnumerable();
         }
 
-        public static IEnumerable<String> SplitToSqlStatements(this String s)
+        public static IEnumerable<string> SplitToSqlStatements(this string s)
         {
-            return Regex.Split(s, @"^\s*GO;*\r*\n*\b|(^|\s+)GO;*\r*\n*\b|\s*;\b*\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline).AsEnumerable().Select(x => x.Trim()).Where(x => !String.IsNullOrWhiteSpace(x.Trim()));
+            return Regex.Split(s, @"^\s*GO;*\r*\n*\b|(^|\s+)GO;*\r*\n*\b|\s*;\b*\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline).AsEnumerable().Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x.Trim()));
         }
 
-//// ReSharper disable once InconsistentNaming
-//        public static String CreateSQLServerBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
-//        {
-//            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
-//            const string template = @"
-//WITH [temp_batch_table] AS
-//(
-//    $(InputSql)
-//)
-//SELECT *
-//FROM [temp_batch_table]
-//WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
-//";
+        //// ReSharper disable once InconsistentNaming
+        //        public static String CreateSQLServerBatchSelect(String selectSql, Int32 batchNumber, Int32 batchSize, String rowOrderBy)
+        //        {
+        //            var rowNumberSql = @" ROW_NUMBER() OVER (ORDER BY $(RowOrderBy)) AS [RowNumber], ".Replace("$(RowOrderBy)", rowOrderBy);
+        //            const string template = @"
+        //WITH [temp_batch_table] AS
+        //(
+        //    $(InputSql)
+        //)
+        //SELECT *
+        //FROM [temp_batch_table]
+        //WHERE [RowNumber] BETWEEN ($(BatchNo)*$(BatchSize)) AND (($(BatchNo)*$(BatchSize))+$(BatchSize)-1);
+        //";
 
-//            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
-//            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
-//            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
+        //            var selectIdx = selectSql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase) + "select".Length;
+        //            selectSql = selectSql.Insert(selectIdx, rowNumberSql);
+        //            var outputSql = template.Replace("$(BatchNo)", batchNumber.ToString(CultureInfo.InvariantCulture)).Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture)).Replace("$(InputSql)", selectSql);
 
-//            return outputSql;
-//        }
+        //            return outputSql;
+        //        }
 
-//// ReSharper disable once InconsistentNaming
-//        public static String CreateSQLServerCountSelect(String selectSql, Int32 batchSize = 0)
-//        {
-//            string template;
-//            if (batchSize < 1)
-//            {
-//                template = @"
-//SELECT COUNT(*) as [cnt]
-//FROM
-//(
-//    $(InputSql)
-//) as a
-//";
-//            }
-//            else
-//            {
-//                template = @"
-//SELECT (COUNT(*) / $(BatchSize)) as [cnt]
-//FROM
-//(
-//    $(InputSql)
-//) as a
-//".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
-//            }
+        //// ReSharper disable once InconsistentNaming
+        //        public static String CreateSQLServerCountSelect(String selectSql, Int32 batchSize = 0)
+        //        {
+        //            string template;
+        //            if (batchSize < 1)
+        //            {
+        //                template = @"
+        //SELECT COUNT(*) as [cnt]
+        //FROM
+        //(
+        //    $(InputSql)
+        //) as a
+        //";
+        //            }
+        //            else
+        //            {
+        //                template = @"
+        //SELECT (COUNT(*) / $(BatchSize)) as [cnt]
+        //FROM
+        //(
+        //    $(InputSql)
+        //) as a
+        //".Replace("$(BatchSize)", batchSize.ToString(CultureInfo.InvariantCulture));
+        //            }
 
-//            var outputSql = template.Replace("$(InputSql)", selectSql);
-//            return outputSql;
-//        }
+        //            var outputSql = template.Replace("$(InputSql)", selectSql);
+        //            return outputSql;
+        //        }
 
         #endregion Sql Script Methods
     }

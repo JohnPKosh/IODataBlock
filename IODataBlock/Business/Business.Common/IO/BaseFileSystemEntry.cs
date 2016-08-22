@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Business.Common.Exceptions;
+using System;
 using System.IO;
 using System.Linq;
-using Business.Common.Exceptions;
 
 namespace Business.Common.IO
 {
@@ -225,17 +225,11 @@ namespace Business.Common.IO
 
         private readonly DateTime _entryTime;
 
-        public DateTime EntryReadTime
-        {
-            get { return _entryTime; }
-        }
+        public DateTime EntryReadTime => _entryTime;
 
         private readonly DateTime _entryTimeUtc;
 
-        public DateTime EntryReadTimeUtc
-        {
-            get { return _entryTimeUtc; }
-        }
+        public DateTime EntryReadTimeUtc => _entryTimeUtc;
 
         public bool Exists
         {
@@ -343,7 +337,7 @@ namespace Business.Common.IO
         public void AddException(Exception ex)
         {
             if (EntryReadErrors == null) InitExceptionList();
-            if (EntryReadErrors != null) EntryReadErrors.Add(ex);
+            EntryReadErrors?.Add(ex);
         }
 
         private void InitExceptionList()
