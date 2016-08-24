@@ -315,6 +315,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Junk\kirk_output.xml" />
+    <Content Include="Junk\LinkedInProfileSnippets.html" />
     <Content Include="Junk\NRFs.txt" />
     <Content Include="Junk\OutboundSalesFriendly.html" />
     <Content Include="Junk\salesorder.xml" />

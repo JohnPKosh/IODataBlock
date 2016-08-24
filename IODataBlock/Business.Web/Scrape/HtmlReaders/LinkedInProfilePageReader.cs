@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
-    public class LinkedInCompanyPageReader : PageReaderBase<LinkedInCompanyScrapeDto>
+    public class LinkedInProfilePageReader : PageReaderBase<LinkedInProfileScrapeDto>
     {
         #region Class Initialization
 
-        public LinkedInCompanyPageReader(JObject value) : base(value)
+        public LinkedInProfilePageReader(JObject value) : base(value)
         {
         }
 
@@ -22,11 +22,11 @@ namespace Business.Web.Scrape.HtmlReaders
 
         #region Try Read Data Methods
 
-        protected override LinkedInCompanyScrapeDto TryGetDto()
+        protected override LinkedInProfileScrapeDto TryGetDto()
         {
             try
             {
-                var rv = new LinkedInCompanyScrapeDto();
+                var rv = new LinkedInProfileScrapeDto();
                 if (Document == null) return null;
                 var html = Document;
                 var htmlUtility = new HtmlDocumentUtility(html);

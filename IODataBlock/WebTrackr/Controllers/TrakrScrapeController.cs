@@ -95,39 +95,51 @@ namespace WebTrackr.Controllers
             if (locationUrl.Contains("linkedin.com/compan"))
             {
                 var r = new LinkedInCompanyPageReader(value);
-                // Do something here...
-
-                var d = r.Dto;
-                if (d != null)
-                {
-                    SaveLinkedInCompanyResult(
-                        d.CompanyId,
-                        d.LocationUrl,
-                        d.CompanyName,
-                        d.DomainName,
-                        d.Specialties,
-                        d.StreetAddress,
-                        d.Locality,
-                        d.Region,
-                        d.PostalCode,
-                        d.CountryName,
-                        d.Website,
-                        d.Industry,
-                        d.Type,
-                        d.CompanySize,
-                        d.Founded,
-                        d.Followers,
-                        d.PhotoUrl,
-                        d.CompanyDescription,
-                        DateTime.Now,
-                        Guid.NewGuid().ToString());
-                }
-                return d;
+                return SaveLinkedInCompanyDto(r.Dto);
+            }
+            if (locationUrl.Contains("linkedin.com/in/"))
+            {
+                var r = new LinkedInCompanyPageReader(value);
+                return SaveLinkedInProfileDto(r.Dto);
             }
             return null;
         }
 
-        private void SaveLinkedInCompanyResult(double linkedinId, string link, string companyName, string domainName, string specialties, string streetAddress, string locality,
+        private LinkedInScrapeDto SaveLinkedInProfileDto(LinkedInScrapeDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        private LinkedInScrapeDto SaveLinkedInCompanyDto(LinkedInScrapeDto dto)
+        {
+            if (dto != null)
+            {
+                SaveLinkedInCompany(
+                    dto.CompanyId,
+                    dto.LocationUrl,
+                    dto.CompanyName,
+                    dto.DomainName,
+                    dto.Specialties,
+                    dto.StreetAddress,
+                    dto.Locality,
+                    dto.Region,
+                    dto.PostalCode,
+                    dto.CountryName,
+                    dto.Website,
+                    dto.Industry,
+                    dto.Type,
+                    dto.CompanySize,
+                    dto.Founded,
+                    dto.Followers,
+                    dto.PhotoUrl,
+                    dto.CompanyDescription,
+                    DateTime.Now,
+                    Guid.NewGuid().ToString());
+            }
+            return dto;
+        }
+
+        private void SaveLinkedInCompany(double linkedinId, string link, string companyName, string domainName, string specialties, string streetAddress, string locality,
             string region, string postalCode, string countryName, string website, string industry, string type, string companySize, string founded, int followersCount,
             string photourl, string description, DateTime createdDate, string batchId)
         {

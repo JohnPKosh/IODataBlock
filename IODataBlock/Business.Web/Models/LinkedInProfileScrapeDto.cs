@@ -2,7 +2,7 @@
 
 namespace Business.Web.Models
 {
-    public class LinkedInScrapeDto
+    public class LinkedInProfileScrapeDto
     {
         public string LocationUrl { get; set; }
         public double CompanyId { get; set; }
