@@ -27,12 +27,9 @@ links.sort();
 var javascriptPrefix = "javascript";
 var objectPrefix = "[object";
 for (var i = 0; i < links.length;) {
-
-
     var linkval = String(links[i]);
-    //var linkval = links[i].value;
     console.log(linkval);
-    if (typeof linkval === 'undefined') {
+    if (typeof linkval === "undefined") {
         links[i] = "";
     }
     if (typeof links[i] === void 0) {

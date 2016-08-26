@@ -113,6 +113,7 @@
     <Compile Include="TemplateTests\NewTemplateTests.cs" />
     <Compile Include="TemplateTests\TemplatesTest.cs" />
     <Compile Include="TemplateTests\TestMessage.cs" />
+    <Compile Include="TestEmail\EmailTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business.EWS\Business.EWS.csproj">
