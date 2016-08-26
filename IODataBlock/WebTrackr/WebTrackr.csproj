@@ -68,10 +68,6 @@
       <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Business.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Business.Web.1.0.5\lib\net452\Business.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
@@ -3149,6 +3145,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\SiteDemo\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business.Web\Business.Web.csproj">
+      <Project>{563256a5-8264-4a2c-9473-00d59f64ea7a}</Project>
+      <Name>Business.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

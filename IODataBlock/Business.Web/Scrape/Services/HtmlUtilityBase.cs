@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Business.Web.Scrape.Services
 {
-    public class HtmlDocBase
+    public class HtmlUtilityBase
     {
         #region Class Initialization
 
-        public HtmlDocBase(string content)
+        public HtmlUtilityBase(string content)
         {
             Content = content;
             Doc = new HtmlDocument();
@@ -84,6 +84,19 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
+
+        public HtmlNode FirstHrefWhere(Func<HtmlNode, bool> predicate)
+        {
+            if (!HasDocument) return null;
+            if (HasLoadError) return null;
+            try
+            {
+                return Doc.DocumentNode.SelectNodes("//a[@href]").FirstOrDefault(predicate);
+            }
+            catch { }
+            return null;
+        }
+
         public IEnumerable<HtmlNode> AllHrefsWhere(Func<HtmlNode, bool> predicate)
         {
             if (!HasDocument) return null;
@@ -99,6 +112,37 @@ namespace Business.Web.Scrape.Services
         public IEnumerable<string> AllHrefUrlsWhere(Func<HtmlNode, bool> predicate)
         {
             return AllHrefsWhere(predicate).Select(x => x.GetAttributeValue("href", string.Empty)).Where(y => !string.IsNullOrWhiteSpace(y));
+        }
+
+
+        public string GetFirstLinkedInUrl()
+        {
+            return FirstHref("linkedin.com/");
+        }
+
+        public string GetFirstLinkedInCompanyUrl()
+        {
+            return FirstHref("linkedin.com/company");
+        }
+
+        public string GetFirstGooglePlusUrl()
+        {
+            return FirstHref("plus.google.com");
+        }
+
+        public string GetFirstYouTubeUrl()
+        {
+            return FirstHref("youtube.com/user");
+        }
+
+        public string GetFirstFacebookUrl()
+        {
+            return FirstHref("facebook.com/pages");
+        }
+
+        public string GetFirstTwitterUrl()
+        {
+            return FirstHref("twitter.com/");
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 dynamic rv = new ExpandoObject();
                 if (Document == null) return null;
                 var html = Document;
-                var htmlUtility = new HtmlDocumentUtility(html);
+                var htmlUtility = new LinkedInCompanyHtml(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();
 
                 rv.companyUrls = new HashSet<string>();

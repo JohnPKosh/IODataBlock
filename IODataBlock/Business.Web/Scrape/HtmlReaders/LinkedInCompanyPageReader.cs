@@ -29,7 +29,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 var rv = new LinkedInCompanyScrapeDto();
                 if (Document == null) return null;
                 var html = Document;
-                var htmlUtility = new HtmlDocumentUtility(html);
+                var htmlUtility = new LinkedInCompanyHtml(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();
                 rv.CompanyUrls = new HashSet<string>();
                 rv.PeopleToInvite = new HashSet<string>();

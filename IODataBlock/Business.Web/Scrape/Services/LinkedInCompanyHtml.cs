@@ -4,41 +4,13 @@ using System.Linq;
 
 namespace Business.Web.Scrape.Services
 {
-    public class HtmlDocumentUtility : HtmlDocBase
+    public class LinkedInCompanyHtml : HtmlUtilityBase
     {
-        public HtmlDocumentUtility(string content) : base(content)
+        public LinkedInCompanyHtml(string content) : base(content)
         {
         }
 
-        public string GetLinkedInUrl()
-        {
-            return FirstHref("linkedin.com/");
-        }
 
-        public string GetLinkedInCompanyUrl()
-        {
-            return FirstHref("linkedin.com/company");
-        }
-
-        public string GetGooglePlusUrl()
-        {
-            return FirstHref("plus.google.com");
-        }
-
-        public string GetYouTubeUrl()
-        {
-            return FirstHref("youtube.com/user");
-        }
-
-        public string GetFacebookUrl()
-        {
-            return FirstHref("facebook.com/pages");
-        }
-
-        public string GetTwitterUrl()
-        {
-            return FirstHref("twitter.com/");
-        }
 
         #region LinkedIn Methods
 

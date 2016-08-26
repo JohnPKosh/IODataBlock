@@ -62,8 +62,9 @@
     <Compile Include="Scrape\HtmlReaders\LinkedInCompanyPageReader.cs" />
     <Compile Include="Scrape\HtmlReaders\LinkedInProfilePageReader.cs" />
     <Compile Include="Scrape\HtmlReaders\PageReaderBase.cs" />
-    <Compile Include="Scrape\Services\HtmlDocBase.cs" />
-    <Compile Include="Scrape\Services\HtmlDocumentUtility.cs" />
+    <Compile Include="Scrape\Services\HtmlUtilityBase.cs" />
+    <Compile Include="Scrape\Services\LinkedInCompanyHtml.cs" />
+    <Compile Include="Scrape\Services\LinkedInProfileHtml.cs" />
     <Compile Include="System\Extensions.cs" />
   </ItemGroup>
   <ItemGroup />
