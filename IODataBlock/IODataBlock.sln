@@ -98,6 +98,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTrackrChromeExtension", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTrackr", "WebTrackr\WebTrackr.csproj", "{9D0B937A-C2FE-4738-9C47-7C9E95A4642B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTrakrChromeExtensionMock", "WebTrakrChromeExtensionMock\WebTrakrChromeExtensionMock.csproj", "{9D141603-1A9D-4EEC-82D8-C473EA436839}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -450,6 +452,18 @@ Global
 		{9D0B937A-C2FE-4738-9C47-7C9E95A4642B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9D0B937A-C2FE-4738-9C47-7C9E95A4642B}.Release|x86.ActiveCfg = Release|Any CPU
 		{9D0B937A-C2FE-4738-9C47-7C9E95A4642B}.Release|x86.Build.0 = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|x86.Build.0 = Debug|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|x86.ActiveCfg = Release|Any CPU
+		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -492,6 +506,7 @@ Global
 		{6EBAB733-5913-4A1D-BAB4-26D3C5107043} = {8859DA4D-91DE-44F8-A167-E2D7ECE30F3E}
 		{D76EFA90-E409-460C-A0BA-CB188D8EB0F1} = {6EBAB733-5913-4A1D-BAB4-26D3C5107043}
 		{9D0B937A-C2FE-4738-9C47-7C9E95A4642B} = {6EBAB733-5913-4A1D-BAB4-26D3C5107043}
+		{9D141603-1A9D-4EEC-82D8-C473EA436839} = {6EBAB733-5913-4A1D-BAB4-26D3C5107043}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45

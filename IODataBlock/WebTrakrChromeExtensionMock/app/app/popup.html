@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="Content/bootstrap.min.css">
+    <link rel="stylesheet" href="Content/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="Content/Site.css">
+    <script src="Scripts/jquery-3.1.0.min.js"></script>
+    <script src="Scripts/jquery.validate.min.js"></script>
+    <script src="Scripts/modernizr-2.8.3.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/respond.min.js"></script>
+</head>
+<body>
+    <div class="container body-content" style="-moz-min-width: 760px; -ms-min-width: 760px; -o-min-width: 760px; -webkit-min-width: 760px; min-width: 760px;">
+
+        <div class="row header-row">
+            <div class="col-md-12">
+                <div class="site-title">
+                    <a href="#" id="site-title"><span class="site-title-primary">Web</span><span class="site-title-suffix">Trakr.com</span></a>
+                    <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="trackPageButton">Trak It!</button></span>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#tab1">Links</a></li>
+                    <li><a data-toggle="pill" href="#tab2">Emails</a></li>
+                    <li><a data-toggle="pill" href="#tab3">Notes</a></li>
+                    <li><a data-toggle="pill" href="#tab4">History</a></li>
+                    <li><a data-toggle="pill" href="#tab5">Search</a></li>
+                    <li><a data-toggle="pill" href="#tab6">Manage</a></li>
+
+                </ul>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tab-content">
+
+                    <!--Tab 1-->
+                    <div id="tab1" class="tab-pane fade in active">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-inline">
+                                    <div class="form-group" style="display: inline-block">
+                                        <input type="text" class="form-control" id="filter" style="width: 250px;" placeholder="Filter">
+                                    </div>
+                                    <div class="form-group" style="display: inline-block">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="regex">Regex
+                                        </label>
+                                    </div>
+                                    <!--<div class="form-group" style="display: inline-block">
+                                        <button type="button" class="btn btn-disabled btn-sm" id="sendData">Send</button>
+                                    </div>-->
+                                </form>
+                            </div>
+                        </div>
+                        <div id="machineInfo"></div>
+
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" checked id="toggle_all"></th>
+                                    <th>URL</th>
+                                </tr>
+                            </thead>
+                            <tbody class="smaller" id="links"></tbody>
+                        </table>
+                    </div>
+
+                    <!--Tab 2-->
+                    <div id="tab2" class="tab-pane fade">
+                        <h3>Coming Soon!</h3>
+                        <p>This extension is still under construction.  Stop back soon.</p>
+                    </div>
+
+                    <!--Tab 3-->
+                    <div id="tab3" class="tab-pane fade">
+                        <h3>Coming Soon!</h3>
+                        <p>This extension is still under construction.  Stop back soon.</p>
+                    </div>
+
+                    <!--Tab 4-->
+                    <div id="tab4" class="tab-pane fade">
+                        <h3>Coming Soon!</h3>
+                        <p>This extension is still under construction.  Stop back soon.</p>
+                    </div>
+
+                    <!--Tab 5-->
+                    <div id="tab5" class="tab-pane fade">
+                        <h3>Coming Soon!</h3>
+                        <p>This extension is still under construction. Stop back soon.</p>
+                    </div>
+
+                    <!--Tab 6-->
+                    <div id="tab6" class="tab-pane fade">
+                        <h3>Coming Soon!</h3>
+                        <p>This extension is still under construction.  Stop back soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

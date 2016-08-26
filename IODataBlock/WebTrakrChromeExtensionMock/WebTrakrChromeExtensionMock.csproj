@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9D141603-1A9D-4EEC-82D8-C473EA436839}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebTrakrChromeExtensionMock</RootNamespace>
+    <AssemblyName>WebTrakrChromeExtensionMock</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app\app\Content\bootstrap-theme.css" />
+    <Content Include="app\app\Content\bootstrap-theme.min.css" />
+    <Content Include="app\app\Content\bootstrap.css" />
+    <Content Include="app\app\Content\bootstrap.min.css" />
+    <Content Include="app\app\Content\Site.css" />
+    <Content Include="app\app\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\app\img\icon.png" />
+    <Content Include="app\app\img\iconOLD.png" />
+    <Content Include="app\app\popup.html" />
+    <Content Include="app\app\popup.js" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.min.map" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.slim.min.map" />
+    <None Include="app\app\Scripts\_references.js" />
+    <Content Include="app\app\Scripts\bootstrap.js" />
+    <Content Include="app\app\Scripts\bootstrap.min.js" />
+    <None Include="app\app\Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.js" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.min.js" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.slim.js" />
+    <Content Include="app\app\Scripts\jquery-3.1.0.slim.min.js" />
+    <None Include="app\app\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\app\Scripts\jquery.validate.js" />
+    <Content Include="app\app\Scripts\jquery.validate.min.js" />
+    <Content Include="app\app\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\app\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\app\Scripts\modernizr-2.8.3.js" />
+    <Content Include="app\app\Scripts\respond.js" />
+    <Content Include="app\app\Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="app\app\Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="app\app\Scripts\respond.min.js" />
+    <Content Include="app\app\send_url.js" />
+    <Content Include="app\app\TabScripts\onTabLoad.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
+    <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
+    <Content Include="screenshots\screenshot.png" />
+    <Content Include="index.htm" />
+    <Content Include="Properties\build\ligershark.chrome.targets" />
+    <Content Include="screenshots\readme.txt" />
+    <Content Include="app\app\Content\bootstrap-theme.css.map" />
+    <Content Include="app\app\Content\bootstrap-theme.min.css.map" />
+    <Content Include="app\app\Content\bootstrap.css.map" />
+    <Content Include="app\app\Content\bootstrap.min.css.map" />
+    <Content Include="app\app\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\app\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\app\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\app\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\app\manifest.json" />
+    <None Include="scripts\_references.js" />
+    <None Include="scripts\chrome-api-vsdoc.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <!-- insert a condition to ensure that these are not imported -->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition="false" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="false and '$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1530</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:46950/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <AppFolder Condition=" '$(AppFolder)'=='' ">app\</AppFolder>
+    <AppFileName Condition=" '$(AppFileName)'=='' ">$(AssemblyName).zip</AppFileName>
+    <BuildFolder Condition=" '$(BuildFolder)'=='' ">$(MSBuildProjectDirectory)\properties\build\</BuildFolder>
+    <BuildLib Condition=" '$(BuildLib)'=='' ">$(BuildFolder)Lib\</BuildLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppFileNameItem Include="$(OutputPath)$(AppFilename)" />
+    <AppFolderItem Include="$(AppFolder)" />
+  </ItemGroup>
+  <PropertyGroup>
+    <LigerSharkChromeTargetsPath>$(BuildFolder)\ligershark.chrome.targets</LigerSharkChromeTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(LigerSharkChromeTargetsPath)" Condition="Exists($(LigerSharkChromeTargetsPath))" />
+</Project>
