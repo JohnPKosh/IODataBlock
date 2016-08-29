@@ -39,40 +39,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app\app\Content\bootstrap-theme.css" />
-    <Content Include="app\app\Content\bootstrap-theme.min.css" />
-    <Content Include="app\app\Content\bootstrap.css" />
-    <Content Include="app\app\Content\bootstrap.min.css" />
-    <Content Include="app\app\Content\Site.css" />
-    <Content Include="app\app\fonts\glyphicons-halflings-regular.svg">
+    <Content Include="app\BackgroundScripts\current-tab.js" />
+    <Content Include="app\Content\bootstrap-theme.css" />
+    <Content Include="app\Content\bootstrap-theme.min.css" />
+    <Content Include="app\Content\bootstrap.css" />
+    <Content Include="app\Content\bootstrap.min.css" />
+    <Content Include="app\Content\Site.css" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\app\img\icon.png" />
-    <Content Include="app\app\img\iconOLD.png" />
-    <Content Include="app\app\popup.html" />
-    <Content Include="app\app\popup.js" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.min.map" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.slim.min.map" />
-    <None Include="app\app\Scripts\_references.js" />
-    <Content Include="app\app\Scripts\bootstrap.js" />
-    <Content Include="app\app\Scripts\bootstrap.min.js" />
-    <None Include="app\app\Scripts\jquery-3.1.0.intellisense.js" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.js" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.min.js" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.slim.js" />
-    <Content Include="app\app\Scripts\jquery-3.1.0.slim.min.js" />
-    <None Include="app\app\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="app\app\Scripts\jquery.validate.js" />
-    <Content Include="app\app\Scripts\jquery.validate.min.js" />
-    <Content Include="app\app\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="app\app\Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="app\app\Scripts\modernizr-2.8.3.js" />
-    <Content Include="app\app\Scripts\respond.js" />
-    <Content Include="app\app\Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="app\app\Scripts\respond.matchmedia.addListener.min.js" />
-    <Content Include="app\app\Scripts\respond.min.js" />
-    <Content Include="app\app\send_url.js" />
-    <Content Include="app\app\TabScripts\onTabLoad.js">
+    <Content Include="app\img\icon.png" />
+    <Content Include="app\img\iconOLD.png" />
+    <Content Include="app\popup.html" />
+    <Content Include="app\popup.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.min.map" />
+    <Content Include="app\Scripts\jquery-3.1.0.slim.min.map" />
+    <None Include="app\Scripts\_references.js" />
+    <Content Include="app\Scripts\bootstrap.js" />
+    <Content Include="app\Scripts\bootstrap.min.js" />
+    <None Include="app\Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.min.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.slim.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.slim.min.js" />
+    <None Include="app\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\Scripts\jquery.validate.js" />
+    <Content Include="app\Scripts\jquery.validate.min.js" />
+    <Content Include="app\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\Scripts\modernizr-2.8.3.js" />
+    <Content Include="app\Scripts\respond.js" />
+    <Content Include="app\Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="app\Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="app\Scripts\respond.min.js" />
+    <Content Include="app\send_url.js" />
+    <Content Include="app\TabScripts\onTabLoad.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
@@ -81,23 +82,23 @@
     <Content Include="index.htm" />
     <Content Include="Properties\build\ligershark.chrome.targets" />
     <Content Include="screenshots\readme.txt" />
-    <Content Include="app\app\Content\bootstrap-theme.css.map" />
-    <Content Include="app\app\Content\bootstrap-theme.min.css.map" />
-    <Content Include="app\app\Content\bootstrap.css.map" />
-    <Content Include="app\app\Content\bootstrap.min.css.map" />
-    <Content Include="app\app\fonts\glyphicons-halflings-regular.eot">
+    <Content Include="app\Content\bootstrap-theme.css.map" />
+    <Content Include="app\Content\bootstrap-theme.min.css.map" />
+    <Content Include="app\Content\bootstrap.css.map" />
+    <Content Include="app\Content\bootstrap.min.css.map" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\app\fonts\glyphicons-halflings-regular.ttf">
+    <Content Include="app\fonts\glyphicons-halflings-regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\app\fonts\glyphicons-halflings-regular.woff">
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\app\fonts\glyphicons-halflings-regular.woff2">
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\app\manifest.json" />
+    <Content Include="app\manifest.json" />
     <None Include="scripts\_references.js" />
     <None Include="scripts\chrome-api-vsdoc.js" />
   </ItemGroup>
