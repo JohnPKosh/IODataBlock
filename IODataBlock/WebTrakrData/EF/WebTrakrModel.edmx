@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WebTrakrModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -33,11 +43,11 @@
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
-            <PropertyRef Name="AspNetRoles_Id" />
-            <PropertyRef Name="AspNetUsers_Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="AspNetRoles_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="AspNetUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
@@ -61,9 +71,6 @@
         <EntityType Name="LinkedInCompanies">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="LinkedInPage" />
-            <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="AspNetUsers_Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LinkedInId" Type="bigint" />
@@ -85,16 +92,11 @@
           <Property Name="photourl" Type="nvarchar" MaxLength="255" />
           <Property Name="description" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="AspNetUsers_Id" Type="nvarchar" MaxLength="36" Nullable="false" />
-          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="LinkedInProfiles">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="LinkedInPage" />
-            <PropertyRef Name="LinkedInPhotoUrl" />
-            <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="AspNetUsers_Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LinkedInProfileId" Type="bigint" />
@@ -113,54 +115,70 @@
           <Property Name="Phone" Type="nvarchar(max)" />
           <Property Name="LinkedInPhotoUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="AspNetUsers_Id" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesForceAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SfClientId" Type="nvarchar" MaxLength="128" />
+          <Property Name="SfClientSecret" Type="nvarchar" MaxLength="50" />
+          <Property Name="SfUsername" Type="nvarchar" MaxLength="50" />
+          <Property Name="SfPassword" Type="nvarchar" MaxLength="50" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_AspNetUserLinkedInCompany">
+        <EntityType Name="UserLinkedInCompanies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LinkedInCompanyId" Type="bigint" Nullable="false" />
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserLinkedInProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LinkedInProfileId" Type="bigint" Nullable="false" />
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AspNetUserSalesForceAccount">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="LinkedInCompanies" Type="Self.LinkedInCompanies" Multiplicity="*" />
+          <End Role="SalesForceAccounts" Type="Self.SalesForceAccounts" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="LinkedInCompanies">
+            <Dependent Role="SalesForceAccounts">
               <PropertyRef Name="AspNetUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserLinkedInProfile">
+        <Association Name="FK_AspNetUserUserLinkedInCompany">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="LinkedInProfiles" Type="Self.LinkedInProfiles" Multiplicity="*" />
+          <End Role="UserLinkedInCompanies" Type="Self.UserLinkedInCompanies" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="LinkedInProfiles">
+            <Dependent Role="UserLinkedInCompanies">
               <PropertyRef Name="AspNetUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="AspNetRoles_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetUsers">
+        <Association Name="FK_AspNetUserUserLinkedInProfile">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <End Role="UserLinkedInProfiles" Type="Self.UserLinkedInProfiles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="AspNetUsers_Id" />
+            <Dependent Role="UserLinkedInProfiles">
+              <PropertyRef Name="AspNetUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -192,7 +210,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinkedInCompanyUserLinkedInCompany">
+          <End Role="LinkedInCompanies" Type="Self.LinkedInCompanies" Multiplicity="1" />
+          <End Role="UserLinkedInCompanies" Type="Self.UserLinkedInCompanies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinkedInCompanies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInCompanies">
+              <PropertyRef Name="LinkedInCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinkedInProfileUserLinkedInProfile">
+          <End Role="LinkedInProfiles" Type="Self.LinkedInProfiles" Multiplicity="1" />
+          <End Role="UserLinkedInProfiles" Type="Self.UserLinkedInProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinkedInProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInProfiles">
+              <PropertyRef Name="LinkedInProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WebTrakrModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -200,21 +271,20 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LinkedInCompanies" EntityType="Self.LinkedInCompanies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LinkedInProfiles" EntityType="Self.LinkedInProfiles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_AspNetUserLinkedInCompany" Association="Self.FK_AspNetUserLinkedInCompany">
+          <EntitySet Name="SalesForceAccounts" EntityType="Self.SalesForceAccounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLinkedInCompanies" EntityType="Self.UserLinkedInCompanies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLinkedInProfiles" EntityType="Self.UserLinkedInProfiles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AspNetUserSalesForceAccount" Association="Self.FK_AspNetUserSalesForceAccount">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LinkedInCompanies" EntitySet="LinkedInCompanies" />
+            <End Role="SalesForceAccounts" EntitySet="SalesForceAccounts" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserLinkedInProfile" Association="Self.FK_AspNetUserLinkedInProfile">
+          <AssociationSet Name="FK_AspNetUserUserLinkedInCompany" Association="Self.FK_AspNetUserUserLinkedInCompany">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LinkedInProfiles" EntitySet="LinkedInProfiles" />
+            <End Role="UserLinkedInCompanies" EntitySet="UserLinkedInCompanies" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="Self.FK_AspNetUserRoles_AspNetRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="Self.FK_AspNetUserRoles_AspNetUsers">
+          <AssociationSet Name="FK_AspNetUserUserLinkedInProfile" Association="Self.FK_AspNetUserUserLinkedInProfile">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+            <End Role="UserLinkedInProfiles" EntitySet="UserLinkedInProfiles" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -224,28 +294,98 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinkedInCompanyUserLinkedInCompany" Association="Self.FK_LinkedInCompanyUserLinkedInCompany">
+            <End Role="LinkedInCompanies" EntitySet="LinkedInCompanies" />
+            <End Role="UserLinkedInCompanies" EntitySet="UserLinkedInCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinkedInProfileUserLinkedInProfile" Association="Self.FK_LinkedInProfileUserLinkedInProfile">
+            <End Role="LinkedInProfiles" EntitySet="LinkedInProfiles" />
+            <End Role="UserLinkedInProfiles" EntitySet="UserLinkedInProfiles" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WebTrakrModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WebTrakrEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="WebTrakrModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="WebTrakrModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="WebTrakrModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="WebTrakrModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="WebTrakrModel.AspNetUser" />
+          <EntitySet Name="LinkedInCompanies" EntityType="WebTrakrModel.LinkedInCompany" />
+          <EntitySet Name="LinkedInProfiles" EntityType="WebTrakrModel.LinkedInProfile" />
+          <EntitySet Name="SalesForceAccounts" EntityType="WebTrakrModel.SalesForceAccount" />
+          <EntitySet Name="UserLinkedInCompanies" EntityType="WebTrakrModel.UserLinkedInCompany" />
+          <EntitySet Name="UserLinkedInProfiles" EntityType="WebTrakrModel.UserLinkedInProfile" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="WebTrakrModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="WebTrakrModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserSalesForceAccount" Association="WebTrakrModel.FK_AspNetUserSalesForceAccount">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="SalesForceAccount" EntitySet="SalesForceAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserUserLinkedInCompany" Association="WebTrakrModel.FK_AspNetUserUserLinkedInCompany">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserLinkedInCompany" EntitySet="UserLinkedInCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserUserLinkedInProfile" Association="WebTrakrModel.FK_AspNetUserUserLinkedInProfile">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserLinkedInProfile" EntitySet="UserLinkedInProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinkedInCompanyUserLinkedInCompany" Association="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany">
+            <End Role="LinkedInCompany" EntitySet="LinkedInCompanies" />
+            <End Role="UserLinkedInCompany" EntitySet="UserLinkedInCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinkedInProfileUserLinkedInProfile" Association="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile">
+            <End Role="LinkedInProfile" EntitySet="LinkedInProfiles" />
+            <End Role="UserLinkedInProfile" EntitySet="UserLinkedInProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="WebTrakrModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="WebTrakrModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUserLogin">
           <Key>
@@ -253,16 +393,16 @@
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ApiKey" Type="Guid" Nullable="false" />
           <Property Name="AccountNumber" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -275,23 +415,21 @@
           <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <NavigationProperty Name="LinkedInCompanies" Relationship="WebTrakrModel.AspNetUserLinkedInCompany" FromRole="AspNetUser" ToRole="LinkedInCompany" />
-          <NavigationProperty Name="LinkedInProfiles" Relationship="WebTrakrModel.AspNetUserLinkedInProfile" FromRole="AspNetUser" ToRole="LinkedInProfile" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="WebTrakrModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="WebTrakrModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="SalesForceAccounts" Relationship="WebTrakrModel.FK_AspNetUserSalesForceAccount" FromRole="AspNetUser" ToRole="SalesForceAccount" />
+          <NavigationProperty Name="UserLinkedInCompanies" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInCompany" FromRole="AspNetUser" ToRole="UserLinkedInCompany" />
+          <NavigationProperty Name="UserLinkedInProfiles" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInProfile" FromRole="AspNetUser" ToRole="UserLinkedInProfile" />
+          <NavigationProperty Name="AspNetRoles" Relationship="WebTrakrModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <EntityType Name="LinkedInCompany">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="LinkedInPage" />
-            <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="AspNetUsers_Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LinkedInId" Type="Int64" />
-          <Property Name="LinkedInPage" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LinkedInPage" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInCompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="DomainName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="specialties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -309,21 +447,16 @@
           <Property Name="photourl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AspNetUsers_Id" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.AspNetUserLinkedInCompany" FromRole="LinkedInCompany" ToRole="AspNetUser" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserLinkedInCompanies" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="LinkedInCompany" ToRole="UserLinkedInCompany" />
         </EntityType>
         <EntityType Name="LinkedInProfile">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="LinkedInPage" />
-            <PropertyRef Name="LinkedInPhotoUrl" />
-            <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="AspNetUsers_Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LinkedInProfileId" Type="Int64" />
-          <Property Name="LinkedInPage" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LinkedInPage" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInConnections" Type="Int32" />
           <Property Name="LinkedInTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -336,211 +469,293 @@
           <Property Name="Twitter" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LinkedInPhotoUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LinkedInPhotoUrl" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AspNetUsers_Id" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.AspNetUserLinkedInProfile" FromRole="LinkedInProfile" ToRole="AspNetUser" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserLinkedInProfiles" Relationship="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile" FromRole="LinkedInProfile" ToRole="UserLinkedInProfile" />
+        </EntityType>
+        <EntityType Name="SalesForceAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SfClientId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SfClientSecret" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SfUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SfPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_AspNetUserSalesForceAccount" FromRole="SalesForceAccount" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="UserLinkedInCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LinkedInCompanyId" Type="Int64" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInCompany" FromRole="UserLinkedInCompany" ToRole="AspNetUser" />
+          <NavigationProperty Name="LinkedInCompany" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="UserLinkedInCompany" ToRole="LinkedInCompany" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserLinkedInProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LinkedInProfileId" Type="Int64" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInProfile" FromRole="UserLinkedInProfile" ToRole="AspNetUser" />
+          <NavigationProperty Name="LinkedInProfile" Relationship="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile" FromRole="UserLinkedInProfile" ToRole="LinkedInProfile" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <End Type="WebTrakrModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
+            <Dependent Role="AspNetUserClaim">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <End Type="WebTrakrModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserLogins">
+            <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AspNetUserSalesForceAccount">
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="WebTrakrModel.SalesForceAccount" Role="SalesForceAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesForceAccount">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserUserLinkedInCompany">
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="WebTrakrModel.UserLinkedInCompany" Role="UserLinkedInCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInCompany">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserUserLinkedInProfile">
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="WebTrakrModel.UserLinkedInProfile" Role="UserLinkedInProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInProfile">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinkedInCompanyUserLinkedInCompany">
+          <End Type="WebTrakrModel.LinkedInCompany" Role="LinkedInCompany" Multiplicity="1" />
+          <End Type="WebTrakrModel.UserLinkedInCompany" Role="UserLinkedInCompany" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="LinkedInCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInCompany">
+              <PropertyRef Name="LinkedInCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinkedInProfileUserLinkedInProfile">
+          <End Type="WebTrakrModel.LinkedInProfile" Role="LinkedInProfile" Multiplicity="1" />
+          <End Type="WebTrakrModel.UserLinkedInProfile" Role="UserLinkedInProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinkedInProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInProfile">
+              <PropertyRef Name="LinkedInProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Type="WebTrakrModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="WebTrakrEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="LinkedInCompanies" EntityType="Self.LinkedInCompany" />
-          <EntitySet Name="LinkedInProfiles" EntityType="Self.LinkedInProfile" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserLinkedInCompany" Association="WebTrakrModel.AspNetUserLinkedInCompany">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LinkedInCompany" EntitySet="LinkedInCompanies" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserLinkedInProfile" Association="WebTrakrModel.AspNetUserLinkedInProfile">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LinkedInProfile" EntitySet="LinkedInProfiles" />
-          </AssociationSet>
-        </EntityContainer>
-        <Association Name="AspNetUserLinkedInCompany">
-          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="WebTrakrModel.LinkedInCompany" Role="LinkedInCompany" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LinkedInCompany">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserLinkedInProfile">
-          <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="WebTrakrModel.LinkedInProfile" Role="LinkedInProfile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LinkedInProfile">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="WebTrakrModelStoreContainer" CdmEntityContainer="WebTrakrEntities">
-    <EntitySetMapping Name="AspNetRoles">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.AspNetRole)">
-        <MappingFragment StoreEntitySet="AspNetRoles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserClaims">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.AspNetUserClaim)">
-        <MappingFragment StoreEntitySet="AspNetUserClaims">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserLogins">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.AspNetUserLogin)">
-        <MappingFragment StoreEntitySet="AspNetUserLogins">
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUsers">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.AspNetUser)">
-        <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
-          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LinkedInCompanies">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.LinkedInCompany)">
-        <MappingFragment StoreEntitySet="LinkedInCompanies">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LinkedInPage" ColumnName="LinkedInPage" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="AspNetUsers_Id" ColumnName="AspNetUsers_Id" />
-          <ScalarProperty Name="LinkedInId" ColumnName="LinkedInId" />
-          <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
-          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
-          <ScalarProperty Name="specialties" ColumnName="specialties" />
-          <ScalarProperty Name="streetAddress" ColumnName="streetAddress" />
-          <ScalarProperty Name="locality" ColumnName="locality" />
-          <ScalarProperty Name="region" ColumnName="region" />
-          <ScalarProperty Name="postalCode" ColumnName="postalCode" />
-          <ScalarProperty Name="countryName" ColumnName="countryName" />
-          <ScalarProperty Name="website" ColumnName="website" />
-          <ScalarProperty Name="industry" ColumnName="industry" />
-          <ScalarProperty Name="type" ColumnName="type" />
-          <ScalarProperty Name="companySize" ColumnName="companySize" />
-          <ScalarProperty Name="founded" ColumnName="founded" />
-          <ScalarProperty Name="followersCount" ColumnName="followersCount" />
-          <ScalarProperty Name="photourl" ColumnName="photourl" />
-          <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LinkedInProfiles">
-      <EntityTypeMapping TypeName="IsTypeOf(WebTrakrModel.LinkedInProfile)">
-        <MappingFragment StoreEntitySet="LinkedInProfiles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LinkedInPage" ColumnName="LinkedInPage" />
-          <ScalarProperty Name="LinkedInPhotoUrl" ColumnName="LinkedInPhotoUrl" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="AspNetUsers_Id" ColumnName="AspNetUsers_Id" />
-          <ScalarProperty Name="LinkedInProfileId" ColumnName="LinkedInProfileId" />
-          <ScalarProperty Name="LinkedInFullName" ColumnName="LinkedInFullName" />
-          <ScalarProperty Name="LinkedInConnections" ColumnName="LinkedInConnections" />
-          <ScalarProperty Name="LinkedInTitle" ColumnName="LinkedInTitle" />
-          <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
-          <ScalarProperty Name="LinkedInCompanyId" ColumnName="LinkedInCompanyId" />
-          <ScalarProperty Name="Industry" ColumnName="Industry" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="IM" ColumnName="IM" />
-          <ScalarProperty Name="Twitter" ColumnName="Twitter" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="AspNetUserRoles" TypeName="WebTrakrModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-      <EndProperty Name="AspNetRoles">
-        <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
-      </EndProperty>
-      <EndProperty Name="AspNetUsers">
-        <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-  </EntityContainerMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="WebTrakrModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="WebTrakrModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="WebTrakrModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="WebTrakrModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="WebTrakrModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LinkedInCompanies">
+            <EntityTypeMapping TypeName="WebTrakrModel.LinkedInCompany">
+              <MappingFragment StoreEntitySet="LinkedInCompanies">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="photourl" ColumnName="photourl" />
+                <ScalarProperty Name="followersCount" ColumnName="followersCount" />
+                <ScalarProperty Name="founded" ColumnName="founded" />
+                <ScalarProperty Name="companySize" ColumnName="companySize" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="industry" ColumnName="industry" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="countryName" ColumnName="countryName" />
+                <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="locality" ColumnName="locality" />
+                <ScalarProperty Name="streetAddress" ColumnName="streetAddress" />
+                <ScalarProperty Name="specialties" ColumnName="specialties" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
+                <ScalarProperty Name="LinkedInPage" ColumnName="LinkedInPage" />
+                <ScalarProperty Name="LinkedInId" ColumnName="LinkedInId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LinkedInProfiles">
+            <EntityTypeMapping TypeName="WebTrakrModel.LinkedInProfile">
+              <MappingFragment StoreEntitySet="LinkedInProfiles">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="LinkedInPhotoUrl" ColumnName="LinkedInPhotoUrl" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Twitter" ColumnName="Twitter" />
+                <ScalarProperty Name="IM" ColumnName="IM" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Industry" ColumnName="Industry" />
+                <ScalarProperty Name="LinkedInCompanyId" ColumnName="LinkedInCompanyId" />
+                <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
+                <ScalarProperty Name="LinkedInTitle" ColumnName="LinkedInTitle" />
+                <ScalarProperty Name="LinkedInConnections" ColumnName="LinkedInConnections" />
+                <ScalarProperty Name="LinkedInFullName" ColumnName="LinkedInFullName" />
+                <ScalarProperty Name="LinkedInPage" ColumnName="LinkedInPage" />
+                <ScalarProperty Name="LinkedInProfileId" ColumnName="LinkedInProfileId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesForceAccounts">
+            <EntityTypeMapping TypeName="WebTrakrModel.SalesForceAccount">
+              <MappingFragment StoreEntitySet="SalesForceAccounts">
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="SfPassword" ColumnName="SfPassword" />
+                <ScalarProperty Name="SfUsername" ColumnName="SfUsername" />
+                <ScalarProperty Name="SfClientSecret" ColumnName="SfClientSecret" />
+                <ScalarProperty Name="SfClientId" ColumnName="SfClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLinkedInCompanies">
+            <EntityTypeMapping TypeName="WebTrakrModel.UserLinkedInCompany">
+              <MappingFragment StoreEntitySet="UserLinkedInCompanies">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="LinkedInCompanyId" ColumnName="LinkedInCompanyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLinkedInProfiles">
+            <EntityTypeMapping TypeName="WebTrakrModel.UserLinkedInProfile">
+              <MappingFragment StoreEntitySet="UserLinkedInProfiles">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="LinkedInProfileId" ColumnName="LinkedInProfileId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="WebTrakrModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

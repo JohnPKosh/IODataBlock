@@ -63,10 +63,22 @@
     <Compile Include="EF\AspNetUserLogin.cs">
       <DependentUpon>WebTrakrModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\C__MigrationHistory.cs">
+      <DependentUpon>WebTrakrModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\LinkedInCompany.cs">
       <DependentUpon>WebTrakrModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\LinkedInProfile.cs">
+      <DependentUpon>WebTrakrModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\SalesForceAccount.cs">
+      <DependentUpon>WebTrakrModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\UserLinkedInCompany.cs">
+      <DependentUpon>WebTrakrModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\UserLinkedInProfile.cs">
       <DependentUpon>WebTrakrModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\WebTrakrModel.Context.cs">
@@ -89,9 +101,10 @@
     <Compile Include="Model\AspNetUserClaim.cs" />
     <Compile Include="Model\AspNetUserLogin.cs" />
     <Compile Include="Model\LinkedInCompany.cs" />
-    <Compile Include="Model\LinkedInCompany1.cs" />
     <Compile Include="Model\LinkedInProfile.cs" />
-    <Compile Include="Model\LinkedInProfile1.cs" />
+    <Compile Include="Model\SalesForceAccount.cs" />
+    <Compile Include="Model\UserLinkedInCompany.cs" />
+    <Compile Include="Model\UserLinkedInProfile.cs" />
     <Compile Include="Model\WebTrakrModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

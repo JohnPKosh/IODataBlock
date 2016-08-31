@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/29/2016 11:05:24
+-- Date Created: 08/30/2016 09:31:00
 -- Generated from EDMX file: C:\Users\jkosh\Source\Repos\IODataBlock\IODataBlock\WebTrakrData\EF\WebTrakrModel.edmx
 -- --------------------------------------------------
 
@@ -17,14 +17,17 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserClaims] DROP CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId];
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserClaims_AspNetUsers_UserId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserClaims] DROP CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId];
 GO
-IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserLogins] DROP CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId];
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserLogins_AspNetUsers_UserId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserLogins] DROP CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId];
 GO
-IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId];
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetRoles_RoleId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserSalesForceAccount]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesForceAccount] DROP CONSTRAINT [FK_AspNetUserSalesForceAccount];
 GO
 IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId];
@@ -34,9 +37,6 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[__MigrationHistory]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[__MigrationHistory];
-GO
 IF OBJECT_ID(N'[dbo].[AspNetRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetRoles];
 GO
@@ -52,25 +52,19 @@ GO
 IF OBJECT_ID(N'[dbo].[AspNetUsers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUsers];
 GO
-IF OBJECT_ID(N'[WebTrakrModelStoreContainer].[LinkedInCompany]', 'U') IS NOT NULL
-    DROP TABLE [WebTrakrModelStoreContainer].[LinkedInCompany];
+IF OBJECT_ID(N'[dbo].[LinkedInCompany]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LinkedInCompany];
 GO
-IF OBJECT_ID(N'[WebTrakrModelStoreContainer].[LinkedInProfile]', 'U') IS NOT NULL
-    DROP TABLE [WebTrakrModelStoreContainer].[LinkedInProfile];
+IF OBJECT_ID(N'[dbo].[LinkedInProfile]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LinkedInProfile];
+GO
+IF OBJECT_ID(N'[dbo].[SalesForceAccount]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesForceAccount];
 GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'C__MigrationHistory'
-CREATE TABLE [dbo].[C__MigrationHistory] (
-    [MigrationId] nvarchar(150)  NOT NULL,
-    [ContextKey] nvarchar(300)  NOT NULL,
-    [Model] varbinary(max)  NOT NULL,
-    [ProductVersion] nvarchar(32)  NOT NULL
-);
-GO
 
 -- Creating table 'AspNetRoles'
 CREATE TABLE [dbo].[AspNetRoles] (
@@ -137,8 +131,7 @@ CREATE TABLE [dbo].[LinkedInCompanies] (
     [photourl] nvarchar(255)  NULL,
     [description] nvarchar(max)  NULL,
     [CreatedDate] datetime  NOT NULL,
-    [AspNetUsers_Id] nvarchar(36)  NOT NULL,
-    [AspNetUserId] nvarchar(128)  NOT NULL
+    [UpdatedDate] datetime  NOT NULL
 );
 GO
 
@@ -161,7 +154,33 @@ CREATE TABLE [dbo].[LinkedInProfiles] (
     [Phone] nvarchar(max)  NULL,
     [LinkedInPhotoUrl] nvarchar(255)  NOT NULL,
     [CreatedDate] datetime  NOT NULL,
-    [AspNetUsers_Id] nvarchar(36)  NOT NULL,
+    [UpdatedDate] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'SalesForceAccounts'
+CREATE TABLE [dbo].[SalesForceAccounts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SfClientId] nvarchar(128)  NULL,
+    [SfClientSecret] nvarchar(50)  NULL,
+    [SfUsername] nvarchar(50)  NULL,
+    [SfPassword] nvarchar(50)  NULL,
+    [AspNetUserId] nvarchar(128)  NOT NULL
+);
+GO
+
+-- Creating table 'UserLinkedInCompanies'
+CREATE TABLE [dbo].[UserLinkedInCompanies] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [LinkedInCompanyId] bigint  NOT NULL,
+    [AspNetUserId] nvarchar(128)  NOT NULL
+);
+GO
+
+-- Creating table 'UserLinkedInProfiles'
+CREATE TABLE [dbo].[UserLinkedInProfiles] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [LinkedInProfileId] bigint  NOT NULL,
     [AspNetUserId] nvarchar(128)  NOT NULL
 );
 GO
@@ -176,12 +195,6 @@ GO
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [MigrationId], [ContextKey] in table 'C__MigrationHistory'
-ALTER TABLE [dbo].[C__MigrationHistory]
-ADD CONSTRAINT [PK_C__MigrationHistory]
-    PRIMARY KEY CLUSTERED ([MigrationId], [ContextKey] ASC);
-GO
 
 -- Creating primary key on [Id] in table 'AspNetRoles'
 ALTER TABLE [dbo].[AspNetRoles]
@@ -207,16 +220,34 @@ ADD CONSTRAINT [PK_AspNetUsers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id], [LinkedInPage], [CreatedDate], [AspNetUsers_Id] in table 'LinkedInCompanies'
+-- Creating primary key on [Id] in table 'LinkedInCompanies'
 ALTER TABLE [dbo].[LinkedInCompanies]
 ADD CONSTRAINT [PK_LinkedInCompanies]
-    PRIMARY KEY CLUSTERED ([Id], [LinkedInPage], [CreatedDate], [AspNetUsers_Id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id], [LinkedInPage], [LinkedInPhotoUrl], [CreatedDate], [AspNetUsers_Id] in table 'LinkedInProfiles'
+-- Creating primary key on [Id] in table 'LinkedInProfiles'
 ALTER TABLE [dbo].[LinkedInProfiles]
 ADD CONSTRAINT [PK_LinkedInProfiles]
-    PRIMARY KEY CLUSTERED ([Id], [LinkedInPage], [LinkedInPhotoUrl], [CreatedDate], [AspNetUsers_Id] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesForceAccounts'
+ALTER TABLE [dbo].[SalesForceAccounts]
+ADD CONSTRAINT [PK_SalesForceAccounts]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserLinkedInCompanies'
+ALTER TABLE [dbo].[UserLinkedInCompanies]
+ADD CONSTRAINT [PK_UserLinkedInCompanies]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserLinkedInProfiles'
+ALTER TABLE [dbo].[UserLinkedInProfiles]
+ADD CONSTRAINT [PK_UserLinkedInProfiles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -231,37 +262,52 @@ GO
 
 -- Creating foreign key on [UserId] in table 'AspNetUserClaims'
 ALTER TABLE [dbo].[AspNetUserClaims]
-ADD CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
+ADD CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId]
     FOREIGN KEY ([UserId])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId'
-CREATE INDEX [IX_FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserClaims_AspNetUsers_UserId'
+CREATE INDEX [IX_FK_AspNetUserClaims_AspNetUsers_UserId]
 ON [dbo].[AspNetUserClaims]
     ([UserId]);
 GO
 
 -- Creating foreign key on [UserId] in table 'AspNetUserLogins'
 ALTER TABLE [dbo].[AspNetUserLogins]
-ADD CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
+ADD CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId]
     FOREIGN KEY ([UserId])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId'
-CREATE INDEX [IX_FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserLogins_AspNetUsers_UserId'
+CREATE INDEX [IX_FK_AspNetUserLogins_AspNetUsers_UserId]
 ON [dbo].[AspNetUserLogins]
     ([UserId]);
 GO
 
+-- Creating foreign key on [AspNetUserId] in table 'SalesForceAccounts'
+ALTER TABLE [dbo].[SalesForceAccounts]
+ADD CONSTRAINT [FK_AspNetUserSalesForceAccount]
+    FOREIGN KEY ([AspNetUserId])
+    REFERENCES [dbo].[AspNetUsers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserSalesForceAccount'
+CREATE INDEX [IX_FK_AspNetUserSalesForceAccount]
+ON [dbo].[SalesForceAccounts]
+    ([AspNetUserId]);
+GO
+
 -- Creating foreign key on [AspNetRoles_Id] in table 'AspNetUserRoles'
 ALTER TABLE [dbo].[AspNetUserRoles]
-ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRoles]
+ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRole]
     FOREIGN KEY ([AspNetRoles_Id])
     REFERENCES [dbo].[AspNetRoles]
         ([Id])
@@ -270,46 +316,76 @@ GO
 
 -- Creating foreign key on [AspNetUsers_Id] in table 'AspNetUserRoles'
 ALTER TABLE [dbo].[AspNetUserRoles]
-ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUsers]
+ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUser]
     FOREIGN KEY ([AspNetUsers_Id])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserRoles_AspNetUsers'
-CREATE INDEX [IX_FK_AspNetUserRoles_AspNetUsers]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserRoles_AspNetUser'
+CREATE INDEX [IX_FK_AspNetUserRoles_AspNetUser]
 ON [dbo].[AspNetUserRoles]
     ([AspNetUsers_Id]);
 GO
 
--- Creating foreign key on [AspNetUserId] in table 'LinkedInCompanies'
-ALTER TABLE [dbo].[LinkedInCompanies]
-ADD CONSTRAINT [FK_AspNetUserLinkedInCompany]
+-- Creating foreign key on [LinkedInCompanyId] in table 'UserLinkedInCompanies'
+ALTER TABLE [dbo].[UserLinkedInCompanies]
+ADD CONSTRAINT [FK_LinkedInCompanyUserLinkedInCompany]
+    FOREIGN KEY ([LinkedInCompanyId])
+    REFERENCES [dbo].[LinkedInCompanies]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LinkedInCompanyUserLinkedInCompany'
+CREATE INDEX [IX_FK_LinkedInCompanyUserLinkedInCompany]
+ON [dbo].[UserLinkedInCompanies]
+    ([LinkedInCompanyId]);
+GO
+
+-- Creating foreign key on [AspNetUserId] in table 'UserLinkedInCompanies'
+ALTER TABLE [dbo].[UserLinkedInCompanies]
+ADD CONSTRAINT [FK_AspNetUserUserLinkedInCompany]
     FOREIGN KEY ([AspNetUserId])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserLinkedInCompany'
-CREATE INDEX [IX_FK_AspNetUserLinkedInCompany]
-ON [dbo].[LinkedInCompanies]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserUserLinkedInCompany'
+CREATE INDEX [IX_FK_AspNetUserUserLinkedInCompany]
+ON [dbo].[UserLinkedInCompanies]
     ([AspNetUserId]);
 GO
 
--- Creating foreign key on [AspNetUserId] in table 'LinkedInProfiles'
-ALTER TABLE [dbo].[LinkedInProfiles]
-ADD CONSTRAINT [FK_AspNetUserLinkedInProfile]
+-- Creating foreign key on [LinkedInProfileId] in table 'UserLinkedInProfiles'
+ALTER TABLE [dbo].[UserLinkedInProfiles]
+ADD CONSTRAINT [FK_LinkedInProfileUserLinkedInProfile]
+    FOREIGN KEY ([LinkedInProfileId])
+    REFERENCES [dbo].[LinkedInProfiles]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LinkedInProfileUserLinkedInProfile'
+CREATE INDEX [IX_FK_LinkedInProfileUserLinkedInProfile]
+ON [dbo].[UserLinkedInProfiles]
+    ([LinkedInProfileId]);
+GO
+
+-- Creating foreign key on [AspNetUserId] in table 'UserLinkedInProfiles'
+ALTER TABLE [dbo].[UserLinkedInProfiles]
+ADD CONSTRAINT [FK_AspNetUserUserLinkedInProfile]
     FOREIGN KEY ([AspNetUserId])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserLinkedInProfile'
-CREATE INDEX [IX_FK_AspNetUserLinkedInProfile]
-ON [dbo].[LinkedInProfiles]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserUserLinkedInProfile'
+CREATE INDEX [IX_FK_AspNetUserUserLinkedInProfile]
+ON [dbo].[UserLinkedInProfiles]
     ([AspNetUserId]);
 GO
 

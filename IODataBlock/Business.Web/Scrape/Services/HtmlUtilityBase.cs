@@ -2,6 +2,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace Business.Web.Scrape.Services
 {
@@ -143,6 +144,12 @@ namespace Business.Web.Scrape.Services
         public string GetFirstTwitterUrl()
         {
             return FirstHref("twitter.com/");
+        }
+
+        public string HtmlDecodeString(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return null;
+            return HttpUtility.HtmlDecode(value);
         }
     }
 }

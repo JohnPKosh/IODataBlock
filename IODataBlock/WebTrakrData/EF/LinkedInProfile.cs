@@ -14,6 +14,12 @@ namespace WebTrakrData.EF
     
     public partial class LinkedInProfile
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LinkedInProfile()
+        {
+            this.UserLinkedInProfiles = new HashSet<UserLinkedInProfile>();
+        }
+    
         public long Id { get; set; }
         public Nullable<long> LinkedInProfileId { get; set; }
         public string LinkedInPage { get; set; }
@@ -31,9 +37,9 @@ namespace WebTrakrData.EF
         public string Phone { get; set; }
         public string LinkedInPhotoUrl { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public string AspNetUsers_Id { get; set; }
-        public string AspNetUserId { get; set; }
+        public System.DateTime UpdatedDate { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLinkedInProfile> UserLinkedInProfiles { get; set; }
     }
 }

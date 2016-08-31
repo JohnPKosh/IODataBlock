@@ -111,6 +111,7 @@ namespace WebTrackr.Models
     /// This example shows you how to create a new database if the Model changes
     /// </summary>
     public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    //public class ApplicationDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {

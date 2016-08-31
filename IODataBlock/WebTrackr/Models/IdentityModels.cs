@@ -63,7 +63,7 @@ namespace WebTrackr.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection") //: base("DefaultConnection", throwIfV1Schema: false)
+            : base("WebTrakrModel") //: base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 

@@ -19,14 +19,7 @@
     [photourl]            NVARCHAR (255) NULL,
     [description]         NVARCHAR (MAX) NULL,
     [CreatedDate]         DATETIME       NOT NULL,
-    [AspNetUsers_Id]      NVARCHAR (36)  NOT NULL,
-    [AspNetUserId]        NVARCHAR (128) NOT NULL,
-    CONSTRAINT [PK_LinkedInCompanies] PRIMARY KEY CLUSTERED ([Id] ASC, [LinkedInPage] ASC, [CreatedDate] ASC, [AspNetUsers_Id] ASC),
-    CONSTRAINT [FK_AspNetUserLinkedInCompany] FOREIGN KEY ([AspNetUserId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+    [UpdatedDate]         DATETIME       NOT NULL,
+    CONSTRAINT [PK_LinkedInCompanies] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
-
-
-GO
-CREATE NONCLUSTERED INDEX [IX_FK_AspNetUserLinkedInCompany]
-    ON [dbo].[LinkedInCompanies]([AspNetUserId] ASC);
 

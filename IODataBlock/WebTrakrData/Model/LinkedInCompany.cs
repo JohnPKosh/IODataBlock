@@ -8,14 +8,17 @@ namespace WebTrakrData.Model
 
     public partial class LinkedInCompany
     {
-        [Key]
-        [Column(Order = 0)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LinkedInCompany()
+        {
+            UserLinkedInCompanies = new HashSet<UserLinkedInCompany>();
+        }
+
         public long Id { get; set; }
 
         public long? LinkedInId { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(255)]
         public string LinkedInPage { get; set; }
 
@@ -64,19 +67,11 @@ namespace WebTrakrData.Model
 
         public string description { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
         public DateTime CreatedDate { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
-        [StringLength(36)]
-        public string AspNetUsers_Id { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
-        [Required]
-        [StringLength(128)]
-        public string AspNetUserId { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLinkedInCompany> UserLinkedInCompanies { get; set; }
     }
 }

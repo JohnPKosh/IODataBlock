@@ -1,6 +1,7 @@
 ﻿using Flurl;
 using System.Dynamic;
 using System.Linq;
+using System.Web;
 
 namespace Business.Web.Scrape.Services
 {
@@ -53,7 +54,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-                return Doc.DocumentNode?.SelectSingleNode("//span[@itemprop='name']")?.InnerText.Trim();
+                return HtmlDecodeString(Doc.DocumentNode?.SelectSingleNode("//span[@itemprop='name']")?.InnerText.Trim());
             }
             catch { }
             return null;
@@ -104,7 +105,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-                return Doc.DocumentNode?.SelectSingleNode("//div[@class='basic-info-description']")?.InnerText.Trim();
+                return HtmlDecodeString(Doc.DocumentNode?.SelectSingleNode("//div[@class='basic-info-description']")?.InnerText.Trim());
             }
             catch { }
             return null;
@@ -125,17 +126,17 @@ namespace Business.Web.Scrape.Services
                 {
                     dynamic rv = new ExpandoObject();
 
-                    //< div class="specialties"><h3>Specialties</h3><p>Flexible Integrated Treatment</p></div>
-                    rv.specialties = node.SelectSingleNode("//div[@class='basic-info-about']").ChildNodes[0]?.InnerText;
+                    //<div class="basic-info-about"><div class="specialties"><h3>Specialties</h3><p>Utility Pole &amp; Attachment Inventory - Software &amp; Services, Joint Use, NESC Inspections, Third Party Joint Use Administration, Resistograph, Strength &amp; Rot Testing - Utility Poles, Central Office, OSP - Network Asset MGMT for Telecom</p></div><ul><li class="website"><h4>Website</h4><p><a href="https://www.linkedin.com/redirect?url=http%3A%2F%2Fwww%2Ealdensys%2Ecom&amp;urlhash=Uc5B" target="_blank" rel="nofollow">http://www.aldensys.com</a></p></li><li class="industry"><h4>Industry</h4><p>Computer Software</p></li><li class="type"><h4>Type</h4><p>Privately Held</p></li><li class="vcard hq"><h4>Headquarters</h4><p class="adr" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><span class="street-address" itemprop="streetAddress">10 Inverness Center Parkway</span> <span class="street-address" itemprop="streetAddress">Suite 500</span> <span class="locality" itemprop="addressLocality">Birmingham,</span> <abbr class="region" title="AL" itemprop="addressRegion">AL</abbr> <span class="postal-code" itemprop="postalCode">35242</span> <span class="country-name" itemprop="addressCountry">United States</span></p></li><li class="company-size"><h4>Company Size</h4><p>51-200 employees</p></li><li class="founded"><h4>Founded</h4><p>1995</p></li></ul></div>
+                    rv.specialties =  HtmlDecodeString(node.SelectSingleNode("//div[@class='basic-info-about']/div[@class='specialties']/p")?.InnerText.Trim());
 
                     //< li class="website"><h4>Website</h4><p><a href = "https://www.linkedin.com/redirect?url=http%3A%2F%2Fwww%2Eriveroak%2Eorg&amp;urlhash=5A9I" target="_blank" rel="nofollow">http://www.riveroak.org</a></p></li>
                     rv.website = node.SelectSingleNode("//li[@class='website']//a[@href]")?.InnerText;
 
                     //< li class="industry"><h4>Industry</h4><p>Mental Health Care</p></li>
-                    rv.industry = node.SelectSingleNode("//li[@class='industry']//p")?.InnerText;
+                    rv.industry = HtmlDecodeString(node.SelectSingleNode("//li[@class='industry']//p")?.InnerText.Trim());
 
                     //< li class="type"><h4>Type</h4><p>Privately Held</p></li>
-                    rv.type = node.SelectSingleNode("//li[@class='type']//p")?.InnerText;
+                    rv.type = HtmlDecodeString(node.SelectSingleNode("//li[@class='type']//p")?.InnerText.Trim());
 
                     //< p class="adr" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><span class="street-address" itemprop="streetAddress">8135 E Indian Bend Rd</span> <span class="street-address" itemprop="streetAddress">#101</span> <span class="locality" itemprop="addressLocality">Scottsdale,</span> <abbr class="region" title="Arizona" itemprop="addressRegion">Arizona</abbr> <span class="postal-code" itemprop="postalCode">85250</span> <span class="country-name" itemprop="addressCountry">United States</span></p>
                     var vcard = node.SelectSingleNode("//p[@class='adr']");
@@ -144,8 +145,8 @@ namespace Business.Web.Scrape.Services
                         var streetAddress = string.Empty;
                         var sn = vcard.SelectNodes("//span[@class='street-address']");
                         if (sn != null) streetAddress = string.Join(" ", sn.Select(x => x.InnerText));
-                        rv.streetAddress = streetAddress;
-                        var locality = vcard.SelectSingleNode("//span[@class='locality']")?.InnerText.Trim();
+                        rv.streetAddress = HtmlDecodeString(streetAddress);
+                        var locality = HtmlDecodeString(vcard.SelectSingleNode("//span[@class='locality']")?.InnerText.Trim());
                         if (!string.IsNullOrWhiteSpace(locality))
                         {
                             rv.locality = locality.EndsWith(",") ? locality.Remove(locality.Length - 1) : locality;
@@ -154,9 +155,9 @@ namespace Business.Web.Scrape.Services
                         {
                             rv.locality = null;
                         }
-                        rv.region = vcard.SelectSingleNode("//abbr[@class='region']")?.InnerText;
-                        rv.postalCode = vcard.SelectSingleNode("//span[@class='postal-code']")?.InnerText;
-                        rv.countryName = vcard.SelectSingleNode("//span[@class='country-name']")?.InnerText;
+                        rv.region = HtmlDecodeString(vcard.SelectSingleNode("//abbr[@class='region']")?.InnerText.Trim());
+                        rv.postalCode = vcard.SelectSingleNode("//span[@class='postal-code']")?.InnerText.Trim();
+                        rv.countryName = HtmlDecodeString(vcard.SelectSingleNode("//span[@class='country-name']")?.InnerText.Trim());
                     }
                     else
                     {

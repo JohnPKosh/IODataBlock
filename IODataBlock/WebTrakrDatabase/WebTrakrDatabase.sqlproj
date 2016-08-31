@@ -70,8 +70,9 @@
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetUserLogins.sql" />
     <Build Include="dbo\Tables\__MigrationHistory.sql" />
-    <Build Include="dbo\Tables\LinkedInCompany.sql" />
-    <Build Include="dbo\Tables\LinkedInProfile.sql" />
+    <Build Include="dbo\Tables\UserLinkedInProfiles.sql" />
+    <Build Include="dbo\Tables\UserLinkedInCompanies.sql" />
+    <Build Include="dbo\Tables\SalesForceAccounts.sql" />
     <Build Include="dbo\Tables\LinkedInProfiles.sql" />
     <Build Include="dbo\Tables\LinkedInCompanies.sql" />
   </ItemGroup>

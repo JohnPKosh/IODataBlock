@@ -48,8 +48,8 @@ namespace Business.Web.Scrape.HtmlReaders
                 }
 
                 var companyidstring = htmlUtility.GetLinkedInCompanyId();
-                double companyid;
-                if (!string.IsNullOrWhiteSpace(companyidstring) && double.TryParse(companyidstring, out companyid))
+                long companyid;
+                if (!string.IsNullOrWhiteSpace(companyidstring) && long.TryParse(companyidstring, out companyid))
                 {
                     rv.CompanyId = companyid;
                 }

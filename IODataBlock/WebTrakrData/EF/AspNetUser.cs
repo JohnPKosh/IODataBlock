@@ -19,9 +19,10 @@ namespace WebTrakrData.EF
         {
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
+            this.SalesForceAccounts = new HashSet<SalesForceAccount>();
+            this.UserLinkedInCompanies = new HashSet<UserLinkedInCompany>();
+            this.UserLinkedInProfiles = new HashSet<UserLinkedInProfile>();
             this.AspNetRoles = new HashSet<AspNetRole>();
-            this.LinkedInCompanies = new HashSet<LinkedInCompany>();
-            this.LinkedInProfiles = new HashSet<LinkedInProfile>();
         }
     
         public string Id { get; set; }
@@ -44,10 +45,12 @@ namespace WebTrakrData.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesForceAccount> SalesForceAccounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLinkedInCompany> UserLinkedInCompanies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLinkedInProfile> UserLinkedInProfiles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LinkedInCompany> LinkedInCompanies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LinkedInProfile> LinkedInProfiles { get; set; }
     }
 }

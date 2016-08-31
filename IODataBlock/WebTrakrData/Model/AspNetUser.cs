@@ -13,8 +13,9 @@ namespace WebTrakrData.Model
         {
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            LinkedInCompanies = new HashSet<LinkedInCompany>();
-            LinkedInProfiles = new HashSet<LinkedInProfile>();
+            SalesForceAccounts = new HashSet<SalesForceAccount>();
+            UserLinkedInCompanies = new HashSet<UserLinkedInCompany>();
+            UserLinkedInProfiles = new HashSet<UserLinkedInProfile>();
             AspNetRoles = new HashSet<AspNetRole>();
         }
 
@@ -56,10 +57,13 @@ namespace WebTrakrData.Model
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LinkedInCompany> LinkedInCompanies { get; set; }
+        public virtual ICollection<SalesForceAccount> SalesForceAccounts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LinkedInProfile> LinkedInProfiles { get; set; }
+        public virtual ICollection<UserLinkedInCompany> UserLinkedInCompanies { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLinkedInProfile> UserLinkedInProfiles { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }

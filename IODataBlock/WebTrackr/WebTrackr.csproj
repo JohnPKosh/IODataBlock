@@ -3151,6 +3151,10 @@
       <Project>{563256a5-8264-4a2c-9473-00d59f64ea7a}</Project>
       <Name>Business.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebTrakrData\WebTrakrData.csproj">
+      <Project>{f07b4f1f-b99d-4723-aaa8-7b15ff114641}</Project>
+      <Name>WebTrakrData</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -8,7 +8,7 @@ namespace WebTrakrData.Model
     public partial class WebTrakrModel : DbContext
     {
         public WebTrakrModel()
-            : base("name=WebTrakr")
+            : base("name=WebTrakrModel")
         {
         }
 
@@ -18,15 +18,16 @@ namespace WebTrakrData.Model
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<LinkedInCompany> LinkedInCompanies { get; set; }
         public virtual DbSet<LinkedInProfile> LinkedInProfiles { get; set; }
-        public virtual DbSet<LinkedInCompany1> LinkedInCompanies1 { get; set; }
-        public virtual DbSet<LinkedInProfile1> LinkedInProfiles1 { get; set; }
+        public virtual DbSet<SalesForceAccount> SalesForceAccounts { get; set; }
+        public virtual DbSet<UserLinkedInCompany> UserLinkedInCompanies { get; set; }
+        public virtual DbSet<UserLinkedInProfile> UserLinkedInProfiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AspNetRole>()
                 .HasMany(e => e.AspNetUsers)
                 .WithMany(e => e.AspNetRoles)
-                .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("AspNetRoles_Id").MapRightKey("AspNetUsers_Id"));
+                .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
 
             modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.AspNetUserClaims)
@@ -39,13 +40,28 @@ namespace WebTrakrData.Model
                 .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.LinkedInCompanies)
+                .HasMany(e => e.SalesForceAccounts)
                 .WithRequired(e => e.AspNetUser)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.LinkedInProfiles)
+                .HasMany(e => e.UserLinkedInCompanies)
                 .WithRequired(e => e.AspNetUser)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.UserLinkedInProfiles)
+                .WithRequired(e => e.AspNetUser)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LinkedInCompany>()
+                .HasMany(e => e.UserLinkedInCompanies)
+                .WithRequired(e => e.LinkedInCompany)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LinkedInProfile>()
+                .HasMany(e => e.UserLinkedInProfiles)
+                .WithRequired(e => e.LinkedInProfile)
                 .WillCascadeOnDelete(false);
         }
     }

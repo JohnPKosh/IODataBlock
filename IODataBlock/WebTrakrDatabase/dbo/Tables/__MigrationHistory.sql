@@ -3,8 +3,10 @@
     [ContextKey]     NVARCHAR (300)  NOT NULL,
     [Model]          VARBINARY (MAX) NOT NULL,
     [ProductVersion] NVARCHAR (32)   NOT NULL,
-    CONSTRAINT [PK_C__MigrationHistory] PRIMARY KEY CLUSTERED ([MigrationId] ASC, [ContextKey] ASC)
+    CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY CLUSTERED ([MigrationId] ASC, [ContextKey] ASC)
 );
+
+
 
 
 

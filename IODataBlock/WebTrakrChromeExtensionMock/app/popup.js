@@ -2,7 +2,29 @@
 chrome.tabs.getSelected(null, function (tab) {
     window.domain = new URL(tab.url).hostname.replace("www.", "");
     $("#currentDomain").text(window.domain);
+
+    chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
+
+
 });
+
+function HandleLinkedInCompanyId(value) {
+    console.log('I received the following DOM content:\n' + getQueryString("id", value));
+    /* DO something with the CompanyId HERE */
+}
+/**
+ * Get the value of a querystring
+ * @param  {String} field The field to get the value of
+ * @param  {String} url   The URL to get the value from (optional)
+ * @return {String}       The field value
+ */
+var getQueryString = function (field, url) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
+
 
 
 
@@ -164,7 +186,7 @@ function trackPagePOST() {
     }
     xhr.setRequestHeader("Content-type", "application/json");
     getUrl();
-    xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, links: allLinks }));
+    xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, links: allLinks, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
 }
 
 

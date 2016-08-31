@@ -13,12 +13,17 @@
     [LockoutEnabled]       BIT              NOT NULL,
     [AccessFailedCount]    INT              NOT NULL,
     [UserName]             NVARCHAR (256)   NOT NULL,
-    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
 
 
 
+
+
 GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex]
+    ON [dbo].[AspNetUsers]([UserName] ASC);
 
 

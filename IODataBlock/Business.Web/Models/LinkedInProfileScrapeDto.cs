@@ -4,13 +4,13 @@ namespace Business.Web.Models
 {
     public class LinkedInProfileScrapeDto
     {
-        public double ProfileId { get; set; }
+        public long? ProfileId { get; set; }
         public string ProfileUrl { get; set; }
         public string FullName { get; set; }
         public int Connections { get; set; }
         public string Title { get; set; }
         public string CompanyName { get; set; }
-        public double CompanyId { get; set; }
+        public long? CompanyId { get; set; }
         public string Industry { get; set; }
         public string Location { get; set; }
         public string Email { get; set; }

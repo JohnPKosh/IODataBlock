@@ -2,6 +2,8 @@
 using System.Dynamic;
 using System.Linq;
 using System;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Business.Web.Scrape.Services
 {
@@ -18,7 +20,7 @@ namespace Business.Web.Scrape.Services
 
 
         //<div class="masthead" id="member-3753448">
-        public double GetLinkedInProfileId()
+        public long GetLinkedInProfileId()
         {
             if (!HasDocument) return -1;
             if (HasLoadError) return -1;
@@ -30,8 +32,8 @@ namespace Business.Web.Scrape.Services
                 }
                 var link = Doc.DocumentNode?.SelectSingleNode("//div[@class='masthead']")?.GetAttributeValue("id", string.Empty)?.Trim();
                 var profileIdString = link.Replace("member-", string.Empty);
-                double profileid;
-                if (!string.IsNullOrWhiteSpace(profileIdString) && double.TryParse(profileIdString, out profileid))
+                long profileid;
+                if (!string.IsNullOrWhiteSpace(profileIdString) && long.TryParse(profileIdString, out profileid))
                 {
                     return profileid;
                 }
@@ -123,7 +125,7 @@ namespace Business.Web.Scrape.Services
                 if (string.IsNullOrWhiteSpace(titleString)) return null;
                 var lastAt = titleString.LastIndexOf(" at ", StringComparison.Ordinal);
                 if (lastAt > 0) titleString = titleString.Substring(0, lastAt);
-                return titleString;
+                return HtmlDecodeString(titleString);
             }
             catch { }
             return null;
@@ -149,14 +151,22 @@ namespace Business.Web.Scrape.Services
                     var matches = AllHrefsWhere(x => x.GetAttributeValue("href", string.Empty).Contains(@"trk=prof-exp-company-name") && x.GetAttributeValue("href", string.Empty).Contains(@"/company/")).ToList();
                     rv = FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains(@"trk=prof-exp-company-name")  && !string.IsNullOrWhiteSpace(x.InnerText))?.InnerText.Trim();
                 }
-                return rv;
+                if (string.IsNullOrWhiteSpace(rv))
+                {
+                    var titleString = Doc.DocumentNode?.SelectSingleNode("//p[@class='title']")?.InnerText.Trim();
+                    if (string.IsNullOrWhiteSpace(titleString)) return null;
+                    var lastAt = titleString.LastIndexOf(" at ", StringComparison.Ordinal);
+                    if (lastAt > 0) titleString = titleString.Substring(lastAt + 4);
+                    rv = titleString;
+                }
+                return HtmlDecodeString(rv);
             }
             catch { }
             return null;
         }
 
         //<a dir="auto" href="/company/273381?trk=prof-0-ovw-curr_pos">Evolve IP</a>
-        public double GetCurrentLinkedInCompanyId()
+        public long GetCurrentLinkedInCompanyId()
         {
             if (!HasDocument) return -1;
             if (HasLoadError) return -1;
@@ -179,8 +189,8 @@ namespace Business.Web.Scrape.Services
 
                     //var companyidstring = link.Substring(lastSegmentStart + 1, link.IndexOf("?", StringComparison.Ordinal) - lastSegmentStart - 1);
                     var companyidstring = link.Substring(lastSegmentStart + 1); /* query params are already stripped */
-                    double companyid;
-                    if (!string.IsNullOrWhiteSpace(companyidstring) && double.TryParse(companyidstring, out companyid))
+                    long companyid;
+                    if (!string.IsNullOrWhiteSpace(companyidstring) && long.TryParse(companyidstring, out companyid))
                     {
                         return companyid;
                     }
@@ -188,6 +198,29 @@ namespace Business.Web.Scrape.Services
                     {
                         return -1;
                     }
+                }
+                else
+                {
+                    //<div id="ad-right-top" class="ganz-module ad">
+                    //< script type = "text/javascript" > fs._server.fire("profile_v2_right_ad",{event:"before",type:"html"});</script>
+                    //<iframe width = "300" scrolling="no" height="250" frameborder="0" allowtransparency="true" border="0" data-src="/csp/dtag?sz=300x250&amp;ti=2&amp;p=1&amp;z=profile&amp;pk=nprofile-view&amp;_x=%3Bcompany%3D991548%3Bpcntry%3Dus" src="/csp/dtag?sz=300x250&amp;ti=2&amp;p=1&amp;z=profile&amp;pk=nprofile-view&amp;_x=%3Bcompany%3D991548%3Bpcntry%3Dus"></iframe><script type = "text/javascript" > fs._server.fire("profile_v2_right_ad",{event:"after",type:"html"});</script>
+                    //</div>
+                    var datasrc = Doc.DocumentNode?.SelectSingleNode("//div[@id='ad-right-top']/iframe[@data-src]")?.Attributes["data-src"].Value;
+
+                    var r = Regex.Matches(datasrc, "company%3D([0-9]+)%3B");
+                    if (r.Count > 0)
+                    {
+                        var firstr = r[0];
+                        var id = firstr.Groups[1].Value;
+                        return long.Parse(id);
+                    }
+
+                    //if (!string.IsNullOrWhiteSpace(datasrc))
+                    //{
+                    //    var datasrcUnencoded = HttpUtility.HtmlDecode(datasrc);
+                    //    var id = new Url(datasrcUnencoded).QueryParams["3Bcompany"] as string;
+                    //    return long.Parse(id);
+                    //}
                 }
 
                 return -1;
@@ -208,8 +241,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-
-                return FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains("trk=prof-0-ovw-industry"))?.InnerText.Trim();
+                return HtmlDecodeString(FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains("trk=prof-0-ovw-industry"))?.InnerText.Trim());
             }
             catch { }
             return null;
@@ -226,8 +258,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-
-                return FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains("trk=prof-0-ovw-location"))?.InnerText.Trim();
+                return HtmlDecodeString(FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains("trk=prof-0-ovw-location"))?.InnerText.Trim());
             }
             catch { }
             return null;
@@ -296,7 +327,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-                return Doc.DocumentNode?.SelectSingleNode("//div[@id='address']")?.InnerText.Trim();
+                return HtmlDecodeString(Doc.DocumentNode?.SelectSingleNode("//div[@id='address']")?.InnerText.Trim());
             }
             catch { }
             return null;
