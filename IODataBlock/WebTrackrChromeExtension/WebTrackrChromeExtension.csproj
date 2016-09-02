@@ -39,32 +39,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app\BackgroundScripts\current-tab.js" />
+    <Content Include="app\ContentScripts\LinkedInCompany.js" />
     <Content Include="app\Content\bootstrap-theme.css" />
     <Content Include="app\Content\bootstrap-theme.min.css" />
     <Content Include="app\Content\bootstrap.css" />
     <Content Include="app\Content\bootstrap.min.css" />
+    <Content Include="app\Content\Site.css" />
     <Content Include="app\fonts\glyphicons-halflings-regular.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\Content\Site.css" />
     <Content Include="app\img\icon.png" />
-    <Content Include="app\img\iconOLD.png" />
     <Content Include="app\popup.html" />
     <Content Include="app\popup.js" />
+    <Content Include="app\Scripts\jquery-3.1.0.min.map" />
+    <Content Include="app\Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="app\manifest.json" />
+    <None Include="app\Scripts\_references.js" />
     <Content Include="app\Scripts\bootstrap.js" />
     <Content Include="app\Scripts\bootstrap.min.js" />
-    <Content Include="app\fonts\glyphicons-halflings-regular.eot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="app\fonts\glyphicons-halflings-regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="app\fonts\glyphicons-halflings-regular.woff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="app\fonts\glyphicons-halflings-regular.woff2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="app\Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="app\Scripts\jquery-3.1.0.js" />
     <Content Include="app\Scripts\jquery-3.1.0.min.js" />
@@ -80,7 +73,6 @@
     <Content Include="app\Scripts\respond.matchmedia.addListener.js" />
     <Content Include="app\Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="app\Scripts\respond.min.js" />
-    <None Include="app\Scripts\_references.js" />
     <Content Include="app\send_url.js" />
     <Content Include="app\TabScripts\onTabLoad.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -91,13 +83,22 @@
     <Content Include="index.htm" />
     <Content Include="Properties\build\ligershark.chrome.targets" />
     <Content Include="screenshots\readme.txt" />
-    <Content Include="app\manifest.json" />
     <Content Include="app\Content\bootstrap-theme.css.map" />
     <Content Include="app\Content\bootstrap-theme.min.css.map" />
     <Content Include="app\Content\bootstrap.css.map" />
     <Content Include="app\Content\bootstrap.min.css.map" />
-    <Content Include="app\Scripts\jquery-3.1.0.min.map" />
-    <Content Include="app\Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="scripts\_references.js" />
     <None Include="scripts\chrome-api-vsdoc.js" />
   </ItemGroup>

@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="popup.js"></script>
     <link rel="stylesheet" href="Content/bootstrap.min.css">
     <link rel="stylesheet" href="Content/bootstrap-theme.min.css">
     <link rel="stylesheet" href="Content/Site.css">
-    <script src="Scripts/jquery-3.1.0.min.js"></script>
-    <script src="Scripts/jquery.validate.min.js"></script>
-    <script src="Scripts/modernizr-2.8.3.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
-    <script src="Scripts/respond.min.js"></script>
 </head>
 <body>
     <div class="container body-content" style="-moz-min-width: 760px; -ms-min-width: 760px; -o-min-width: 760px; -webkit-min-width: 760px; min-width: 760px;">
@@ -17,6 +11,7 @@
         <div class="row header-row">
             <div class="col-md-12">
                 <div class="site-title">
+                    <h5 id="currentDomain"></h5>
                     <a href="#" id="site-title"><span class="site-title-primary">Web</span><span class="site-title-suffix">Trakr.com</span></a>
                     <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="trackPageButton">Trak It!</button></span>
                 </div>
@@ -78,8 +73,10 @@
 
                     <!--Tab 2-->
                     <div id="tab2" class="tab-pane fade">
-                        <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
+                        <h3 id="linkedInCompanyTab_LinkedInCompanyName">Coming Soon!</h3>
+                        <p id="linkedInCompanyTab_region">This extension is still under construction. Stop back soon.</p>
+                        <p id="linkedInCompanyTab_countryName">This extension is still under construction. Stop back soon.</p>
+                        <p><a id="linkedInCompanyTab_website"></a></p>
                     </div>
 
                     <!--Tab 3-->
@@ -110,6 +107,11 @@
         </div>
 
     </div>
-
+    <script src="Scripts/jquery-3.1.0.min.js"></script>
+    <script src="Scripts/jquery.validate.min.js"></script>
+    <script src="Scripts/modernizr-2.8.3.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/respond.min.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

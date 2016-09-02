@@ -28,7 +28,7 @@ var javascriptPrefix = "javascript";
 var objectPrefix = "[object";
 for (var i = 0; i < links.length;) {
     var linkval = String(links[i]);
-    console.log(linkval);
+    //console.log(linkval);
     if (typeof linkval === "undefined") {
         links[i] = "";
     }
