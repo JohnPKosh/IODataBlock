@@ -55,6 +55,7 @@
     <Content Include="app\popup.js" />
     <Content Include="app\Scripts\jquery-3.1.0.min.map" />
     <Content Include="app\Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="scripts\unused_utility.js" />
     <None Include="app\Scripts\_references.js" />
     <Content Include="app\Scripts\bootstrap.js" />
     <Content Include="app\Scripts\bootstrap.min.js" />

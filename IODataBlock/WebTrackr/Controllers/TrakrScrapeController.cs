@@ -10,6 +10,8 @@ using Business.Web.Scrape.Services;
 using Data.DbClient;
 using Newtonsoft.Json.Linq;
 using WebTrakrData.Model;
+using WebTrakrData.Model.Dto;
+using WebTrakrData.Services;
 
 namespace WebTrackr.Controllers
 {
@@ -40,6 +42,20 @@ namespace WebTrackr.Controllers
             //            x => x.AspNetUser.ApiKey.ToString() == apikey && x.LinkedInPage == locationUrl);
             //}
             else return null;
+        }
+
+        /// <summary>
+        /// Gets the linked in company.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="apikey">The apikey.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/TrakrScrape/LinkedInCompany/{id:long}/{apikey}")]
+        public UserLinkedInCompanyDto GetLinkedInCompany(long id, string apikey)
+        {
+            var svc = new UserLinkedInCompanyService();
+            return svc.GetByLinkedInCompanyId(id, apikey);
         }
 
         /// <summary>

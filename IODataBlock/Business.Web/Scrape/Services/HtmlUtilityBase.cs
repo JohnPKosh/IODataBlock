@@ -78,7 +78,7 @@ namespace Business.Web.Scrape.Services
                     {
                         hrefValue = hrefValue.Remove(hrefValue.IndexOf("?", StringComparison.Ordinal));
                     }
-                    return hrefValue.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty);
+                    return HtmlDecodeString(hrefValue.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty));
                 }
             }
             catch { }
@@ -98,7 +98,7 @@ namespace Business.Web.Scrape.Services
             return null;
         }
 
-        public IEnumerable<HtmlNode> AllHrefsWhere(Func<HtmlNode, bool> predicate)
+        public IEnumerable<HtmlNode> AllHrefNodesWhere(Func<HtmlNode, bool> predicate)
         {
             if (!HasDocument) return null;
             if (HasLoadError) return null;
@@ -112,7 +112,7 @@ namespace Business.Web.Scrape.Services
 
         public IEnumerable<string> AllHrefUrlsWhere(Func<HtmlNode, bool> predicate)
         {
-            return AllHrefsWhere(predicate).Select(x => x.GetAttributeValue("href", string.Empty)).Where(y => !string.IsNullOrWhiteSpace(y));
+            return AllHrefNodesWhere(predicate).Select(x => HtmlDecodeString(x.GetAttributeValue("href", string.Empty))).Where(y => !string.IsNullOrWhiteSpace(y));
         }
 
 

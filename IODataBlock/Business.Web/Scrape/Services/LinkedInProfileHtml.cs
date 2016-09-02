@@ -57,7 +57,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-                return Doc.DocumentNode?.SelectSingleNode("//a[@class='view-public-profile']")?.GetAttributeValue("href", string.Empty)?.Trim();
+                return HtmlDecodeString(Doc.DocumentNode?.SelectSingleNode("//a[@class='view-public-profile']")?.GetAttributeValue("href", string.Empty)?.Trim());
             }
             catch { }
             return null;
@@ -75,7 +75,7 @@ namespace Business.Web.Scrape.Services
                 {
                     return null;
                 }
-                return Doc.DocumentNode?.SelectSingleNode("//span[@class='full-name']")?.InnerText.Trim();
+                return HtmlDecodeString(Doc.DocumentNode?.SelectSingleNode("//span[@class='full-name']")?.InnerText.Trim());
             }
             catch { }
             return null;
@@ -148,7 +148,7 @@ namespace Business.Web.Scrape.Services
                 if (string.IsNullOrWhiteSpace(rv))
                 {
                     //<a href="/company/974572?trk=prof-exp-company-name" dir="auto">T3 Motion</a>
-                    var matches = AllHrefsWhere(x => x.GetAttributeValue("href", string.Empty).Contains(@"trk=prof-exp-company-name") && x.GetAttributeValue("href", string.Empty).Contains(@"/company/")).ToList();
+                    var matches = AllHrefNodesWhere(x => x.GetAttributeValue("href", string.Empty).Contains(@"trk=prof-exp-company-name") && x.GetAttributeValue("href", string.Empty).Contains(@"/company/")).ToList();
                     rv = FirstHrefWhere(x => x.GetAttributeValue("href", string.Empty).Contains(@"trk=prof-exp-company-name")  && !string.IsNullOrWhiteSpace(x.InnerText))?.InnerText.Trim();
                 }
                 if (string.IsNullOrWhiteSpace(rv))

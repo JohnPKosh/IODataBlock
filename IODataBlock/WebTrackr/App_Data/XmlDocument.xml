@@ -1266,6 +1266,14 @@
             <param name="apikey">The apikey.</param>
             <returns></returns>
         </member>
+        <member name="M:WebTrackr.Controllers.TrakrScrapeController.GetLinkedInCompany(System.Int64,System.String)">
+            <summary>
+            Gets the linked in company.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="apikey">The apikey.</param>
+            <returns></returns>
+        </member>
         <member name="M:WebTrackr.Controllers.TrakrScrapeController.Post(Newtonsoft.Json.Linq.JObject)">
             <summary>
             Posts the specified scraped page value.

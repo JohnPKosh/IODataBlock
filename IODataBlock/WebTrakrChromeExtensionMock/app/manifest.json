@@ -20,7 +20,7 @@
   "content_scripts": [
     {
       "matches": [ "*://*.linkedin.com/compan*" ],
-      "js": [ "ContentScripts/LinkedInCompany.js" ]
+      "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInCompany.js" ]
     }
   ],
   "browser_action": {
