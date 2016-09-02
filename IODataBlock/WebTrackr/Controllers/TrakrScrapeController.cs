@@ -59,6 +59,29 @@ namespace WebTrackr.Controllers
         }
 
         /// <summary>
+        /// Gets the linked in company employee profiles.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="apikey"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/TrakrScrape/LinkedInCompanyProfiles/{id:long}/{apikey}")]
+        public List<UserLinkedeInProfileDto> GetLinkedInCompanyProfiles(long id, string apikey)
+        {
+            try
+            {
+                var svc = new UserLinkedInProfileService();
+                var rv = svc.GetByLinkedInCompanyId(id, apikey).ToList();
+                return rv;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Posts the specified scraped page value.
         /// </summary>
         /// <param name="value">The location, document, links elements, and APIKEY of the page being scraped.</param>

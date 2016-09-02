@@ -1,6 +1,8 @@
 /* Create variables */
 var currentUrl = "na";
 var currentDoc = null;
+var relatedEmployeesJson = null;
+var linkedInCompanyId = null;
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
@@ -18,12 +20,21 @@ window.onload = function () {
 
     chrome.tabs.getSelected(null, function (tab) {
         window.domain = new URL(tab.url).hostname.replace("www.", "");
-        chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
+        chrome.tabs.sendMessage(tab.id, { text: "find_companyId" }, GetLinkedInCompanyInfo);
+    });
+
+    $('a[data-toggle="pill"]').on("shown.bs.tab", function(e) {
+        var currentTab = e.target // activated tab
+        var divid = $(currentTab).attr("href").substr(1);
+        if (divid === "tab3") {
+            GetLinkedInCompanyEmployees(linkedInCompanyId, divid);
+        }
     });
 };
 
-function HandleLinkedInCompanyId(value) {
-    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + getQueryString("id", value) + "/367db296-4e00-49b1-a064-d3e838db000d";
+function GetLinkedInCompanyInfo(value) {
+    linkedInCompanyId = getQueryString("id", value);
+    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
     /* Get Results from API */
     $.getJSON(apiUrl)
       .done(function (json) {
@@ -43,18 +54,61 @@ function DisplayLinkedInCompanyInfo(json) {
     $("#linkedInCompanyTab_companySize").text(json.companySize);
     $("#linkedInCompanyTab_founded").text(json.founded);
     $("#linkedInCompanyTab_followersCount").text(json.followersCount);
-    $("#linkedInCompanyTab_website").text(json.website); /* TODO add click new tab event */
-    
+    $("#linkedInCompanyTab_website").text(json.website); 
     $("#linkedInCompanyTab_website").click(function () {
         chrome.tabs.create({ url: json.website });
     });
-    //$("#linkedInCompanyTab_website").attr("href", json.website); /* TODO add click new tab event */
     $("#linkedInCompanyTab_streetAddress").text(json.region);
     $("#linkedInCompanyTab_locality").text(json.region);
     $("#linkedInCompanyTab_region").text(json.region);
     $("#linkedInCompanyTab_postalCode").text(json.region);
     $("#linkedInCompanyTab_countryName").text(json.countryName);
 };
+
+
+function GetLinkedInCompanyEmployees(value, divid) {
+
+    //$("#" + divid).text("hello"); /*TODO: Check if already called API for employee info, if no call API and store as variable, else yes pull from variable. */
+
+    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompanyProfiles/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
+    /* Get Results from API */
+    $.getJSON(apiUrl)
+      .done(function (json) {
+          DisplayLinkedInCompanyEmployees(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
+      })
+      .fail(function (jqxhr, textStatus, error) {
+          var err = textStatus + ", " + error;
+          /*TODO: Show content from page and offer to Trak it.*/
+          $("#linkedInCompanyProfilesTab_EmployeesTitle").text("Not Tracking!");
+      });
+}
+function DisplayLinkedInCompanyEmployees(json) {
+    $("#linkedInCompanyProfilesTab_Employees").html("");
+    var cnt = 0;
+    $.each(json, function (i, field) {
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Name:</span> <span>" + field.LinkedInFullName + "</span></p>");
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Title:</span> <span>" + field.LinkedInTitle + "</span></p>");
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Profile Page:</span> <span>" + field.LinkedInPage + "</span></p>");
+    });
+    $("#linkedInCompanyProfilesTab_EmployeesTitle").html("Tracked Employees <span class='badge'>" + json.length + "</span>");
+
+    //$("#linkedInCompanyTab_LinkedInCompanyName").html(json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    //$("#linkedInCompanyTab_industry").text(json.industry);
+    //$("#linkedInCompanyTab_type").text(json.type);
+    //$("#linkedInCompanyTab_companySize").text(json.companySize);
+    //$("#linkedInCompanyTab_founded").text(json.founded);
+    //$("#linkedInCompanyTab_followersCount").text(json.followersCount);
+    //$("#linkedInCompanyTab_website").text(json.website);
+    //$("#linkedInCompanyTab_website").click(function () {
+    //    chrome.tabs.create({ url: json.website });
+    //});
+    //$("#linkedInCompanyTab_streetAddress").text(json.region);
+    //$("#linkedInCompanyTab_locality").text(json.region);
+    //$("#linkedInCompanyTab_region").text(json.region);
+    //$("#linkedInCompanyTab_postalCode").text(json.region);
+    //$("#linkedInCompanyTab_countryName").text(json.countryName);
+};
+
 
 /**
  * Get the value of a querystring
@@ -64,7 +118,7 @@ function DisplayLinkedInCompanyInfo(json) {
  */
 var getQueryString = function (field, url) {
     var href = url ? url : window.location.href;
-    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
@@ -81,19 +135,6 @@ chrome.extension.onRequest.addListener(function (data) {
 });
 
 
-
-///* Add link click events */
-//function AddLinkEvent(elem, i) {
-//    elem.onclick = function() {
-//        chrome.tabs.create({ url: visibleLinks[i] });
-//    };
-//}
-
-function AddLinkEvent(elem, url) {
-    elem.onclick = function() {
-        chrome.tabs.create({ url: url });
-    };
-}
 
 /* Add logo click event to open home page. */
 function AddOpenHomePageEvent() {

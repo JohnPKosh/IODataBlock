@@ -10,7 +10,7 @@ namespace WebTrakrData.Model.Dto
 {
     public class UserLinkedInCompanyDto
     {
-        private readonly UserLinkedInCompanyService _userLinkedInCompanyService = new UserLinkedInCompanyService();
+        //private readonly UserLinkedInCompanyService _userLinkedInCompanyService = new UserLinkedInCompanyService();
 
         #region Fields and Properties
 
