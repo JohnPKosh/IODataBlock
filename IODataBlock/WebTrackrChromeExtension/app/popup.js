@@ -19,8 +19,16 @@ window.onload = function () {
     });
 
     chrome.tabs.getSelected(null, function (tab) {
+        var lowerUrl = tab.url.toLowerCase();
+        if (lowerUrl.indexOf("linkedin.com/compan") > -1) {
+            console.log("Company = " + lowerUrl);
+            chrome.tabs.sendMessage(tab.id, { text: "find_companyId" }, GetLinkedInCompanyInfo);
+        }
+        else if (lowerUrl.indexOf("linkedin.com/in/") > -1) {
+            console.log("Profile = " + lowerUrl);
+            chrome.tabs.sendMessage(tab.id, { text: "find_companyLink" }, GetLinkedInCompanyLink);
+        }
         window.domain = new URL(tab.url).hostname.replace("www.", "");
-        chrome.tabs.sendMessage(tab.id, { text: "find_companyId" }, GetLinkedInCompanyInfo);
     });
 
     $('a[data-toggle="pill"]').on("shown.bs.tab", function(e) {
@@ -31,6 +39,24 @@ window.onload = function () {
         }
     });
 };
+
+/* Test */
+function GetLinkedInCompanyLink(value) {
+    //console.log("Profile Company Link = " + value);
+
+    linkedInCompanyId = value;
+    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
+    /* Get Results from API */
+    $.getJSON(apiUrl)
+      .done(function (json) {
+          DisplayLinkedInCompanyInfo(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
+      })
+      .fail(function (jqxhr, textStatus, error) {
+          var err = textStatus + ", " + error;
+          /*TODO: Show content from page and offer to Trak it.*/
+          $("#linkedInCompanyTab_LinkedInCompanyName").text("Not Tracking!");
+      });
+}
 
 function GetLinkedInCompanyInfo(value) {
     linkedInCompanyId = getQueryString("id", value);
@@ -111,8 +137,7 @@ var getQueryString = function (field, url) {
 /* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
 chrome.extension.onRequest.addListener(function (data) {
     /* If the action is send_links Do This*/
-    if (data.action === "onTabLoad")
-    {
+    if (data.action === "onTabLoad") {
         currentDoc = data.body;
     }
 });

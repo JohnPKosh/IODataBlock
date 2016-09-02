@@ -41,6 +41,7 @@
   <ItemGroup>
     <Content Include="app\BackgroundScripts\current-tab.js" />
     <Content Include="app\ContentScripts\LinkedInCompany.js" />
+    <Content Include="app\ContentScripts\LinkedInProfile.js" />
     <Content Include="app\Content\bootstrap-theme.css" />
     <Content Include="app\Content\bootstrap-theme.min.css" />
     <Content Include="app\Content\bootstrap.css" />

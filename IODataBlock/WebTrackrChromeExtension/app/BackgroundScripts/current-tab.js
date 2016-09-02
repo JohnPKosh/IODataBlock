@@ -3,10 +3,11 @@
 function sendTabUrl() {
   chrome.tabs.query(
     {currentWindow: true, active : true},
-    function(tabArray){
+    function (tabArray) {
+        SendData(tabArray[0]);
       if (tabArray[0]["url"] != window.currentDomain) {
         window.currentDomain = url_domain(tabArray[0]["url"]).replace("www.", "");
-        updateIconColor();
+        //updateIconColor();
       }
     }
   );
@@ -23,7 +24,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 // When active tab changes
 //
 chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
-   sendTabUrl();
+    sendTabUrl();
 });
 
 
@@ -70,3 +71,4 @@ function url_domain(data) {
          a.href = data;
   return a.hostname;
 }
+

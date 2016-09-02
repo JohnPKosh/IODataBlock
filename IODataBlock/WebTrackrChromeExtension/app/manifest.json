@@ -21,6 +21,10 @@
     {
       "matches": [ "*://*.linkedin.com/compan*" ],
       "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInCompany.js" ]
+    },
+    {
+      "matches": [ "*://*.linkedin.com/in/*" ],
+      "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInProfile.js" ]
     }
   ],
   "browser_action": {
