@@ -86,27 +86,10 @@ function DisplayLinkedInCompanyEmployees(json) {
     $("#linkedInCompanyProfilesTab_Employees").html("");
     var cnt = 0;
     $.each(json, function (i, field) {
-        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Name:</span> <span>" + field.LinkedInFullName + "</span></p>");
-        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Title:</span> <span>" + field.LinkedInTitle + "</span></p>");
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Name:</span> <span><strong>" + field.LinkedInFullName + "</strong> - " + field.LinkedInTitle + "</span></p>");
         $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Profile Page:</span> <span>" + field.LinkedInPage + "</span></p>");
     });
     $("#linkedInCompanyProfilesTab_EmployeesTitle").html("Tracked Employees <span class='badge'>" + json.length + "</span>");
-
-    //$("#linkedInCompanyTab_LinkedInCompanyName").html(json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
-    //$("#linkedInCompanyTab_industry").text(json.industry);
-    //$("#linkedInCompanyTab_type").text(json.type);
-    //$("#linkedInCompanyTab_companySize").text(json.companySize);
-    //$("#linkedInCompanyTab_founded").text(json.founded);
-    //$("#linkedInCompanyTab_followersCount").text(json.followersCount);
-    //$("#linkedInCompanyTab_website").text(json.website);
-    //$("#linkedInCompanyTab_website").click(function () {
-    //    chrome.tabs.create({ url: json.website });
-    //});
-    //$("#linkedInCompanyTab_streetAddress").text(json.region);
-    //$("#linkedInCompanyTab_locality").text(json.region);
-    //$("#linkedInCompanyTab_region").text(json.region);
-    //$("#linkedInCompanyTab_postalCode").text(json.region);
-    //$("#linkedInCompanyTab_countryName").text(json.countryName);
 };
 
 
@@ -159,6 +142,7 @@ function AddOpenHomePageEvent() {
 
 
 /* POST entire HTML document and Links to API*/
+
 function trackPagePOST() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:51786/Api/TrakrScrape", true);
@@ -166,6 +150,7 @@ function trackPagePOST() {
         if (xhr.readyState === 4) {
             var obj = JSON.parse(xhr.responseText);
             document.getElementById("resp").innerHTML = obj.LocationUrl + " <strong> Saved!</strong>";
+            DisplayLinkedInCompanyInfo(obj);
         }
     }
     xhr.setRequestHeader("Content-type", "application/json");
