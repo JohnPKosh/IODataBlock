@@ -1,10 +1,5 @@
 
-chrome.tabs.getSelected(null, function (tab) {
-    window.domain = new URL(tab.url).hostname.replace("www.", "");
-    $("#currentDomain").text(window.domain);
 
-    chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
-});
 
 function HandleLinkedInCompanyId(value) {
     console.log('I received the following DOM content:\n' + getQueryString("id", value));
@@ -52,20 +47,17 @@ var getQueryString = function (field, url) {
 
 
 /* Create variables */
-var urls = [];
-var emails = [];
+//var urls = [];
+//var emails = [];
 
-var allLinks = [];
-var visibleLinks = [];
+//var allLinks = [];
+//var visibleLinks = [];
 var currentUrl = "na";
 var currentDoc = null;
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
     AddOpenHomePageEvent();
-    document.getElementById("filter").onkeyup = filterLinks;
-    document.getElementById("regex").onchange = filterLinks;
-    document.getElementById("toggle_all").onchange = toggleAll;
     document.getElementById("trackPageButton").onclick = trackPagePOST;
 
     /* Inject send_links.js into all frames in the active tab.*/
@@ -76,6 +68,12 @@ window.onload = function () {
                               chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
                           });
     });
+
+    chrome.tabs.getSelected(null, function (tab) {
+        window.domain = new URL(tab.url).hostname.replace("www.", "");
+        $("#currentDomain").text(window.domain);
+        chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
+    });
 };
 
 
@@ -84,96 +82,18 @@ chrome.extension.onRequest.addListener(function (data) {
     /* If the action is send_links Do This*/
     if (data.action === "onTabLoad")
     {
-        for (var index in data.links) {
-            if (data.links.hasOwnProperty(index))
-            {
-                allLinks.push(data.links[index]);
-            }
-        }
-        allLinks.sort();
-        visibleLinks = allLinks;
-        showLinks();
         currentDoc = data.body;
     }
 });
 
-/* Display all visible links. */
-function showLinks() {
-    var linksTable = document.getElementById("links");
-    while (linksTable.children.length > 1) {
-        linksTable.removeChild(linksTable.children[linksTable.children.length-1]);
-    }
-    for (var i = 0; i < visibleLinks.length; ++i) {
-        /* Create row */
-        var row = document.createElement("tr");
 
-        /* Build column 0 */
-        var col0 = document.createElement("td");
-        var checkbox = document.createElement("input");
-        checkbox.checked = true;
-        checkbox.type = "checkbox";
-        checkbox.id = "check" + i;
-        col0.appendChild(checkbox);
 
-        /* Build column 0 */
-        var col1 = document.createElement("td");
-        col1.id = "item" + i;
-        col1.innerHTML = "<a href='#'>" + visibleLinks[i] + "</a>";
-        AddLinkEvent(col1, i);
-
-        /* Append row */
-        row.appendChild(col0);
-        row.appendChild(col1);
-        linksTable.appendChild(row);
-    }
-}
-
-/* Re-filter allLinks into visibleLinks and reshow visibleLinks. */
-function filterLinks() {
-    var filterValue = document.getElementById("filter").value;
-    if (document.getElementById("regex").checked) {
-        visibleLinks = allLinks.filter(function (link) {
-            return link.match(filterValue);
-        });
-    } else {
-        var terms = filterValue.split(" ");
-        visibleLinks = allLinks.filter(function (link) {
-            for (var termI = 0; termI < terms.length; ++termI) {
-                var term = terms[termI];
-                if (term.length != 0) {
-                    var expected = (term[0] != "-");
-                    if (!expected) {
-                        term = term.substr(1);
-                        if (term.length == 0) {
-                            continue;
-                        }
-                    }
-                    var found = (-1 !== link.indexOf(term));
-                    if (found != expected) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        });
-    }
-    showLinks();
-}
-
-/* Toggle the checked state of all visible links.*/
-function toggleAll() {
-    var checked = document.getElementById("toggle_all").checked;
-    for (var i = 0; i < visibleLinks.length; ++i) {
-        document.getElementById("check" + i).checked = checked;
-    }
-}
-
-/* Add link click events */
-function AddLinkEvent(elem, i) {
-    elem.onclick = function() {
-        chrome.tabs.create({ url: visibleLinks[i] });
-    };
-}
+///* Add link click events */
+//function AddLinkEvent(elem, i) {
+//    elem.onclick = function() {
+//        chrome.tabs.create({ url: visibleLinks[i] });
+//    };
+//}
 
 /* Add logo click event to open home page. */
 function AddOpenHomePageEvent() {
@@ -209,7 +129,7 @@ function trackPagePOST() {
     }
     xhr.setRequestHeader("Content-type", "application/json");
     getUrl();
-    xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, links: allLinks, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
 }
 
 

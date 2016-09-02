@@ -1,10 +1,5 @@
 
-chrome.tabs.getSelected(null, function (tab) {
-    window.domain = new URL(tab.url).hostname.replace("www.", "");
-    $("#currentDomain").text(window.domain);
 
-    chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
-});
 
 function HandleLinkedInCompanyId(value) {
     console.log('I received the following DOM content:\n' + getQueryString("id", value));
@@ -75,6 +70,13 @@ window.onload = function () {
                               currentUrl = activeTabs[0].url;
                               chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
                           });
+    });
+
+    chrome.tabs.getSelected(null, function (tab) {
+        window.domain = new URL(tab.url).hostname.replace("www.", "");
+        $("#currentDomain").text(window.domain);
+
+        chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
     });
 };
 
