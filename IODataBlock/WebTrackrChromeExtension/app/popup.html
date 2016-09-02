@@ -11,29 +11,32 @@
         <div class="row header-row">
             <div class="col-md-12">
                 <div class="site-title">
-                    <h5 id="currentDomain"></h5>
                     <a href="#" id="site-title"><span class="site-title-primary">Web</span><span class="site-title-suffix">Trakr.com</span></a>
                     <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="trackPageButton">Trak It!</button></span>
                 </div>
             </div>
-            
+
         </div>
+
+        <!--<h5 id="currentDomain"></h5>-->
 
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#tab1">Links</a></li>
-                    <li><a data-toggle="pill" href="#tab2">Emails</a></li>
-                    <li><a data-toggle="pill" href="#tab3">Notes</a></li>
-                    <li><a data-toggle="pill" href="#tab4">History</a></li>
-                    <li><a data-toggle="pill" href="#tab5">Search</a></li>
-                    <li><a data-toggle="pill" href="#tab6">Manage</a></li>
+                    <li class="active"><a data-toggle="pill" href="#tab1">Overview</a></li>
+                    <li><a data-toggle="pill" href="#tab2">Location</a></li>
+                    <li><a data-toggle="pill" href="#tab3">Employees</a></li>
+                    <li><a data-toggle="pill" href="#tab4">Notes</a></li>
+                    <!--<li><a data-toggle="pill" href="#tab5">Search</a></li>
+                    <li><a data-toggle="pill" href="#tab6">Manage</a></li>-->
 
                 </ul>
             </div>
         </div>
 
-        <p></p>
+        <div class="row">
+            <p></p>
+        </div>
 
         <div class="row">
             <div class="col-md-12">
@@ -43,28 +46,42 @@
                     <div id="tab1" class="tab-pane fade in active">
                         <div class="row">
                             <div class="col-md-12">
-                                <form class="form-inline">
-                                    <div class="form-group" style="display: inline-block">
-                                        <input type="text" class="form-control" id="filter" style="width: 250px;" placeholder="Filter">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyTab_LinkedInCompanyName"></h4>
                                     </div>
-                                    <div class="form-group" style="display: inline-block">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" id="regex">Regex
-                                        </label>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">Industry:</span> <span id="linkedInCompanyTab_industry"></span></p>
+                                        <p><span class="site-field-label-primary">Type:</span> <span id="linkedInCompanyTab_type"></span></p>
+                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_companySize"></span></p>
+                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_founded"></span></p>
+                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_followersCount"></span></p>
+                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_website"></a></span></p>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                        <div id="machineInfo"></div>
-
                     </div>
 
                     <!--Tab 2-->
                     <div id="tab2" class="tab-pane fade">
-                        <h3 id="linkedInCompanyTab_LinkedInCompanyName">Coming Soon!</h3>
-                        <p id="linkedInCompanyTab_region">This extension is still under construction. Stop back soon.</p>
-                        <p id="linkedInCompanyTab_countryName">This extension is still under construction. Stop back soon.</p>
-                        <p><a id="linkedInCompanyTab_website"></a></p>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4>Location</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">Street Address:</span> <span id="linkedInCompanyTab_streetAddress"></span></p>
+                                        <p><span class="site-field-label-primary">Locality:</span> <span id="linkedInCompanyTab_locality"></span></p>
+                                        <p><span class="site-field-label-primary">Region:</span> <span id="linkedInCompanyTab_region"></span></p>
+                                        <p><span class="site-field-label-primary">Postal Code:</span> <span id="linkedInCompanyTab_postalCode"></span></p>
+                                        <p><span class="site-field-label-primary">Country:</span> <span id="linkedInCompanyTab_countryName"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!--Tab 3-->

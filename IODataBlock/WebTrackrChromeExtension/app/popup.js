@@ -1,57 +1,4 @@
-
-
-
-function HandleLinkedInCompanyId(value) {
-    console.log('I received the following DOM content:\n' + getQueryString("id", value));
-    /* DO something with the CompanyId HERE */
-
-    //$("#currentDomain").text(getQueryString("id", value));
-    var id = getQueryString("id", value);
-
-    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + id + "/367db296-4e00-49b1-a064-d3e838db000d";
-    $.getJSON(apiUrl)
-      .done(function (json) {
-          $("#currentDomain").text(json.LinkedInCompanyName); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
-            DisplayLinkedInCompanyInfo(json);
-        })
-      .fail(function (jqxhr, textStatus, error) {
-          var err = textStatus + ", " + error;
-          $("#currentDomain").text("Request Failed: " + err); /*TODO: Show content from page and offer to Trak it.*/
-      });
-}
-
-function DisplayLinkedInCompanyInfo(json) {
-    $("#linkedInCompanyTab_LinkedInCompanyName").text(json.LinkedInCompanyName);
-    $("#linkedInCompanyTab_region").text(json.region);
-    $("#linkedInCompanyTab_countryName").text(json.countryName);
-    $("#linkedInCompanyTab_website").text(json.website);
-    $("#linkedInCompanyTab_website").attr("href", json.website);
-};
-
-/**
- * Get the value of a querystring
- * @param  {String} field The field to get the value of
- * @param  {String} url   The URL to get the value from (optional)
- * @return {String}       The field value
- */
-var getQueryString = function (field, url) {
-    var href = url ? url : window.location.href;
-    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-    var string = reg.exec(href);
-    return string ? string[1] : null;
-};
-
-
-
-
-
-
 /* Create variables */
-//var urls = [];
-//var emails = [];
-
-//var allLinks = [];
-//var visibleLinks = [];
 var currentUrl = "na";
 var currentDoc = null;
 
@@ -71,10 +18,57 @@ window.onload = function () {
 
     chrome.tabs.getSelected(null, function (tab) {
         window.domain = new URL(tab.url).hostname.replace("www.", "");
-        $("#currentDomain").text(window.domain);
         chrome.tabs.sendMessage(tab.id, { text: 'find_companyId' }, HandleLinkedInCompanyId);
     });
 };
+
+function HandleLinkedInCompanyId(value) {
+    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + getQueryString("id", value) + "/367db296-4e00-49b1-a064-d3e838db000d";
+    /* Get Results from API */
+    $.getJSON(apiUrl)
+      .done(function (json) {
+          DisplayLinkedInCompanyInfo(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
+      })
+      .fail(function (jqxhr, textStatus, error) {
+          var err = textStatus + ", " + error;
+          /*TODO: Show content from page and offer to Trak it.*/
+          $("#linkedInCompanyTab_LinkedInCompanyName").text("Not Tracking!");
+      });
+}
+
+function DisplayLinkedInCompanyInfo(json) {
+    $("#linkedInCompanyTab_LinkedInCompanyName").html(json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_industry").text(json.industry);
+    $("#linkedInCompanyTab_type").text(json.type);
+    $("#linkedInCompanyTab_companySize").text(json.companySize);
+    $("#linkedInCompanyTab_founded").text(json.founded);
+    $("#linkedInCompanyTab_followersCount").text(json.followersCount);
+    $("#linkedInCompanyTab_website").text(json.website); /* TODO add click new tab event */
+    
+    $("#linkedInCompanyTab_website").click(function () {
+        chrome.tabs.create({ url: json.website });
+    });
+    //$("#linkedInCompanyTab_website").attr("href", json.website); /* TODO add click new tab event */
+    $("#linkedInCompanyTab_streetAddress").text(json.region);
+    $("#linkedInCompanyTab_locality").text(json.region);
+    $("#linkedInCompanyTab_region").text(json.region);
+    $("#linkedInCompanyTab_postalCode").text(json.region);
+    $("#linkedInCompanyTab_countryName").text(json.countryName);
+};
+
+/**
+ * Get the value of a querystring
+ * @param  {String} field The field to get the value of
+ * @param  {String} url   The URL to get the value from (optional)
+ * @return {String}       The field value
+ */
+var getQueryString = function (field, url) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
+
 
 
 /* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
@@ -94,6 +88,12 @@ chrome.extension.onRequest.addListener(function (data) {
 //        chrome.tabs.create({ url: visibleLinks[i] });
 //    };
 //}
+
+function AddLinkEvent(elem, url) {
+    elem.onclick = function() {
+        chrome.tabs.create({ url: url });
+    };
+}
 
 /* Add logo click event to open home page. */
 function AddOpenHomePageEvent() {
