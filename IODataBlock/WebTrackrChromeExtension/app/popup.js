@@ -26,7 +26,7 @@ window.onload = function () {
         }
         else if (lowerUrl.indexOf("linkedin.com/in/") > -1) {
             console.log("Profile = " + lowerUrl);
-            chrome.tabs.sendMessage(tab.id, { text: "find_companyLink" }, GetLinkedInCompanyLink);
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
         }
         window.domain = new URL(tab.url).hostname.replace("www.", "");
     });
@@ -41,10 +41,10 @@ window.onload = function () {
 };
 
 /* Test */
-function GetLinkedInCompanyLink(value) {
-    //console.log("Profile Company Link = " + value);
+function msgGetLinkedInProfileDto_callback(value) {
+    console.log("Profile Company Link = " + value.CompanyId);
 
-    linkedInCompanyId = value;
+    linkedInCompanyId = value.CompanyId;
     var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
     /* Get Results from API */
     $.getJSON(apiUrl)
