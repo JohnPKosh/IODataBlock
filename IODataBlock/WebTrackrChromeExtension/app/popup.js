@@ -21,14 +21,12 @@ window.onload = function () {
     chrome.tabs.getSelected(null, function (tab) {
         var lowerUrl = tab.url.toLowerCase();
         if (lowerUrl.indexOf("linkedin.com/compan") > -1) {
-            console.log("Company = " + lowerUrl);
             chrome.tabs.sendMessage(tab.id, { text: "find_companyId" }, GetLinkedInCompanyInfo);
         }
         else if (lowerUrl.indexOf("linkedin.com/in/") > -1) {
-            console.log("Profile = " + lowerUrl);
             chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
         }
-        window.domain = new URL(tab.url).hostname.replace("www.", "");
+        //window.domain = new URL(tab.url).hostname.replace("www.", "");
     });
 
     $('a[data-toggle="pill"]').on("shown.bs.tab", function(e) {

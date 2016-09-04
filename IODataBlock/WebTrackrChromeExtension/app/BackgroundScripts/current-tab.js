@@ -7,7 +7,8 @@ function sendTabUrl() {
         SendData(tabArray[0]);
       if (tabArray[0]["url"] != window.currentDomain) {
         window.currentDomain = url_domain(tabArray[0]["url"]).replace("www.", "");
-        //updateIconColor();
+          //updateIconColor(); 
+          /* TODO: rework this file to update icon with Tracked Data from API? */
       }
     }
   );
