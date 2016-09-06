@@ -21,7 +21,7 @@ window.onload = function () {
     chrome.tabs.getSelected(null, function (tab) {
         var lowerUrl = tab.url.toLowerCase();
         if (lowerUrl.indexOf("linkedin.com/compan") > -1) {
-            chrome.tabs.sendMessage(tab.id, { text: "find_companyId" }, GetLinkedInCompanyInfo);
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompanyInfo);
         }
         else if (lowerUrl.indexOf("linkedin.com/in/") > -1) {
             chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
@@ -57,7 +57,9 @@ function msgGetLinkedInProfileDto_callback(value) {
 }
 
 function GetLinkedInCompanyInfo(value) {
-    linkedInCompanyId = getQueryString("id", value);
+    console.log("Company ID = " + value.CompanyId);
+    linkedInCompanyId = value.CompanyId;
+
     var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
     /* Get Results from API */
     $.getJSON(apiUrl)
