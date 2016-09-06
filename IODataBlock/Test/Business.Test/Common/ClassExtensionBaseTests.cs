@@ -349,5 +349,41 @@ namespace Business.Test.Common
             var xml = kirk.ToJObjectXml();
             Assert.IsNotNull(xml);
         }
+
+
+
+
+        [TestMethod]
+        public void TestDouble()
+        {
+            GetCurrentLinkedInCompanyId();
+        }
+
+        public double GetCurrentLinkedInCompanyId()
+        {
+
+            try
+            {
+                //<a dir="auto" href="/company/273381?trk=prof-0-ovw-curr_pos">Evolve IP</a>
+                var link = "/company/273381?trk=prof-0-ovw-curr_pos";
+                if (string.IsNullOrWhiteSpace(link)) return -1;
+                var lastSegmentStart = link.LastIndexOf(@"/", StringComparison.Ordinal);
+
+                var companyidstring = link.Substring(lastSegmentStart + 1, link.IndexOf("?", StringComparison.Ordinal) - lastSegmentStart - 1);
+                double companyid;
+                if (!string.IsNullOrWhiteSpace(companyidstring) && double.TryParse(companyidstring, out companyid))
+                {
+                    return companyid;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch { }
+            return -1;
+        }
+
+
     }
 }

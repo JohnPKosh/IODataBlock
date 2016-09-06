@@ -6,200 +6,331 @@ using System.Net.Http;
 using System.Web.Http;
 using Business.Web.Models;
 using Business.Web.Scrape.HtmlReaders;
+using Business.Web.Scrape.Services;
 using Data.DbClient;
 using Newtonsoft.Json.Linq;
+using WebTrakrData.Model;
+using WebTrakrData.Model.Dto;
+using WebTrakrData.Services;
 
 namespace WebTrackr.Controllers
 {
     public class TrakrScrapeController : ApiController
     {
 
-        /* Captures: location, document, links elements of Post */
+        /// <summary>
+        /// Gets the specified location URL.
+        /// </summary>
+        /// <param name="locationUrl">The location URL.</param>
+        /// <param name="apikey">The apikey.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public object Get(string locationUrl, string apikey)
+        {
+            var dbModel = new WebTrakrModel();
 
-        ///// <summary>
-        ///// Posts the specified value.
-        ///// </summary>
-        ///// <param name="value">The value.</param>
-        ///// <returns>result</returns>
-        //[HttpPost]
-        //public string Post(JObject value)
-        //{
-        //    var rv = string.Empty;
-        //    JToken locationToken;
-        //    if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
-        //    var locationUrl = locationToken.Value<string>();
-        //    if (locationUrl.Contains("linkedin.com/compan"))
-        //    {
-        //        var r = new LinkedInCompanyPageReader(value);
-        //        // Do something here...
-
-        //        var dto = r.Dto;
-        //        if (dto != null)
-        //        {
-        //            var CompanyId = dto.CompanyId;
-        //        }
-
-        //        double companyid = double.Parse(r.ScrapeData.companyid);
-        //        var location = r.Location;
-        //        var twitterCompanyName = r.ScrapeData.twitterCompanyName;
-        //        var domainName = r.ScrapeData.twitterCompanyAbout.website;
-        //        var specialties = r.ScrapeData.twitterCompanyAbout.specialties;
-        //        var streetAddress = r.ScrapeData.twitterCompanyAbout.streetAddress;
-        //        var locality = r.ScrapeData.twitterCompanyAbout.locality;
-        //        var region = r.ScrapeData.twitterCompanyAbout.region;
-        //        var postalCode = r.ScrapeData.twitterCompanyAbout.postalCode;
-        //        var countryName = r.ScrapeData.twitterCompanyAbout.countryName;
-        //        var website = r.ScrapeData.twitterCompanyAbout.website;
-        //        var industry = r.ScrapeData.twitterCompanyAbout.industry;
-        //        var type = r.ScrapeData.twitterCompanyAbout.type;
-        //        var companySize = r.ScrapeData.twitterCompanyAbout.companySize;
-        //        var founded = r.ScrapeData.twitterCompanyAbout.founded;
-        //        var twitterFollowersCount = r.ScrapeData.twitterFollowersCount;
-        //        var followers = 0;
-        //        if (!string.IsNullOrWhiteSpace(twitterFollowersCount))
-        //        {
-        //            followers = int.Parse(twitterFollowersCount.Replace("followers", string.Empty).Replace(",", string.Empty).Trim());
-        //        }
-        //        var twitterPhotoUrl = r.ScrapeData.twitterPhotoUrl;
-        //        var twitterCompanyDescription = r.ScrapeData.twitterCompanyDescription;
-
-        //        var curls = r.ScrapeData.companyUrls;
-        //        foreach (var c in curls)
-        //        {
-        //            var link = c;
-        //        }
-
-        //        SaveLinkedInCompanyResult(companyid, location, twitterCompanyName, domainName, specialties,
-        //            streetAddress, locality, region, postalCode, countryName,
-        //            website, industry, type, companySize, founded, followers, twitterPhotoUrl,
-        //            twitterCompanyDescription, DateTime.Now, Guid.NewGuid().ToString());
-
-        //        return r.ScrapeData.companyid;
-        //    }
-        //    return null;
-        //}
-
+            if (locationUrl.Contains("linkedin.com/compan"))
+            {
+                var util = new LinkedInCompanyHtml(locationUrl);
+                var id = long.Parse(util.GetLinkedInCompanyId());
+                return dbModel.UserLinkedInCompanies.FirstOrDefault(x => x.AspNetUser.ApiKey.ToString() == apikey && x.LinkedInCompany.LinkedInId == id);
+            }
+            //if (locationUrl.Contains("linkedin.com/in/"))
+            //{
+            //    return
+            //        dbModel.LinkedInProfiles.FirstOrDefault(
+            //            x => x.AspNetUser.ApiKey.ToString() == apikey && x.LinkedInPage == locationUrl);
+            //}
+            else return null;
+        }
 
         /// <summary>
-        /// Posts the specified value.
+        /// Gets the linked in company.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name="id">The identifier.</param>
+        /// <param name="apikey">The apikey.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/TrakrScrape/LinkedInCompany/{id:long}/{apikey}")]
+        public UserLinkedInCompanyDto GetLinkedInCompany(long id, string apikey)
+        {
+            var svc = new UserLinkedInCompanyService();
+            return svc.GetByLinkedInCompanyId(id, apikey);
+        }
+
+        /// <summary>
+        /// Gets the linked in company employee profiles.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="apikey"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/TrakrScrape/LinkedInCompanyProfiles/{id:long}/{apikey}")]
+        public List<UserLinkedeInProfileDto> GetLinkedInCompanyProfiles(long id, string apikey)
+        {
+            try
+            {
+                var svc = new UserLinkedInProfileService();
+                var rv = svc.GetByLinkedInCompanyId(id, apikey).ToList();
+                return rv;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Posts the specified scraped page value.
+        /// </summary>
+        /// <param name="value">The location, document, links elements, and APIKEY of the page being scraped.</param>
         /// <returns>result</returns>
         [HttpPost]
-        public LinkedInScrapeDto Post(JObject value)
+        public object Post(JObject value)
         {
             var rv = string.Empty;
             JToken locationToken;
             if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
             var locationUrl = locationToken.Value<string>();
+            
             if (locationUrl.Contains("linkedin.com/compan"))
             {
                 var r = new LinkedInCompanyPageReader(value);
-                // Do something here...
-
-                var d = r.Dto;
-                if (d != null)
-                {
-                    SaveLinkedInCompanyResult(
-                        d.CompanyId,
-                        d.LocationUrl,
-                        d.CompanyName,
-                        d.DomainName,
-                        d.Specialties,
-                        d.StreetAddress,
-                        d.Locality,
-                        d.Region,
-                        d.PostalCode,
-                        d.CountryName,
-                        d.Website,
-                        d.Industry,
-                        d.Type,
-                        d.CompanySize,
-                        d.Founded,
-                        d.Followers,
-                        d.PhotoUrl,
-                        d.CompanyDescription,
-                        DateTime.Now,
-                        Guid.NewGuid().ToString());
-                }
-                return d;
+                return SaveLinkedInCompany(r.Dto, r.ApiKey);
+            }
+            if (locationUrl.Contains("linkedin.com/in/"))
+            {
+                var r = new LinkedInProfilePageReader(value);
+                return SaveLinkedInProfile(r.Dto, r.ApiKey);
             }
             return null;
         }
 
-        private void SaveLinkedInCompanyResult(double linkedinId, string link, string companyName, string domainName, string specialties, string streetAddress, string locality,
-            string region, string postalCode, string countryName, string website, string industry, string type, string companySize, string founded, int followersCount,
-            string photourl, string description, DateTime createdDate, string batchId)
+        #region LinkedIn Profile Methods
+
+        private LinkedInProfile SaveLinkedInProfile(LinkedInProfileScrapeDto dto, string apikey)
         {
-            var ConnectionString = DataExtensionBase.GetSqlConnectionString(@"(local)\EXP14", "TestData");
-
-            if (link.StartsWith("http://")) link = link.Substring(7);
-
-            #region Sql
-
-            var sql = @"
-
-                        DELETE FROM [dbo].[LinkedInCompany] WHERE [LinkedInId] = @0
-
-                        INSERT INTO [dbo].[LinkedInCompany]
-                        ([LinkedInId]
-                        ,[LinkedInPage]
-                        ,[LinkedInCompanyName]
-                        ,[DomainName]
-                        ,[specialties]
-                        ,[streetAddress]
-                        ,[locality]
-                        ,[region]
-                        ,[postalCode]
-                        ,[countryName]
-                        ,[website]
-                        ,[industry]
-                        ,[type]
-                        ,[companySize]
-                        ,[founded]
-                        ,[followersCount]
-                        ,[photourl]
-                        ,[description]
-                        ,[CreatedDate]
-                        ,[BatchId])
-                     VALUES
-                        (@0
-                        ,@1
-                        ,@2
-                        ,@3
-                        ,@4
-                        ,@5
-                        ,@6
-                        ,@7
-                        ,@8
-                        ,@9
-                        ,@10
-                        ,@11
-                        ,@12
-                        ,@13
-                        ,@14
-                        ,@15
-                        ,@16
-                        ,@17
-                        ,@18
-                        ,@19
-                        )		    
-                    ";
-
-            #endregion Sql
-
-            try
+            var dbModel = new WebTrakrModel();
+            var user = dbModel.AspNetUsers.FirstOrDefault(x => x.ApiKey == new Guid(apikey));
+            var existing = dbModel.LinkedInProfiles.FirstOrDefault(x => x.LinkedInProfileId == dto.ProfileId);
+            if (existing == null)
             {
-                using (var db = Database.OpenConnectionString(ConnectionString, "System.Data.SqlClient"))
+                try
                 {
-                    db.Execute(sql, 300, linkedinId, link, companyName, domainName, specialties, streetAddress, locality, region, postalCode, countryName, website, industry, type, companySize, founded, followersCount, photourl, description, createdDate, batchId);
+                    existing = new LinkedInProfile()
+                    {
+                        //AspNetUser_Id = user.Id,
+                        LinkedInProfileId = dto.ProfileId,
+                        LinkedInPage = dto.ProfileUrl,
+                        LinkedInFullName = dto.FullName,
+                        LinkedInConnections = dto.Connections,
+                        LinkedInTitle = dto.Title,
+                        LinkedInCompanyName = dto.CompanyName,
+                        LinkedInCompanyId = dto.CompanyId,
+                        Industry = dto.Industry,
+                        Location = dto.Location,
+                        Email = dto.Email,
+                        IM = dto.Im,
+                        Twitter = dto.Twitter,
+                        Address = dto.Address,
+                        Phone = dto.Phone,
+                        LinkedInPhotoUrl = dto.PhotoUrl,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now
+                    };
+
+                    dbModel.LinkedInProfiles.Add(existing);
+                    dbModel.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                if (existing.UpdatedDate.AddDays(1) < DateTime.Now)
+                {
+                    existing.LinkedInProfileId = dto.ProfileId;
+                    existing.LinkedInPage = dto.ProfileUrl;
+                    existing.LinkedInFullName = dto.FullName;
+                    existing.LinkedInConnections = dto.Connections;
+                    existing.LinkedInTitle = dto.Title;
+                    existing.LinkedInCompanyName = dto.CompanyName;
+                    existing.LinkedInCompanyId = dto.CompanyId;
+                    existing.Industry = dto.Industry;
+                    existing.Location = dto.Location;
+                    existing.Email = dto.Email;
+                    existing.IM = dto.Im;
+                    existing.Twitter = dto.Twitter;
+                    existing.Address = dto.Address;
+                    existing.Phone = dto.Phone;
+                    existing.LinkedInPhotoUrl = dto.PhotoUrl;
+                    existing.UpdatedDate = DateTime.Now;
+                    dbModel.SaveChanges();
+                }
+                if (existing.UserLinkedInProfiles.Any(x => x.AspNetUserId == user.Id)) return existing;
             }
+            existing.UserLinkedInProfiles.Add(new UserLinkedInProfile() { AspNetUser = user, LinkedInProfileId = existing.Id, CreatedDate = DateTime.Now });
+            dbModel.SaveChanges();
+            return existing;
         }
+
+        #endregion
+
+        #region LinkedIn Company Methods
+
+        private LinkedInCompany SaveLinkedInCompany(LinkedInCompanyScrapeDto dto, string apikey)
+        {
+            var dbModel = new WebTrakrModel();
+            var user = dbModel.AspNetUsers.FirstOrDefault(x => x.ApiKey == new Guid(apikey));
+            var existing = dbModel.LinkedInCompanies.FirstOrDefault(x => x.LinkedInId == dto.CompanyId);
+            if (existing == null)
+            {
+                try
+                {
+                    existing = new LinkedInCompany()
+                    {
+                        //AspNetUser_Id = user.Id,
+                        companySize = dto.CompanySize,
+                        countryName = dto.CountryName,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
+                        description = dto.CompanyDescription,
+                        DomainName = dto.DomainName,
+                        followersCount = dto.Followers,
+                        founded = dto.Founded,
+                        industry = dto.Industry,
+                        type = dto.Type,
+                        photourl = dto.PhotoUrl,
+                        postalCode = dto.PostalCode,
+                        locality = dto.Locality,
+                        website = dto.Website,
+                        LinkedInPage = dto.LocationUrl,
+                        region = dto.Region,
+                        streetAddress = dto.StreetAddress,
+                        specialties = dto.Specialties,
+                        LinkedInCompanyName = dto.CompanyName,
+                        LinkedInId = dto.CompanyId
+                    };
+
+                    dbModel.LinkedInCompanies.Add(existing);
+                    dbModel.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+
+            }
+            else
+            {
+                if (existing.UpdatedDate.AddDays(1) < DateTime.Now)
+                {
+                    existing.companySize = dto.CompanySize;
+                    existing.countryName = dto.CountryName;
+                    existing.UpdatedDate = DateTime.Now;
+                    existing.description = dto.CompanyDescription;
+                    existing.DomainName = dto.DomainName;
+                    existing.followersCount = dto.Followers;
+                    existing.founded = dto.Founded;
+                    existing.industry = dto.Industry;
+                    existing.type = dto.Type;
+                    existing.photourl = dto.PhotoUrl;
+                    existing.postalCode = dto.PostalCode;
+                    existing.locality = dto.Locality;
+                    existing.website = dto.Website;
+                    existing.LinkedInPage = dto.LocationUrl;
+                    existing.region = dto.Region;
+                    existing.streetAddress = dto.StreetAddress;
+                    existing.specialties = dto.Specialties;
+                    existing.LinkedInCompanyName = dto.CompanyName;
+                    existing.LinkedInId = dto.CompanyId;
+                    dbModel.SaveChanges();
+                }
+                if (existing.UserLinkedInCompanies.Any(x => x.AspNetUserId == user.Id)) return existing;
+            }
+            existing.UserLinkedInCompanies.Add(new UserLinkedInCompany() { AspNetUser = user, LinkedInCompanyId = existing.Id, CreatedDate = DateTime.Now });
+            dbModel.SaveChanges();
+            return existing;
+        }
+
+        //public LinkedInCompanyScrapeDto FindLinkedInCompanyByLocation(string LocationUrl, string apikey)
+        //{
+        //    var ConnectionString = DataExtensionBase.GetSqlConnectionString(@"(local)\EXP14", "TestData");
+
+        //    if (LocationUrl.StartsWith("http://")) LocationUrl = LocationUrl.Substring(7);
+
+        //    #region Sql
+
+        //    var sql = @"
+
+        //                DELETE FROM [dbo].[LinkedInCompany] WHERE [LinkedInId] = @0
+
+        //                INSERT INTO [dbo].[LinkedInCompany]
+        //                ([LinkedInId]
+        //                ,[LinkedInPage]
+        //                ,[LinkedInCompanyName]
+        //                ,[DomainName]
+        //                ,[specialties]
+        //                ,[streetAddress]
+        //                ,[locality]
+        //                ,[region]
+        //                ,[postalCode]
+        //                ,[countryName]
+        //                ,[website]
+        //                ,[industry]
+        //                ,[type]
+        //                ,[companySize]
+        //                ,[founded]
+        //                ,[followersCount]
+        //                ,[photourl]
+        //                ,[description]
+        //                ,[CreatedDate]
+        //                ,[BatchId])
+        //             VALUES
+        //                (@0
+        //                ,@1
+        //                ,@2
+        //                ,@3
+        //                ,@4
+        //                ,@5
+        //                ,@6
+        //                ,@7
+        //                ,@8
+        //                ,@9
+        //                ,@10
+        //                ,@11
+        //                ,@12
+        //                ,@13
+        //                ,@14
+        //                ,@15
+        //                ,@16
+        //                ,@17
+        //                ,@18
+        //                ,@19
+        //                )		    
+        //            ";
+
+        //    #endregion Sql
+
+        //    try
+        //    {
+        //        using (var db = Database.OpenConnectionString(ConnectionString, "System.Data.SqlClient"))
+        //        {
+        //            var rv = db.QuerySingle()
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
+
+        #endregion
 
     }
 }

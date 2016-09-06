@@ -1258,11 +1258,35 @@
             <param name="id">The identifier.</param>
             <returns>string</returns> /*TODO: Determine if we want this and want to hide generated description */
         </member>
+        <member name="M:WebTrackr.Controllers.TrakrScrapeController.Get(System.String,System.String)">
+            <summary>
+            Gets the specified location URL.
+            </summary>
+            <param name="locationUrl">The location URL.</param>
+            <param name="apikey">The apikey.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.TrakrScrapeController.GetLinkedInCompany(System.Int64,System.String)">
+            <summary>
+            Gets the linked in company.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="apikey">The apikey.</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebTrackr.Controllers.TrakrScrapeController.GetLinkedInCompanyProfiles(System.Int64,System.String)">
+            <summary>
+            Gets the linked in company employee profiles.
+            </summary>
+            <param name="id"></param>
+            <param name="apikey"></param>
+            <returns></returns>
+        </member>
         <member name="M:WebTrackr.Controllers.TrakrScrapeController.Post(Newtonsoft.Json.Linq.JObject)">
             <summary>
-            Posts the specified value.
+            Posts the specified scraped page value.
             </summary>
-            <param name="value">The value.</param>
+            <param name="value">The location, document, links elements, and APIKEY of the page being scraped.</param>
             <returns>result</returns>
         </member>
         <member name="T:WebTrackr.Properties.Resources">

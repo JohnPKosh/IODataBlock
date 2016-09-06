@@ -68,10 +68,6 @@
       <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Business.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Business.Web.1.0.5\lib\net452\Business.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
@@ -2216,6 +2212,7 @@
     <Content Include="Images\gallery\9s.jpg" />
     <Content Include="Images\home\baseball01.jpg" />
     <Content Include="Images\home\basketball01.jpg" />
+    <Content Include="Images\home\webtracker_screenclip02.PNG" />
     <Content Include="Images\home\webtracker_screenclip01.PNG" />
     <Content Include="Images\home\football_cleats01.jpg" />
     <Content Include="Images\landing\c1.jpg" />
@@ -3148,6 +3145,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\SiteDemo\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business.Web\Business.Web.csproj">
+      <Project>{563256a5-8264-4a2c-9473-00d59f64ea7a}</Project>
+      <Name>Business.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebTrakrData\WebTrakrData.csproj">
+      <Project>{f07b4f1f-b99d-4723-aaa8-7b15ff114641}</Project>
+      <Name>WebTrakrData</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

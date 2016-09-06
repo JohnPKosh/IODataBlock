@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
-    public class LinkedInCompanyPageReader : PageReaderBase<LinkedInScrapeDto>
+    public class LinkedInCompanyPageReader : PageReaderBase<LinkedInCompanyScrapeDto>
     {
         #region Class Initialization
 
@@ -22,14 +22,14 @@ namespace Business.Web.Scrape.HtmlReaders
 
         #region Try Read Data Methods
 
-        protected override LinkedInScrapeDto TryGetDto()
+        protected override LinkedInCompanyScrapeDto TryGetDto()
         {
             try
             {
-                var rv = new LinkedInScrapeDto();
+                var rv = new LinkedInCompanyScrapeDto();
                 if (Document == null) return null;
                 var html = Document;
-                var htmlUtility = new HtmlDocumentUtility(html);
+                var htmlUtility = new LinkedInCompanyHtml(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();
                 rv.CompanyUrls = new HashSet<string>();
                 rv.PeopleToInvite = new HashSet<string>();
@@ -48,8 +48,8 @@ namespace Business.Web.Scrape.HtmlReaders
                 }
 
                 var companyidstring = htmlUtility.GetLinkedInCompanyId();
-                double companyid;
-                if (!string.IsNullOrWhiteSpace(companyidstring) && double.TryParse(companyidstring, out companyid))
+                long companyid;
+                if (!string.IsNullOrWhiteSpace(companyidstring) && long.TryParse(companyidstring, out companyid))
                 {
                     rv.CompanyId = companyid;
                 }

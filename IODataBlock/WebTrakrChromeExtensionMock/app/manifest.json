@@ -1,0 +1,31 @@
+{
+  "name": "Webtrakr Test Extension",
+  "description": "This is a test!",
+  "version": "1.4.1",
+  "minimum_chrome_version": "16.0.884",
+  "permissions": [
+    "tabs",
+    "storage",
+    "clipboardWrite",
+    "downloads",
+    "<all_urls>",
+    "https://maxcdn.bootstrapcdn.com/bootstrap/*"
+  ],
+  "background": {
+    "scripts": [
+      "Scripts/jquery-3.1.0.min.js",
+      "BackgroundScripts/current-tab.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [ "*://*.linkedin.com/compan*" ],
+      "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInCompany.js" ]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "img/icon.png",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}

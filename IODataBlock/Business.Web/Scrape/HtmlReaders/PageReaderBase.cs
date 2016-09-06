@@ -24,7 +24,7 @@ namespace Business.Web.Scrape.HtmlReaders
         public string ApiKey => TryReadApiKey();
         public string UserName => TryReadUserName();
 
-        private string TryReadUrlLocation()
+        public string TryReadUrlLocation()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Business.Web.Scrape.HtmlReaders
             }
         }
 
-        private IEnumerable<string> TryReadLinkStrings()
+        public IEnumerable<string> TryReadLinkStrings()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Business.Web.Scrape.HtmlReaders
             }
         }
 
-        private string TryReadDocument()
+        public string TryReadDocument()
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 dynamic rv = new ExpandoObject();
                 if (Document == null) return null;
                 var html = Document;
-                var htmlUtility = new HtmlDocumentUtility(html);
+                var htmlUtility = new LinkedInCompanyHtml(html);
                 var links = htmlUtility.AllHrefUrlsWhere(x => x.HasAttributes && x.GetAttributeValue("href", string.Empty).Contains("linkedin.com")).ToList();
 
                 rv.companyUrls = new HashSet<string>();
@@ -109,7 +109,7 @@ namespace Business.Web.Scrape.HtmlReaders
 
         protected abstract T TryGetDto();
 
-        private string TryReadApiKey()
+        public string TryReadApiKey()
         {
             try
             {
@@ -121,7 +121,7 @@ namespace Business.Web.Scrape.HtmlReaders
             }
         }
 
-        private string TryReadUserName()
+        public string TryReadUserName()
         {
             try
             {

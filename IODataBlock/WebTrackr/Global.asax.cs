@@ -22,6 +22,12 @@ namespace WebTrackr
 
             /* Create custom mappings in the Mapping Config class */
             MappingConfig.RegisterMaps();
+
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+
+            config.Formatters.JsonFormatter
+                        .SerializerSettings
+                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
 
         void ConfigureApi(HttpConfiguration config)
