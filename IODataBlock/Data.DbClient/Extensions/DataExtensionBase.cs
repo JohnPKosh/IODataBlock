@@ -1,4 +1,4 @@
-﻿using Business.Common.Extensions;
+﻿//using Business.Common.Extensions;
 using Business.Common.System.Args;
 using System;
 using System.Collections;
@@ -126,6 +126,11 @@ namespace Data.DbClient
                 }
             }
             return xmlNode;
+        }
+
+        public static IEnumerable<TDest> IEnumerableTransformEach<TDest, TSource>(this IEnumerable<TSource> values, Func<TSource, TDest> function)
+        {
+            return values.Select(function);
         }
 
         #endregion Conversion Methods
