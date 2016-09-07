@@ -182,4 +182,5 @@ $RECYCLE.BIN/
 /IODataBlock/BusinessCommon/Configuration/appSettings.config
 /IODataBlock/BusinessCommon/Configuration/connectionStrings.config
 *.jfm
-IODataBlock/WebTrakrDatabase/WebTrakrDatabase.jfm
+*.jfm
+*.jfm

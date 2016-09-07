@@ -86,14 +86,36 @@ namespace WebTrackr.Controllers
         /// </summary>
         /// <param name="value">The location, document, links elements, and APIKEY of the page being scraped.</param>
         /// <returns>result</returns>
+        //[HttpPost]
+        //public object Post(JObject value)
+        //{
+        //    var rv = string.Empty;
+        //    JToken locationToken;
+        //    if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
+        //    var locationUrl = locationToken.Value<string>();
+            
+        //    if (locationUrl.Contains("linkedin.com/compan"))
+        //    {
+        //        var r = new LinkedInCompanyPageReader(value);
+        //        return SaveLinkedInCompany(r.Dto, r.ApiKey);
+        //    }
+        //    if (locationUrl.Contains("linkedin.com/in/"))
+        //    {
+        //        var r = new LinkedInProfilePageReader(value);
+        //        return SaveLinkedInProfile(r.Dto, r.ApiKey);
+        //    }
+        //    return null;
+        //}
+
         [HttpPost]
+        //[Route("api/TrakrScrape/LinkedInCompanyProfiles")]
         public object Post(JObject value)
         {
             var rv = string.Empty;
             JToken locationToken;
             if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
             var locationUrl = locationToken.Value<string>();
-            
+
             if (locationUrl.Contains("linkedin.com/compan"))
             {
                 var r = new LinkedInCompanyPageReader(value);

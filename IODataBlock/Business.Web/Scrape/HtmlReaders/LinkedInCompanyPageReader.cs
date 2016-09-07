@@ -27,6 +27,60 @@ namespace Business.Web.Scrape.HtmlReaders
             try
             {
                 var rv = new LinkedInCompanyScrapeDto();
+                if (InputDto == null) return TryScrapeDto();
+
+                rv.FollowUrl = InputDto.GetValue("FollowUrl").Value<string>();
+                rv.PhotoUrl = InputDto.GetValue("PhotoUrl").Value<string>();
+                rv.CompanyName = InputDto.GetValue("CompanyName").Value<string>();
+                rv.FollowersText = InputDto.GetValue("FollowersText").Value<string>();
+                int followers;
+                if (!string.IsNullOrWhiteSpace(rv.FollowersText) && int.TryParse(rv.FollowersText.Replace("followers", string.Empty).Replace(",", string.Empty).Trim(), out followers))
+                {
+                    rv.Followers = followers;
+                }
+                else
+                {
+                    rv.Followers = -1;
+                }
+
+                var companyidstring = InputDto.GetValue("CompanyId").Value<string>();
+                long companyid;
+                if (!string.IsNullOrWhiteSpace(companyidstring) && long.TryParse(companyidstring, out companyid))
+                {
+                    rv.CompanyId = companyid;
+                }
+                else
+                {
+                    rv.CompanyId = -1;
+                }
+
+                rv.CompanyDescription = InputDto.GetValue("CompanyDescription").Value<string>();
+                rv.DomainName = InputDto.GetValue("DomainName").Value<string>();
+                rv.Specialties = InputDto.GetValue("Specialties").Value<string>();
+                rv.StreetAddress = InputDto.GetValue("StreetAddress").Value<string>();
+                rv.Locality = InputDto.GetValue("Locality").Value<string>();
+                rv.Region = InputDto.GetValue("Region").Value<string>();
+                rv.PostalCode = InputDto.GetValue("PostalCode").Value<string>();
+                rv.CountryName = InputDto.GetValue("CountryName").Value<string>();
+                rv.Website = InputDto.GetValue("Website").Value<string>();
+                rv.Industry = InputDto.GetValue("Industry").Value<string>();
+                rv.Type = InputDto.GetValue("Type").Value<string>();
+                rv.CompanySize = InputDto.GetValue("CompanySize").Value<string>();
+                rv.Founded = InputDto.GetValue("Founded").Value<string>();
+                rv.LocationUrl = InputDto.GetValue("LocationUrl").Value<string>();
+                return rv;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        protected override LinkedInCompanyScrapeDto TryScrapeDto()
+        {
+            try
+            {
+                var rv = new LinkedInCompanyScrapeDto();
                 if (Document == null) return null;
                 var html = Document;
                 var htmlUtility = new LinkedInCompanyHtml(html);

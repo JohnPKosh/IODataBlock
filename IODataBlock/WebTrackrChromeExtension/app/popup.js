@@ -3,6 +3,8 @@ var currentUrl = "na";
 var currentDoc = null;
 var relatedEmployeesJson = null;
 var linkedInCompanyId = null;
+var linkedInDto = null;
+
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
@@ -41,6 +43,7 @@ window.onload = function () {
 /* Test */
 function msgGetLinkedInProfileDto_callback(value) {
     console.log("Profile Company Link = " + value.CompanyId);
+    linkedInDto = value;
 
     linkedInCompanyId = value.CompanyId;
     var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
@@ -59,6 +62,7 @@ function msgGetLinkedInProfileDto_callback(value) {
 function GetLinkedInCompanyInfo(value) {
     console.log("Company ID = " + value.CompanyId);
     linkedInCompanyId = value.CompanyId;
+    linkedInDto = value;
 
     var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
     /* Get Results from API */
@@ -180,7 +184,8 @@ function trackPagePOST() {
     }
     xhr.setRequestHeader("Content-type", "application/json");
     getUrl();
-    xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
 }
 
 
