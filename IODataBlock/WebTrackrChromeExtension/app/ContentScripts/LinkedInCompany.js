@@ -132,7 +132,7 @@ function GetRegion() {
 /* Get the PostalCode */
 function GetPostalCode() {
     try {
-        return $(".adr .region").first().text().trim();
+        return $(".adr .postal-code").first().text().trim();
     } catch (err) {
         console.log("ERR GetPostalCode: " + err);
         return null;

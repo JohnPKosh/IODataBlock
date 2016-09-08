@@ -51,6 +51,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="app\img\icon.png" />
+    <Content Include="app\img\In-2C-14px.png" />
+    <Content Include="app\img\In-2C-21px-R.png" />
     <Content Include="app\popup.html" />
     <Content Include="app\popup.js" />
     <Content Include="app\Scripts\jquery-3.1.0.min.map" />

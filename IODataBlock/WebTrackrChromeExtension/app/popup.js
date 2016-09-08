@@ -78,7 +78,10 @@ function GetLinkedInCompanyInfo(value) {
 }
 
 function DisplayLinkedInCompanyInfo(json) {
-    $("#linkedInCompanyTab_LinkedInCompanyName").html(json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
+        chrome.tabs.create({ url: json.LinkedInPage });
+    });
     $("#linkedInCompanyTab_industry").text(json.industry);
     $("#linkedInCompanyTab_type").text(json.type);
     $("#linkedInCompanyTab_companySize").text(json.companySize);
@@ -88,10 +91,15 @@ function DisplayLinkedInCompanyInfo(json) {
     $("#linkedInCompanyTab_website").click(function () {
         chrome.tabs.create({ url: json.website });
     });
-    $("#linkedInCompanyTab_streetAddress").text(json.region);
-    $("#linkedInCompanyTab_locality").text(json.region);
+    $("#linkedInCompanyTab_LinkedInPage").text(json.LinkedInPage);
+    $("#linkedInCompanyTab_LinkedInPage").click(function () {
+        chrome.tabs.create({ url: json.LinkedInPage });
+    });
+
+    $("#linkedInCompanyTab_streetAddress").text(json.streetAddress);
+    $("#linkedInCompanyTab_locality").text(json.locality);
     $("#linkedInCompanyTab_region").text(json.region);
-    $("#linkedInCompanyTab_postalCode").text(json.region);
+    $("#linkedInCompanyTab_postalCode").text(json.postalCode);
     $("#linkedInCompanyTab_countryName").text(json.countryName);
 };
 
@@ -116,8 +124,14 @@ function DisplayLinkedInCompanyEmployees(json) {
     $("#linkedInCompanyProfilesTab_Employees").html("");
     var cnt = 0;
     $.each(json, function (i, field) {
-        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Name:</span> <span><strong>" + field.LinkedInFullName + "</strong> - " + field.LinkedInTitle + "</span></p>");
-        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'>Profile Page:</span> <span>" + field.LinkedInPage + "</span></p>");
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span><strong>" + field.LinkedInFullName + "</strong> - " + field.LinkedInTitle + "</span></p>");
+        $("#linkedInCompanyProfilesTab_Employees").append("<p><span class='site-field-label-primary'><a href='javascript:void();' id='tab_employee_link" + i + "_Icon'><img src='img/In-2C-14px.png'/></a> LinkedIn Page:</span> <a href='void();' id='tab_employee_link" + i + "'>" + field.LinkedInPage + "</a></p>");
+        $("#tab_employee_link" + i + "").click(function () {
+            chrome.tabs.create({ url: field.LinkedInPage });
+        });
+        $("#tab_employee_link" + i + "_Icon").click(function () {
+            chrome.tabs.create({ url: field.LinkedInPage });
+        });
     });
     $("#linkedInCompanyProfilesTab_EmployeesTitle").html("Tracked Employees <span class='badge'>" + json.length + "</span>");
 };
@@ -178,7 +192,7 @@ function trackPagePOST() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var obj = JSON.parse(xhr.responseText);
-            document.getElementById("resp").innerHTML = obj.LocationUrl + " <strong> Saved!</strong>";
+            document.getElementById("resp").innerHTML = obj.LinkedInPage + " <strong> Saved!</strong>";
             DisplayLinkedInCompanyInfo(obj);
         }
     }
