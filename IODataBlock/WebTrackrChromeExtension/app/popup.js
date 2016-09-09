@@ -10,15 +10,16 @@ var linkedInDto = null;
 window.onload = function () {
     AddOpenHomePageEvent();
     document.getElementById("trackPageButton").onclick = trackPagePOST;
+    getUrl();
 
     /* Inject send_links.js into all frames in the active tab.*/
-    chrome.windows.getCurrent(function (currentWindow) {
-        chrome.tabs.query({ active: true, windowId: currentWindow.id },
-                          function (activeTabs) {
-                              currentUrl = activeTabs[0].url;
-                              chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
-                          });
-    });
+    //chrome.windows.getCurrent(function (currentWindow) {
+    //    chrome.tabs.query({ active: true, windowId: currentWindow.id },
+    //                      function (activeTabs) {
+    //                          currentUrl = activeTabs[0].url;
+    //                          chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
+    //                      });
+    //});
 
     chrome.tabs.getSelected(null, function (tab) {
         var lowerUrl = tab.url.toLowerCase();
@@ -78,7 +79,7 @@ function GetLinkedInCompanyInfo(value) {
 }
 
 function DisplayLinkedInCompanyInfo(json) {
-    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
         chrome.tabs.create({ url: json.LinkedInPage });
     });
@@ -101,7 +102,28 @@ function DisplayLinkedInCompanyInfo(json) {
     $("#linkedInCompanyTab_region").text(json.region);
     $("#linkedInCompanyTab_postalCode").text(json.postalCode);
     $("#linkedInCompanyTab_countryName").text(json.countryName);
+
+    
+    $("#linkedInCompanyTab_LinkedInLocationTitle").html("<a id='linkedInCompanyTab_LinkedInLocationLink' href='javascript:void();'><span class='glyphicon glyphicon-globe'></span></a> Location");
+    $("#linkedInCompanyTab_LinkedInLocationLink").click(function () {
+        chrome.tabs.create({ url: CreateGoogleMapsLink(json) });
+    });
 };
+
+function CreateGoogleMapsLink(json) {
+    try {
+        //https://www.google.com/maps/place/1910+Towne+Centre+Blvd,+Annapolis,+MD+21401
+        var a = [];
+        if (json.streetAddress) a.push(json.streetAddress.trim().replace(" ", "+"));
+        if (json.locality) a.push(json.locality.trim().replace(" ", "+"));
+        if (json.region) a.push(json.region.trim().replace(" ", "+"));
+        if (json.postalCode) a.push(json.postalCode.trim().replace(" ", "+"));
+        if (json.countryName) a.push(json.countryName.trim().replace(" ", "+"));
+        return "https://www.google.com/maps/place/" + a.join(",");
+    } catch (err) {
+        console.log("ERR CreateGoogleMapsLink: " + err);
+    }
+}
 
 
 function GetLinkedInCompanyEmployees(value, divid) {
@@ -120,6 +142,7 @@ function GetLinkedInCompanyEmployees(value, divid) {
           $("#linkedInCompanyProfilesTab_EmployeesTitle").text("Not Tracking!");
       });
 }
+
 function DisplayLinkedInCompanyEmployees(json) {
     $("#linkedInCompanyProfilesTab_Employees").html("");
     var cnt = 0;
@@ -192,12 +215,12 @@ function trackPagePOST() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var obj = JSON.parse(xhr.responseText);
-            document.getElementById("resp").innerHTML = obj.LinkedInPage + " <strong> Saved!</strong>";
+            document.getElementById("resp").innerHTML = " <strong> Saved!</strong> ";
             DisplayLinkedInCompanyInfo(obj);
         }
     }
     xhr.setRequestHeader("Content-type", "application/json");
-    getUrl();
+    //getUrl();
     //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
 }
@@ -206,9 +229,7 @@ function trackPagePOST() {
 function getUrl() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var current = tabs[0];
-        //incognito = current.incognito;
-        url = current.url;
-        currentUrl = url;
+        currentUrl = current.url;
     });
 }
 
