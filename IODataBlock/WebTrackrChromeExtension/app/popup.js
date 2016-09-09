@@ -9,6 +9,9 @@ var linkedInDto = null;
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
+    chrome.tabs.onUpdated.addListener(onEmailCreated);
+
+
     InitializePopup();
     InitializePopupClickEventsOnLoad();
     PopupOnLoad();
@@ -36,10 +39,10 @@ function msgGetLinkedInProfileDto_callback(value) {
           DisplayLinkedInCompanyInfo(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
         })
       .fail(function (jqxhr, textStatus, error) {
-          var err = textStatus + ", " + error;
+          //var err = textStatus + ", " + error;
           /*TODO: Show content from page and offer to Trak it.*/
           DisplayLinkedInProfileInfo(linkedInDto);
-          $("#linkedInCompanyTab_LinkedInCompanyName").text("Not Tracking!");
+          //$("#linkedInCompanyTab_LinkedInCompanyName").text("Not Tracking!");
           DisplayLinkedInCompanyDto(linkedInDto);
       });
 }
@@ -128,6 +131,23 @@ function DisplayLinkedInCompanyDto(json) {
 };
 
 function DisplayLinkedInProfileInfo(json) {
+
+    
+
+
+    $("#linkedInCompanyTab_LinkedInProfileName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInProfileName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.FullName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_LinkedInProfileName_Icon").click(function () {
+        //chrome.tabs.create({ active: false, url: "mailto://" + json.Email });
+        chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyInfo); // TODO: try to save company if not exists!!!!
+            setTimeout(function () {
+                console.log("closing tab");
+                chrome.tabs.remove(tab.id);
+            }, 2000);
+        });
+    });
+
+
     $("#linkedInProfileTab_FullName").text(json.FullName);
     $("#linkedInProfileTab_Title").text(json.Title);
     $("#linkedInProfileTab_Location").text(json.Location);
@@ -135,7 +155,14 @@ function DisplayLinkedInProfileInfo(json) {
 
     $("#linkedInProfileTab_Email").html("<a href='javascript:void();'>" + json.Email + "</a>");
     $("#linkedInProfileTab_Email").click(function () {
-        chrome.tabs.create({ url: "mailto://" + json.Email });
+        //chrome.tabs.create({ active: false, url: "mailto://" + json.Email });
+        chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyInfo); // TODO: try to save company if not exists!!!!
+            setTimeout(function () {
+                console.log("closing tab");
+                 chrome.tabs.remove(tab.id);
+            }, 2000);
+        });
     });
 
 
@@ -143,6 +170,17 @@ function DisplayLinkedInProfileInfo(json) {
     $("#linkedInProfileTab_Twitter").text(json.Twitter);
     $("#linkedInProfileTab_Phone").text(json.Phone);
 };
+
+function onEmailCreated(tabId, changeInfo, tab ) {
+    //chrome.tabs.remove(tabId);
+    if (changeInfo.url) {
+        console.log("Tab: " + tabId + " URL changed to " + changeInfo.url);
+    }
+}
+
+//function CloseTab(tabId) {
+//    chrome.tabs.remove(tabId);
+//}
 
 function CreateGoogleMapsLink(json) {
     try {
