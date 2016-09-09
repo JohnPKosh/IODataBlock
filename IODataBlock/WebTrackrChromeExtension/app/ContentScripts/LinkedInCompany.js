@@ -44,10 +44,11 @@ function GetLocationUrl() {
 /* Get the ProfileId */
 function GetCompanyId() {
     try {
-        var loc = GetLocationUrl();
-        return loc.substring(loc.lastIndexOf("/") + 1);
+        //var loc = GetLocationUrl();
+        //return loc.substring(loc.lastIndexOf("/") + 1);
+        return getQueryString("id", GetFollowUrl());
     } catch (err) {
-        console.log("ERR GetProfileId: " + err);
+        console.log("ERR GetCompanyId: " + err);
         return null;
     }
 };
@@ -281,6 +282,18 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
 
 
+/**
+ * Get the value of a querystring
+ * @param  {String} field The field to get the value of
+ * @param  {String} url   The URL to get the value from (optional)
+ * @return {String}       The field value
+ */
+var getQueryString = function (field, url) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp("[?&]" + field + "=([^&#]*)", "i");
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
 
 
 //// Call the specified callback, passing the web-page's DOM content back as argument

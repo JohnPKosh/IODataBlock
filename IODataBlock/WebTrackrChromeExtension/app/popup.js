@@ -1,5 +1,6 @@
 /* Create variables */
 var currentUrl = "na";
+var currentPageType = null;
 var currentDoc = null;
 var relatedEmployeesJson = null;
 var linkedInCompanyId = null;
@@ -8,26 +9,27 @@ var linkedInDto = null;
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
-    getUrl();
-
-    AddOpenHomePageEvent();
-    //document.getElementById("trackPageButton").onclick = trackPagePOST;
-    $("#trackPageButton").click(function () {
-        trackPagePOST();
-    });
-
-
+    InitializePopup();
+    InitializePopupClickEventsOnLoad();
 
     chrome.tabs.getSelected(null, function (tab) {
-        var lowerUrl = tab.url.toLowerCase();
-        if (lowerUrl.indexOf("linkedin.com/compan") > -1) {
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompanyInfo);
+        switch (currentPageType) {
+            case "LinkedInCompany":
+                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompany_callback);
+                break;
+            case "LinkedInProfile":
+                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
+                break;
+            default:
+                /* TODO: perform some default action */
+                console.log("Page type not found! " + currentPageType + " " + currentUrl);
         }
-        else if (lowerUrl.indexOf("linkedin.com/in/") > -1) {
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
-        }
-        //window.domain = new URL(tab.url).hostname.replace("www.", "");
     });
+
+    //PopupOnLoad();
+
+
+
 
     $('a[data-toggle="pill"]').on("shown.bs.tab", function(e) {
         var currentTab = e.target // activated tab
@@ -57,7 +59,7 @@ function msgGetLinkedInProfileDto_callback(value) {
       });
 }
 
-function GetLinkedInCompanyInfo(value) {
+function GetLinkedInCompany_callback(value) {
     console.log("Company ID = " + value.CompanyId);
     linkedInCompanyId = value.CompanyId;
     linkedInDto = value;
@@ -182,14 +184,6 @@ chrome.extension.onRequest.addListener(function (data) {
 
 
 
-/* Add logo click event to open home page. */
-function AddOpenHomePageEvent() {
-    $("#site-title").click(function () {
-        chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
-    });
-}
-
-
 
 
 /* Not currently used TODO: determine if it makes sense to break up into single responsibilities. */
@@ -222,12 +216,49 @@ function trackPagePOST() {
 }
 
 
-function getUrl() {
+/* Add logo click event to open home page. */
+function InitializePopupClickEventsOnLoad() {
+    $("#site-title").click(function () {
+        chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
+    });
+
+    $("#trackPageButton").click(function () {
+        trackPagePOST();
+    });
+}
+
+function InitializePopup() {
+    /* Set current tab URL */
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var current = tabs[0];
         currentUrl = current.url;
+
+        /* Set current tab type */
+        if (currentUrl.indexOf("linkedin.com/compan") > -1) {
+            currentPageType = "LinkedInCompany";
+        }
+        else if (currentUrl.indexOf("linkedin.com/in/") > -1) {
+            currentPageType = "LinkedInProfile";
+        }
     });
 }
+
+function PopupOnLoad() {
+    chrome.tabs.getSelected(null, function (tab) {
+        switch (currentPageType) {
+            case "LinkedInCompany":
+                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompanyInfo);
+                break;
+            case "LinkedInProfile":
+                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
+                break;
+            default:
+                /* TODO: perform some default action */
+                console.log("Page type not found! " + currentPageType + " " + currentUrl);
+        }
+    });
+}
+
 
 //function getCurrentDoc() {
 //    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
