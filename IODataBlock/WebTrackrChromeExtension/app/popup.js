@@ -8,18 +8,15 @@ var linkedInDto = null;
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
-    AddOpenHomePageEvent();
-    document.getElementById("trackPageButton").onclick = trackPagePOST;
     getUrl();
 
-    /* Inject send_links.js into all frames in the active tab.*/
-    //chrome.windows.getCurrent(function (currentWindow) {
-    //    chrome.tabs.query({ active: true, windowId: currentWindow.id },
-    //                      function (activeTabs) {
-    //                          currentUrl = activeTabs[0].url;
-    //                          chrome.tabs.executeScript(activeTabs[0].id, { file: "/TabScripts/onTabLoad.js", allFrames: false });
-    //                      });
-    //});
+    AddOpenHomePageEvent();
+    //document.getElementById("trackPageButton").onclick = trackPagePOST;
+    $("#trackPageButton").click(function () {
+        trackPagePOST();
+    });
+
+
 
     chrome.tabs.getSelected(null, function (tab) {
         var lowerUrl = tab.url.toLowerCase();
@@ -187,10 +184,9 @@ chrome.extension.onRequest.addListener(function (data) {
 
 /* Add logo click event to open home page. */
 function AddOpenHomePageEvent() {
-    var siteTitle = document.getElementById("site-title");
-    siteTitle.onclick = function () {
+    $("#site-title").click(function () {
         chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
-    };
+    });
 }
 
 
