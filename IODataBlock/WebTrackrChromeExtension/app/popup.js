@@ -102,13 +102,9 @@ function DisplayLinkedInCompanyUntracked(json) {
     $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
         //chrome.tabs.create({ url: json.LocationUrl });
-        chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
-            setTimeout(function () {
-                console.log("closing tab");
-                chrome.tabs.remove(tab.id);
-            }, 2000);
-        });
+        doWork(json)
+
+
     });
     $("#linkedInCompanyTab_industry").text(json.Industry);
     //$("#linkedInCompanyTab_type").text(json.type);
@@ -136,6 +132,41 @@ function DisplayLinkedInCompanyUntracked(json) {
     //    chrome.tabs.create({ url: CreateGoogleMapsLink(json) });
     //});
 };
+
+function doWork(json) {
+    chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
+        //chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
+
+        setTimeout(function () {
+            console.log("closing tab");
+        }, 5000);
+
+        setTimeout(function () {
+            console.log("closing tab");
+            chrome.storage.sync.get(null, function (value) {
+                //linkedInCompanyDto = JSON.parse(value['linkedInCompanyDto'].toString());
+                //console.log(linkedInCompanyDto.CompanyName);
+                var storedValue = value['linkedInCompanyDto'].toString();
+                console.log(value['linkedInCompanyDto'].toString());
+                var data = JSON.parse(storedValue);
+                console.log(data.CompanyId);
+                linkedInCompanyDto = data;
+                currentUrl = data.LocationUrl; /* TODO: fix up POST logic currentUrl and currentPageType stuff etc. */
+                POST_LinkedInCompany();
+                chrome.tabs.remove(tab.id);
+            });
+            chrome.storage.sync.clear(function () {
+                console.log("storage cleared.");
+                //alert("linkedInCompanyDto saved.");
+            });
+            //chrome.storage.sync.get(null, function (value) {
+            //    console.log(value['ehlo'].toString());
+            //});
+
+            
+        }, 5000);
+    });
+}
 
 function DisplayLinkedInProfileTracked(json) {
 

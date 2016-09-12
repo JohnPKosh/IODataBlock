@@ -312,3 +312,26 @@ var getQueryString = function (field, url) {
 //});
 
 
+document.body.onload = function () {
+    var dto = GetPageDto();
+    var storeDto = JSON.stringify(dto).toString();
+    console.log(storeDto);
+
+    //chrome.storage.sync.clear(function () {
+    //    console.log("storage cleared.");
+    //    //alert("linkedInCompanyDto saved.");
+    //});
+    chrome.storage.sync.set({ 'linkedInCompanyDto': storeDto }, function () {
+        console.log("linkedInCompanyDto saved.");
+        //alert("linkedInCompanyDto saved.");
+    });
+    //chrome.storage.sync.set({ 'ehlo': "hello" }, function () {
+    //    console.log("hello saved.");
+    //    //alert("linkedInCompanyDto saved.");
+    //});
+}
+
+
+
+
+
