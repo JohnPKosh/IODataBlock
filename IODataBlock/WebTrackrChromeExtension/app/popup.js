@@ -25,7 +25,8 @@ window.onload = function () {
     });
 };
 
-/* Test */
+/* Start - LinkedIn Company and Profile initial popup callbacks */
+
 function msgGetLinkedInProfileDto_callback(value) {
     console.log("Profile Company Link = " + value.CompanyId);
     linkedInDto = value;
@@ -35,19 +36,19 @@ function msgGetLinkedInProfileDto_callback(value) {
     /* Get Results from API */
     $.getJSON(apiUrl)
       .done(function (json) {
-          DisplayLinkedInProfileInfo(linkedInDto);
-          DisplayLinkedInCompanyInfo(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
+          DisplayLinkedInProfileTracked(linkedInDto);
+          DisplayLinkedInCompanyTracked(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
         })
       .fail(function (jqxhr, textStatus, error) {
           //var err = textStatus + ", " + error;
           /*TODO: Show content from page and offer to Trak it.*/
-          DisplayLinkedInProfileInfo(linkedInDto);
+          DisplayLinkedInProfileTracked(linkedInDto);
           //$("#linkedInCompanyTab_LinkedInCompanyName").text("Not Tracking!");
-          DisplayLinkedInCompanyDto(linkedInDto);
+          DisplayLinkedInCompanyUntracked(linkedInDto);
       });
 }
 
-function GetLinkedInCompany_callback(value) {
+function GetLinkedInCompanyDto_callback(value) {
     console.log("Company ID = " + value.CompanyId);
     linkedInCompanyId = value.CompanyId;
     linkedInDto = value;
@@ -56,18 +57,21 @@ function GetLinkedInCompany_callback(value) {
     /* Get Results from API */
     $.getJSON(apiUrl)
       .done(function (json) {
-          DisplayLinkedInCompanyInfo(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
+          DisplayLinkedInCompanyTracked(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
       })
       .fail(function (jqxhr, textStatus, error) {
-          var err = textStatus + ", " + error;
+          //var err = textStatus + ", " + error;
           /*TODO: Show content from page and offer to Trak it.*/
-          $("#linkedInCompanyTab_LinkedInCompanyName").text("NOT Tracking!");
-          DisplayLinkedInCompanyDto(linkedInDto);
+          //$("#linkedInCompanyTab_LinkedInCompanyName").text("Track Now!");
+          DisplayLinkedInCompanyUntracked(linkedInDto);
         });
 }
 
-function DisplayLinkedInCompanyInfo(json) {
-    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.LinkedInCompanyName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+/* End - LinkedIn Company and Profile initial popup callbacks */
+
+
+function DisplayLinkedInCompanyTracked(json) {
+    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.LinkedInCompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-success'>Tracking</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
         chrome.tabs.create({ url: json.LinkedInPage });
     });
@@ -98,10 +102,17 @@ function DisplayLinkedInCompanyInfo(json) {
     });
 };
 
-function DisplayLinkedInCompanyDto(json) {
-    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='tracking_badge' class='label label-default'>NOT Tracking</span>");
+function DisplayLinkedInCompanyUntracked(json) {
+    $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
-        chrome.tabs.create({ url: json.LocationUrl });
+        //chrome.tabs.create({ url: json.LocationUrl });
+        chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
+            setTimeout(function () {
+                console.log("closing tab");
+                chrome.tabs.remove(tab.id);
+            }, 2000);
+        });
     });
     $("#linkedInCompanyTab_industry").text(json.Industry);
     //$("#linkedInCompanyTab_type").text(json.type);
@@ -130,21 +141,11 @@ function DisplayLinkedInCompanyDto(json) {
     //});
 };
 
-function DisplayLinkedInProfileInfo(json) {
+function DisplayLinkedInProfileTracked(json) {
 
-    
-
-
-    $("#linkedInCompanyTab_LinkedInProfileName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInProfileName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.FullName + " <span id='tracking_badge' class='label label-success'>Tracking</span>");
+    $("#linkedInCompanyTab_LinkedInProfileName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInProfileName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.FullName + " <span id='linkedInProfileTab_TrackingBadge' class='label label-success'>Tracking</span>");
     $("#linkedInCompanyTab_LinkedInProfileName_Icon").click(function () {
-        //chrome.tabs.create({ active: false, url: "mailto://" + json.Email });
-        chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyInfo); // TODO: try to save company if not exists!!!!
-            setTimeout(function () {
-                console.log("closing tab");
-                chrome.tabs.remove(tab.id);
-            }, 2000);
-        });
+        chrome.tabs.create({ url: json.ProfileUrl });
     });
 
 
@@ -157,7 +158,7 @@ function DisplayLinkedInProfileInfo(json) {
     $("#linkedInProfileTab_Email").click(function () {
         //chrome.tabs.create({ active: false, url: "mailto://" + json.Email });
         chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyInfo); // TODO: try to save company if not exists!!!!
+            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
             setTimeout(function () {
                 console.log("closing tab");
                  chrome.tabs.remove(tab.id);
@@ -178,6 +179,8 @@ function onEmailCreated(tabId, changeInfo, tab ) {
     }
 }
 
+
+
 //function CloseTab(tabId) {
 //    chrome.tabs.remove(tabId);
 //}
@@ -195,8 +198,7 @@ function CreateGoogleMapsLink(json) {
     } catch (err) {
         console.log("ERR CreateGoogleMapsLink: " + err);
     }
-}
-
+};
 
 function GetLinkedInCompanyEmployees(value, divid) {
 
@@ -231,7 +233,6 @@ function DisplayLinkedInCompanyEmployees(json) {
     $("#linkedInCompanyProfilesTab_EmployeesTitle").html("Tracked Employees <span class='badge'>" + json.length + "</span>");
 };
 
-
 /**
  * Get the value of a querystring
  * @param  {String} field The field to get the value of
@@ -245,8 +246,6 @@ var getQueryString = function (field, url) {
     return string ? string[1] : null;
 };
 
-
-
 /* Add links to allLinks and visibleLinks, sort and show them.  send_links.js is injected into all frames of the active tab, so this listener may be called multiple times. */
 chrome.extension.onRequest.addListener(function (data) {
     /* If the action is send_links Do This*/
@@ -254,10 +253,6 @@ chrome.extension.onRequest.addListener(function (data) {
         currentDoc = data.body;
     }
 });
-
-
-
-
 
 /* Not currently used TODO: determine if it makes sense to break up into single responsibilities. */
 //function sendData() {
@@ -270,6 +265,7 @@ chrome.extension.onRequest.addListener(function (data) {
 //};
 
 
+
 /* POST entire HTML document and Links to API*/
 
 function trackPagePOST() {
@@ -279,7 +275,7 @@ function trackPagePOST() {
         if (xhr.readyState === 4) {
             var obj = JSON.parse(xhr.responseText);
             document.getElementById("resp").innerHTML = " <strong> Saved!</strong> ";
-            DisplayLinkedInCompanyInfo(obj);
+            DisplayLinkedInCompanyTracked(obj);
         }
     }
     xhr.setRequestHeader("Content-type", "application/json");
@@ -321,7 +317,7 @@ function PopupOnLoad() {
         switch (currentPageType) {
             case "LinkedInCompany":
                 $('#mainTabs a[href="#LinkedInProfileTab"]').hide();
-                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompany_callback);
+                chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, GetLinkedInCompanyDto_callback);
                 break;
             case "LinkedInProfile":
                 chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
