@@ -103,7 +103,7 @@
           <Property Name="LinkedInPage" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="LinkedInFullName" Type="nvarchar" MaxLength="100" />
           <Property Name="LinkedInConnections" Type="int" />
-          <Property Name="LinkedInTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="LinkedInTitle" Type="nvarchar" MaxLength="255" />
           <Property Name="LinkedInCompanyName" Type="nvarchar" MaxLength="100" />
           <Property Name="LinkedInCompanyId" Type="bigint" />
           <Property Name="Industry" Type="nvarchar" MaxLength="100" />
@@ -459,7 +459,7 @@
           <Property Name="LinkedInPage" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInConnections" Type="Int32" />
-          <Property Name="LinkedInTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LinkedInTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInCompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LinkedInCompanyId" Type="Int64" />
           <Property Name="Industry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />

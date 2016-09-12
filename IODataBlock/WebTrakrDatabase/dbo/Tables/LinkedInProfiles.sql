@@ -4,7 +4,7 @@
     [LinkedInPage]        NVARCHAR (255) NOT NULL,
     [LinkedInFullName]    NVARCHAR (100) NULL,
     [LinkedInConnections] INT            NULL,
-    [LinkedInTitle]       NVARCHAR (100) NULL,
+    [LinkedInTitle]       NVARCHAR (255) NULL,
     [LinkedInCompanyName] NVARCHAR (100) NULL,
     [LinkedInCompanyId]   BIGINT         NULL,
     [Industry]            NVARCHAR (100) NULL,
