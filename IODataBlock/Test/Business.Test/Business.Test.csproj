@@ -284,6 +284,7 @@
     <None Include="Junk\formlist.json" />
     <None Include="Junk\forms.json" />
     <None Include="Junk\list.json" />
+    <None Include="Junk\partnersearchscriptjson.json" />
     <None Include="Junk\query.json" />
     <None Include="Junk\RawContactProperties.json" />
     <None Include="Junk\rawgetallcontacts.json" />
@@ -318,6 +319,7 @@
     <Content Include="Junk\LinkedInProfileSnippets.html" />
     <Content Include="Junk\NRFs.txt" />
     <Content Include="Junk\OutboundSalesFriendly.html" />
+    <Content Include="Junk\partnersearch.html" />
     <Content Include="Junk\salesorder.xml" />
   </ItemGroup>
   <Choose>
