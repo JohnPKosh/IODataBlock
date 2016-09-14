@@ -46,6 +46,10 @@ function msgGetLinkedInProfileDto_callback(value) {
           DisplayLinkedInProfileTracked(linkedInProfileDto);
           DisplayLinkedInCompanyUntracked(linkedInProfileDto);
       });
+
+    $("#trackPageButton").click(function () {
+        POST_LinkedInProfile();
+    });
 }
 
 function GetLinkedInCompanyDto_callback(value) {
@@ -103,10 +107,7 @@ function DisplayLinkedInCompanyTracked(json) {
 function DisplayLinkedInCompanyUntracked(json) {
     $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
-        //chrome.tabs.create({ url: json.LocationUrl });
         doWork(json);
-
-
     });
     $("#linkedInCompanyTab_industry").text(json.Industry);
     //$("#linkedInCompanyTab_type").text(json.type);
@@ -137,32 +138,20 @@ function DisplayLinkedInCompanyUntracked(json) {
 
 function doWork(json) {
     chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
-        //chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
-
-        setTimeout(function () {
-            console.log("delay 1");
-            disposableTabId = tab.id;
-            chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, ProcessResponseTest);
-        }, 5000);
-
-        //alert(tab.id + "change" + tab["url"]);
-        //disposableTabId = tab.id;
-        //chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, ProcessResponseTest);
-
-        //setTimeout(function () {
-        //    console.log("delay 1");
-        //}, 5000);
-
-        //setTimeout(function () {
-        //    chrome.tabs.remove(tab.id);
-        //}, 5000);
+        disposableTabId = tab.id;
+        chrome.tabs.onUpdated.addListener(handleUpdated);
     });
 }
 
-function ProcessResponseTest(json) {
-    //alert(json.CompanyId);
-    //alert(json.LocationUrl);
+function handleUpdated(tabId, changeInfo, tabInfo) {
+    if (tabId === disposableTabId && changeInfo.status === "complete") {
+        console.log(changeInfo.status);
+        console.log(disposableTabId);
+        chrome.tabs.sendMessage(disposableTabId, { text: "msgGetLinkedInCompanyDto" }, ProcessResponseTest);
+    }
+}
 
+function ProcessResponseTest(json) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:51786/Api/TrakrScrape", true);
     xhr.onreadystatechange = function () {
@@ -171,12 +160,11 @@ function ProcessResponseTest(json) {
             document.getElementById("resp").innerHTML = " <strong> Saved!</strong> ";
             DisplayLinkedInCompanyTracked(obj);
         }
-        chrome.tabs.remove(disposableTabId);
     }
     xhr.setRequestHeader("Content-type", "application/json");
-    //getUrl();
-    //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: json.LocationUrl, inputDto: json, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    chrome.tabs.onUpdated.removeListener(handleUpdated);
+    chrome.tabs.remove(disposableTabId);
 }
 
 function DisplayLinkedInProfileTracked(json) {
@@ -336,6 +324,7 @@ function POST_LinkedInProfile() {
     //getUrl();
     //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInProfileDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    doWork(linkedInProfileDto);
 }
 
 
@@ -361,9 +350,9 @@ function PopupOnLoad_LinkedInProfile() {
         chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
     });
 
-    $("#trackPageButton").click(function () {
-        POST_LinkedInProfile();
-    });
+    //$("#trackPageButton").click(function () {
+    //    POST_LinkedInProfile();
+    //});
 
     chrome.tabs.sendMessage(currentTabId, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
     $('#mainTabs a[href="#LinkedInProfileTab"]').tab('show');

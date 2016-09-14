@@ -34,7 +34,17 @@ namespace Business.Web.Scrape.HtmlReaders
                 rv.ProfileUrl = InputDto.GetValue("ProfileUrl").Value<string>();
                 rv.ProfileId = InputDto.GetValue("ProfileId").Value<long?>();
                 rv.FullName = InputDto.GetValue("FullName").Value<string>();
-                rv.Connections = InputDto.GetValue("Connections").Value<int>();
+                //rv.Connections = InputDto.GetValue("Connections").Value<int>();
+                var connections = -1;
+                int.TryParse(
+                    InputDto.GetValue("Connections")
+                        .Value<string>()
+                        .Replace(",", string.Empty)
+                        .Replace("followers", string.Empty)
+                        .Replace("connections", string.Empty)
+                        .Trim(), out connections);
+                rv.Connections = connections;
+
                 rv.Title = InputDto.GetValue("Title").Value<string>();
                 rv.CompanyName = InputDto.GetValue("CompanyName").Value<string>();
                 rv.CompanyId = InputDto.GetValue("CompanyId").Value<long?>();
@@ -50,7 +60,7 @@ namespace Business.Web.Scrape.HtmlReaders
 
                 return rv;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }
