@@ -41,6 +41,7 @@
   <ItemGroup>
     <Content Include="app\BackgroundScripts\current-tab.js" />
     <Content Include="app\ContentScripts\LinkedInCompany.js" />
+    <Content Include="app\ContentScripts\LinkedInProfile.js" />
     <Content Include="app\Content\bootstrap-theme.css" />
     <Content Include="app\Content\bootstrap-theme.min.css" />
     <Content Include="app\Content\bootstrap.css" />
@@ -50,12 +51,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="app\img\icon.png" />
-    <Content Include="app\img\iconOLD.png" />
+    <Content Include="app\img\In-2C-14px.png" />
+    <Content Include="app\img\In-2C-21px-R.png" />
     <Content Include="app\popup.html" />
     <Content Include="app\popup.js" />
     <Content Include="app\Scripts\jquery-3.1.0.min.map" />
     <Content Include="app\Scripts\jquery-3.1.0.slim.min.map" />
-    <Content Include="scripts\unused_utility.js" />
+    <Content Include="app\manifest.json" />
     <None Include="app\Scripts\_references.js" />
     <Content Include="app\Scripts\bootstrap.js" />
     <Content Include="app\Scripts\bootstrap.min.js" />
@@ -78,6 +80,7 @@
     <Content Include="app\TabScripts\onTabLoad.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\unused_utility.js" />
     <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
     <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
     <Content Include="screenshots\screenshot.png" />
@@ -100,7 +103,6 @@
     <Content Include="app\fonts\glyphicons-halflings-regular.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\manifest.json" />
     <None Include="scripts\_references.js" />
     <None Include="scripts\chrome-api-vsdoc.js" />
   </ItemGroup>

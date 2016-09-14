@@ -1,6 +1,6 @@
 {
-  "name": "Webtrakr Test Extension",
-  "description": "This is a test!",
+  "name": "Webtrakr Extension MOCK",
+  "description": "Webtrakr Extension!",
   "version": "1.4.1",
   "minimum_chrome_version": "16.0.884",
   "permissions": [
@@ -21,6 +21,10 @@
     {
       "matches": [ "*://*.linkedin.com/compan*" ],
       "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInCompany.js" ]
+    },
+    {
+      "matches": [ "*://*.linkedin.com/in/*" ],
+      "js": [ "Scripts/jquery-3.1.0.min.js", "ContentScripts/LinkedInProfile.js" ]
     }
   ],
   "browser_action": {
