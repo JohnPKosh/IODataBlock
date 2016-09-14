@@ -102,7 +102,7 @@ function DisplayLinkedInCompanyUntracked(json) {
     $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
         //chrome.tabs.create({ url: json.LocationUrl });
-        doWork(json)
+        doWork(json);
 
 
     });
@@ -138,11 +138,11 @@ function doWork(json) {
         //chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
 
         setTimeout(function () {
-            console.log("closing tab");
+            console.log("delay 1");
         }, 5000);
 
         setTimeout(function () {
-            console.log("closing tab");
+            console.log("get from storage");
             chrome.storage.sync.get(null, function (value) {
                 //linkedInCompanyDto = JSON.parse(value['linkedInCompanyDto'].toString());
                 //console.log(linkedInCompanyDto.CompanyName);
@@ -153,6 +153,7 @@ function doWork(json) {
                 linkedInCompanyDto = data;
                 currentUrl = data.LocationUrl; /* TODO: fix up POST logic currentUrl and currentPageType stuff etc. */
                 POST_LinkedInCompany();
+                console.log("closing tab");
                 chrome.tabs.remove(tab.id);
             });
             chrome.storage.sync.clear(function () {
