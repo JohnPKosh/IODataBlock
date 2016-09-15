@@ -107,7 +107,7 @@ function DisplayLinkedInCompanyTracked(json) {
 function DisplayLinkedInCompanyUntracked(json) {
     $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
-        doWork(json);
+        CreateLinkedInCompanyDtoNewTabAndListener(json);
     });
     $("#linkedInCompanyTab_industry").text(json.Industry);
     //$("#linkedInCompanyTab_type").text(json.type);
@@ -136,22 +136,23 @@ function DisplayLinkedInCompanyUntracked(json) {
     //});
 };
 
-function doWork(json) {
+/* Create Tab and new onUpdated listener for LinkedInCompanyDto scrape */
+function CreateLinkedInCompanyDtoNewTabAndListener(json) {
     chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
         disposableTabId = tab.id;
-        chrome.tabs.onUpdated.addListener(handleUpdated);
+        chrome.tabs.onUpdated.addListener(CreateLinkedInCompanyDtoNewTabAndListener_callback);
     });
 }
 
-function handleUpdated(tabId, changeInfo, tabInfo) {
+/* Capture New Tab LinkedInCompanyDto listener */
+function CreateLinkedInCompanyDtoNewTabAndListener_callback(tabId, changeInfo, tabInfo) {
     if (tabId === disposableTabId && changeInfo.status === "complete") {
-        console.log(changeInfo.status);
-        console.log(disposableTabId);
-        chrome.tabs.sendMessage(disposableTabId, { text: "msgGetLinkedInCompanyDto" }, ProcessResponseTest);
+        chrome.tabs.sendMessage(disposableTabId, { text: "msgGetLinkedInCompanyDto" }, POST_LinkedInCompanyDtoNewTabResponse);
     }
 }
 
-function ProcessResponseTest(json) {
+/* POST LinkedInCompanyDto to API from New Tab listener */
+function POST_LinkedInCompanyDtoNewTabResponse(json) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:51786/Api/TrakrScrape", true);
     xhr.onreadystatechange = function () {
@@ -163,7 +164,7 @@ function ProcessResponseTest(json) {
     }
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(JSON.stringify({ location: json.LocationUrl, inputDto: json, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
-    chrome.tabs.onUpdated.removeListener(handleUpdated);
+    chrome.tabs.onUpdated.removeListener(CreateLinkedInCompanyDtoNewTabAndListener_callback);
     chrome.tabs.remove(disposableTabId);
 }
 
@@ -204,12 +205,6 @@ function onEmailCreated(tabId, changeInfo, tab ) {
         console.log("Tab: " + tabId + " URL changed to " + changeInfo.url);
     }
 }
-
-
-
-//function CloseTab(tabId) {
-//    chrome.tabs.remove(tabId);
-//}
 
 function CreateGoogleMapsLink(json) {
     try {
@@ -305,8 +300,6 @@ function POST_LinkedInCompany() {
         }
     }
     xhr.setRequestHeader("Content-type", "application/json");
-    //getUrl();
-    //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInCompanyDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
 }
 
@@ -321,10 +314,8 @@ function POST_LinkedInProfile() {
         }
     }
     xhr.setRequestHeader("Content-type", "application/json");
-    //getUrl();
-    //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInProfileDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
-    doWork(linkedInProfileDto);
+    CreateLinkedInCompanyDtoNewTabAndListener(linkedInProfileDto);
 }
 
 
