@@ -8,6 +8,8 @@ var linkedInCompanyId = null;
 var linkedInCompanyDto = null;
 var linkedInProfileDto = null;
 
+var disposableTabId = null;
+
 
 /* Set up event handlers and inject send_links.js into all frames in the active tab. */
 window.onload = function () {
@@ -44,6 +46,10 @@ function msgGetLinkedInProfileDto_callback(value) {
           DisplayLinkedInProfileTracked(linkedInProfileDto);
           DisplayLinkedInCompanyUntracked(linkedInProfileDto);
       });
+
+    $("#trackPageButton").click(function () {
+        POST_LinkedInProfile();
+    });
 }
 
 function GetLinkedInCompanyDto_callback(value) {
@@ -101,10 +107,7 @@ function DisplayLinkedInCompanyTracked(json) {
 function DisplayLinkedInCompanyUntracked(json) {
     $("#linkedInCompanyTab_LinkedInCompanyName").html("<a href='javascript:void();'><img id='linkedInCompanyTab_LinkedInCompanyName_Icon' src='img/In-2C-21px-R.png'/></a> " + json.CompanyName + " <span id='linkedInCompanyTab_TrackingBadge' class='label label-default'>Track Now!</span>");
     $("#linkedInCompanyTab_LinkedInCompanyName_Icon").click(function () {
-        //chrome.tabs.create({ url: json.LocationUrl });
         doWork(json);
-
-
     });
     $("#linkedInCompanyTab_industry").text(json.Industry);
     //$("#linkedInCompanyTab_type").text(json.type);
@@ -135,38 +138,33 @@ function DisplayLinkedInCompanyUntracked(json) {
 
 function doWork(json) {
     chrome.tabs.create({ active: false, url: "https://linkedin.com/company/" + json.CompanyId }, function (tab) {
-        //chrome.tabs.sendMessage(tab.id, { text: "msgGetLinkedInCompanyDto" }, DisplayLinkedInCompanyTracked); // TODO: try to save company if not exists!!!!
-
-        setTimeout(function () {
-            console.log("delay 1");
-        }, 5000);
-
-        setTimeout(function () {
-            console.log("get from storage");
-            chrome.storage.sync.get(null, function (value) {
-                //linkedInCompanyDto = JSON.parse(value['linkedInCompanyDto'].toString());
-                //console.log(linkedInCompanyDto.CompanyName);
-                var storedValue = value['linkedInCompanyDto'].toString();
-                console.log(value['linkedInCompanyDto'].toString());
-                var data = JSON.parse(storedValue);
-                console.log(data.CompanyId);
-                linkedInCompanyDto = data;
-                currentUrl = data.LocationUrl; /* TODO: fix up POST logic currentUrl and currentPageType stuff etc. */
-                POST_LinkedInCompany();
-                console.log("closing tab");
-                chrome.tabs.remove(tab.id);
-            });
-            chrome.storage.sync.clear(function () {
-                console.log("storage cleared.");
-                //alert("linkedInCompanyDto saved.");
-            });
-            //chrome.storage.sync.get(null, function (value) {
-            //    console.log(value['ehlo'].toString());
-            //});
-
-            
-        }, 5000);
+        disposableTabId = tab.id;
+        chrome.tabs.onUpdated.addListener(handleUpdated);
     });
+}
+
+function handleUpdated(tabId, changeInfo, tabInfo) {
+    if (tabId === disposableTabId && changeInfo.status === "complete") {
+        console.log(changeInfo.status);
+        console.log(disposableTabId);
+        chrome.tabs.sendMessage(disposableTabId, { text: "msgGetLinkedInCompanyDto" }, ProcessResponseTest);
+    }
+}
+
+function ProcessResponseTest(json) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:51786/Api/TrakrScrape", true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            var obj = JSON.parse(xhr.responseText);
+            document.getElementById("resp").innerHTML = " <strong> Saved!</strong> ";
+            DisplayLinkedInCompanyTracked(obj);
+        }
+    }
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify({ location: json.LocationUrl, inputDto: json, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    chrome.tabs.onUpdated.removeListener(handleUpdated);
+    chrome.tabs.remove(disposableTabId);
 }
 
 function DisplayLinkedInProfileTracked(json) {
@@ -326,6 +324,7 @@ function POST_LinkedInProfile() {
     //getUrl();
     //xhr.send(JSON.stringify({ location: currentUrl, document: currentDoc, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
     xhr.send(JSON.stringify({ location: currentUrl, inputDto: linkedInProfileDto, document: null, apiKey: "4AC29893-E63A-42A9-B8A1-85180A330AAD" }));
+    doWork(linkedInProfileDto);
 }
 
 
@@ -351,9 +350,9 @@ function PopupOnLoad_LinkedInProfile() {
         chrome.tabs.create({ url: "http://localhost:51786/Home/Index" });
     });
 
-    $("#trackPageButton").click(function () {
-        POST_LinkedInProfile();
-    });
+    //$("#trackPageButton").click(function () {
+    //    POST_LinkedInProfile();
+    //});
 
     chrome.tabs.sendMessage(currentTabId, { text: "msgGetLinkedInProfileDto" }, msgGetLinkedInProfileDto_callback);
     $('#mainTabs a[href="#LinkedInProfileTab"]').tab('show');

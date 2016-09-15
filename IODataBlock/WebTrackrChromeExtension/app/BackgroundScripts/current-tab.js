@@ -1,5 +1,5 @@
-//// Check if email addresses are available for the current domain and update the color of the browser icon
-////
+// Check if email addresses are available for the current domain and update the color of the browser icon
+//
 //function sendTabUrl() {
 //  chrome.tabs.query(
 //    {currentWindow: true, active : true},
@@ -15,11 +15,12 @@
 //}
 
 
-//// When an URL changes
-////
-//chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-//    sendTabUrl();
-//});
+// When an URL changes
+//
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    //sendTabUrl();
+    //alert(tabId + "change" + tab["url"]);
+});
 
 
 //// When active tab changes
