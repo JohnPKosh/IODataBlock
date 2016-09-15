@@ -73,24 +73,25 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LinkedInId" Type="bigint" />
-          <Property Name="LinkedInPage" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LinkedInCompanyId" Type="bigint" />
+          <Property Name="LinkedInCompanyUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="LinkedInCompanyName" Type="nvarchar" MaxLength="255" />
           <Property Name="DomainName" Type="nvarchar" MaxLength="255" />
-          <Property Name="specialties" Type="nvarchar(max)" />
-          <Property Name="streetAddress" Type="nvarchar" MaxLength="255" />
-          <Property Name="locality" Type="nvarchar" MaxLength="50" />
-          <Property Name="region" Type="nvarchar" MaxLength="50" />
-          <Property Name="postalCode" Type="nvarchar" MaxLength="20" />
-          <Property Name="countryName" Type="nvarchar" MaxLength="50" />
-          <Property Name="website" Type="nvarchar" MaxLength="255" />
-          <Property Name="industry" Type="nvarchar" MaxLength="100" />
-          <Property Name="type" Type="nvarchar" MaxLength="50" />
-          <Property Name="companySize" Type="nvarchar" MaxLength="25" />
-          <Property Name="founded" Type="nvarchar" MaxLength="25" />
-          <Property Name="followersCount" Type="int" />
-          <Property Name="photourl" Type="nvarchar" MaxLength="255" />
-          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="Specialties" Type="nvarchar(max)" />
+          <Property Name="StreetAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="Locality" Type="nvarchar" MaxLength="50" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Website" Type="nvarchar" MaxLength="255" />
+          <Property Name="Industry" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyType" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanySize" Type="nvarchar" MaxLength="25" />
+          <Property Name="Founded" Type="nvarchar" MaxLength="25" />
+          <Property Name="FollowersCount" Type="int" />
+          <Property Name="FollowUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="PhotoUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="CompanyDescription" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -321,7 +322,6 @@
           <EntitySet Name="AspNetUserClaims" EntityType="WebTrakrModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="WebTrakrModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="WebTrakrModel.AspNetUser" />
-          <EntitySet Name="LinkedInCompanies" EntityType="WebTrakrModel.LinkedInCompany" />
           <EntitySet Name="LinkedInProfiles" EntityType="WebTrakrModel.LinkedInProfile" />
           <EntitySet Name="SalesForceAccounts" EntityType="WebTrakrModel.SalesForceAccount" />
           <EntitySet Name="UserLinkedInCompanies" EntityType="WebTrakrModel.UserLinkedInCompany" />
@@ -346,10 +346,6 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="UserLinkedInProfile" EntitySet="UserLinkedInProfiles" />
           </AssociationSet>
-          <AssociationSet Name="FK_LinkedInCompanyUserLinkedInCompany" Association="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany">
-            <End Role="LinkedInCompany" EntitySet="LinkedInCompanies" />
-            <End Role="UserLinkedInCompany" EntitySet="UserLinkedInCompanies" />
-          </AssociationSet>
           <AssociationSet Name="FK_LinkedInProfileUserLinkedInProfile" Association="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile">
             <End Role="LinkedInProfile" EntitySet="LinkedInProfiles" />
             <End Role="UserLinkedInProfile" EntitySet="UserLinkedInProfiles" />
@@ -357,6 +353,11 @@
           <AssociationSet Name="AspNetUserRoles" Association="WebTrakrModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="LinkedInCompanies" EntityType="WebTrakrModel.LinkedInCompany" />
+          <AssociationSet Name="FK_LinkedInCompanyUserLinkedInCompany" Association="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany">
+            <End Role="LinkedInCompany" EntitySet="LinkedInCompanies" />
+            <End Role="UserLinkedInCompany" EntitySet="UserLinkedInCompanies" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -423,33 +424,6 @@
           <NavigationProperty Name="UserLinkedInProfiles" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInProfile" FromRole="AspNetUser" ToRole="UserLinkedInProfile" />
           <NavigationProperty Name="AspNetRoles" Relationship="WebTrakrModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
-        <EntityType Name="LinkedInCompany">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LinkedInId" Type="Int64" />
-          <Property Name="LinkedInPage" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="LinkedInCompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="DomainName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="specialties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="streetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="locality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="postalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="countryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="website" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="industry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="companySize" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="founded" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="followersCount" Type="Int32" />
-          <Property Name="photourl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="UserLinkedInCompanies" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="LinkedInCompany" ToRole="UserLinkedInCompany" />
-        </EntityType>
         <EntityType Name="LinkedInProfile">
           <Key>
             <PropertyRef Name="Id" />
@@ -494,8 +468,8 @@
           <Property Name="LinkedInCompanyId" Type="Int64" Nullable="false" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="WebTrakrModel.FK_AspNetUserUserLinkedInCompany" FromRole="UserLinkedInCompany" ToRole="AspNetUser" />
-          <NavigationProperty Name="LinkedInCompany" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="UserLinkedInCompany" ToRole="LinkedInCompany" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="LinkedInCompany" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="UserLinkedInCompany" ToRole="LinkedInCompany" />
         </EntityType>
         <EntityType Name="UserLinkedInProfile">
           <Key>
@@ -572,19 +546,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LinkedInCompanyUserLinkedInCompany">
-          <End Type="WebTrakrModel.LinkedInCompany" Role="LinkedInCompany" Multiplicity="1" />
-          <End Type="WebTrakrModel.UserLinkedInCompany" Role="UserLinkedInCompany" Multiplicity="*" >
-          </End>
-          <ReferentialConstraint>
-            <Principal Role="LinkedInCompany">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UserLinkedInCompany">
-              <PropertyRef Name="LinkedInCompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_LinkedInProfileUserLinkedInProfile">
           <End Type="WebTrakrModel.LinkedInProfile" Role="LinkedInProfile" Multiplicity="1" />
           <End Type="WebTrakrModel.UserLinkedInProfile" Role="UserLinkedInProfile" Multiplicity="*" />
@@ -600,6 +561,46 @@
         <Association Name="AspNetUserRoles">
           <End Type="WebTrakrModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="WebTrakrModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="LinkedInCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LinkedInCompanyId" Type="Int64" />
+          <Property Name="LinkedInCompanyUrl" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LinkedInCompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DomainName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Specialties" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StreetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Locality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Industry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanySize" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Founded" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FollowersCount" Type="Int32" />
+          <Property Name="FollowUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserLinkedInCompanies" Relationship="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" FromRole="LinkedInCompany" ToRole="UserLinkedInCompany" />
+        </EntityType>
+        <Association Name="FK_LinkedInCompanyUserLinkedInCompany">
+          <End Type="WebTrakrModel.LinkedInCompany" Role="LinkedInCompany" Multiplicity="1" />
+          <End Type="WebTrakrModel.UserLinkedInCompany" Role="UserLinkedInCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinkedInCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLinkedInCompany">
+              <PropertyRef Name="LinkedInCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -660,33 +661,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LinkedInCompanies">
-            <EntityTypeMapping TypeName="WebTrakrModel.LinkedInCompany">
-              <MappingFragment StoreEntitySet="LinkedInCompanies">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="photourl" ColumnName="photourl" />
-                <ScalarProperty Name="followersCount" ColumnName="followersCount" />
-                <ScalarProperty Name="founded" ColumnName="founded" />
-                <ScalarProperty Name="companySize" ColumnName="companySize" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="industry" ColumnName="industry" />
-                <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="countryName" ColumnName="countryName" />
-                <ScalarProperty Name="postalCode" ColumnName="postalCode" />
-                <ScalarProperty Name="region" ColumnName="region" />
-                <ScalarProperty Name="locality" ColumnName="locality" />
-                <ScalarProperty Name="streetAddress" ColumnName="streetAddress" />
-                <ScalarProperty Name="specialties" ColumnName="specialties" />
-                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
-                <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
-                <ScalarProperty Name="LinkedInPage" ColumnName="LinkedInPage" />
-                <ScalarProperty Name="LinkedInId" ColumnName="LinkedInId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -755,6 +729,34 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="LinkedInCompanies">
+            <EntityTypeMapping TypeName="WebTrakrModel.LinkedInCompany">
+              <MappingFragment StoreEntitySet="LinkedInCompanies">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CompanyDescription" ColumnName="CompanyDescription" />
+                <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
+                <ScalarProperty Name="FollowUrl" ColumnName="FollowUrl" />
+                <ScalarProperty Name="FollowersCount" ColumnName="FollowersCount" />
+                <ScalarProperty Name="Founded" ColumnName="Founded" />
+                <ScalarProperty Name="CompanySize" ColumnName="CompanySize" />
+                <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+                <ScalarProperty Name="Industry" ColumnName="Industry" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="Specialties" ColumnName="Specialties" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="LinkedInCompanyName" ColumnName="LinkedInCompanyName" />
+                <ScalarProperty Name="LinkedInCompanyUrl" ColumnName="LinkedInCompanyUrl" />
+                <ScalarProperty Name="LinkedInCompanyId" ColumnName="LinkedInCompanyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

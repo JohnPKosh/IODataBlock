@@ -31,23 +31,23 @@ namespace Business.Web.Scrape.HtmlReaders
                 if (InputDto == null) return TryScrapeDto();
 
 
-                rv.ProfileUrl = InputDto.GetValue("ProfileUrl").Value<string>();
-                rv.ProfileId = InputDto.GetValue("ProfileId").Value<long?>();
-                rv.FullName = InputDto.GetValue("FullName").Value<string>();
+                rv.LinkedInPage = InputDto.GetValue("LinkedInPage").Value<string>();
+                rv.LinkedInProfileId = InputDto.GetValue("LinkedInProfileId").Value<long?>();
+                rv.LinkedInFullName = InputDto.GetValue("LinkedInFullName").Value<string>();
                 //rv.Connections = InputDto.GetValue("Connections").Value<int>();
                 var connections = -1;
                 int.TryParse(
-                    InputDto.GetValue("Connections")
+                    InputDto.GetValue("LinkedInConnections")
                         .Value<string>()
                         .Replace(",", string.Empty)
                         .Replace("followers", string.Empty)
                         .Replace("connections", string.Empty)
                         .Trim(), out connections);
-                rv.Connections = connections;
+                rv.LinkedInConnections = connections;
 
-                rv.Title = InputDto.GetValue("Title").Value<string>();
-                rv.CompanyName = InputDto.GetValue("CompanyName").Value<string>();
-                rv.CompanyId = InputDto.GetValue("CompanyId").Value<long?>();
+                rv.LinkedInTitle = InputDto.GetValue("LinkedInTitle").Value<string>();
+                rv.LinkedInCompanyName = InputDto.GetValue("LinkedInCompanyName").Value<string>();
+                rv.LinkedInCompanyId = InputDto.GetValue("LinkedInCompanyId").Value<long?>();
                 rv.Industry = InputDto.GetValue("Industry").Value<string>();
                 rv.Location = InputDto.GetValue("Location").Value<string>();
                 rv.Email = InputDto.GetValue("Email").Value<string>();
@@ -55,7 +55,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 rv.Twitter = InputDto.GetValue("Twitter").Value<string>();
                 rv.Address = InputDto.GetValue("Address").Value<string>();
                 rv.Phone = InputDto.GetValue("Phone").Value<string>();
-                rv.PhotoUrl = InputDto.GetValue("PhotoUrl").Value<string>();
+                rv.LinkedInPhotoUrl = InputDto.GetValue("LinkedInPhotoUrl").Value<string>();
 
 
                 return rv;
@@ -75,13 +75,13 @@ namespace Business.Web.Scrape.HtmlReaders
                 var html = Document;
                 var htmlUtility = new LinkedInProfileHtml(html);
 
-                rv.ProfileUrl = htmlUtility.GetLinkedInProfileUrl();
-                rv.ProfileId = htmlUtility.GetLinkedInProfileId();
-                rv.FullName = htmlUtility.GetLinkedInFullName();
-                rv.Connections = htmlUtility.GetLinkedInConnections();
-                rv.Title = htmlUtility.GetLinkedInTitle();
-                rv.CompanyName = htmlUtility.GetLinkedInCompanyName();
-                rv.CompanyId = htmlUtility.GetCurrentLinkedInCompanyId();
+                rv.LinkedInPage = htmlUtility.GetLinkedInProfileUrl();
+                rv.LinkedInProfileId = htmlUtility.GetLinkedInProfileId();
+                rv.LinkedInFullName = htmlUtility.GetLinkedInFullName();
+                rv.LinkedInConnections = htmlUtility.GetLinkedInConnections();
+                rv.LinkedInTitle = htmlUtility.GetLinkedInTitle();
+                rv.LinkedInCompanyName = htmlUtility.GetLinkedInCompanyName();
+                rv.LinkedInCompanyId = htmlUtility.GetCurrentLinkedInCompanyId();
                 rv.Industry = htmlUtility.GetLinkedInIndustry();
                 rv.Location = htmlUtility.GetLinkedInLocation();
                 rv.Email = htmlUtility.GetLinkedInEmail();
@@ -89,7 +89,7 @@ namespace Business.Web.Scrape.HtmlReaders
                 rv.Twitter = htmlUtility.GetLinkedInTwitter();
                 rv.Address = htmlUtility.GetLinkedInAddress();
                 rv.Phone = htmlUtility.GetLinkedInPhone();
-                rv.PhotoUrl = htmlUtility.GetLinkedInProfilePhotoUrl();
+                rv.LinkedInPhotoUrl = htmlUtility.GetLinkedInProfilePhotoUrl();
 
 
                 return rv;

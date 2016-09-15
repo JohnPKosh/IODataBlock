@@ -80,4 +80,7 @@
     <None Include="WebTrakrDatabase.publish.xml" />
     <None Include="SchemaCompares\Exp14ToProject.scmp" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="WebTrakrDatabase.refactorlog" />
+  </ItemGroup>
 </Project>

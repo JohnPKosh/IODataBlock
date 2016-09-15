@@ -4,9 +4,9 @@ namespace Business.Web.Models
 {
     public class LinkedInCompanyScrapeDto
     {
-        public string LocationUrl { get; set; }
-        public long CompanyId { get; set; }
-        public string CompanyName { get; set; }
+        public long LinkedInCompanyId { get; set; }
+        public string LinkedInCompanyUrl { get; set; }
+        public string LinkedInCompanyName { get; set; }
         public string DomainName { get; set; }
         public string Specialties { get; set; }
         public string StreetAddress { get; set; }
@@ -16,15 +16,14 @@ namespace Business.Web.Models
         public string CountryName { get; set; }
         public string Website { get; set; }
         public string Industry { get; set; }
-        public string Type { get; set; }
+        public string CompanyType { get; set; }
         public string CompanySize { get; set; }
         public string Founded { get; set; }
-        public string FollowersText { get; set; }
-        public int Followers { get; set; }
+        public int? FollowersCount { get; set; }
+        public string FollowUrl { get; set; }
         public string PhotoUrl { get; set; }
         public string CompanyDescription { get; set; }
         public HashSet<string> CompanyUrls { get; set; }
         public HashSet<string> PeopleToInvite { get; set; }
-        public string FollowUrl { get; set; }
     }
 }
