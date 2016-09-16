@@ -55,7 +55,6 @@ namespace WebTrakrData.Model
 
         public string Phone { get; set; }
 
-        [Required]
         [StringLength(255)]
         public string LinkedInPhotoUrl { get; set; }
 

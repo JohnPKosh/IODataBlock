@@ -39,7 +39,8 @@ function GetLinkedInProfileId() {
 /* Get the LinkedInPage */
 function GetLinkedInPage() {
     try {
-        return $(".view-public-profile").attr("href");
+        //return $(".view-public-profile").attr("href");
+        return "https://www.linkedin.com" + $(location).attr("pathname");
     } catch (err) {
         console.log("ERR GetLinkedInPage: " + err);
         return null;

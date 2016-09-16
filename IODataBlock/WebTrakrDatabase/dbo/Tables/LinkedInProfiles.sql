@@ -14,7 +14,7 @@
     [Twitter]             NVARCHAR (255) NULL,
     [Address]             NVARCHAR (255) NULL,
     [Phone]               NVARCHAR (MAX) NULL,
-    [LinkedInPhotoUrl]    NVARCHAR (255) NOT NULL,
+    [LinkedInPhotoUrl]    NVARCHAR (255) NULL,
     [CreatedDate]         DATETIME       NOT NULL,
     [UpdatedDate]         DATETIME       NOT NULL,
     CONSTRAINT [PK_LinkedInProfiles] PRIMARY KEY CLUSTERED ([Id] ASC)

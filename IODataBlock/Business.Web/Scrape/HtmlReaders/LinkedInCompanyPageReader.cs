@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Business.Web.System;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
@@ -29,22 +30,12 @@ namespace Business.Web.Scrape.HtmlReaders
                 var rv = new LinkedInCompanyScrapeDto();
                 if (InputDto == null) return TryScrapeDto();
 
-                rv.FollowUrl = InputDto.GetValue("FollowUrl").Value<string>();
-                rv.PhotoUrl = InputDto.GetValue("PhotoUrl").Value<string>();
-                rv.LinkedInCompanyName = InputDto.GetValue("LinkedInCompanyName").Value<string>();
-                //rv.FollowersText = InputDto.GetValue("FollowersText").Value<string>();
-                //int followers;
-                //if (!string.IsNullOrWhiteSpace(rv.FollowersText) && int.TryParse(rv.FollowersText.Replace("followers", string.Empty).Replace(",", string.Empty).Trim(), out followers))
-                //{
-                //    rv.FollowersCount = followers;
-                //}
-                //else
-                //{
-                //    rv.FollowersCount = -1;
-                //}
-                rv.FollowersCount = InputDto.GetValue("FollowersCount").Value<int?>();
+                rv.FollowUrl = InputDto.GetValueOrDefault<string>("FollowUrl");
+                rv.PhotoUrl = InputDto.GetValueOrDefault<string>("PhotoUrl");
+                rv.LinkedInCompanyName = InputDto.GetValueOrDefault<string>("LinkedInCompanyName");
+                rv.FollowersCount = InputDto.GetValueOrDefault<int?>("FollowersCount");
 
-                var companyidstring = InputDto.GetValue("LinkedInCompanyId").Value<string>();
+                var companyidstring = InputDto.GetValueOrDefault<string>("LinkedInCompanyId");
                 long companyid;
                 if (!string.IsNullOrWhiteSpace(companyidstring) && long.TryParse(companyidstring, out companyid))
                 {
@@ -55,20 +46,20 @@ namespace Business.Web.Scrape.HtmlReaders
                     rv.LinkedInCompanyId = -1;
                 }
 
-                rv.CompanyDescription = InputDto.GetValue("CompanyDescription").Value<string>();
-                rv.DomainName = InputDto.GetValue("DomainName").Value<string>();
-                rv.Specialties = InputDto.GetValue("Specialties").Value<string>();
-                rv.StreetAddress = InputDto.GetValue("StreetAddress").Value<string>();
-                rv.Locality = InputDto.GetValue("Locality").Value<string>();
-                rv.Region = InputDto.GetValue("Region").Value<string>();
-                rv.PostalCode = InputDto.GetValue("PostalCode").Value<string>();
-                rv.CountryName = InputDto.GetValue("CountryName").Value<string>();
-                rv.Website = InputDto.GetValue("Website").Value<string>();
-                rv.Industry = InputDto.GetValue("Industry").Value<string>();
-                rv.CompanyType = InputDto.GetValue("CompanyType").Value<string>();
-                rv.CompanySize = InputDto.GetValue("CompanySize").Value<string>();
-                rv.Founded = InputDto.GetValue("Founded").Value<string>();
-                rv.LinkedInCompanyUrl = InputDto.GetValue("LinkedInCompanyUrl").Value<string>();
+                rv.CompanyDescription = InputDto.GetValueOrDefault<string>("CompanyDescription");
+                rv.DomainName = InputDto.GetValueOrDefault<string>("DomainName");
+                rv.Specialties = InputDto.GetValueOrDefault<string>("Specialties");
+                rv.StreetAddress = InputDto.GetValueOrDefault<string>("StreetAddress");
+                rv.Locality = InputDto.GetValueOrDefault<string>("Locality");
+                rv.Region = InputDto.GetValueOrDefault<string>("Region");
+                rv.PostalCode = InputDto.GetValueOrDefault<string>("PostalCode");
+                rv.CountryName = InputDto.GetValueOrDefault<string>("CountryName");
+                rv.Website = InputDto.GetValueOrDefault<string>("Website");
+                rv.Industry = InputDto.GetValueOrDefault<string>("Industry");
+                rv.CompanyType = InputDto.GetValueOrDefault<string>("CompanyType");
+                rv.CompanySize = InputDto.GetValueOrDefault<string>("CompanySize");
+                rv.Founded = InputDto.GetValueOrDefault<string>("Founded");
+                rv.LinkedInCompanyUrl = InputDto.GetValueOrDefault<string>("LinkedInCompanyUrl");
                 return rv;
             }
             catch (Exception)

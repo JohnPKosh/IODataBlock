@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Business.Web.System;
 
 namespace Business.Web.Scrape.HtmlReaders
 {
@@ -30,33 +31,33 @@ namespace Business.Web.Scrape.HtmlReaders
                 var rv = new LinkedInProfileScrapeDto();
                 if (InputDto == null) return TryScrapeDto();
 
-
-                rv.LinkedInPage = InputDto.GetValue("LinkedInPage").Value<string>();
-                rv.LinkedInProfileId = InputDto.GetValue("LinkedInProfileId").Value<long?>();
-                rv.LinkedInFullName = InputDto.GetValue("LinkedInFullName").Value<string>();
-                //rv.Connections = InputDto.GetValue("Connections").Value<int>();
+                rv.LinkedInPage = InputDto.GetValueOrDefault<string>("LinkedInPage");
+                rv.LinkedInProfileId = InputDto.GetValueOrDefault<long?>("LinkedInProfileId");
+                rv.LinkedInFullName = InputDto.GetValueOrDefault<string>("LinkedInFullName");
                 var connections = -1;
-                int.TryParse(
-                    InputDto.GetValue("LinkedInConnections")
-                        .Value<string>()
+                var connectionsText = InputDto.GetValueOrDefault<string>("LinkedInConnections");
+                if (!string.IsNullOrWhiteSpace(connectionsText))
+                {
+                    int.TryParse(
+                    connectionsText
                         .Replace(",", string.Empty)
                         .Replace("followers", string.Empty)
                         .Replace("connections", string.Empty)
                         .Trim(), out connections);
+                }
                 rv.LinkedInConnections = connections;
 
-                rv.LinkedInTitle = InputDto.GetValue("LinkedInTitle").Value<string>();
-                rv.LinkedInCompanyName = InputDto.GetValue("LinkedInCompanyName").Value<string>();
-                rv.LinkedInCompanyId = InputDto.GetValue("LinkedInCompanyId").Value<long?>();
-                rv.Industry = InputDto.GetValue("Industry").Value<string>();
-                rv.Location = InputDto.GetValue("Location").Value<string>();
-                rv.Email = InputDto.GetValue("Email").Value<string>();
-                rv.Im = InputDto.GetValue("Im").Value<string>();
-                rv.Twitter = InputDto.GetValue("Twitter").Value<string>();
-                rv.Address = InputDto.GetValue("Address").Value<string>();
-                rv.Phone = InputDto.GetValue("Phone").Value<string>();
-                rv.LinkedInPhotoUrl = InputDto.GetValue("LinkedInPhotoUrl").Value<string>();
-
+                rv.LinkedInTitle = InputDto.GetValueOrDefault<string>("LinkedInTitle");
+                rv.LinkedInCompanyName = InputDto.GetValueOrDefault<string>("LinkedInCompanyName");
+                rv.LinkedInCompanyId = InputDto.GetValueOrDefault<long?>("LinkedInCompanyId");
+                rv.Industry = InputDto.GetValueOrDefault<string>("Industry");
+                rv.Location = InputDto.GetValueOrDefault<string>("Location");
+                rv.Email = InputDto.GetValueOrDefault<string>("Email");
+                rv.Im = InputDto.GetValueOrDefault<string>("Im");
+                rv.Twitter = InputDto.GetValueOrDefault<string>("Twitter");
+                rv.Address = InputDto.GetValueOrDefault<string>("Address");
+                rv.Phone = InputDto.GetValueOrDefault<string>("Phone");
+                rv.LinkedInPhotoUrl = InputDto.GetValueOrDefault<string>("LinkedInPhotoUrl");
 
                 return rv;
             }

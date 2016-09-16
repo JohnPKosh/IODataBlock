@@ -114,7 +114,7 @@
           <Property Name="Twitter" Type="nvarchar" MaxLength="255" />
           <Property Name="Address" Type="nvarchar" MaxLength="255" />
           <Property Name="Phone" Type="nvarchar(max)" />
-          <Property Name="LinkedInPhotoUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LinkedInPhotoUrl" Type="nvarchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -443,7 +443,7 @@
           <Property Name="Twitter" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LinkedInPhotoUrl" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LinkedInPhotoUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="UserLinkedInProfiles" Relationship="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile" FromRole="LinkedInProfile" ToRole="UserLinkedInProfile" />
