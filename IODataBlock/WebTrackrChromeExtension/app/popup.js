@@ -33,18 +33,29 @@ function msgGetLinkedInProfileDto_callback(value) {
     linkedInProfileDto = value;
 
     linkedInCompanyId = value.LinkedInCompanyId;
-    var apiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
-    /* Get Results from API */
-    $.getJSON(apiUrl)
+
+    /* Get Results from LinkedIn Company API */
+    var linkedInCompanyApiUrl = "http://localhost:51786/Api/TrakrScrape/LinkedInCompany/" + linkedInCompanyId + "/367db296-4e00-49b1-a064-d3e838db000d";
+    $.getJSON(linkedInCompanyApiUrl)
       .done(function (json) {
-          DisplayLinkedInProfileTracked(linkedInProfileDto);
+          //DisplayLinkedInProfileTracked(linkedInProfileDto);
           DisplayLinkedInCompanyTracked(json); /*TODO: Show content from API results.  If it is old data then decide what to do here. */
         })
       .fail(function (jqxhr, textStatus, error) {
-          /*TODO: Show content from page and offer to Trak it.*/
-          DisplayLinkedInProfileUnTracked(linkedInProfileDto);
+          //DisplayLinkedInProfileUnTracked(linkedInProfileDto);
           DisplayLinkedInCompanyUntracked(linkedInProfileDto);
       });
+
+    /* Get Results from LinkedIn Profile API */
+    var linkedInProfileApiUrl = "http://localhost:51786/api/v1/LinkedeInProfile/" + value.LinkedInProfileId + "/367db296-4e00-49b1-a064-d3e838db000d";
+    $.getJSON(linkedInProfileApiUrl)
+      .done(function (json) {
+          DisplayLinkedInProfileTracked(json);
+      })
+      .fail(function (jqxhr, textStatus, error) {
+          DisplayLinkedInProfileUnTracked(linkedInProfileDto);
+      });
+
 
     /* Configure Tab Actions */
     $('a[data-toggle="pill"]').on("shown.bs.tab", function (e) {
@@ -369,6 +380,9 @@ function PopupOnLoad() {
 }
 
 
+/* Start - Utility Methods Etc. */
+/* Start - Utility Methods Etc. */
+/* Start - Utility Methods Etc. */
 
 function onEmailCreated(tabId, changeInfo, tab) {
     //chrome.tabs.remove(tabId);
@@ -429,3 +443,8 @@ chrome.extension.onRequest.addListener(function (data) {
 //        currentDoc = current.document.documentElement.outerHTML;
 //    });
 //}
+
+
+/* End - Utility Methods Etc. */
+/* End - Utility Methods Etc. */
+/* End - Utility Methods Etc. */

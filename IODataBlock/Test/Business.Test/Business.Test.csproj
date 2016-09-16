@@ -283,6 +283,7 @@
     <None Include="Junk\data2.json" />
     <None Include="Junk\formlist.json" />
     <None Include="Junk\forms.json" />
+    <None Include="Junk\fullcontact.json" />
     <None Include="Junk\list.json" />
     <None Include="Junk\partnersearchscriptjson.json" />
     <None Include="Junk\query.json" />

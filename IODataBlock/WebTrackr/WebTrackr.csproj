@@ -3113,6 +3113,8 @@
     <Compile Include="Controllers\InterfaceController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PublicApi\FullContactController.cs" />
+    <Compile Include="Controllers\PublicApi\LinkedInProfileController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Controllers\TrakrScrapeController.cs" />
