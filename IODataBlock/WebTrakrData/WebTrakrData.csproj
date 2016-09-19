@@ -102,6 +102,7 @@
     <Compile Include="Model\AspNetUserLogin.cs" />
     <Compile Include="Model\Dto\UserLinkedeInProfileDto.cs" />
     <Compile Include="Model\Dto\UserLinkedInCompanyDto.cs" />
+    <Compile Include="Services\FullContactService.cs" />
     <Compile Include="Services\UserLinkedInCompanyService.cs" />
     <Compile Include="Model\LinkedInCompany.cs" />
     <Compile Include="Model\LinkedInProfile.cs" />

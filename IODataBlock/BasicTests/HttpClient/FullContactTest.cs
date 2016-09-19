@@ -47,7 +47,7 @@ namespace BasicTests.HttpClient
                 try
                 {
                     JObject result;
-                    if (getPersonByEmailResult(email, out result))
+                    if (TryGetPersonByEmailResult(email, out result))
                     {
                         successArr.Add(result);
                     }
@@ -92,7 +92,7 @@ namespace BasicTests.HttpClient
             return url;
         }
 
-        private bool getPersonByEmailResult(string email, out JObject o)
+        private bool TryGetPersonByEmailResult(string email, out JObject o)
         {
             try
             {
