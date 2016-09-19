@@ -38,6 +38,18 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Flurl, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.2.2.1\lib\portable40-net40+sl5+win8+wp8+wpa81\Flurl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.1.0.2\lib\net45\Flurl.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -100,9 +112,10 @@
     <Compile Include="Model\AspNetUser.cs" />
     <Compile Include="Model\AspNetUserClaim.cs" />
     <Compile Include="Model\AspNetUserLogin.cs" />
+    <Compile Include="Model\Dto\FullContactResponse.cs" />
     <Compile Include="Model\Dto\UserLinkedeInProfileDto.cs" />
     <Compile Include="Model\Dto\UserLinkedInCompanyDto.cs" />
-    <Compile Include="Services\FullContactService.cs" />
+    <Compile Include="Services\FullContactPersonService.cs" />
     <Compile Include="Services\UserLinkedInCompanyService.cs" />
     <Compile Include="Model\LinkedInCompany.cs" />
     <Compile Include="Model\LinkedInProfile.cs" />
@@ -113,7 +126,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserLinkedInProfileService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Business.HttpClient\Business.HttpClient.csproj">
+      <Project>{c8499b41-ffcc-4675-ba40-91d6caf53e74}</Project>
+      <Name>Business.HttpClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Business\Business.Common\Business.Common.csproj">
+      <Project>{af1c182a-f249-40d4-83c5-915d83ff9b5c}</Project>
+      <Name>Business.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="EF\WebTrakrModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

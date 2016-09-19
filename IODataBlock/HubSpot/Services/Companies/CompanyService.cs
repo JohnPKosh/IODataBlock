@@ -124,7 +124,7 @@ namespace HubSpot.Services.Companies
             {
                 var path = "https://api.hubapi.com/companies/v2/companies/".AppendPathSegment(companyId.ToString()).AppendPathSegment("contacts").AppendPathSegment(contactId.ToString()).SetQueryParam("hapikey", _hapiKey);
                 ro.RequestData = path;
-                HttpResponseMessage result = path.PutAsync().Result;
+                HttpResponseMessage result = path.PutJsonAsync(new { hapikey = _hapiKey, companyId, vid = contactId}).Result; // TODO: review if this still works?  Document says put, but looks like a GET method? Needed to modify signature because of Flurl version update.
                 result.EnsureSuccessStatusCode();
                 ro.ResponseData = result.Content.ReadAsStringAsync().Result;
                 return ro;
