@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WebTrakrData.Model.Dto
 {
@@ -17,5 +13,17 @@ namespace WebTrakrData.Model.Dto
 
         [JsonProperty(PropertyName = "requestId")]
         public string RequestId { get; set; }
+
+        [JsonProperty(PropertyName = "responseData")]
+        public JObject ResponseData { get; set; }
+
+        [JsonProperty(PropertyName = "requestData")]
+        public JObject RequestData { get; set; }
+
+        [JsonProperty(PropertyName = "requestTypeId")]
+        public int RequestTypeId { get; set; }
+
+        [JsonProperty(PropertyName = "userId")]
+        public string AspNetUserId { get; set; }
     }
 }

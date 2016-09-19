@@ -31,131 +31,46 @@ namespace BasicTests.HttpClient
 
         #endregion
 
+
         [TestMethod]
         public void TestFlurlGetPersonByEmail_SUCCESS()
         {
             var email = @"dustin.lawler@datadoghq.com";
-
-            JObject result;
-            if (service.TryGetPersonByEmailJObject(email, out result))
-            {
-                // success
-                Assert.IsNotNull(result);
-            }
-            else
-            {
-                // fail
-                Assert.IsNotNull(result);
-            }
+            var result = service.GetPersonByEmail(email, "367db296-4e00-49b1-a064-d3e838db000d");
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void TestFlurlGetPersonByEmail_FAIL()
         {
             var email = @"vtabacco@castcrete.com";
-
-            JObject result;
-            if (service.TryGetPersonByEmailJObject(email, out result))
-            {
-                // success
-                Assert.IsNotNull(result);
-            }
-            else
-            {
-                // fail
-                Assert.IsNotNull(result);
-            }
+            var result = service.GetPersonByEmail(email, "367db296-4e00-49b1-a064-d3e838db000d");
+            Assert.IsNotNull(result);
         }
+
+
 
         [TestMethod]
-        public void TestFlurlGetPersonsByEmail()
+        public void TestFlurlGetPersonByPhone_SUCCESS()
         {
-            return;
-            // Temporarily disabled
-
-            var successArr = new JArray();
-            var failArr = new JArray();
-            var emails = getEmailList();
-
-            foreach (var email in emails)
-            {
-                System.Threading.Thread.Sleep(2000);
-                try
-                {
-                    JObject result;
-                    if (service.TryGetPersonByEmailJObject(email, out result))
-                    {
-                        successArr.Add(result);
-                    }
-                    else
-                    {
-                        failArr.Add(result);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //throw;
-                }
-            }
-            try
-            {
-                successArr.WriteJsonToFile(new FileInfo(@"C:\junk\successFullContactsTest.json"));
-            }
-            catch (Exception ex)
-            {
-                //throw;
-            }
-            try
-            {
-                failArr.WriteJsonToFile(new FileInfo(@"C:\junk\failedFullContactsTest.json"));
-            }
-            catch (Exception ex)
-            {
-                //throw;
-            }
+            var phone = @"3037170414";
+            var result = service.GetPersonByPhone(phone, "367db296-4e00-49b1-a064-d3e838db000d");
+            Assert.IsNotNull(result);
         }
-
-
-
-
-
 
         [TestMethod]
         public void TestFlurlGetPersonByTwitter_SUCCESS()
         {
             var twitter = @"tcg_carl";
-
-            JObject result;
-            if (service.TryGetPersonByTwitterJObject(twitter, out result))
-            {
-                // success
-                Assert.IsNotNull(result);
-            }
-            else
-            {
-                // fail
-                Assert.IsNotNull(result);
-            }
+            var result = service.GetPersonByTwitter(twitter, "367db296-4e00-49b1-a064-d3e838db000d");
+            Assert.IsNotNull(result);
         }
 
 
-        [TestMethod]
-        public void TestFlurlGetPersonByPhone_FAIL()
-        {
-            var phone = @"3037170414";
 
-            JObject result;
-            if (service.TryGetPersonByTwitterJObject(phone, out result))
-            {
-                // success
-                Assert.IsNotNull(result);
-            }
-            else
-            {
-                // fail
-                Assert.IsNotNull(result);
-            }
-        }
+
+
+
 
         private List<string> getEmailList()
         {
