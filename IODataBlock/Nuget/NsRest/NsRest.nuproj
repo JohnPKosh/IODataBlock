@@ -19,7 +19,7 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>NsRest</Id>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Title>NsRest</Title>
     <Authors>jkosh</Authors>
     <Owners>jkosh</Owners>

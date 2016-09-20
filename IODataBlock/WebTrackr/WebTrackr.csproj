@@ -65,11 +65,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.16.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\packages\Business.Common.1.0.18\lib\net452\Business.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Business.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Business.Web.1.0.16\lib\net452\Business.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Data.DbClient.1.0.8\lib\net452\Data.DbClient.dll</HintPath>
+      <HintPath>..\packages\Data.DbClient.1.0.9\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DbExtensions">
@@ -3142,10 +3146,6 @@
     <Folder Include="Areas\SiteDemo\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Business.Web\Business.Web.csproj">
-      <Project>{563256a5-8264-4a2c-9473-00d59f64ea7a}</Project>
-      <Name>Business.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebTrakrData\WebTrakrData.csproj">
       <Project>{f07b4f1f-b99d-4723-aaa8-7b15ff114641}</Project>
       <Name>WebTrakrData</Name>
