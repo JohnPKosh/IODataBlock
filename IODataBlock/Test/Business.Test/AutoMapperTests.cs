@@ -18,8 +18,9 @@ namespace Business.Test
             var dfido = (IDictionary<string, object>)dynfido;
             Assert.IsNotNull(dfido);
 
-            Mapper.CreateMap<IDictionary<String, Object>, FakePet>();
-            var newfido = Mapper.DynamicMap<FakePet>(dynfido);
+            //Mapper.CreateMap<IDictionary<String, Object>, FakePet>();
+            Mapper.Initialize(cfg => {});
+            var newfido = Mapper.Map<FakePet>(dynfido);
 
             Assert.IsNotNull(newfido);
         }
