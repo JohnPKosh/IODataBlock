@@ -7,13 +7,13 @@ function InitializePageLinksCollection() {
 /* Main DTO page DOM builder function */
 function GetPageDto() {
     var rv = {
-        ProfileId: GetProfileId(),
-        ProfileUrl: GetProfileUrl(),
-        FullName: GetFullName(),
-        Connections: GetConnections(),
-        Title: GetTitle(),
-        CompanyName: GetCompanyName(),
-        CompanyId: GetCompanyId(),
+        LinkedInProfileId: GetLinkedInProfileId(),
+        LinkedInPage: GetLinkedInPage(),
+        LinkedInFullName: GetLinkedInFullName(),
+        LinkedInConnections: GetLinkedInConnections(),
+        LinkedInTitle: GetLinkedInTitle(),
+        LinkedInCompanyName: GetLinkedInCompanyName(),
+        LinkedInCompanyId: GetLinkedInCompanyId(),
         Industry: GetIndustry(),
         Location: GetLocation(),
         Email: GetEmail(),
@@ -21,53 +21,54 @@ function GetPageDto() {
         Twitter: GetTwitter(),
         Address: GetAddress(),
         Phone: GetPhone(),
-        PhotoUrl: GetPhotoUrl()
+        LinkedInPhotoUrl: GetLinkedInPhotoUrl()
     };
     return rv;
 };
 
-/* Get the ProfileId */
-function GetProfileId() {
+/* Get the LinkedInProfileId */
+function GetLinkedInProfileId() {
     try {
         return $(".masthead").attr("id").replace("member-", "");
     } catch (err) {
-        console.log("ERR GetProfileId: " + err);
+        console.log("ERR GetLinkedInProfileId: " + err);
         return null;
     }
 };
 
-/* Get the ProfileUrl */
-function GetProfileUrl() {
+/* Get the LinkedInPage */
+function GetLinkedInPage() {
     try {
-        return $(".view-public-profile").attr("href");
+        //return $(".view-public-profile").attr("href");
+        return "https://www.linkedin.com" + $(location).attr("pathname");
     } catch (err) {
-        console.log("ERR GetProfileUrl: " + err);
+        console.log("ERR GetLinkedInPage: " + err);
         return null;
     }
 };
 
 /* Get the FullName */
-function GetFullName() {
+function GetLinkedInFullName() {
     try {
         return $(".full-name").text().trim();
     } catch (err) {
-        console.log("ERR FullName: " + err);
+        console.log("ERR LinkedInFullName: " + err);
         return null;
     }
 };
 
-/* Get the Connections */
-function GetConnections() {
+/* Get the LinkedInConnections */
+function GetLinkedInConnections() {
     try {
         return $(".member-connections").text().replace("connections", "").replace("+", "").trim();
     } catch (err) {
-        console.log("ERR GetConnections: " + err);
+        console.log("ERR GetLinkedInConnections: " + err);
         return null;
     }
 };
 
-/* Get the Title */
-function GetTitle() {
+/* Get the LinkedInTitle */
+function GetLinkedInTitle() {
     try {
         //<p class="title" dir="ltr">President and CEO at CloudRoute, LLC</p>
         var titlestr = $(".title").first().text().trim();
@@ -78,13 +79,13 @@ function GetTitle() {
             return titlestr;
         }
     } catch (err) {
-        console.log("ERR GetTitle: " + err);
+        console.log("ERR GetLinkedInTitle: " + err);
         return null;
     }
 };
 
-/* Get the CompanyName */
-function GetCompanyName() {
+/* Get the LinkedInCompanyName */
+function GetLinkedInCompanyName() {
     try {
         var rv = null;
         $.each(pageLinks, function (i, field) {
@@ -94,15 +95,15 @@ function GetCompanyName() {
                 if (lowerUrl.indexOf("/company/") > -1 & lowerUrl.indexOf("?trk=prof-0-ovw-curr_pos") > -1) {
                     rv = f.text;
                     if (f.text) {
-                        //console.log("GetCompanyName loop 1: " + f.text);
+                        //console.log("GetLinkedInCompanyName loop 1: " + f.text);
                          return false;
                     }
                 }
             } catch (e) {
-                console.log("ERR GetCompanyName loop 1: " + e);
+                console.log("ERR GetLinkedInCompanyName loop 1: " + e);
             }
         });
-        if (rv == null) {
+        if (rv === null) {
             $.each(pageLinks, function (i, elem) {
                 try {
                     var f = elem;
@@ -110,16 +111,16 @@ function GetCompanyName() {
                     if (lowerUrl.indexOf("/company/") > -1 & lowerUrl.indexOf("?trk=prof-exp-company-name") > -1) {
                         rv = f.text;
                         if (f.text) {
-                            //console.log("GetCompanyName loop 2: " + f.text);
+                            //console.log("GetLinkedInCompanyName loop 2: " + f.text);
                             return false;
                         }
                     }
                 } catch (e) {
-                    console.log("ERR GetCompanyName loop 2: " + e);
+                    console.log("ERR GetLinkedInCompanyName loop 2: " + e);
                 }
             });
         }
-        if (rv == null) {
+        if (rv === null) {
             var titlestr = $(".title").text().trim();
             if (titlestr.indexOf(" at ") > -1) {
                 var start = titlestr.lastIndexOf(" at ") + 4;
@@ -130,13 +131,13 @@ function GetCompanyName() {
         }
         return rv;
     } catch (err) {
-        console.log("ERR GetCompanyName: " + err);
+        console.log("ERR GetLinkedInCompanyName: " + err);
         return null;
     }
 };
 
-/* Get the CompanyId */
-function GetCompanyId() {
+/* Get the LinkedInCompanyId */
+function GetLinkedInCompanyId() {
     try {
         var rv = null;
         //var links = $("[href]");
@@ -149,7 +150,7 @@ function GetCompanyId() {
                 return false;
             }
         });
-        if (rv == null) {
+        if (rv === null) {
             //https://www.linkedin.com/company/10152667?trk=prof-exp-company-name
             $.each(pageLinks, function (i, field) {
                 var lowerUrl = field.href.toLowerCase();
@@ -163,12 +164,12 @@ function GetCompanyId() {
         }
         return rv;
     } catch (err) {
-        console.log("ERR GetCompanyId: " + err);
+        console.log("ERR GetLinkedInCompanyId: " + err);
         return null;
     }
 };
 
-/* Get the Title */
+/* Get the LinkedInTitle */
 function GetIndustry() {
     try {
         //<dd class="industry"><a href="/vsearch/p?f_I=6&amp;trk=prof-0-ovw-industry" name="industry" title="Find other members in this industry">Internet</a></dd>
@@ -258,8 +259,8 @@ function JoinPhoneElements(elems) {
     }
 };
 
-/* Get the PhotoUrl */
-function GetPhotoUrl() {
+/* Get the LinkedInPhotoUrl */
+function GetLinkedInPhotoUrl() {
     try {
         //<div class="profile-picture"> <img src="https://media.licdn.com/media/p/3/000/2a8/15f/03d0286.jpg" alt="Giorgiy Shepov"><span></span></div>
         return $(".profile-picture img").attr("src");
@@ -276,13 +277,13 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         InitializePageLinksCollection();
         var dto = GetPageDto();
         
-        console.log("ProfileId = " + dto.ProfileId);
-        console.log("ProfileUrl = " + dto.ProfileUrl);
-        console.log("FullName = " + dto.FullName);
-        console.log("Connections = " + dto.Connections);
-        console.log("Title = " + dto.Title);
-        console.log("CompanyName = " + dto.CompanyName);
-        console.log("CompanyId = " + dto.CompanyId);
+        console.log("LinkedInProfileId = " + dto.LinkedInProfileId);
+        console.log("LinkedInPage = " + dto.LinkedInPage);
+        console.log("LinkedInFullName = " + dto.LinkedInFullName);
+        console.log("LinkedInConnections = " + dto.LinkedInConnections);
+        console.log("LinkedInTitle = " + dto.LinkedInTitle);
+        console.log("LinkedInCompanyName = " + dto.LinkedInCompanyName);
+        console.log("LinkedInCompanyId = " + dto.LinkedInCompanyId);
         console.log("Industry = " + dto.Industry);
         console.log("Location = " + dto.Location);
         console.log("Email = " + dto.Email);
@@ -290,7 +291,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         console.log("Twitter = " + dto.Twitter);
         console.log("Address = " + dto.Address);
         console.log("Phone = " + dto.Phone);
-        console.log("PhotoUrl = " + dto.PhotoUrl);
+        console.log("LinkedInPhotoUrl = " + dto.LinkedInPhotoUrl);
 
         sendResponse(dto);
     }

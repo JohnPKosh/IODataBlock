@@ -8,9 +8,9 @@ function InitializePageLinksCollection() {
 /* Main DTO page DOM builder function */
 function GetPageDto() {
     var rv = {
-        LocationUrl: GetLocationUrl(),
-        CompanyId: GetCompanyId(),
-        CompanyName: GetCompanyName(),
+        LinkedInCompanyId: GetLinkedInCompanyId(),
+        LinkedInCompanyUrl: GetLinkedInCompanyUrl(),
+        LinkedInCompanyName: GetLinkedInCompanyName(),
         DomainName: GetDomainName(),
         Specialties: GetSpecialties(),
         StreetAddress: GetStreetAddress(),
@@ -20,47 +20,47 @@ function GetPageDto() {
         CountryName:GetCountryName(),
         Website: GetWebsite(),
         Industry: GetIndustry(),
-        Type: GetType(),
+        CompanyType: GetCompanyType(),
         CompanySize: GetCompanySize(),
         Founded: GetFounded(),
-        FollowersText: GetFollowersText(),
+        FollowersCount: GetFollowersCount(),
+        FollowUrl: GetFollowUrl(),
         PhotoUrl: GetPhotoUrl(),
-        CompanyDescription: GetCompanyDescription(),
-        FollowUrl: GetFollowUrl()
+        CompanyDescription: GetCompanyDescription()
 };
     return rv;
 };
 
 
-/* Get the LocationUrl */
-function GetLocationUrl() {
-    try {
-        return "https://www.linkedin.com" + $(location).attr("pathname");
-    } catch (err) {
-        console.log("ERR GetLocationUrl: " + err);
-        return null;
-    }
-};
-
 /* Get the ProfileId */
-function GetCompanyId() {
+function GetLinkedInCompanyId() {
     try {
-        //var loc = GetLocationUrl();
+        //var loc = GetLinkedInCompanyUrl();
         //return loc.substring(loc.lastIndexOf("/") + 1);
         return getQueryString("id", GetFollowUrl());
     } catch (err) {
-        console.log("ERR GetCompanyId: " + err);
+        console.log("ERR GetLinkedInCompanyId: " + err);
         return null;
     }
 };
 
-/* Get the CompanyName */
-function GetCompanyName() {
+/* Get the LinkedInCompanyUrl */
+function GetLinkedInCompanyUrl() {
+    try {
+        return "https://www.linkedin.com" + $(location).attr("pathname");
+    } catch (err) {
+        console.log("ERR GetLinkedInCompanyUrl: " + err);
+        return null;
+    }
+};
+
+/* Get the LinkedInCompanyName */
+function GetLinkedInCompanyName() {
     try {
         //<h1 class="name" itemscope="" itemtype="http://schema.org/Corporation"><span dir="ltr" itemprop="name">CloudRoute</span></h1>
         return $(".name span[itemprop='name'").text().trim();
     } catch (err) {
-        console.log("ERR CompanyName: " + err);
+        console.log("ERR LinkedInCompanyName: " + err);
         return null;
     }
 };
@@ -172,12 +172,12 @@ function GetIndustry() {
     }
 };
 
-/* Get the Type */
-function GetType() {
+/* Get the CompanyType */
+function GetCompanyType() {
     try {
         return $(".type p").first().text().trim();
     } catch (err) {
-        console.log("ERR GetType: " + err);
+        console.log("ERR GetCompanyType: " + err);
         return null;
     }
 };
@@ -202,12 +202,23 @@ function GetFounded() {
     }
 };
 
-/* Get the FollowersText */
-function GetFollowersText() {
+/* Get the FollowersCount */
+function GetFollowersCount() {
     try {
-        return $(".followers-count").first().text().trim();
+        return $(".followers-count").first().text().replace("followers", "").replace("follower", "").replace(",", "").trim();
     } catch (err) {
-        console.log("ERR GetFollowersText: " + err);
+        console.log("ERR GetFollowersCount: " + err);
+        return null;
+    }
+};
+
+/* Get the FollowUrl */
+function GetFollowUrl() {
+    try {
+        //<a class="follow-start" href="https://www.linkedin.com/company/follow/submit?id=9403981&amp;fl=start&amp;ft=0_Y3kiyf9HWAmYDU6VAEIvRVAObMxlNM_IGCvo1b5lkvTF_k9D5fA1WjmaCTx-TCZL&amp;csrfToken=ajax%3A8554679308426727204&amp;trk=co_followed-start" role="button">Follow</a>
+        return $(".follow-start").attr("href");
+    } catch (err) {
+        console.log("ERR GetFollowUrl: " + err);
         return null;
     }
 };
@@ -235,16 +246,6 @@ function GetCompanyDescription() {
 };
 
 
-/* Get the FollowUrl */
-function GetFollowUrl() {
-    try {
-        //<a class="follow-start" href="https://www.linkedin.com/company/follow/submit?id=9403981&amp;fl=start&amp;ft=0_Y3kiyf9HWAmYDU6VAEIvRVAObMxlNM_IGCvo1b5lkvTF_k9D5fA1WjmaCTx-TCZL&amp;csrfToken=ajax%3A8554679308426727204&amp;trk=co_followed-start" role="button">Follow</a>
-        return $(".follow-start").attr("href");
-    } catch (err) {
-        console.log("ERR GetFollowUrl: " + err);
-        return null;
-    }
-};
 
 
 /**
@@ -268,9 +269,9 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         InitializePageLinksCollection();
         var dto = GetPageDto();
 
-        console.log("LocationUrl = " + dto.LocationUrl);
-        console.log("CompanyId = " + dto.CompanyId);
-        console.log("CompanyName = " + dto.CompanyName);
+        console.log("LinkedInCompanyUrl = " + dto.LinkedInCompanyUrl);
+        console.log("LinkedInCompanyId = " + dto.LinkedInCompanyId);
+        console.log("LinkedInCompanyName = " + dto.LinkedInCompanyName);
         console.log("DomainName = " + dto.DomainName);
         console.log("Specialties = " + dto.Specialties);
         console.log("StreetAddress = " + dto.StreetAddress);
@@ -280,13 +281,13 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         console.log("CountryName = " + dto.CountryName);
         console.log("Website = " + dto.Website);
         console.log("Industry = " + dto.Industry);
-        console.log("Type = " + dto.Type);
+        console.log("CompanyType = " + dto.CompanyType);
         console.log("CompanySize = " + dto.CompanySize);
         console.log("Founded = " + dto.Founded);
-        console.log("FollowersText = " + dto.FollowersText);
+        console.log("FollowersCount = " + dto.FollowersCount);
+        console.log("FollowUrl = " + dto.FollowUrl);
         console.log("PhotoUrl = " + dto.PhotoUrl);
         console.log("CompanyDescription = " + dto.CompanyDescription);
-        console.log("FollowUrl = " + dto.FollowUrl);
 
         sendResponse(dto);
     }
@@ -299,8 +300,8 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 //    if (msg.text === "find_companyId") {
 
 //        var dto = GetPageDto();
-//        console.log("LocationUrl = " + dto.LocationUrl);
-//        console.log("CompanyId = " + dto.CompanyId);
+//        console.log("LinkedInCompanyUrl = " + dto.LinkedInCompanyUrl);
+//        console.log("LinkedInCompanyId = " + dto.LinkedInCompanyId);
 
 //        sendResponse($(".follow-start:first").attr("href"));
 //    }
