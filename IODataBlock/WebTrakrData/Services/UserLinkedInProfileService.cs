@@ -11,7 +11,7 @@ namespace WebTrakrData.Services
     public class UserLinkedInProfileService
     {
 
-        public IQueryable<UserLinkedeInProfileDto> GetUserLinkedInCompanyDto()
+        public IQueryable<UserLinkedeInProfileDto> GetUserLinkedInProfileDto()
         {
             var dbModel = new WebTrakrModel();
             var items = dbModel.UserLinkedInProfiles.Select(i => new UserLinkedeInProfileDto()

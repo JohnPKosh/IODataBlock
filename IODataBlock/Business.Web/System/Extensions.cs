@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json.Linq;
 
 namespace Business.Web.System
 {
@@ -69,5 +70,19 @@ namespace Business.Web.System
         #endregion Combine Path Extension Methods
 
         #endregion Path Extensions
+
+        public static T GetValueOrDefault<T>(this JObject value, string propertyName)
+        {
+            try
+            {
+                JToken token;
+                return value != null && value.HasValues && value.TryGetValue(propertyName, out token) ? token.Value<T>() : default(T);
+            }
+            catch (Exception)
+            {
+                return default(T);
+                //throw;
+            }
+        }
     }
 }

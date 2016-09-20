@@ -12,7 +12,7 @@
 /IODataBlock/Test/*/Configuration/
 /IODataBlock/Sandbox4/Configuration/
 /IODataBlock/Test/Business.Test/Junk/
-
+*.jfm
 
 # Build results
 
@@ -181,5 +181,5 @@ $RECYCLE.BIN/
 /IODataBlock/NsRestWeb/Configuration/appSettingsJKOSH.config
 /IODataBlock/BusinessCommon/Configuration/appSettings.config
 /IODataBlock/BusinessCommon/Configuration/connectionStrings.config
-*.jfm
-IODataBlock/WebTrakrDatabase/WebTrakrDatabase.jfm
+
+

@@ -21,24 +21,25 @@ namespace WebTrakrData.EF
         }
     
         public long Id { get; set; }
-        public Nullable<long> LinkedInId { get; set; }
-        public string LinkedInPage { get; set; }
+        public Nullable<long> LinkedInCompanyId { get; set; }
+        public string LinkedInCompanyUrl { get; set; }
         public string LinkedInCompanyName { get; set; }
         public string DomainName { get; set; }
-        public string specialties { get; set; }
-        public string streetAddress { get; set; }
-        public string locality { get; set; }
-        public string region { get; set; }
-        public string postalCode { get; set; }
-        public string countryName { get; set; }
-        public string website { get; set; }
-        public string industry { get; set; }
-        public string type { get; set; }
-        public string companySize { get; set; }
-        public string founded { get; set; }
-        public Nullable<int> followersCount { get; set; }
-        public string photourl { get; set; }
-        public string description { get; set; }
+        public string Specialties { get; set; }
+        public string StreetAddress { get; set; }
+        public string Locality { get; set; }
+        public string Region { get; set; }
+        public string PostalCode { get; set; }
+        public string CountryName { get; set; }
+        public string Website { get; set; }
+        public string Industry { get; set; }
+        public string CompanyType { get; set; }
+        public string CompanySize { get; set; }
+        public string Founded { get; set; }
+        public Nullable<int> FollowersCount { get; set; }
+        public string FollowUrl { get; set; }
+        public string PhotoUrl { get; set; }
+        public string CompanyDescription { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime UpdatedDate { get; set; }
     

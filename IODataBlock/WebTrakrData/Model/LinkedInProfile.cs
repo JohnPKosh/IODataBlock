@@ -27,7 +27,7 @@ namespace WebTrakrData.Model
 
         public int? LinkedInConnections { get; set; }
 
-        [StringLength(100)]
+        [StringLength(255)]
         public string LinkedInTitle { get; set; }
 
         [StringLength(100)]
@@ -55,7 +55,6 @@ namespace WebTrakrData.Model
 
         public string Phone { get; set; }
 
-        [Required]
         [StringLength(255)]
         public string LinkedInPhotoUrl { get; set; }
 

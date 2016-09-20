@@ -22,11 +22,12 @@
 
         <div class="row">
             <div class="col-md-12">
-                <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#tab1">Company</a></li>
-                    <li><a data-toggle="pill" href="#tab2">Location</a></li>
-                    <li><a data-toggle="pill" href="#tab3">Employees</a></li>
-                    <li><a data-toggle="pill" href="#tab4">Notes</a></li>
+                <ul class="nav nav-pills" id="mainTabs">
+                    <li><a data-toggle="pill" href="#LinkedInProfileTab">Profile</a></li>
+                    <li class="active"><a data-toggle="pill" href="#LinkedInCompanyTab">Company</a></li>
+                    <li><a data-toggle="pill" href="#LinkedInLocationTab">Location</a></li>
+                    <li><a data-toggle="pill" href="#LinkedInEmployeesTab">Employees</a></li>
+                    <li><a data-toggle="pill" href="#NotesTab">Notes</a></li>
                     <!--<li><a data-toggle="pill" href="#tab5">Search</a></li>
                     <li><a data-toggle="pill" href="#tab6">Manage</a></li>-->
 
@@ -42,8 +43,30 @@
             <div class="col-md-12">
                 <div class="tab-content">
 
-                    <!--Tab 1-->
-                    <div id="tab1" class="tab-pane fade in active">
+                    <!-- LinkedInProfileTab -->
+                    <div id="LinkedInProfileTab" class="tab-pane fade in">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyTab_LinkedInProfileName"></h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">FullName:</span> <span id="linkedInProfileTab_LinkedInFullName"></span></p>
+                                        <p><span class="site-field-label-primary">Title:</span> <span id="linkedInProfileTab_LinkedInTitle"></span></p>
+                                        <p><span class="site-field-label-primary">Location:</span> <span id="linkedInProfileTab_Location"></span></p>
+                                        <p><span class="site-field-label-primary">Email:</span> <span id="linkedInProfileTab_Email"></span></p>
+                                        <p><span class="site-field-label-primary">Im:</span> <span id="linkedInProfileTab_Im"></span></p>
+                                        <p><span class="site-field-label-primary">Twitter:</span> <span id="linkedInProfileTab_Twitter"></span></p>
+                                        <p><span class="site-field-label-primary">Phone:</span> <span id="linkedInProfileTab_Phone"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LinkedInCompanyTab -->
+                    <div id="LinkedInCompanyTab" class="tab-pane fade in active">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-default">
@@ -51,41 +74,42 @@
                                         <h4 id="linkedInCompanyTab_LinkedInCompanyName"></h4>
                                     </div>
                                     <div class="panel-body">
-                                        <p><span class="site-field-label-primary">Industry:</span> <span id="linkedInCompanyTab_industry"></span></p>
-                                        <p><span class="site-field-label-primary">Type:</span> <span id="linkedInCompanyTab_type"></span></p>
-                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_companySize"></span></p>
-                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_founded"></span></p>
-                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_followersCount"></span></p>
-                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_website"></a></span></p>
+                                        <p><span class="site-field-label-primary">Industry:</span> <span id="linkedInCompanyTab_Industry"></span></p>
+                                        <p><span class="site-field-label-primary">CompanyType:</span> <span id="linkedInCompanyTab_CompanyType"></span></p>
+                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_CompanySize"></span></p>
+                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_Founded"></span></p>
+                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_FollowersCount"></span></p>
+                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_Website"></a></span></p>
+                                        <p><span class="site-field-label-primary">LinkedIn Page:</span> <span><a id="linkedInCompanyTab_LinkedInCompanyUrl"></a></span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!--Tab 2-->
-                    <div id="tab2" class="tab-pane fade">
+                    <!-- LocationTab -->
+                    <div id="LinkedInLocationTab" class="tab-pane fade">
                         <div class="row">
                             <div class="col-md-12">
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4>Location</h4>
+                                        <h4 id="linkedInCompanyTab_LinkedInLocationTitle">Location</h4>
                                     </div>
                                     <div class="panel-body">
-                                        <p><span class="site-field-label-primary">Street Address:</span> <span id="linkedInCompanyTab_streetAddress"></span></p>
-                                        <p><span class="site-field-label-primary">Locality:</span> <span id="linkedInCompanyTab_locality"></span></p>
-                                        <p><span class="site-field-label-primary">Region:</span> <span id="linkedInCompanyTab_region"></span></p>
-                                        <p><span class="site-field-label-primary">Postal Code:</span> <span id="linkedInCompanyTab_postalCode"></span></p>
-                                        <p><span class="site-field-label-primary">Country:</span> <span id="linkedInCompanyTab_countryName"></span></p>
+                                        <p><span class="site-field-label-primary">Street Address:</span> <span id="linkedInCompanyTab_StreetAddress"></span></p>
+                                        <p><span class="site-field-label-primary">Locality:</span> <span id="linkedInCompanyTab_Locality"></span></p>
+                                        <p><span class="site-field-label-primary">Region:</span> <span id="linkedInCompanyTab_Region"></span></p>
+                                        <p><span class="site-field-label-primary">Postal Code:</span> <span id="linkedInCompanyTab_PostalCode"></span></p>
+                                        <p><span class="site-field-label-primary">Country:</span> <span id="linkedInCompanyTab_CountryName"></span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!--Tab 3-->
-                    <div id="tab3" class="tab-pane fade">
+                    <!-- EmployeesTab -->
+                    <div id="LinkedInEmployeesTab" class="tab-pane fade">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-default">
@@ -94,21 +118,21 @@
                                     </div>
                                     <div id="linkedInCompanyProfilesTab_Employees" class="panel-body">
                                         <!--<p><span class="site-field-label-primary">Name:</span> <span id="linkedInCompanyTab_LinkedInFullName"></span></p>-->
-                                        <!--<p><span class="site-field-label-primary">Type:</span> <span id="linkedInCompanyTab_type"></span></p>
-                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_companySize"></span></p>
-                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_founded"></span></p>
-                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_followersCount"></span></p>
-                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_website"></a></span></p>-->
+                                        <!--<p><span class="site-field-label-primary">Type:</span> <span id="linkedInCompanyTab_CompanyType"></span></p>
+                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_CompanySize"></span></p>
+                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_Founded"></span></p>
+                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_FollowersCount"></span></p>
+                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_Website"></a></span></p>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!--Tab 4-->
-                    <div id="tab4" class="tab-pane fade">
+                    <!-- NotesTab -->
+                    <div id="NotesTab" class="tab-pane fade">
                         <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
+                        <p>This extension is still under construction. Stop back soon.</p>
                     </div>
 
                     <!--Tab 5-->
@@ -120,7 +144,7 @@
                     <!--Tab 6-->
                     <div id="tab6" class="tab-pane fade">
                         <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
+                        <p>This extension is still under construction. Stop back soon.</p>
                     </div>
                 </div>
             </div>

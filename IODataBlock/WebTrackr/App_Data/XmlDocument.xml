@@ -1258,6 +1258,14 @@
             <param name="id">The identifier.</param>
             <returns>string</returns> /*TODO: Determine if we want this and want to hide generated description */
         </member>
+        <member name="M:WebTrackr.Controllers.PublicApi.LinkedInProfileController.Get(System.Int64,System.String)">
+            <summary>
+            Gets the linked in company.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="apikey">The apikey.</param>
+            <returns></returns>
+        </member>
         <member name="M:WebTrackr.Controllers.TrakrScrapeController.Get(System.String,System.String)">
             <summary>
             Gets the specified location URL.

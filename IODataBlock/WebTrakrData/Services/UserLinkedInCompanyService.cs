@@ -14,24 +14,24 @@ namespace WebTrakrData.Services
             {
                 ApiKey = i.AspNetUser.ApiKey,
                 Id = i.Id,
-                LinkedInId = i.LinkedInCompany.LinkedInId,
-                LinkedInPage = i.LinkedInCompany.LinkedInPage,
+                LinkedInCompanyId = i.LinkedInCompany.LinkedInCompanyId,
+                LinkedInCompanyUrl = i.LinkedInCompany.LinkedInCompanyUrl,
                 LinkedInCompanyName = i.LinkedInCompany.LinkedInCompanyName,
                 DomainName = i.LinkedInCompany.DomainName,
-                specialties = i.LinkedInCompany.specialties,
-                streetAddress = i.LinkedInCompany.streetAddress,
-                locality = i.LinkedInCompany.locality,
-                region = i.LinkedInCompany.region,
-                postalCode = i.LinkedInCompany.postalCode,
-                countryName = i.LinkedInCompany.countryName,
-                website = i.LinkedInCompany.website,
-                industry = i.LinkedInCompany.industry,
-                type = i.LinkedInCompany.type,
-                companySize = i.LinkedInCompany.companySize,
-                founded = i.LinkedInCompany.founded,
-                followersCount = i.LinkedInCompany.followersCount,
-                photourl = i.LinkedInCompany.photourl,
-                description = i.LinkedInCompany.description,
+                Specialties = i.LinkedInCompany.Specialties,
+                StreetAddress = i.LinkedInCompany.StreetAddress,
+                Locality = i.LinkedInCompany.Locality,
+                Region = i.LinkedInCompany.Region,
+                PostalCode = i.LinkedInCompany.PostalCode,
+                CountryName = i.LinkedInCompany.CountryName,
+                Website = i.LinkedInCompany.Website,
+                Industry = i.LinkedInCompany.Industry,
+                CompanyType = i.LinkedInCompany.CompanyType,
+                CompanySize = i.LinkedInCompany.CompanySize,
+                Founded = i.LinkedInCompany.Founded,
+                FollowersCount = i.LinkedInCompany.FollowersCount,
+                PhotoUrl = i.LinkedInCompany.PhotoUrl,
+                CompanyDescription = i.LinkedInCompany.CompanyDescription,
                 CreatedDate = i.LinkedInCompany.CreatedDate,
                 UpdatedDate = i.LinkedInCompany.UpdatedDate
             });
@@ -44,7 +44,7 @@ namespace WebTrakrData.Services
             try
             {
                 var dbModel = new WebTrakrModel();
-                var rv = dbModel.UserLinkedInCompanies.FirstOrDefault(x => x.AspNetUserId.ToString() == apikey && x.LinkedInCompany.LinkedInId == id);
+                var rv = dbModel.UserLinkedInCompanies.FirstOrDefault(x => x.AspNetUserId.ToString() == apikey && x.LinkedInCompany.LinkedInCompanyId == id);
                 return rv;
             }
             catch (Exception ex)

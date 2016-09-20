@@ -11,82 +11,128 @@
         <div class="row header-row">
             <div class="col-md-12">
                 <div class="site-title">
-                    <h5 id="currentDomain"></h5>
                     <a href="#" id="site-title"><span class="site-title-primary">Web</span><span class="site-title-suffix">Trakr.com</span></a>
                     <span class="pull-right"><span class="smaller text-danger" id="resp"></span><button type="button" class="btn btn-primary btn-sm" id="search"><i class="glyphicon glyphicon-search"></i></button> <button type="button" class="btn btn-primary btn-sm" id="trackPageButton">Trak It!</button></span>
                 </div>
             </div>
-            
+
         </div>
+
+        <!--<h5 id="currentDomain"></h5>-->
 
         <div class="row">
             <div class="col-md-12">
-                <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#tab1">Links</a></li>
-                    <li><a data-toggle="pill" href="#tab2">Emails</a></li>
-                    <li><a data-toggle="pill" href="#tab3">Notes</a></li>
-                    <li><a data-toggle="pill" href="#tab4">History</a></li>
-                    <li><a data-toggle="pill" href="#tab5">Search</a></li>
-                    <li><a data-toggle="pill" href="#tab6">Manage</a></li>
+                <ul class="nav nav-pills" id="mainTabs">
+                    <li><a data-toggle="pill" href="#LinkedInProfileTab">Profile</a></li>
+                    <li class="active"><a data-toggle="pill" href="#LinkedInCompanyTab">Company</a></li>
+                    <li><a data-toggle="pill" href="#LinkedInLocationTab">Location</a></li>
+                    <li><a data-toggle="pill" href="#LinkedInEmployeesTab">Employees</a></li>
+                    <li><a data-toggle="pill" href="#NotesTab">Notes</a></li>
+                    <!--<li><a data-toggle="pill" href="#tab5">Search</a></li>
+                    <li><a data-toggle="pill" href="#tab6">Manage</a></li>-->
 
                 </ul>
             </div>
         </div>
 
-        <p></p>
+        <div class="row">
+            <p></p>
+        </div>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="tab-content">
 
-                    <!--Tab 1-->
-                    <div id="tab1" class="tab-pane fade in active">
+                    <!-- LinkedInProfileTab -->
+                    <div id="LinkedInProfileTab" class="tab-pane fade in">
                         <div class="row">
                             <div class="col-md-12">
-                                <form class="form-inline">
-                                    <div class="form-group" style="display: inline-block">
-                                        <input type="text" class="form-control" id="filter" style="width: 250px;" placeholder="Filter">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyTab_LinkedInProfileName"></h4>
                                     </div>
-                                    <div class="form-group" style="display: inline-block">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" id="regex">Regex
-                                        </label>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">FullName:</span> <span id="linkedInProfileTab_LinkedInFullName"></span></p>
+                                        <p><span class="site-field-label-primary">Title:</span> <span id="linkedInProfileTab_LinkedInTitle"></span></p>
+                                        <p><span class="site-field-label-primary">Location:</span> <span id="linkedInProfileTab_Location"></span></p>
+                                        <p><span class="site-field-label-primary">Email:</span> <span id="linkedInProfileTab_Email"></span></p>
+                                        <p><span class="site-field-label-primary">Im:</span> <span id="linkedInProfileTab_Im"></span></p>
+                                        <p><span class="site-field-label-primary">Twitter:</span> <span id="linkedInProfileTab_Twitter"></span></p>
+                                        <p><span class="site-field-label-primary">Phone:</span> <span id="linkedInProfileTab_Phone"></span></p>
                                     </div>
-
-                                </form>
+                                </div>
                             </div>
                         </div>
-                        <div id="machineInfo"></div>
-
-                        <table class="table table-hover table-condensed">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" checked id="toggle_all"></th>
-                                    <th>URL</th>
-                                </tr>
-                            </thead>
-                            <tbody class="smaller" id="links"></tbody>
-                        </table>
                     </div>
 
-                    <!--Tab 2-->
-                    <div id="tab2" class="tab-pane fade">
-                        <h3 id="linkedInCompanyTab_LinkedInCompanyName">Coming Soon!</h3>
-                        <p id="linkedInCompanyTab_region">This extension is still under construction. Stop back soon.</p>
-                        <p id="linkedInCompanyTab_countryName">This extension is still under construction. Stop back soon.</p>
-                        <p><a id="linkedInCompanyTab_website"></a></p>
+                    <!-- LinkedInCompanyTab -->
+                    <div id="LinkedInCompanyTab" class="tab-pane fade in active">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyTab_LinkedInCompanyName"></h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">Industry:</span> <span id="linkedInCompanyTab_Industry"></span></p>
+                                        <p><span class="site-field-label-primary">CompanyType:</span> <span id="linkedInCompanyTab_CompanyType"></span></p>
+                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_CompanySize"></span></p>
+                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_Founded"></span></p>
+                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_FollowersCount"></span></p>
+                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_Website"></a></span></p>
+                                        <p><span class="site-field-label-primary">LinkedIn Page:</span> <span><a id="linkedInCompanyTab_LinkedInCompanyUrl"></a></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!--Tab 3-->
-                    <div id="tab3" class="tab-pane fade">
+                    <!-- LocationTab -->
+                    <div id="LinkedInLocationTab" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyTab_LinkedInLocationTitle">Location</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><span class="site-field-label-primary">Street Address:</span> <span id="linkedInCompanyTab_StreetAddress"></span></p>
+                                        <p><span class="site-field-label-primary">Locality:</span> <span id="linkedInCompanyTab_Locality"></span></p>
+                                        <p><span class="site-field-label-primary">Region:</span> <span id="linkedInCompanyTab_Region"></span></p>
+                                        <p><span class="site-field-label-primary">Postal Code:</span> <span id="linkedInCompanyTab_PostalCode"></span></p>
+                                        <p><span class="site-field-label-primary">Country:</span> <span id="linkedInCompanyTab_CountryName"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EmployeesTab -->
+                    <div id="LinkedInEmployeesTab" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 id="linkedInCompanyProfilesTab_EmployeesTitle"></h4>
+                                    </div>
+                                    <div id="linkedInCompanyProfilesTab_Employees" class="panel-body">
+                                        <!--<p><span class="site-field-label-primary">Name:</span> <span id="linkedInCompanyTab_LinkedInFullName"></span></p>-->
+                                        <!--<p><span class="site-field-label-primary">Type:</span> <span id="linkedInCompanyTab_CompanyType"></span></p>
+                                        <p><span class="site-field-label-primary">Company Size:</span> <span id="linkedInCompanyTab_CompanySize"></span></p>
+                                        <p><span class="site-field-label-primary">Founded:</span> <span id="linkedInCompanyTab_Founded"></span></p>
+                                        <p><span class="site-field-label-primary">Followers:</span> <span id="linkedInCompanyTab_FollowersCount"></span></p>
+                                        <p><span class="site-field-label-primary">Website:</span> <span><a id="linkedInCompanyTab_Website"></a></span></p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NotesTab -->
+                    <div id="NotesTab" class="tab-pane fade">
                         <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
-                    </div>
-
-                    <!--Tab 4-->
-                    <div id="tab4" class="tab-pane fade">
-                        <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
+                        <p>This extension is still under construction. Stop back soon.</p>
                     </div>
 
                     <!--Tab 5-->
@@ -98,7 +144,7 @@
                     <!--Tab 6-->
                     <div id="tab6" class="tab-pane fade">
                         <h3>Coming Soon!</h3>
-                        <p>This extension is still under construction.  Stop back soon.</p>
+                        <p>This extension is still under construction. Stop back soon.</p>
                     </div>
                 </div>
             </div>

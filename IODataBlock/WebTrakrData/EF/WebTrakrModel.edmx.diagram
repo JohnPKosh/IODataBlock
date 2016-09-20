@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="WebTrakrModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="17.375" />
         <EntityTypeShape EntityType="WebTrakrModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="6.25" />
         <EntityTypeShape EntityType="WebTrakrModel.AspNetUser" Width="1.5" PointX="3" PointY="7.625" />
-        <EntityTypeShape EntityType="WebTrakrModel.LinkedInCompany" Width="1.5" PointX="3" PointY="1.5" />
         <EntityTypeShape EntityType="WebTrakrModel.LinkedInProfile" Width="1.5" PointX="6" PointY="0.75" />
         <EntityTypeShape EntityType="WebTrakrModel.SalesForceAccount" Width="1.5" PointX="5.25" PointY="14.25" />
         <EntityTypeShape EntityType="WebTrakrModel.UserLinkedInCompany" Width="1.5" PointX="5.25" PointY="9.125" />
@@ -21,10 +20,11 @@
         <AssociationConnector Association="WebTrakrModel.FK_AspNetUserSalesForceAccount" />
         <AssociationConnector Association="WebTrakrModel.FK_AspNetUserUserLinkedInCompany" />
         <AssociationConnector Association="WebTrakrModel.FK_AspNetUserUserLinkedInProfile" />
-        <AssociationConnector Association="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" />
         <AssociationConnector Association="WebTrakrModel.FK_LinkedInProfileUserLinkedInProfile" />
         <AssociationConnector Association="WebTrakrModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="WebTrakrModel.C__MigrationHistory" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WebTrakrModel.LinkedInCompany" Width="1.5" PointX="10.375" PointY="1.125" />
+        <AssociationConnector Association="WebTrakrModel.FK_LinkedInCompanyUserLinkedInCompany" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

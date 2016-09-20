@@ -33,7 +33,7 @@ namespace WebTrackr.Controllers
             {
                 var util = new LinkedInCompanyHtml(locationUrl);
                 var id = long.Parse(util.GetLinkedInCompanyId());
-                return dbModel.UserLinkedInCompanies.FirstOrDefault(x => x.AspNetUser.ApiKey.ToString() == apikey && x.LinkedInCompany.LinkedInId == id);
+                return dbModel.UserLinkedInCompanies.FirstOrDefault(x => x.AspNetUser.ApiKey.ToString() == apikey && x.LinkedInCompany.LinkedInCompanyId == id);
             }
             //if (locationUrl.Contains("linkedin.com/in/"))
             //{
@@ -54,8 +54,16 @@ namespace WebTrackr.Controllers
         [Route("api/TrakrScrape/LinkedInCompany/{id:long}/{apikey}")]
         public UserLinkedInCompanyDto GetLinkedInCompany(long id, string apikey)
         {
-            var svc = new UserLinkedInCompanyService();
-            return svc.GetByLinkedInCompanyId(id, apikey);
+            try
+            {
+                var svc = new UserLinkedInCompanyService();
+                return svc.GetByLinkedInCompanyId(id, apikey);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -86,14 +94,36 @@ namespace WebTrackr.Controllers
         /// </summary>
         /// <param name="value">The location, document, links elements, and APIKEY of the page being scraped.</param>
         /// <returns>result</returns>
+        //[HttpPost]
+        //public object Post(JObject value)
+        //{
+        //    var rv = string.Empty;
+        //    JToken locationToken;
+        //    if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
+        //    var locationUrl = locationToken.Value<string>();
+            
+        //    if (locationUrl.Contains("linkedin.com/compan"))
+        //    {
+        //        var r = new LinkedInCompanyPageReader(value);
+        //        return SaveLinkedInCompany(r.Dto, r.ApiKey);
+        //    }
+        //    if (locationUrl.Contains("linkedin.com/in/"))
+        //    {
+        //        var r = new LinkedInProfilePageReader(value);
+        //        return SaveLinkedInProfile(r.Dto, r.ApiKey);
+        //    }
+        //    return null;
+        //}
+
         [HttpPost]
+        //[Route("api/TrakrScrape/LinkedInCompanyProfiles")]
         public object Post(JObject value)
         {
             var rv = string.Empty;
             JToken locationToken;
             if (!value.HasValues || !value.TryGetValue("location", out locationToken)) return null;
             var locationUrl = locationToken.Value<string>();
-            
+
             if (locationUrl.Contains("linkedin.com/compan"))
             {
                 var r = new LinkedInCompanyPageReader(value);
@@ -113,7 +143,7 @@ namespace WebTrackr.Controllers
         {
             var dbModel = new WebTrakrModel();
             var user = dbModel.AspNetUsers.FirstOrDefault(x => x.ApiKey == new Guid(apikey));
-            var existing = dbModel.LinkedInProfiles.FirstOrDefault(x => x.LinkedInProfileId == dto.ProfileId);
+            var existing = dbModel.LinkedInProfiles.FirstOrDefault(x => x.LinkedInProfileId == dto.LinkedInProfileId);
             if (existing == null)
             {
                 try
@@ -121,13 +151,13 @@ namespace WebTrackr.Controllers
                     existing = new LinkedInProfile()
                     {
                         //AspNetUser_Id = user.Id,
-                        LinkedInProfileId = dto.ProfileId,
-                        LinkedInPage = dto.ProfileUrl,
-                        LinkedInFullName = dto.FullName,
-                        LinkedInConnections = dto.Connections,
-                        LinkedInTitle = dto.Title,
-                        LinkedInCompanyName = dto.CompanyName,
-                        LinkedInCompanyId = dto.CompanyId,
+                        LinkedInProfileId = dto.LinkedInProfileId,
+                        LinkedInPage = dto.LinkedInPage,
+                        LinkedInFullName = dto.LinkedInFullName,
+                        LinkedInConnections = dto.LinkedInConnections,
+                        LinkedInTitle = dto.LinkedInTitle,
+                        LinkedInCompanyName = dto.LinkedInCompanyName,
+                        LinkedInCompanyId = dto.LinkedInCompanyId,
                         Industry = dto.Industry,
                         Location = dto.Location,
                         Email = dto.Email,
@@ -135,7 +165,7 @@ namespace WebTrackr.Controllers
                         Twitter = dto.Twitter,
                         Address = dto.Address,
                         Phone = dto.Phone,
-                        LinkedInPhotoUrl = dto.PhotoUrl,
+                        LinkedInPhotoUrl = dto.LinkedInPhotoUrl,
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now
                     };
@@ -153,13 +183,13 @@ namespace WebTrackr.Controllers
             {
                 if (existing.UpdatedDate.AddDays(1) < DateTime.Now)
                 {
-                    existing.LinkedInProfileId = dto.ProfileId;
-                    existing.LinkedInPage = dto.ProfileUrl;
-                    existing.LinkedInFullName = dto.FullName;
-                    existing.LinkedInConnections = dto.Connections;
-                    existing.LinkedInTitle = dto.Title;
-                    existing.LinkedInCompanyName = dto.CompanyName;
-                    existing.LinkedInCompanyId = dto.CompanyId;
+                    existing.LinkedInProfileId = dto.LinkedInProfileId;
+                    existing.LinkedInPage = dto.LinkedInPage;
+                    existing.LinkedInFullName = dto.LinkedInFullName;
+                    existing.LinkedInConnections = dto.LinkedInConnections;
+                    existing.LinkedInTitle = dto.LinkedInTitle;
+                    existing.LinkedInCompanyName = dto.LinkedInCompanyName;
+                    existing.LinkedInCompanyId = dto.LinkedInCompanyId;
                     existing.Industry = dto.Industry;
                     existing.Location = dto.Location;
                     existing.Email = dto.Email;
@@ -167,7 +197,7 @@ namespace WebTrackr.Controllers
                     existing.Twitter = dto.Twitter;
                     existing.Address = dto.Address;
                     existing.Phone = dto.Phone;
-                    existing.LinkedInPhotoUrl = dto.PhotoUrl;
+                    existing.LinkedInPhotoUrl = dto.LinkedInPhotoUrl;
                     existing.UpdatedDate = DateTime.Now;
                     dbModel.SaveChanges();
                 }
@@ -186,7 +216,7 @@ namespace WebTrackr.Controllers
         {
             var dbModel = new WebTrakrModel();
             var user = dbModel.AspNetUsers.FirstOrDefault(x => x.ApiKey == new Guid(apikey));
-            var existing = dbModel.LinkedInCompanies.FirstOrDefault(x => x.LinkedInId == dto.CompanyId);
+            var existing = dbModel.LinkedInCompanies.FirstOrDefault(x => x.LinkedInCompanyId == dto.LinkedInCompanyId);
             if (existing == null)
             {
                 try
@@ -194,26 +224,27 @@ namespace WebTrackr.Controllers
                     existing = new LinkedInCompany()
                     {
                         //AspNetUser_Id = user.Id,
-                        companySize = dto.CompanySize,
-                        countryName = dto.CountryName,
+                        CompanySize = dto.CompanySize,
+                        CountryName = dto.CountryName,
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now,
-                        description = dto.CompanyDescription,
+                        CompanyDescription = dto.CompanyDescription,
                         DomainName = dto.DomainName,
-                        followersCount = dto.Followers,
-                        founded = dto.Founded,
-                        industry = dto.Industry,
-                        type = dto.Type,
-                        photourl = dto.PhotoUrl,
-                        postalCode = dto.PostalCode,
-                        locality = dto.Locality,
-                        website = dto.Website,
-                        LinkedInPage = dto.LocationUrl,
-                        region = dto.Region,
-                        streetAddress = dto.StreetAddress,
-                        specialties = dto.Specialties,
-                        LinkedInCompanyName = dto.CompanyName,
-                        LinkedInId = dto.CompanyId
+                        FollowersCount = dto.FollowersCount,
+                        FollowUrl = dto.FollowUrl,
+                        Founded = dto.Founded,
+                        Industry = dto.Industry,
+                        CompanyType = dto.CompanyType,
+                        PhotoUrl = dto.PhotoUrl,
+                        PostalCode = dto.PostalCode,
+                        Locality = dto.Locality,
+                        Website = dto.Website,
+                        LinkedInCompanyUrl = dto.LinkedInCompanyUrl,
+                        Region = dto.Region,
+                        StreetAddress = dto.StreetAddress,
+                        Specialties = dto.Specialties,
+                        LinkedInCompanyName = dto.LinkedInCompanyName,
+                        LinkedInCompanyId = dto.LinkedInCompanyId
                     };
 
                     dbModel.LinkedInCompanies.Add(existing);
@@ -230,25 +261,26 @@ namespace WebTrackr.Controllers
             {
                 if (existing.UpdatedDate.AddDays(1) < DateTime.Now)
                 {
-                    existing.companySize = dto.CompanySize;
-                    existing.countryName = dto.CountryName;
+                    existing.CompanySize = dto.CompanySize;
+                    existing.CountryName = dto.CountryName;
                     existing.UpdatedDate = DateTime.Now;
-                    existing.description = dto.CompanyDescription;
+                    existing.CompanyDescription = dto.CompanyDescription;
                     existing.DomainName = dto.DomainName;
-                    existing.followersCount = dto.Followers;
-                    existing.founded = dto.Founded;
-                    existing.industry = dto.Industry;
-                    existing.type = dto.Type;
-                    existing.photourl = dto.PhotoUrl;
-                    existing.postalCode = dto.PostalCode;
-                    existing.locality = dto.Locality;
-                    existing.website = dto.Website;
-                    existing.LinkedInPage = dto.LocationUrl;
-                    existing.region = dto.Region;
-                    existing.streetAddress = dto.StreetAddress;
-                    existing.specialties = dto.Specialties;
-                    existing.LinkedInCompanyName = dto.CompanyName;
-                    existing.LinkedInId = dto.CompanyId;
+                    existing.FollowersCount = dto.FollowersCount;
+                    existing.FollowUrl = dto.FollowUrl;
+                    existing.Founded = dto.Founded;
+                    existing.Industry = dto.Industry;
+                    existing.CompanyType = dto.CompanyType;
+                    existing.PhotoUrl = dto.PhotoUrl;
+                    existing.PostalCode = dto.PostalCode;
+                    existing.Locality = dto.Locality;
+                    existing.Website = dto.Website;
+                    existing.LinkedInCompanyUrl = dto.LinkedInCompanyUrl;
+                    existing.Region = dto.Region;
+                    existing.StreetAddress = dto.StreetAddress;
+                    existing.Specialties = dto.Specialties;
+                    existing.LinkedInCompanyName = dto.LinkedInCompanyName;
+                    existing.LinkedInCompanyId = dto.LinkedInCompanyId;
                     dbModel.SaveChanges();
                 }
                 if (existing.UserLinkedInCompanies.Any(x => x.AspNetUserId == user.Id)) return existing;

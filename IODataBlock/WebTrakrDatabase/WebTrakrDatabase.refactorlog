@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="ae2d44b0-e4a7-42ef-8a59-63a6d3a9fb2d" ChangeDateTime="09/15/2016 16:25:28">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[streetAddress]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StreetAddress" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="53ec7b31-1785-48a4-9e32-7e1d87e34c34" ChangeDateTime="09/15/2016 16:28:57">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[locality]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Locality" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0f21b150-13f6-430f-ae1d-62c2788344c9" ChangeDateTime="09/15/2016 16:31:29">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[region]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Region" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1fcccfdc-4c4e-4f69-af98-90e2d26f0fa3" ChangeDateTime="09/15/2016 16:33:16">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[postalCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PostalCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b3137ce8-dcab-410d-8ef5-ebaab1730de5" ChangeDateTime="09/15/2016 16:35:14">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[countryName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountryName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3eaa90ef-d67d-497f-8cf5-11006fb4dcb7" ChangeDateTime="09/15/2016 16:37:38">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[website]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Website" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5527d488-7f41-4179-9424-a7805b8c7e23" ChangeDateTime="09/15/2016 16:39:55">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[industry]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Industry" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c105f11b-cb29-4fab-af26-760446e01e33" ChangeDateTime="09/15/2016 16:46:04">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[type]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CompanyType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cc1e5089-52d1-428e-aee2-8283b7e47948" ChangeDateTime="09/15/2016 16:46:38">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[companySize]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CompanySize" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="74485743-c4cb-4dec-a879-c798649c4c55" ChangeDateTime="09/15/2016 16:48:25">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[founded]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Founded" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9eb72a4f-f691-45e6-b7e4-84033d25998f" ChangeDateTime="09/15/2016 16:51:43">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[followersCount]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FollowersCount" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="40646ccc-6598-46e9-b5e9-9728af174eba" ChangeDateTime="09/15/2016 17:02:39">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[photourl]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PhotoUrl" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="159fbac4-01dc-4e17-89d4-8c79b31cfadd" ChangeDateTime="09/15/2016 17:09:56">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LinkedInCompanyDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e85d1864-8bb0-462f-ad13-190c67ea645d" ChangeDateTime="09/15/2016 17:10:50">
+    <Property Name="ElementName" Value="[dbo].[LinkedInCompanies].[LinkedInCompanyDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LinkedInCompanies]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CompanyDescription" />
+  </Operation>
+</Operations>

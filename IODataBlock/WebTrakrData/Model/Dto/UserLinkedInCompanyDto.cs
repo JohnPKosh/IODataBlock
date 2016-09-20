@@ -18,11 +18,11 @@ namespace WebTrakrData.Model.Dto
 
         public long Id { get; set; }
 
-        public long? LinkedInId { get; set; }
+        public long? LinkedInCompanyId { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string LinkedInPage { get; set; }
+        public string LinkedInCompanyUrl { get; set; }
 
         [StringLength(255)]
         public string LinkedInCompanyName { get; set; }
@@ -30,44 +30,47 @@ namespace WebTrakrData.Model.Dto
         [StringLength(255)]
         public string DomainName { get; set; }
 
-        public string specialties { get; set; }
+        public string Specialties { get; set; }
 
         [StringLength(255)]
-        public string streetAddress { get; set; }
+        public string StreetAddress { get; set; }
 
         [StringLength(50)]
-        public string locality { get; set; }
+        public string Locality { get; set; }
 
         [StringLength(50)]
-        public string region { get; set; }
+        public string Region { get; set; }
 
         [StringLength(20)]
-        public string postalCode { get; set; }
+        public string PostalCode { get; set; }
 
         [StringLength(50)]
-        public string countryName { get; set; }
+        public string CountryName { get; set; }
 
         [StringLength(255)]
-        public string website { get; set; }
+        public string Website { get; set; }
 
         [StringLength(100)]
-        public string industry { get; set; }
+        public string Industry { get; set; }
 
         [StringLength(50)]
-        public string type { get; set; }
+        public string CompanyType { get; set; }
 
         [StringLength(25)]
-        public string companySize { get; set; }
+        public string CompanySize { get; set; }
 
         [StringLength(25)]
-        public string founded { get; set; }
+        public string Founded { get; set; }
 
-        public int? followersCount { get; set; }
+        public int? FollowersCount { get; set; }
 
         [StringLength(255)]
-        public string photourl { get; set; }
+        public string FollowUrl { get; set; }
 
-        public string description { get; set; }
+        [StringLength(255)]
+        public string PhotoUrl { get; set; }
+
+        public string CompanyDescription { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -85,24 +88,25 @@ namespace WebTrakrData.Model.Dto
                 {
                     ApiKey = i.AspNetUser.ApiKey,
                     Id = i.Id,
-                    LinkedInId = i.LinkedInCompany.LinkedInId,
-                    LinkedInPage = i.LinkedInCompany.LinkedInPage,
+                    LinkedInCompanyId = i.LinkedInCompany.LinkedInCompanyId,
+                    LinkedInCompanyUrl = i.LinkedInCompany.LinkedInCompanyUrl,
                     LinkedInCompanyName = i.LinkedInCompany.LinkedInCompanyName,
                     DomainName = i.LinkedInCompany.DomainName,
-                    specialties = i.LinkedInCompany.specialties,
-                    streetAddress = i.LinkedInCompany.streetAddress,
-                    locality = i.LinkedInCompany.locality,
-                    region = i.LinkedInCompany.region,
-                    postalCode = i.LinkedInCompany.postalCode,
-                    countryName = i.LinkedInCompany.countryName,
-                    website = i.LinkedInCompany.website,
-                    industry = i.LinkedInCompany.industry,
-                    type = i.LinkedInCompany.type,
-                    companySize = i.LinkedInCompany.companySize,
-                    founded = i.LinkedInCompany.founded,
-                    followersCount = i.LinkedInCompany.followersCount,
-                    photourl = i.LinkedInCompany.photourl,
-                    description = i.LinkedInCompany.description,
+                    Specialties = i.LinkedInCompany.Specialties,
+                    StreetAddress = i.LinkedInCompany.StreetAddress,
+                    Locality = i.LinkedInCompany.Locality,
+                    Region = i.LinkedInCompany.Region,
+                    PostalCode = i.LinkedInCompany.PostalCode,
+                    CountryName = i.LinkedInCompany.CountryName,
+                    Website = i.LinkedInCompany.Website,
+                    Industry = i.LinkedInCompany.Industry,
+                    CompanyType = i.LinkedInCompany.CompanyType,
+                    CompanySize = i.LinkedInCompany.CompanySize,
+                    Founded = i.LinkedInCompany.Founded,
+                    FollowersCount = i.LinkedInCompany.FollowersCount,
+                    FollowUrl = i.LinkedInCompany.FollowUrl,
+                    PhotoUrl = i.LinkedInCompany.PhotoUrl,
+                    CompanyDescription = i.LinkedInCompany.CompanyDescription,
                     CreatedDate = i.LinkedInCompany.CreatedDate,
                     UpdatedDate = i.LinkedInCompany.UpdatedDate
                 };
