@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using JavaScriptEngineSwitcher.Core;
+using Sandbox4.App_Start;
 
 namespace Sandbox4
 {
@@ -11,6 +13,7 @@ namespace Sandbox4
     {
         protected void Application_Start()
         {
+            JsEngineSwitcherConfig.Configure(JsEngineSwitcher.Instance);
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

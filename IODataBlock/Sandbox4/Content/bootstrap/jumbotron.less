@@ -4,19 +4,11 @@
 
 
 .jumbotron {
-  padding: @jumbotron-padding (@jumbotron-padding / 2);
+  padding-top:    @jumbotron-padding;
+  padding-bottom: @jumbotron-padding;
   margin-bottom: @jumbotron-padding;
-  /*color: @jumbotron-color;
-  background-color: @jumbotron-bg;*/
-  background-image: -webkit-linear-gradient(top, #214F77 0%, #193B59 100%);
-  background-image:      -o-linear-gradient(top, #214F77 0%, #193B59 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#214F77), to(#193B59));
-  background-image:         linear-gradient(to bottom, #214F77 0%, #193B59 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  background-repeat: repeat-x;
-  color: #CCC;
-  min-height:225px;
+  color: @jumbotron-color;
+  background-color: @jumbotron-bg;
 
   h1,
   .h1 {
@@ -36,6 +28,8 @@
   .container &,
   .container-fluid & {
     border-radius: @border-radius-large; // Only round corners at higher resolutions if contained in a container
+    padding-left:  (@grid-gutter-width / 2);
+    padding-right: (@grid-gutter-width / 2);
   }
 
   .container {
@@ -43,7 +37,8 @@
   }
 
   @media screen and (min-width: @screen-sm-min) {
-    padding: (@jumbotron-padding * 1.6) 0;
+    padding-top:    (@jumbotron-padding * 1.6);
+    padding-bottom: (@jumbotron-padding * 1.6);
 
     .container &,
     .container-fluid & {
@@ -53,7 +48,7 @@
 
     h1,
     .h1 {
-      font-size: (@font-size-base * 4.5);
+      font-size: @jumbotron-heading-font-size;
     }
   }
 }

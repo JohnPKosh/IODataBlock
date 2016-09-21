@@ -1,5 +1,3 @@
-@import "variables.less";
-@import "mixins.less";
 //
 // Forms
 // --------------------------------------------------
@@ -47,7 +45,7 @@ label {
 
 // Override content-box in Normalize (* isn't specific enough)
 input[type="search"] {
-  box-sizing: border-box;
+  .box-sizing(border-box);
 }
 
 // Position radios and checkboxes better
