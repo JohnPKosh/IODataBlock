@@ -11,34 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>ee63dd4f-aa1e-424f-8ae7-f8dea0156c92</ProjectGuid>
+    <ProjectGuid>b522e1a3-6af8-4f8b-90aa-0f10bec4ad2f</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
-    <Id>Data.DbClient</Id>
-    <Version>1.0.12</Version>
-    <Title>Data.DbClient</Title>
+    <Id>Business.HttpClient</Id>
+    <Version>1.0.0</Version>
+    <Title>Business.HttpClient</Title>
     <Authors>jkosh</Authors>
     <Owners>jkosh</Owners>
-    <Summary>Data.DbClient</Summary>
-    <Description>Data.DbClient</Description>
+    <Summary>Business.HttpClient</Summary>
+    <Description>Business.HttpClient</Description>
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © John Kosh 2015</Copyright>
-    <Tags>Data.DbClient</Tags>
+    <Copyright>Copyright © jkosh</Copyright>
+    <Tags>Business.HttpClient</Tags>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data.DbClient\Data.DbClient.csproj" />
+    <ProjectReference Include="..\..\Business.HttpClient\Business.HttpClient.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
