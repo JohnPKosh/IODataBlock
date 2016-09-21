@@ -19,7 +19,7 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>Business.Web</Id>
-    <Version>1.0.16</Version>
+    <Version>1.0.17</Version>
     <Title>Business.Web</Title>
     <Authors>jkosh</Authors>
     <Owners>jkosh</Owners>

@@ -65,15 +65,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Common, Version=1.0.16.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Business.Common.1.0.18\lib\net452\Business.Common.dll</HintPath>
+      <HintPath>..\packages\Data.DbClient.1.0.13\lib\net452\Business.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Business.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Business.Web.1.0.16\lib\net452\Business.Web.dll</HintPath>
+      <HintPath>..\packages\Business.Web.1.0.17\lib\net452\Business.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Data.DbClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Data.DbClient.1.0.9\lib\net452\Data.DbClient.dll</HintPath>
+      <HintPath>..\packages\Data.DbClient.1.0.13\lib\net452\Data.DbClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DbExtensions">
@@ -2922,9 +2922,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SwaggerExtensions\index.html" />
-    <Content Include="Scripts\jquery-ui-1.12.0.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
