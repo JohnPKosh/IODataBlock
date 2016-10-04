@@ -1,0 +1,110 @@
+﻿@using System.Linq
+@using System.Collections
+@using System.Collections.Generic
+@using RazorEngine.Text
+@model dynamic
+@{
+    var methodParams = new List<string>();
+    foreach (var param in Model.Params)
+    {
+        methodParams.Add(string.Format("${0}$ ${1}$", param.Type, param.Name));
+    }
+    var signatureParams = string.Join(",", methodParams.ToArray());
+}<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Keywords>
+                <Keyword>Method</Keyword>
+            </Keywords>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Method with @methodParams.Count params</Title>
+            <Author>John</Author>
+            <Description>Method with @methodParams.Count parameters</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>@{@Raw(string.Format("mrv{0}", @methodParams.Count))}</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>Summary</ID>
+                    <ToolTip>Adds Summary Comment</ToolTip>
+                    <Default>TODO: Add Summary</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>returns</ID>
+                    <ToolTip>returns</ToolTip>
+                    <Default>string</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>MethodName</ID>
+                    <ToolTip>MethodName</ToolTip>
+                    <Default>Get</Default>
+                    <Function>
+                    </Function>
+                </Literal>@foreach(var Param in @Model.Params){
+                var str = string.Format(@"<Literal Editable=""true"">
+                    <ID>{0}</ID>
+                    <ToolTip>{0}</ToolTip>
+                    <Default>{0}</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable=""true"">
+                    <ID>{1}</ID>
+                    <ToolTip>{1}</ToolTip>
+                    <Default>{1}</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                ",Param.Type,Param.Name);
+@Raw(str)
+                }
+                <Literal Editable="true">
+                    <ID>Assign</ID>
+                    <ToolTip>Assign</ToolTip>
+                    <Default> = null</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>MethodBody</ID>
+                    <ToolTip>MethodBody</ToolTip>
+                    <Default>/* Do Work */</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Delimiter="$"><![CDATA[/// <summary>
+            /// $Summary$.
+            /// </summary>
+                @foreach(var Param in @Model.Params){
+                var str = string.Format(@"            /// <param name=""${1}$"">The ${0}$ ${1}$.</param>
+", Param.Type, Param.Name);
+                @Raw(str)}
+            /// <returns>$returns$</returns>
+                public $returns$ $MethodName$(@Raw(signatureParams))
+                {
+                    $returns$ rv$Assign$;
+                    try
+                    {
+                        $MethodBody$
+                        return rv;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

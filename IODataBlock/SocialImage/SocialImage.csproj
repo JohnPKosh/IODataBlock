@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4BBD6567A011224922F36BB97A4E9C01FBBD7F89</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8C1A746F8ADD9F4BC532E19CEEE00003300D03E3</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SocialImage_TemporaryKey.pfx</ManifestKeyFile>
@@ -150,8 +150,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
     <None Include="SocialImage_TemporaryKey.pfx" />
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

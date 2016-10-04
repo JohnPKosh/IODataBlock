@@ -1,0 +1,98 @@
+﻿@using RazorEngine.Text
+@model dynamic
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Keywords>
+        <Keyword>Method</Keyword>
+      </Keywords>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Method with 0 params</Title>
+      <Author>John</Author>
+      <Description>Method with 1 parameters</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>mrv1</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Summary</ID>
+          <ToolTip>Adds Summary Comment</ToolTip>
+          <Default>TODO: Add Summary</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>returns</ID>
+          <ToolTip>returns</ToolTip>
+          <Default>string</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>MethodName</ID>
+          <ToolTip>MethodName</ToolTip>
+          <Default>Get</Default>
+          <Function>
+          </Function>
+        </Literal>@for (var i = 0; i < Model.ParamCount>; i++){
+          var str = @"<Literal Editable=""true"">
+    <ID>ParamTypei</ID>
+    <ToolTip>ParamTypei</ToolTip>
+    <Default>ParamTypei</Default>
+    <Function>
+    </Function>
+</Literal>
+<Literal Editable=""true"">
+    <ID>ParamNamei</ID>
+    <ToolTip>ParamNamei</ToolTip>
+    <Default>ParamNamei</Default>
+    <Function>
+    </Function>
+</Literal>";
+          @Html.Raw()
+        }
+        <Literal Editable="true">
+          <ID>Assign</ID>
+          <ToolTip>Assign</ToolTip>
+          <Default> = null</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>MethodBody</ID>
+          <ToolTip>MethodBody</ToolTip>
+          <Default>/* Do Work */</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$">
+        <![CDATA[/// <summary>
+        /// $Summary$.
+        /// </summary>
+          @for (var i = 0; i < Model.ParamCount>; i++){/// <param name="$ParamNamei$">The $ParamTypei$ $ParamNamei$ parameter value.</param>
+          }
+        /// <returns>$returns$</returns>
+        public $returns$ $MethodName$(@for (var i = 0; i < Model.ParamCount>; i++){<text>$ParamTypei$ $ParamNamei$</text>})
+        {
+            $returns$ rv$Assign$;
+            try
+            {
+                $MethodBody$
+                return rv;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

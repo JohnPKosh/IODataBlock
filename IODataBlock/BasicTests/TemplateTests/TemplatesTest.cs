@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RazorEngine.Templating;
 using System.Dynamic;
+using System.IO;
 
 namespace BasicTests.TemplateTests
 {
@@ -615,5 +616,27 @@ PARENT";
         }
 
         #endregion Migrated Tests
+
+
+
+        [TestMethod]
+        public void ParseCshtmlWithRazorRaw_ParseModelWithViewBag()
+        {
+            var TemplateString = File.ReadAllText(@"Templates/snippet.cshtml");
+
+            var data = new { Params = new[] {
+                new {Type = "ParamType1", Name = "ParamName1"},
+                new { Type = "ParamType2", Name = "ParamName2" },
+                new { Type = "ParamType3", Name = "ParamName3" },
+                new { Type = "ParamType4", Name = "ParamName4" },
+                new { Type = "ParamType5", Name = "ParamName5" },
+                new { Type = "ParamType6", Name = "ParamName6" }
+            }
+            };
+            var output = data.ParseWithRazorRaw(TemplateString);
+            File.WriteAllText(@"E:\junk\snippets\mrv6.snippet", output);
+            //StringAssert.Contains(output, "Hello World");
+        }
+
     }
 }

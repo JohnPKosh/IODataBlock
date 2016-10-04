@@ -171,6 +171,9 @@
     <None Include="HttpClient\output\successFullContactsTest01.json" />
     <None Include="HttpClient\successFullContactsTest.json" />
     <None Include="packages.config" />
+    <None Include="Templates\snippet - Copy.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TemplateTests\bak\checkdb.cshtml" />
     <None Include="TemplateTests\bak\dropNewDbs.cshtml" />
     <None Include="TemplateTests\bak\sqlcmd.cshtml" />
@@ -180,7 +183,12 @@
   <ItemGroup>
     <Content Include="Data\junk.sql" />
     <Content Include="Integration\NsRest\recordCRUD.js" />
-    <Content Include="Templates\template01.html" />
+    <None Include="Templates\snippet.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Templates\template01.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Choose>
