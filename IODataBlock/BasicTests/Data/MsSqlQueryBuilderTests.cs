@@ -56,5 +56,55 @@ namespace BasicTests.Data
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
+
+
+        [TestMethod]
+        public void SelectWhereAnd_string_IsValid()
+        {
+            var queryBuilder = new DbSqlQueryBuilder();
+
+            queryBuilder
+            .FromTable("[dbo].[LinkedInProfile]")
+            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void SelectColumnsWhereAnd_string_IsValid()
+        {
+            var queryBuilder = new DbSqlQueryBuilder();
+
+            queryBuilder
+            .Columns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
+            .FromTable("[dbo].[LinkedInProfile]")
+            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+
+        [TestMethod]
+        public void SelectColumnStringWhereAnd_string_IsValid()
+        {
+            var queryBuilder = new DbSqlQueryBuilder();
+
+            queryBuilder
+            .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
+            .FromTable("[dbo].[LinkedInProfile]")
+            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        // [LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]
+
+
     }
 }

@@ -61,6 +61,20 @@ namespace BasicTests.Data
         }
 
         [TestMethod]
+        public void SelectWhereAnd_string_IsValid()
+        {
+            var queryBuilder = new DbSqlQueryBuilder();
+
+            queryBuilder
+            .FromTable("[dbo].[LinkedInProfile]")
+            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
         public void IsoDateTimeTest()
         {
             var str = DateTime.Now.ToStringAs8601Format();

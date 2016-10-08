@@ -49,7 +49,28 @@ namespace Data.DbClient.Fluent.Select
 
         public DbSqlQueryBuilder Columns(params string[] columns)
         {
-            SelectedColumns.Clear();
+            //SelectedColumns.Clear();
+            foreach (var column in columns)
+            {
+                SelectedColumns.Add(column);
+            }
+            return this;
+        }
+
+        public DbSqlQueryBuilder Columns(IEnumerable<string> columns, bool clearExisting = false)
+        {
+            if(clearExisting)SelectedColumns.Clear();
+            foreach (var column in columns)
+            {
+                SelectedColumns.Add(column);
+            }
+            return this;
+        }
+
+        public DbSqlQueryBuilder Columns(string columnsString, bool clearExisting = false)
+        {
+            if (clearExisting) SelectedColumns.Clear();
+            var columns = columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
             foreach (var column in columns)
             {
                 SelectedColumns.Add(column);
@@ -85,6 +106,16 @@ namespace Data.DbClient.Fluent.Select
             return Where(new WhereClause(columNameOrScalarFunction, comparison, value, logicOperator));
         }
 
+        public DbSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, Comparison comparison, object value)
+        {
+            return Where(new WhereClause(columNameOrScalarFunction, comparison, value, LogicOperator.And));
+        }
+
+        public DbSqlQueryBuilder WhereOr(string columNameOrScalarFunction, Comparison comparison, object value)
+        {
+            return Where(new WhereClause(columNameOrScalarFunction, comparison, value, LogicOperator.Or));
+        }
+
         public DbSqlQueryBuilder Having(HavingClause havingClause)
         {
             HavingClauses.Add(havingClause);
@@ -94,6 +125,16 @@ namespace Data.DbClient.Fluent.Select
         public DbSqlQueryBuilder Having(string columNameOrAggregateFunction, Comparison comparison, object value, LogicOperator logicOperator = LogicOperator.Or)
         {
             return Having(new HavingClause(columNameOrAggregateFunction, comparison, value, logicOperator));
+        }
+        
+        public DbSqlQueryBuilder HavingAnd(string columNameOrScalarFunction, Comparison comparison, object value)
+        {
+            return Having(new HavingClause(columNameOrScalarFunction, comparison, value, LogicOperator.And));
+        }
+
+        public DbSqlQueryBuilder HavingOr(string columNameOrScalarFunction, Comparison comparison, object value)
+        {
+            return Having(new HavingClause(columNameOrScalarFunction, comparison, value, LogicOperator.Or));
         }
 
         public DbSqlQueryBuilder Join(JoinClause joinClause)
@@ -144,7 +185,7 @@ namespace Data.DbClient.Fluent.Select
         {
             var query = CompileSelectSegment(); /* SELECT */
             query += CompileWhereSegment(); /* Append WHERE */
-            query += CompileGrpupBySegment();  /* Append GROUP BY */
+            query += CompileGroupBySegment();  /* Append GROUP BY */
             query += CompileHavingSegment(); /* Append HAVING */
             query += CompileOrderBySegment(); /* Append ORDER BY */
             query += CompileLimitSegment(); /* Append ORDER BY */
@@ -192,7 +233,7 @@ namespace Data.DbClient.Fluent.Select
             return rv;
         }
 
-        private string CompileGrpupBySegment()
+        private string CompileGroupBySegment()
         {
             var query = GroupByClauses.Count > 0 ? " GROUP BY " : "";
             foreach (var groupByClause in GroupByClauses)
