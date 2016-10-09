@@ -49,7 +49,7 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Columns(params string[] columns)
         {
-            return Columns(columns);
+            return Columns(columns, false);
         }
 
         public MsSqlQueryBuilder Columns(IEnumerable<string> columns, bool clearExisting = false)
@@ -64,13 +64,6 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Columns(string columnsString, bool clearExisting = false)
         {
-            //if (clearExisting) SelectedColumns.Clear();
-            //var columns = columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
-            //foreach (var column in columns)
-            //{
-            //    SelectedColumns.Add(column);
-            //}
-            //return this;
             return Columns(columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
@@ -86,7 +79,7 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Allcolumns()
         {
-            SelectedColumns.Clear();
+            //SelectedColumns.Clear();
             SelectedColumns.Add("*");
             return this;
         }
@@ -222,12 +215,12 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileWhereSegment()
         {
-            var rv = WhereClauses.Count > 0 ? " WHERE " : "";
+            var rv = WhereClauses.Count > 0 ? "\r\nWHERE " : "";
             foreach (var whereClause in WhereClauses)
             {
                 if (whereClause is WhereClause)
                 {
-                    rv += GetFilterStatement(new List<WhereClause> { whereClause as WhereClause }, !whereClause.Equals(WhereClauses.Last()));
+                    rv += $"{GetFilterStatement(new List<WhereClause> { whereClause as WhereClause }, !whereClause.Equals(WhereClauses.Last()))}";
                 }
                 else if (whereClause is GroupWhereClause)
                 {
@@ -235,7 +228,7 @@ namespace Data.DbClient.Fluent.Select
                     if (!whereClause.Equals(WhereClauses.Last()))
                     {
                         // Build Logicoperator
-                        rv += $" {GetLogicOperator((whereClause as GroupWhereClause).LogicOperator)} ";
+                        rv += $"{GetLogicOperator((whereClause as GroupWhereClause).LogicOperator)} ";
                     }
                 }
             }
@@ -377,10 +370,10 @@ namespace Data.DbClient.Fluent.Select
             switch (logicOperator)
             {
                 case LogicOperator.And:
-                    return "AND";
+                    return "\r\nAND";
 
                 case LogicOperator.Or:
-                    return "OR";
+                    return "\r\nOR";
 
                 default:
                     return "";

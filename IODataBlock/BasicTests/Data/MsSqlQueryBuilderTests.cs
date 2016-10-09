@@ -111,8 +111,11 @@ namespace BasicTests.Data
             queryBuilder
                 .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
                 .FromTable("LinkedInProfile")
-                .Take(10)
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
+                .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC")
                 .Skip(2)
+                .Take(10)
                 .Top(100);
             
 
