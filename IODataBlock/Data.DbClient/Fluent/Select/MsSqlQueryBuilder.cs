@@ -16,10 +16,10 @@ namespace Data.DbClient.Fluent.Select
             //Allcolumns();
         }
 
-        public MsSqlQueryBuilder(string schema) : this()
-        {
-            Schema = schema;
-        }
+        //public MsSqlQueryBuilder(string schema) : this()
+        //{
+        //    Schema = schema;
+        //}
 
         #endregion Class Initialization
 
@@ -35,7 +35,7 @@ namespace Data.DbClient.Fluent.Select
         protected TopClause TopClause = new TopClause(0);
         protected LimitClause LimitClause = new LimitClause(0);
         protected OffsetClause OffsetClause = new OffsetClause(0);
-        protected string Schema = "dbo";
+        //protected string Schema = "dbo";
 
         #endregion Fields and Properties
 
@@ -210,12 +210,27 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileFromSegment()
         {
-            return $"\r\nFROM [{Schema}].[{SelectedTable}]";
+            return $"\r\nFROM {SelectedTable}";
         }
 
         private string ApplyJoins(string query)
         {
-            return JoinClauses.Aggregate(query, (current, joinClause) => current + string.Format(" {0} [{7}].[{1}] ON {2}.{3} {4} {5}.{6}", GetJoinType(joinClause.JoinType), joinClause.ToTable, joinClause.FromTable, joinClause.FromColumn, GetComparisonOperator(joinClause.ComparisonOperator), joinClause.ToTable, joinClause.ToColumn, Schema));
+            return JoinClauses.Aggregate(query, (current, joinClause) => 
+            current + $" {GetJoinType(joinClause.JoinType)} {joinClause.ToTable} \r\nON {RemoveTableSchema(GetTableAlias(joinClause.FromTable))}.{joinClause.FromColumn} {GetComparisonOperator(joinClause.ComparisonOperator)} {GetTableAlias(joinClause.ToTable)}.{joinClause.ToColumn}");
+        }
+
+        private static string RemoveTableSchema(string tableName)
+        {
+            return tableName.LastIndexOf(".", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(tableName.LastIndexOf(".", StringComparison.InvariantCultureIgnoreCase) + ".".Length) : tableName;
+        }
+
+        private static string RemoveTableAlias(string tableName)
+        {
+            return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(0, tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase)): tableName;
+        }
+        private static string GetTableAlias(string tableName)
+        {
+            return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) + " AS ".Length) : tableName;
         }
 
         private string CompileWhereSegment()
@@ -242,13 +257,13 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileGroupBySegment()
         {
-            var query = GroupByClauses.Count > 0 ? " GROUP BY " : "";
+            var query = GroupByClauses.Count > 0 ? "\r\nGROUP BY " : "";
             foreach (var groupByClause in GroupByClauses)
             {
                 query += $"{groupByClause.Column}";
                 if (!groupByClause.Equals(GroupByClauses.Last()))
                 {
-                    query += ", ";
+                    query += "\r\n\t, ";
                 }
             }
             return query;
@@ -256,7 +271,7 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileHavingSegment()
         {
-            var query = HavingClauses.Count > 0 ? " HAVING " : "";
+            var query = HavingClauses.Count > 0 ? "\r\nHAVING " : "";
             return HavingClauses.Aggregate(query, (current, havingClause) => current + GetFilterStatement(new List<HavingClause> { havingClause }, !havingClause.Equals(HavingClauses.Last())));
         }
 
@@ -354,17 +369,6 @@ namespace Data.DbClient.Fluent.Select
             {
                 return $"{filterClause.FieldName} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null)} {FormatSqlValue(filterClause.Value)}";
             }
-
-            //string pattern;
-            //if (filterClause.ComparisonOperator == Comparison.In || filterClause.ComparisonOperator == Comparison.NotIn)
-            //{
-            //    pattern = "{0} {1} ({2})";
-            //}
-            //else
-            //{
-            //    pattern = "{0} {1} {2}";
-            //}
-            //return string.Format(pattern, filterClause.FieldName, GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null), FormatSqlValue(filterClause.Value));
         }
 
         private static string GetJoinType(JoinType joinType)
@@ -372,16 +376,16 @@ namespace Data.DbClient.Fluent.Select
             switch (joinType)
             {
                 case JoinType.InnerJoin:
-                    return "INNER JOIN";
+                    return "\r\nINNER JOIN";
 
                 case JoinType.LeftJoin:
-                    return "LEFT OUTER JOIN";
+                    return "\r\nLEFT OUTER JOIN";
 
                 case JoinType.RightJoin:
-                    return "RIGHT OUTER JOIN";
+                    return "\r\nRIGHT OUTER JOIN";
 
                 case JoinType.OuterJoin:
-                    return "FULL OUTER JOIN";
+                    return "\r\nFULL OUTER JOIN";
 
                 default:
                     return "";

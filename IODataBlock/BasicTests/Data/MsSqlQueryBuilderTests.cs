@@ -110,10 +110,11 @@ namespace BasicTests.Data
 
             queryBuilder
                 .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
-                .FromTable("LinkedInProfile")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-                .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC")
+                .FromTable("[dbo].[LinkedInProfile] AS a")
+                //.Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Andi Cook")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Andi Cook")
+                .Where("[LinkedInCompanyName]", Comparison.Equals, "Onvoy, LLC")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -125,6 +126,50 @@ namespace BasicTests.Data
 
         // [LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]
 
+
+
+        [TestMethod]
+        public void SelectSkipTakeTopJoin_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .FromTable("[dbo].[LinkedInProfile] AS a")
+                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany]", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Skip(2)
+                .Take(10)
+                .Top(100);
+
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void SelectSkipTakeTopJoin02_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .GroupBy("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .FromTable("[dbo].[LinkedInProfile] AS a")
+                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Skip(2)
+                .Take(10)
+                .Top(100);
+
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
 
     }
 }
