@@ -13,7 +13,7 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder()
         {
-            Allcolumns();
+            //Allcolumns();
         }
 
         public MsSqlQueryBuilder(string schema) : this()
@@ -33,6 +33,8 @@ namespace Data.DbClient.Fluent.Select
         protected List<GroupByClause> GroupByClauses = new List<GroupByClause>();
         protected List<HavingClause> HavingClauses = new List<HavingClause>();
         protected TopClause TopClause = new TopClause(0);
+        protected LimitClause LimitClause = new LimitClause(0);
+        protected OffsetClause OffsetClause = new OffsetClause(0);
         protected string Schema = "dbo";
 
         #endregion Fields and Properties
@@ -47,12 +49,7 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Columns(params string[] columns)
         {
-            //SelectedColumns.Clear();
-            foreach (var column in columns)
-            {
-                SelectedColumns.Add(column);
-            }
-            return this;
+            return Columns(columns);
         }
 
         public MsSqlQueryBuilder Columns(IEnumerable<string> columns, bool clearExisting = false)
@@ -67,13 +64,14 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Columns(string columnsString, bool clearExisting = false)
         {
-            if (clearExisting) SelectedColumns.Clear();
-            var columns = columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
-            foreach (var column in columns)
-            {
-                SelectedColumns.Add(column);
-            }
-            return this;
+            //if (clearExisting) SelectedColumns.Clear();
+            //var columns = columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+            //foreach (var column in columns)
+            //{
+            //    SelectedColumns.Add(column);
+            //}
+            //return this;
+            return Columns(columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
         public MsSqlQueryBuilder GroupBy(params string[] columns)
@@ -162,6 +160,18 @@ namespace Data.DbClient.Fluent.Select
             TopClause.Quantity = quantity;
             return this;
         }
+        
+        public MsSqlQueryBuilder Take(int take)
+        {
+            LimitClause.Take = take;
+            return this;
+        }
+
+        public MsSqlQueryBuilder Skip(int skip)
+        {
+            OffsetClause.Skip = skip;
+            return this;
+        }
 
         #endregion Fluent Methods
 
@@ -174,6 +184,8 @@ namespace Data.DbClient.Fluent.Select
             query += CompileGroupBySegment();  /* Append GROUP BY */
             query += CompileHavingSegment(); /* Append HAVING */
             query += CompileOrderBySegment(); /* Append ORDER BY */
+            query += CompileOffsetSegment(); /* Append OFFSET BY (SKIP) */
+            query += CompileLimitSegment(); /* Append LIMIT BY (TAKE) */
             return query;
         }
 
@@ -185,8 +197,22 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileSelectSegment()
         {
-            var query = $"SELECT{(TopClause.Quantity > 0 ? $" TOP {TopClause.Quantity} " : " ")}{string.Join(",", SelectedColumns)} FROM [{Schema}].[{SelectedTable}]";
+            if (!SelectedColumns.Any()) Allcolumns();
+            if (OffsetClause.Skip > 0)
+            {
+                TopClause.Quantity = 0;
+                if (!SortClauses.Any())
+                {
+                    SortClauses.Add(new OrderClause("1"));
+                }
+            }
+            var query = $"SELECT{(TopClause.Quantity > 0 ? $" TOP {TopClause.Quantity} " : " ")}{GetSelectedColumnString()}\r\nFROM [{Schema}].[{SelectedTable}]";
             return ApplyJoins(query);
+        }
+
+        private string GetSelectedColumnString()
+        {
+            return string.Join("\r\n\t,", SelectedColumns);
         }
 
         private string ApplyJoins(string query)
@@ -238,7 +264,8 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileOrderBySegment()
         {
-            var query = SortClauses.Count > 0 ? " ORDER BY " : "";
+            var query = SortClauses.Count > 0 ? "\r\nORDER BY " : "";
+            /* TODO: Fix the logic here for correct formatting - (JKOSH)  */
             foreach (var sortClause in SortClauses)
             {
                 query += $"{sortClause.Column} {GetSortingType(sortClause.Sorting)}";
@@ -248,6 +275,24 @@ namespace Data.DbClient.Fluent.Select
                 }
             }
             return query;
+        }
+
+        /// <summary>
+        /// Generates the LIMIT or TAKE clause. e.g. FETCH NEXT 10 ROWS ONLY
+        /// </summary>
+        /// <returns>string</returns>
+        private string CompileLimitSegment()
+        {
+            return $"{(LimitClause.Take > 0 ? $"\r\nFETCH NEXT {LimitClause.Take} ROWS ONLY " : "")}";
+        }
+
+        /// <summary>
+        /// Generates the OFFSET or SKIP clause. e.g. OFFSET 2 ROWS
+        /// </summary>
+        /// <returns>string</returns>
+        private string CompileOffsetSegment()
+        {
+            return LimitClause.Take > 0 ? $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "\r\nOFFSET 0 ROWS ")}" : $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "")}";
         }
 
         #endregion Build Query Methods

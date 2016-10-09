@@ -61,7 +61,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectWhereAnd_string_IsValid()
         {
-            var queryBuilder = new DbSqlQueryBuilder();
+            var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
             .FromTable("[dbo].[LinkedInProfile]")
@@ -75,7 +75,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectColumnsWhereAnd_string_IsValid()
         {
-            var queryBuilder = new DbSqlQueryBuilder();
+            var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
             .Columns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
@@ -91,13 +91,30 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectColumnStringWhereAnd_string_IsValid()
         {
-            var queryBuilder = new DbSqlQueryBuilder();
+            var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
             .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
             .FromTable("[dbo].[LinkedInProfile]")
             .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
             .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void SelectSkipTakeTop_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
+                .FromTable("LinkedInProfile")
+                .Take(10)
+                .Skip(2)
+                .Top(100);
+            
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);

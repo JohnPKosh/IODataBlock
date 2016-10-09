@@ -188,8 +188,8 @@ namespace Data.DbClient.Fluent.Select
             query += CompileGroupBySegment();  /* Append GROUP BY */
             query += CompileHavingSegment(); /* Append HAVING */
             query += CompileOrderBySegment(); /* Append ORDER BY */
-            query += CompileLimitSegment(); /* Append ORDER BY */
-            query += CompileOffsetSegment(); /* Append ORDER BY */
+            query += CompileLimitSegment(); /* Append LIMIT BY */
+            query += CompileOffsetSegment(); /* Append OFFSET BY */
             return query;
         }
 
@@ -201,6 +201,7 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileSelectSegment()
         {
+            if (OffsetClause.Skip > 0) TopClause.Quantity = 0;
             var query = $"SELECT{(TopClause.Quantity > 0 ? $" TOP {TopClause.Quantity} " : " ")}{string.Join(",", SelectedColumns)} FROM {SelectedTable}";
             return ApplyJoins(query);
         }
