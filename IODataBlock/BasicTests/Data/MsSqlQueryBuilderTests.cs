@@ -14,7 +14,7 @@ namespace BasicTests.Data
 
             queryBuilder.FromTable("customers")
             .Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
-            .Columns("customers.name", "customers.firstname", "regions.city")
+            .SelectColumns("customers.name", "customers.firstname", "regions.city")
             .Where("regions.city", Comparison.Like, "do%")
             .GroupBy("regions.city", "customers.name", "customers.firstname")
             .Having("COUNT(*)", Comparison.GreaterThan, 5)
@@ -78,7 +78,7 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
-            .Columns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
+            .SelectColumns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
             .FromTable("[dbo].[LinkedInProfile]")
             .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
             .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
@@ -94,7 +94,7 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
-            .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
+            .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
             .FromTable("[dbo].[LinkedInProfile]")
             .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
             .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
@@ -109,7 +109,7 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
-                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
+                .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
                 //.Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
                 .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Andi Cook")
@@ -134,7 +134,7 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
-                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
                 .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany]", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
                 .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
@@ -155,13 +155,84 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder
-                .Columns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .GroupBy("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
                 .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
                 .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
                 .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
                 .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Skip(2)
+                .Take(10)
+                .Top(100);
+
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void SelectSkipTakeTopLeftJoin_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                //.GroupBy("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
+                .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
+                .FromTable("[dbo].[LinkedInProfile] AS a")
+                .Join(JoinType.LeftJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Skip(2)
+                .Take(10)
+                .Top(100);
+
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void GenericSelectSkipTakeTopLeftJoin_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
+                //.GroupBy("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
+                .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
+                .FromTable("dbo.LinkedInProfile AS a")
+                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", Comparison.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
+                .Where("a.LinkedInCompanyName", Comparison.Equals, "T3 Motion")
+                .Skip(2)
+                .Take(10)
+                .Top(100);
+
+
+            var sql = queryBuilder.BuildQuery();
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void GenericSelectSkipTakeTopLeftJoinOrderBy_string_IsValid()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
+                //.GroupBy("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
+                .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
+                .FromTable("dbo.LinkedInProfile AS a")
+                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", Comparison.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
+                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
+                .Where("a.LinkedInCompanyName", Comparison.Equals, "T3 Motion")
+                .Having("COUNT(*)", Comparison.GreaterThan, 0)
+                .OrderBy("LinkedInFullName")
                 .Skip(2)
                 .Take(10)
                 .Top(100);

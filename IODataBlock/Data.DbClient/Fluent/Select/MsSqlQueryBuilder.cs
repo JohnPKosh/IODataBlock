@@ -47,12 +47,12 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Columns(params string[] columns)
+        public MsSqlQueryBuilder SelectColumns(params string[] columns)
         {
-            return Columns(columns, false);
+            return SelectColumns(columns, false);
         }
 
-        public MsSqlQueryBuilder Columns(IEnumerable<string> columns, bool clearExisting = false)
+        public MsSqlQueryBuilder SelectColumns(IEnumerable<string> columns, bool clearExisting = false)
         {
             if (clearExisting) SelectedColumns.Clear();
             foreach (var column in columns)
@@ -62,14 +62,25 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Columns(string columnsString, bool clearExisting = false)
+        public MsSqlQueryBuilder SelectColumns(string columnsString, bool clearExisting = false)
         {
-            return Columns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
+            return SelectColumns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
         public MsSqlQueryBuilder GroupBy(params string[] columns)
         {
-            GroupByClauses.Clear();
+            //GroupByClauses.Clear();
+            //foreach (var column in columns)
+            //{
+            //    GroupByClauses.Add(new GroupByClause(column));
+            //}
+            //return this;
+            return GroupBy(columns, false);
+        }
+
+        public MsSqlQueryBuilder GroupBy(IEnumerable<string> columns, bool clearExisting = false)
+        {
+            if (clearExisting) GroupByClauses.Clear();
             foreach (var column in columns)
             {
                 GroupByClauses.Add(new GroupByClause(column));
@@ -77,7 +88,12 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Allcolumns()
+        public MsSqlQueryBuilder GroupBy(string columnsString, bool clearExisting = false)
+        {
+            return GroupBy(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
+        }
+
+        public MsSqlQueryBuilder SelectAllColumns()
         {
             //SelectedColumns.Clear();
             SelectedColumns.Add("*");
@@ -190,7 +206,7 @@ namespace Data.DbClient.Fluent.Select
 
         private string CompileSelectSegment()
         {
-            if (!SelectedColumns.Any()) Allcolumns();
+            if (!SelectedColumns.Any()) SelectAllColumns();
             if (OffsetClause.Skip > 0)
             {
                 TopClause.Quantity = 0;
