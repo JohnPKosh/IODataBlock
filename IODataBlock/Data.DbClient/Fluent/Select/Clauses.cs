@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Data.DbClient.Fluent.Enums;
 
 namespace Data.DbClient.Fluent.Select
 {
@@ -9,31 +10,31 @@ namespace Data.DbClient.Fluent.Select
     public abstract class FilterClause
     {
         public string FieldName { get; set; }
-        public Comparison ComparisonOperator { get; set; }
-        public LogicOperator LogicOperator { get; set; }
+        public ComparisonOperatorType ComparisonOperator { get; set; }
+        public LogicalOperatorType LogicalOperatorType { get; set; }
         public object Value { get; set; }
 
-        protected FilterClause(string field, Comparison compareOperator, object compareValue, LogicOperator logicOperator = LogicOperator.Or)
+        protected FilterClause(string field, ComparisonOperatorType comparisonOperatorType, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
-            LogicOperator = logicOperator;
+            LogicalOperatorType = logicalOperatorType;
             FieldName = field;
-            ComparisonOperator = compareOperator;
+            ComparisonOperator = comparisonOperatorType;
             Value = compareValue;
         }
     }
 
     public class HavingClause : FilterClause
     {
-        public HavingClause(string field, Comparison compareOperator, object compareValue, LogicOperator logicOperator = LogicOperator.Or)
-            : base(field, compareOperator, compareValue, logicOperator)
+        public HavingClause(string field, ComparisonOperatorType compareOperator, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+            : base(field, compareOperator, compareValue, logicalOperatorType)
         {
         }
     }
 
     public class WhereClause : FilterClause, IWhereClause
     {
-        public WhereClause(string field, Comparison compareOperator, object compareValue, LogicOperator logicOperator = LogicOperator.Or)
-            : base(field, compareOperator, compareValue, logicOperator)
+        public WhereClause(string field, ComparisonOperatorType compareOperator, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+            : base(field, compareOperator, compareValue, logicalOperatorType)
         {
         }
     }
@@ -41,11 +42,11 @@ namespace Data.DbClient.Fluent.Select
     public class GroupWhereClause : IWhereClause
     {
         public List<WhereClause> WhereClauses { get; set; }
-        public LogicOperator LogicOperator { get; set; }
+        public LogicalOperatorType LogicalOperatorType { get; set; }
 
-        public GroupWhereClause(List<WhereClause> whereClauses, LogicOperator logicOperator = LogicOperator.Or)
+        public GroupWhereClause(List<WhereClause> whereClauses, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
-            LogicOperator = logicOperator;
+            LogicalOperatorType = logicalOperatorType;
             WhereClauses = whereClauses;
         }
     }
@@ -55,16 +56,16 @@ namespace Data.DbClient.Fluent.Select
         public JoinType JoinType { get; set; }
         public string FromTable { get; set; }
         public string FromColumn { get; set; }
-        public Comparison ComparisonOperator { get; set; }
+        public ComparisonOperatorType ComparisonOperator { get; set; }
         public string ToTable { get; set; }
         public string ToColumn { get; set; }
 
-        public JoinClause(JoinType join, string toTableName, string toColumnName, Comparison comparison, string fromTableName, string fromColumnName)
+        public JoinClause(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
         {
             JoinType = join;
             FromTable = fromTableName;
             FromColumn = fromColumnName;
-            ComparisonOperator = comparison;
+            ComparisonOperator = comparisonOperator;
             ToTable = toTableName;
             ToColumn = toColumnName;
         }
@@ -73,9 +74,9 @@ namespace Data.DbClient.Fluent.Select
     public class OrderClause
     {
         public string Column { get; set; }
-        public Order Sorting { get; set; }
+        public OrderType Sorting { get; set; }
 
-        public OrderClause(string column, Order sorting = Order.Ascending)
+        public OrderClause(string column, OrderType sorting = OrderType.Ascending)
         {
             Column = column;
             Sorting = sorting;

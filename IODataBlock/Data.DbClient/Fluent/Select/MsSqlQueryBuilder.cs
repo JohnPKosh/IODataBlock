@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using Data.DbClient.Fluent.Enums;
 
 namespace Data.DbClient.Fluent.Select
 {
@@ -69,12 +70,6 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder GroupBy(params string[] columns)
         {
-            //GroupByClauses.Clear();
-            //foreach (var column in columns)
-            //{
-            //    GroupByClauses.Add(new GroupByClause(column));
-            //}
-            //return this;
             return GroupBy(columns, false);
         }
 
@@ -106,19 +101,19 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Where(string columNameOrScalarFunction, Comparison comparison, object value, LogicOperator logicOperator = LogicOperator.Or)
+        public MsSqlQueryBuilder Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
-            return Where(new WhereClause(columNameOrScalarFunction, comparison, value, logicOperator));
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, logicalOperatorType));
         }
         
-        public MsSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, Comparison comparison, object value)
+        public MsSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
-            return Where(new WhereClause(columNameOrScalarFunction, comparison, value, LogicOperator.And));
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public MsSqlQueryBuilder WhereOr(string columNameOrScalarFunction, Comparison comparison, object value)
+        public MsSqlQueryBuilder WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
-            return Where(new WhereClause(columNameOrScalarFunction, comparison, value, LogicOperator.Or));
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
 
         public MsSqlQueryBuilder Having(HavingClause havingClause)
@@ -127,19 +122,19 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Having(string columNameOrAggregateFunction, Comparison comparison, object value, LogicOperator logicOperator = LogicOperator.Or)
+        public MsSqlQueryBuilder Having(string columNameOrAggregateFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
-            return Having(new HavingClause(columNameOrAggregateFunction, comparison, value, logicOperator));
+            return Having(new HavingClause(columNameOrAggregateFunction, comparisonOperator, value, logicalOperatorType));
         }
         
-        public MsSqlQueryBuilder HavingAnd(string columNameOrScalarFunction, Comparison comparison, object value)
+        public MsSqlQueryBuilder HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
-            return Having(new HavingClause(columNameOrScalarFunction, comparison, value, LogicOperator.And));
+            return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public MsSqlQueryBuilder HavingOr(string columNameOrScalarFunction, Comparison comparison, object value)
+        public MsSqlQueryBuilder HavingOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
-            return Having(new HavingClause(columNameOrScalarFunction, comparison, value, LogicOperator.Or));
+            return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
 
         public MsSqlQueryBuilder Join(JoinClause joinClause)
@@ -148,9 +143,9 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder Join(JoinType join, string toTableName, string toColumnName, Comparison comparison, string fromTableName, string fromColumnName)
+        public MsSqlQueryBuilder Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
         {
-            return Join(new JoinClause(join, toTableName, toColumnName, comparison, fromTableName, fromColumnName));
+            return Join(new JoinClause(join, toTableName, toColumnName, comparisonOperator, fromTableName, fromColumnName));
         }
 
         public MsSqlQueryBuilder OrderBy(OrderClause sortClause)
@@ -159,7 +154,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder OrderBy(string column, Order sorting = Order.Ascending)
+        public MsSqlQueryBuilder OrderBy(string column, OrderType sorting = OrderType.Ascending)
         {
             return OrderBy(new OrderClause(column, sorting));
         }
@@ -264,7 +259,7 @@ namespace Data.DbClient.Fluent.Select
                     if (!whereClause.Equals(WhereClauses.Last()))
                     {
                         // Build Logicoperator
-                        rv += $"{GetLogicOperator((whereClause as GroupWhereClause).LogicOperator)} ";
+                        rv += $"{GetLogicOperator((whereClause as GroupWhereClause).LogicalOperatorType)} ";
                     }
                 }
             }
@@ -368,7 +363,7 @@ namespace Data.DbClient.Fluent.Select
                 output = output + GetComparisonClause(clause);
                 if (ignoreCheckLastClause || !clause.Equals(filterClauses.Last()))
                 {
-                    output += $" {GetLogicOperator(clause.LogicOperator)} ";
+                    output += $" {GetLogicOperator(clause.LogicalOperatorType)} ";
                 }
             }
             return output;
@@ -377,7 +372,7 @@ namespace Data.DbClient.Fluent.Select
         private static string GetComparisonClause(FilterClause filterClause)
         {
 
-            if (filterClause.ComparisonOperator == Comparison.In || filterClause.ComparisonOperator == Comparison.NotIn)
+            if (filterClause.ComparisonOperator == ComparisonOperatorType.In || filterClause.ComparisonOperator == ComparisonOperatorType.NotIn)
             {
                 return $"{filterClause.FieldName} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null)} ({FormatSqlValue(filterClause.Value)})";
             }
@@ -408,14 +403,14 @@ namespace Data.DbClient.Fluent.Select
             }
         }
 
-        private static string GetLogicOperator(LogicOperator logicOperator)
+        private static string GetLogicOperator(LogicalOperatorType logicalOperatorType)
         {
-            switch (logicOperator)
+            switch (logicalOperatorType)
             {
-                case LogicOperator.And:
+                case LogicalOperatorType.And:
                     return "\r\nAND";
 
-                case LogicOperator.Or:
+                case LogicalOperatorType.Or:
                     return "\r\nOR";
 
                 default:
@@ -423,14 +418,14 @@ namespace Data.DbClient.Fluent.Select
             }
         }
 
-        private static string GetSortingType(Order sorting)
+        private static string GetSortingType(OrderType sorting)
         {
             switch (sorting)
             {
-                case Order.Ascending:
+                case OrderType.Ascending:
                     return "ASC";
 
-                case Order.Descending:
+                case OrderType.Descending:
                     return "DESC";
 
                 default:
@@ -438,49 +433,49 @@ namespace Data.DbClient.Fluent.Select
             }
         }
 
-        private static string GetComparisonOperator(Comparison comparison, bool isNull = false)
+        private static string GetComparisonOperator(ComparisonOperatorType comparisonOperator, bool isNull = false)
         {
             if (isNull)
             {
-                switch (comparison)
+                switch (comparisonOperator)
                 {
-                    case Comparison.Equals:
+                    case ComparisonOperatorType.Equals:
                         return "IS";
 
-                    case Comparison.NotEquals:
+                    case ComparisonOperatorType.NotEquals:
                         return "IS NOT";
                 }
             }
-            switch (comparison)
+            switch (comparisonOperator)
             {
-                case Comparison.Equals:
+                case ComparisonOperatorType.Equals:
                     return "=";
 
-                case Comparison.NotEquals:
+                case ComparisonOperatorType.NotEquals:
                     return "!=";
 
-                case Comparison.GreaterThan:
+                case ComparisonOperatorType.GreaterThan:
                     return ">";
 
-                case Comparison.GreaterOrEquals:
+                case ComparisonOperatorType.GreaterOrEquals:
                     return ">=";
 
-                case Comparison.LessThan:
+                case ComparisonOperatorType.LessThan:
                     return "<";
 
-                case Comparison.LessOrEquals:
+                case ComparisonOperatorType.LessOrEquals:
                     return "<=";
 
-                case Comparison.Like:
+                case ComparisonOperatorType.Like:
                     return "LIKE";
 
-                case Comparison.NotLike:
+                case ComparisonOperatorType.NotLike:
                     return "NOT LIKE";
 
-                case Comparison.In:
+                case ComparisonOperatorType.In:
                     return "IN";
 
-                case Comparison.NotIn:
+                case ComparisonOperatorType.NotIn:
                     return "NOT IN";
 
                 default:

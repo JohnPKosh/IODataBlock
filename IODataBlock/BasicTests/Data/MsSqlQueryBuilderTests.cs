@@ -1,6 +1,7 @@
 ﻿using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Data.DbClient.Fluent.Enums;
 
 namespace BasicTests.Data
 {
@@ -13,11 +14,11 @@ namespace BasicTests.Data
             var queryBuilder = new MsSqlQueryBuilder();
 
             queryBuilder.FromTable("customers")
-            .Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
+            .Join(JoinType.InnerJoin, "regions", "zip", ComparisonOperatorType.Equals, "customers", "zip")
             .SelectColumns("customers.name", "customers.firstname", "regions.city")
-            .Where("regions.city", Comparison.Like, "do%")
+            .Where("regions.city", ComparisonOperatorType.Like, "do%")
             .GroupBy("regions.city", "customers.name", "customers.firstname")
-            .Having("COUNT(*)", Comparison.GreaterThan, 5)
+            .Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 5)
             .OrderBy("customers.name");
 
             var sql = queryBuilder.BuildQuery();
@@ -31,8 +32,8 @@ namespace BasicTests.Data
 
             queryBuilder
                 .FromTable("customers")
-                .Where("zip", Comparison.In, new SqlLiteral("'58965','47841','12569'"))
-                .OrderBy("name", Order.Descending);
+                .Where("zip", ComparisonOperatorType.In, new SqlLiteral("'58965','47841','12569'"))
+                .OrderBy("name", OrderType.Descending);
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -46,11 +47,11 @@ namespace BasicTests.Data
             queryBuilder
             .Top(100)
             .FromTable("customers")
-            .Where("age", Comparison.LessThan, 55, LogicOperator.And)
+            .Where("age", ComparisonOperatorType.LessThan, 55, LogicalOperatorType.And)
             .Where(new GroupWhereClause(new List<WhereClause>
             {
-                new WhereClause("name", Comparison.Like, "jo%", LogicOperator.Or),
-                new WhereClause("name", Comparison.Like, "pe%"),
+                new WhereClause("name", ComparisonOperatorType.Like, "jo%", LogicalOperatorType.Or),
+                new WhereClause("name", ComparisonOperatorType.Like, "pe%"),
             }));
 
             var sql = queryBuilder.BuildQuery();
@@ -65,8 +66,8 @@ namespace BasicTests.Data
 
             queryBuilder
             .FromTable("[dbo].[LinkedInProfile]")
-            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+            .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", ComparisonOperatorType.Equals, "Onvoy, LLC");
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -80,8 +81,8 @@ namespace BasicTests.Data
             queryBuilder
             .SelectColumns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
             .FromTable("[dbo].[LinkedInProfile]")
-            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+            .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", ComparisonOperatorType.Equals, "Onvoy, LLC");
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -96,8 +97,8 @@ namespace BasicTests.Data
             queryBuilder
             .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
             .FromTable("[dbo].[LinkedInProfile]")
-            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+            .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", ComparisonOperatorType.Equals, "Onvoy, LLC");
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -111,10 +112,10 @@ namespace BasicTests.Data
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
-                //.Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Andi Cook")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Andi Cook")
-                .Where("[LinkedInCompanyName]", Comparison.Equals, "Onvoy, LLC")
+                //.Join(JoinType.InnerJoin, "regions", "zip", ComparisonOperatorType.Equals, "customers", "zip")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Andi Cook")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Andi Cook")
+                .Where("[LinkedInCompanyName]", ComparisonOperatorType.Equals, "Onvoy, LLC")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -136,10 +137,10 @@ namespace BasicTests.Data
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
-                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany]", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany]", "[LinkedInCompanyName]", ComparisonOperatorType.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", ComparisonOperatorType.Equals, "T3 Motion")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -158,10 +159,10 @@ namespace BasicTests.Data
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .GroupBy("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
-                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Join(JoinType.InnerJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", ComparisonOperatorType.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", ComparisonOperatorType.Equals, "T3 Motion")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -181,10 +182,10 @@ namespace BasicTests.Data
                 //.GroupBy("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
                 .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
                 .FromTable("[dbo].[LinkedInProfile] AS a")
-                .Join(JoinType.LeftJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", Comparison.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .WhereAnd("[LinkedInFullName]", Comparison.Equals, "Jess Gilman")
-                .Where("a.[LinkedInCompanyName]", Comparison.Equals, "T3 Motion")
+                .Join(JoinType.LeftJoin, "[dbo].[LinkedInCompany] as b", "[LinkedInCompanyName]", ComparisonOperatorType.Equals, "[dbo].[LinkedInProfile] AS a", "[LinkedInCompanyName]")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("[LinkedInFullName]", ComparisonOperatorType.Equals, "Jess Gilman")
+                .Where("a.[LinkedInCompanyName]", ComparisonOperatorType.Equals, "T3 Motion")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -204,10 +205,10 @@ namespace BasicTests.Data
                 //.GroupBy("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
                 .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
                 .FromTable("dbo.LinkedInProfile AS a")
-                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", Comparison.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
-                .Where("a.LinkedInCompanyName", Comparison.Equals, "T3 Motion")
+                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
                 .Skip(2)
                 .Take(10)
                 .Top(100);
@@ -227,12 +228,12 @@ namespace BasicTests.Data
                 //.GroupBy("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
                 .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
                 .FromTable("dbo.LinkedInProfile AS a")
-                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", Comparison.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
-                .WhereAnd("LinkedInFullName", Comparison.Equals, "Jess Gilman")
-                .Where("a.LinkedInCompanyName", Comparison.Equals, "T3 Motion")
-                .Having("COUNT(*)", Comparison.GreaterThan, 0)
-                .OrderBy("LinkedInFullName")
+                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
+                .Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 0)
+                .OrderBy("LinkedInFullName", OrderType.Ascending)
                 .Skip(2)
                 .Take(10)
                 .Top(100);

@@ -3,6 +3,7 @@ using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using Data.DbClient.Fluent.Enums;
 
 namespace BasicTests.Data
 {
@@ -15,11 +16,11 @@ namespace BasicTests.Data
             var queryBuilder = new DbSqlQueryBuilder();
 
             queryBuilder.FromTable("customers")
-            .Join(JoinType.InnerJoin, "regions", "zip", Comparison.Equals, "customers", "zip")
+            .Join(JoinType.InnerJoin, "regions", "zip", ComparisonOperatorType.Equals, "customers", "zip")
             .Columns("customers.name", "customers.firstname", "regions.city")
-            .Where("regions.city", Comparison.Like, "do%")
+            .Where("regions.city", ComparisonOperatorType.Like, "do%")
             .GroupBy("regions.city", "customers.name", "customers.firstname")
-            .Having("COUNT(*)", Comparison.GreaterThan, 5)
+            .Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 5)
             .OrderBy("customers.name");
 
             var sql = queryBuilder.BuildQuery();
@@ -33,8 +34,8 @@ namespace BasicTests.Data
 
             queryBuilder
                 .FromTable("customers")
-                .Where("zip", Comparison.In, new SqlLiteral("'58965','47841','12569'"))
-                .OrderBy("name", Order.Descending);
+                .Where("zip", ComparisonOperatorType.In, new SqlLiteral("'58965','47841','12569'"))
+                .OrderBy("name", OrderType.Descending);
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -49,11 +50,11 @@ namespace BasicTests.Data
             .Limit(100)
             .Offset(50)
             .FromTable("customers")
-            .Where("age", Comparison.LessThan, 55, LogicOperator.And)
+            .Where("age", ComparisonOperatorType.LessThan, 55, LogicalOperatorType.And)
             .Where(new GroupWhereClause(new List<WhereClause>
             {
-                new WhereClause("name", Comparison.Like, "jo%", LogicOperator.Or),
-                new WhereClause("name", Comparison.Like, "pe%"),
+                new WhereClause("name", ComparisonOperatorType.Like, "jo%", LogicalOperatorType.Or),
+                new WhereClause("name", ComparisonOperatorType.Like, "pe%"),
             }));
 
             var sql = queryBuilder.BuildQuery();
@@ -67,8 +68,8 @@ namespace BasicTests.Data
 
             queryBuilder
             .FromTable("[dbo].[LinkedInProfile]")
-            .WhereAnd("LinkedInFullName", Comparison.Equals, "Andi Cook")
-            .Where("LinkedInCompanyName", Comparison.Equals, "Onvoy, LLC");
+            .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Andi Cook")
+            .Where("LinkedInCompanyName", ComparisonOperatorType.Equals, "Onvoy, LLC");
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
