@@ -64,7 +64,7 @@ namespace Data.DbClient.Fluent.Select
 
         public MsSqlQueryBuilder Columns(string columnsString, bool clearExisting = false)
         {
-            return Columns(columnsString.Split(new char[','], StringSplitOptions.RemoveEmptyEntries), clearExisting);
+            return Columns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
         public MsSqlQueryBuilder GroupBy(params string[] columns)
@@ -199,13 +199,18 @@ namespace Data.DbClient.Fluent.Select
                     SortClauses.Add(new OrderClause("1"));
                 }
             }
-            var query = $"SELECT{(TopClause.Quantity > 0 ? $" TOP {TopClause.Quantity} " : " ")}{GetSelectedColumnString()}\r\nFROM [{Schema}].[{SelectedTable}]";
+            var query = $"SELECT{(TopClause.Quantity > 0 ? $" TOP {TopClause.Quantity} " : " ")}{GetSelectedColumnString()}{CompileFromSegment()}";
             return ApplyJoins(query);
         }
 
         private string GetSelectedColumnString()
         {
             return string.Join("\r\n\t,", SelectedColumns);
+        }
+
+        private string CompileFromSegment()
+        {
+            return $"\r\nFROM [{Schema}].[{SelectedTable}]";
         }
 
         private string ApplyJoins(string query)
@@ -340,8 +345,26 @@ namespace Data.DbClient.Fluent.Select
 
         private static string GetComparisonClause(FilterClause filterClause)
         {
-            var pattern = filterClause.ComparisonOperator == Comparison.In || filterClause.ComparisonOperator == Comparison.NotIn ? "{0} {1} ({2})" : "{0} {1} {2}";
-            return string.Format(pattern, filterClause.FieldName, GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null), FormatSqlValue(filterClause.Value));
+
+            if (filterClause.ComparisonOperator == Comparison.In || filterClause.ComparisonOperator == Comparison.NotIn)
+            {
+                return $"{filterClause.FieldName} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null)} ({FormatSqlValue(filterClause.Value)})";
+            }
+            else
+            {
+                return $"{filterClause.FieldName} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null)} {FormatSqlValue(filterClause.Value)}";
+            }
+
+            //string pattern;
+            //if (filterClause.ComparisonOperator == Comparison.In || filterClause.ComparisonOperator == Comparison.NotIn)
+            //{
+            //    pattern = "{0} {1} ({2})";
+            //}
+            //else
+            //{
+            //    pattern = "{0} {1} {2}";
+            //}
+            //return string.Format(pattern, filterClause.FieldName, GetComparisonOperator(filterClause.ComparisonOperator, filterClause.Value == null), FormatSqlValue(filterClause.Value));
         }
 
         private static string GetJoinType(JoinType joinType)
