@@ -17,10 +17,10 @@ namespace Data.DbClient.Fluent.Select
             //Allcolumns();
         }
 
-        //public MsSqlQueryBuilder(string schema) : this()
-        //{
-        //    Schema = schema;
-        //}
+        public MsSqlQueryBuilder(SqlLanguageType languageType = SqlLanguageType.SqlServer) : this()
+        {
+            LanguageType = languageType;
+        }
 
         #endregion Class Initialization
 
@@ -36,15 +36,25 @@ namespace Data.DbClient.Fluent.Select
         protected TopClause TopClause = new TopClause(0);
         protected LimitClause LimitClause = new LimitClause(0);
         protected OffsetClause OffsetClause = new OffsetClause(0);
+        protected SqlLanguageType LanguageType = SqlLanguageType.SqlServer;
         //protected string Schema = "dbo";
 
         #endregion Fields and Properties
 
         #region Fluent Methods
 
-        public MsSqlQueryBuilder FromTable(string table)
+        #region SELECT Fluent Methods
+
+        public MsSqlQueryBuilder SelectAllColumns()
         {
-            SelectedTable = table;
+            //SelectedColumns.Clear();
+            SelectedColumns.Add("*");
+            return this;
+        }
+
+        public MsSqlQueryBuilder Top(int quantity)
+        {
+            TopClause.Quantity = quantity;
             return this;
         }
 
@@ -68,6 +78,56 @@ namespace Data.DbClient.Fluent.Select
             return SelectColumns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
+        #endregion
+
+        #region FROM Fluent Methods
+
+        public MsSqlQueryBuilder FromTable(string table)
+        {
+            SelectedTable = table;
+            return this;
+        }
+
+        public MsSqlQueryBuilder Join(JoinClause joinClause)
+        {
+            JoinClauses.Add(joinClause);
+            return this;
+        }
+
+        public MsSqlQueryBuilder Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
+        {
+            return Join(new JoinClause(join, toTableName, toColumnName, comparisonOperator, fromTableName, fromColumnName));
+        }
+
+        #endregion
+
+        #region WHERE Fluent Methods
+
+        public MsSqlQueryBuilder Where(IWhereClause whereClause)
+        {
+            WhereClauses.Add(whereClause);
+            return this;
+        }
+
+        public MsSqlQueryBuilder Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        {
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, logicalOperatorType));
+        }
+
+        public MsSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
+        }
+
+        public MsSqlQueryBuilder WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
+        }
+
+        #endregion
+
+        #region GROUP BY Fluent Methods
+
         public MsSqlQueryBuilder GroupBy(params string[] columns)
         {
             return GroupBy(columns, false);
@@ -88,33 +148,9 @@ namespace Data.DbClient.Fluent.Select
             return GroupBy(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
 
-        public MsSqlQueryBuilder SelectAllColumns()
-        {
-            //SelectedColumns.Clear();
-            SelectedColumns.Add("*");
-            return this;
-        }
+        #endregion
 
-        public MsSqlQueryBuilder Where(IWhereClause whereClause)
-        {
-            WhereClauses.Add(whereClause);
-            return this;
-        }
-
-        public MsSqlQueryBuilder Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
-        {
-            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, logicalOperatorType));
-        }
-        
-        public MsSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
-        {
-            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
-        }
-
-        public MsSqlQueryBuilder WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
-        {
-            return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
-        }
+        #region HAVING Fluent Methods
 
         public MsSqlQueryBuilder Having(HavingClause havingClause)
         {
@@ -126,7 +162,7 @@ namespace Data.DbClient.Fluent.Select
         {
             return Having(new HavingClause(columNameOrAggregateFunction, comparisonOperator, value, logicalOperatorType));
         }
-        
+
         public MsSqlQueryBuilder HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
@@ -137,16 +173,9 @@ namespace Data.DbClient.Fluent.Select
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
 
-        public MsSqlQueryBuilder Join(JoinClause joinClause)
-        {
-            JoinClauses.Add(joinClause);
-            return this;
-        }
+        #endregion
 
-        public MsSqlQueryBuilder Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
-        {
-            return Join(new JoinClause(join, toTableName, toColumnName, comparisonOperator, fromTableName, fromColumnName));
-        }
+        #region ORDER BY Fluent Methods
 
         public MsSqlQueryBuilder OrderBy(OrderClause sortClause)
         {
@@ -159,12 +188,10 @@ namespace Data.DbClient.Fluent.Select
             return OrderBy(new OrderClause(column, sorting));
         }
 
-        public MsSqlQueryBuilder Top(int quantity)
-        {
-            TopClause.Quantity = quantity;
-            return this;
-        }
-        
+        #endregion
+
+        #region SKIP/TAKE (LIMIT/OFFSET) Fluent Methods
+
         public MsSqlQueryBuilder Take(int take)
         {
             LimitClause.Take = take;
@@ -175,7 +202,9 @@ namespace Data.DbClient.Fluent.Select
         {
             OffsetClause.Skip = skip;
             return this;
-        }
+        } 
+
+        #endregion
 
         #endregion Fluent Methods
 
@@ -188,8 +217,18 @@ namespace Data.DbClient.Fluent.Select
             query += CompileGroupBySegment();  /* Append GROUP BY */
             query += CompileHavingSegment(); /* Append HAVING */
             query += CompileOrderBySegment(); /* Append ORDER BY */
-            query += CompileOffsetSegment(); /* Append OFFSET BY (SKIP) */
-            query += CompileLimitSegment(); /* Append LIMIT BY (TAKE) */
+            /* TODO: Implement specific SQL language methods here - (JKOSH) */
+            if (LanguageType == SqlLanguageType.SqlServer)
+            {
+                query += CompileOffsetSegment(); /* Append OFFSET BY (SKIP) */
+                query += CompileLimitSegment(); /* Append LIMIT BY (TAKE) */
+            }
+            else
+            {
+                query += CompileLimitSegment(); /* Append LIMIT BY */
+                query += CompileOffsetSegment(); /* Append OFFSET BY */
+            }
+            
             return query;
         }
 
@@ -239,6 +278,7 @@ namespace Data.DbClient.Fluent.Select
         {
             return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(0, tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase)): tableName;
         }
+
         private static string GetTableAlias(string tableName)
         {
             return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) + " AS ".Length) : tableName;
@@ -307,7 +347,16 @@ namespace Data.DbClient.Fluent.Select
         /// <returns>string</returns>
         private string CompileLimitSegment()
         {
-            return $"{(LimitClause.Take > 0 ? $"\r\nFETCH NEXT {LimitClause.Take} ROWS ONLY " : "")}";
+            switch (LanguageType)
+            {
+                case SqlLanguageType.SqlServer:
+                    return $"{(LimitClause.Take > 0 ? $"\r\nFETCH NEXT {LimitClause.Take} ROWS ONLY " : "")}";
+                case SqlLanguageType.PostgreSql:
+                    return $"{(LimitClause.Take > 0 ? $" LIMIT {LimitClause.Take} " : "")}";
+                default:
+                    return $"{(LimitClause.Take > 0 ? $" LIMIT {LimitClause.Take} " : "")}";
+                    /* TODO: Implement and Test all specific language types - (JKOSH) */
+            }
         }
 
         /// <summary>
@@ -316,7 +365,16 @@ namespace Data.DbClient.Fluent.Select
         /// <returns>string</returns>
         private string CompileOffsetSegment()
         {
-            return LimitClause.Take > 0 ? $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "\r\nOFFSET 0 ROWS ")}" : $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "")}";
+            switch (LanguageType)
+            {
+                case SqlLanguageType.SqlServer:
+                    return LimitClause.Take > 0 ? $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "\r\nOFFSET 0 ROWS ")}" : $"{(OffsetClause.Skip > 0 ? $"\r\nOFFSET {OffsetClause.Skip} ROWS " : "")}";
+                case SqlLanguageType.PostgreSql:
+                    return $"{(OffsetClause.Skip > 0 ? $" OFFSET {OffsetClause.Skip} " : "")}";
+                default:
+                    return $"{(OffsetClause.Skip > 0 ? $" OFFSET {OffsetClause.Skip} " : "")}";
+                    /* TODO: Implement and Test all specific language types - (JKOSH) */
+            }
         }
 
         #endregion Build Query Methods
@@ -339,8 +397,8 @@ namespace Data.DbClient.Fluent.Select
                     return (bool)value ? "1" : "0";
 
                 case "DateTime":
-                    return $"CONVERT (DATETIME,'{((DateTime)value).ToString("yyyy-dd-MM")}')";
-
+                    //return $"CONVERT (DATETIME,'{((DateTime)value).ToString("yyyy-dd-MM HH:mm:ss")}')";
+                    return $"'{((DateTime)value).ToString("yyyy-dd-MM HH:mm:ss")}'"; // TODO: review this!!!!!
                 case "SqlLiteral":
                     // ReSharper disable once PossibleNullReferenceException
                     return (value as SqlLiteral).Expression;

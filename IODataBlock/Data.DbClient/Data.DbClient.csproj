@@ -110,6 +110,7 @@
     <Compile Include="Fluent\Enums\JoinType.cs" />
     <Compile Include="Fluent\Enums\LogicalOperatorType.cs" />
     <Compile Include="Fluent\Enums\OrderType.cs" />
+    <Compile Include="Fluent\Enums\SqlLanguageType.cs" />
     <Compile Include="Fluent\Select\Clauses.cs" />
     <Compile Include="Fluent\Select\DbSqlQueryBuilder.cs" />
     <Compile Include="Fluent\Select\IQueryBuilder.cs" />

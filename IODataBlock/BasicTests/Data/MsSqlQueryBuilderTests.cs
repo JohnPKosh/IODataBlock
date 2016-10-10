@@ -1,4 +1,5 @@
-﻿using Data.DbClient.Fluent.Select;
+﻿using System;
+using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
@@ -231,6 +232,7 @@ namespace BasicTests.Data
                 .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
                 .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
                 .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("a.[CreatedDate]", ComparisonOperatorType.GreaterThan, DateTime.Now.AddYears(-2))
                 .Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
                 .Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 0)
                 .OrderBy("LinkedInFullName", OrderType.Ascending)
