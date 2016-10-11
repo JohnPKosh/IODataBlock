@@ -251,18 +251,17 @@ namespace BasicTests.Data
         public void Create_QueryStatement_Success()
         {
             var q = new QueryStatement();
-            q.OrderByClauses = new List<OrderBy>();
-            q.OrderByClauses.Add(new OrderBy() {Column = "LinkedInFullName"});
+            q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
             q.FromTable = "[dbo].[SomeTableName]";
             q.WhereFilters = new List<Where>();
             q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
-
-
+            q.OrderByClauses = new List<OrderBy>();
+            q.OrderByClauses.Add(new OrderBy() { Column = "LinkedInFullName" });
+            q.Skip = 2;
+            q.Take = 10;
 
             JObject o = q;
             var json = o.ToString();
-
-
 
             var queryBuilder = new MsSqlQueryBuilder();
             queryBuilder.FromTable(q.FromTable);
