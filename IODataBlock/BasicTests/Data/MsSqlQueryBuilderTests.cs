@@ -3,6 +3,8 @@ using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Model;
+using Newtonsoft.Json.Linq;
 
 namespace BasicTests.Data
 {
@@ -244,6 +246,37 @@ namespace BasicTests.Data
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
+
+        [TestMethod]
+        public void Create_QueryStatement_Success()
+        {
+            var q = new QueryStatement();
+            q.OrderByClauses = new List<OrderBy>();
+            q.OrderByClauses.Add(new OrderBy() {Column = "LinkedInFullName"});
+            q.FromTable = "[dbo].[SomeTableName]";
+            q.WhereFilters = new List<Where>();
+            q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+
+
+
+            JObject o = q;
+            var json = o.ToString();
+
+
+
+            var queryBuilder = new MsSqlQueryBuilder();
+            queryBuilder.FromTable(q.FromTable);
+            foreach (var w in q.WhereFilters)
+            {
+                queryBuilder = queryBuilder.Where(w.FieldName, w.ComparisonOperator, w.Value, w.LogicalOperatorType);
+            }
+
+
+            var sql = queryBuilder.BuildQuery();
+
+            Assert.IsNotNull(sql);
+        }
+
 
     }
 }
