@@ -30,9 +30,9 @@ namespace BasicTests.Data
 
         //private const string SqlServerDatabase = @"IODataBlock.Database";
 
-        private const string SqlServer = @".\EXP14";
+        private const string SqlServer = @".\SQLEXPRESS";
 
-        private const string SqlServerDatabase = @"LERG";
+        private const string SqlServerDatabase = @"TestData";
 
         private static string SqlServerConnectionString => Database.CreateSqlConnectionString(SqlServer, SqlServerDatabase);
 
@@ -123,6 +123,47 @@ namespace BasicTests.Data
         #region SQL Server Tests
 
         [TestMethod]
+        public void QueryWithSP()
+        {
+            #region sql
+
+            var sql = @"SelectLinkedInProfileById";
+
+            #endregion sql
+
+            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, new {id = 28 }).ToList();
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                Assert.IsTrue(data.Any());
+            }
+        }
+
+        [TestMethod]
+        public void QueryWithSPMultipleParams()
+        {
+            #region sql
+
+            var sql = @"SelectLinkedInProfileByIdAndDates";
+
+            #endregion sql
+
+            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, new { id = 28, createdDateStart = DateTime.Now.AddYears(-1), createdDateEnd = DateTime.Now }).ToList();
+            if (!data.Any())
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                Assert.IsTrue(data.Any());
+            }
+        }
+
+
+        [TestMethod]
         public void TestStaticDatabaseQuery()
         {
             #region sql
@@ -159,7 +200,7 @@ ORDER BY [ORDINAL_POSITION]
 
             #endregion sql
 
-            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, "LERG%");
+            var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, 120, "L%");
             if (!data.Any())
             {
                 Assert.Fail();
@@ -204,7 +245,7 @@ ORDER BY [ORDINAL_POSITION]
 
             #endregion sql
 
-            var myparams = new List<object>() { "LERG%", "%7%" };
+            var myparams = new List<object>() { "L%", "%LinkedIn%" };
             var data = Database.Query(SqlServerConnectionString, "System.Data.SqlClient", sql, myparams);
             if (!data.Any())
             {

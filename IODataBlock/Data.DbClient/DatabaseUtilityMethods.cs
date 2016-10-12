@@ -329,6 +329,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
@@ -352,6 +353,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;

@@ -130,22 +130,64 @@ namespace Data.DbClient
         private static void AddParameters(DbCommand command, IEnumerable<object> args)
         {
             if (args == null) return;
-            var dbParameters = args.Select((o, index) =>
+            var paramList = new List<DbParameter>();
+            var i = 0;
+            foreach (var o in args)
             {
-                var dbParameter = command.CreateParameter();
-                dbParameter.ParameterName = index.ToString(CultureInfo.InvariantCulture);
-                var value = o;
-                if (o == null)
+                var isGeneric = o?.GetType().IsGenericType;
+                if (isGeneric.HasValue && isGeneric.Value)
                 {
-                    value = DBNull.Value;
+                    var props = o?.GetType().GetProperties();
+                    if (!props.Any()) continue;
+                    foreach (var propertyInfo in props)
+                    {
+                        var nm = propertyInfo.Name;
+                        var val = o?.GetType().GetProperty(nm)?.GetValue(o, null);
+                        var dbParameter = command.CreateParameter();
+                        dbParameter.ParameterName = nm;
+                        if (val == null)
+                        {
+                            val = DBNull.Value;
+                        }
+                        dbParameter.Value = val;
+                        paramList.Add(dbParameter);
+                    }
                 }
-                dbParameter.Value = value;
-                return dbParameter;
-            });
-            foreach (var dbParameter1 in dbParameters)
-            {
-                command.Parameters.Add(dbParameter1);
+                else
+                {
+                    var dbParameter = command.CreateParameter();
+                    dbParameter.ParameterName = i.ToString(CultureInfo.InvariantCulture);
+                    var value = o;
+                    if (o == null)
+                    {
+                        value = DBNull.Value;
+                    }
+                    dbParameter.Value = value;
+                    paramList.Add(dbParameter);
+                    i++;
+                }
             }
+            foreach (var p in paramList)
+            {
+                command.Parameters.Add(p);
+            }
+
+            //var dbParameters = args.Select((o, index) =>
+            //{
+            //    var dbParameter = command.CreateParameter();
+            //    dbParameter.ParameterName = index.ToString(CultureInfo.InvariantCulture);
+            //    var value = o;
+            //    if (o == null)
+            //    {
+            //        value = DBNull.Value;
+            //    }
+            //    dbParameter.Value = value;
+            //    return dbParameter;
+            //});
+            //foreach (var dbParameter1 in dbParameters)
+            //{
+            //    command.Parameters.Add(dbParameter1);
+            //}
         }
 
         public static IEnumerable<string> GetColumnNames(DbDataRecord record)
@@ -167,6 +209,18 @@ namespace Data.DbClient
         public object DbNullToNull(object input)
         {
             return Convert.DBNull.Equals(input) ? null : input;
+        }
+
+        private static CommandType InferCommandType(string commandText)
+        {
+            if (!string.IsNullOrWhiteSpace(commandText) && commandText.Trim().ToCharArray().Count(c => c == ' ') < 2)
+            {
+                return CommandType.StoredProcedure;
+            }
+            else
+            {
+                return CommandType.Text;
+            }
         }
 
         #endregion Helper Methods
@@ -244,6 +298,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0) dbCommand.CommandTimeout = commandTimeout;
             AddParameters(dbCommand, parameters);
             int num;
@@ -411,6 +466,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
@@ -477,6 +533,7 @@ namespace Data.DbClient
                     connection.Open();
                     DbCommand command = connection.CreateCommand();
                     command.CommandText = query;
+                    command.CommandType = InferCommandType(commandText);
                     DbDataReader readers = command.ExecuteReader();
                     DataTable schemaTable = readers.GetSchemaTable();
                     foreach (DataRow dataRow in schemaTable.Rows)
@@ -520,6 +577,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
@@ -548,6 +606,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
@@ -637,6 +696,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0) dbCommand.CommandTimeout = commandTimeout;
             AddParameters(dbCommand, args);
             object obj;
@@ -674,6 +734,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;
@@ -734,6 +795,7 @@ namespace Data.DbClient
             EnsureConnectionOpen();
             var dbCommand = Connection.CreateCommand();
             dbCommand.CommandText = commandText;
+            dbCommand.CommandType = InferCommandType(commandText);
             if (commandTimeout > 0)
             {
                 dbCommand.CommandTimeout = commandTimeout;

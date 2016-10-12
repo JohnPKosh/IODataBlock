@@ -128,7 +128,7 @@ namespace Data.DbClient.Extensions
                     if (da == null) return dt;
                     da.SelectCommand = conn.CreateCommand();
                     da.SelectCommand.CommandText = sqlCommand;
-
+                    da.SelectCommand.CommandType = InferCommandType(sqlCommand);
                     da.Fill(dt);
                     return dt;
                 }
@@ -153,9 +153,21 @@ namespace Data.DbClient.Extensions
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = sqlCommand;
-                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandType = InferCommandType(sqlCommand);
                     return cmd.ExecuteNonQuery();
                 }
+            }
+        }
+
+        private static CommandType InferCommandType(string commandText)
+        {
+            if (!string.IsNullOrWhiteSpace(commandText) && commandText.Trim().ToCharArray().Count(c => c == ' ') < 2)
+            {
+                return CommandType.StoredProcedure;
+            }
+            else
+            {
+                return CommandType.Text;
             }
         }
 
