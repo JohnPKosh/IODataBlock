@@ -291,7 +291,7 @@ ORDER BY [ORDINAL_POSITION]
             #endregion sql
 
             var con = new SqlConnection(SqlServerConnectionString);
-            var data = Database.Query(con, sql, 120, "LERG%");
+            var data = Database.Query(con, sql, 120, "L%");
             if (!data.Any())
             {
                 Assert.Fail();
@@ -335,7 +335,7 @@ ORDER BY [ORDINAL_POSITION]
 
             #endregion sql
 
-            var data = Database.FillSchemaDataTable(SqlServerConnectionString, "System.Data.SqlClient", sql, "data", 120, "LERG%");
+            var data = Database.FillSchemaDataTable(SqlServerConnectionString, "System.Data.SqlClient", sql, "data", 120, "L%");
             if (data == null || data.Columns == null || data.Columns.Count == 0)
             {
                 Assert.Fail();
@@ -383,7 +383,7 @@ ORDER BY [ORDINAL_POSITION]
                 #endregion sql
 
                 //var data = db.Query(sql, 120, "Data%");
-                var data = db.Query(sql, 120, "LERG%", "%7%");
+                var data = db.Query(sql, 120, "L%", "%LinkedIn%");
                 if (!data.Any())
                 {
                     Assert.Fail();
@@ -431,8 +431,8 @@ ORDER BY [ORDINAL_POSITION]
 
                 #endregion sql
 
-                var myparams = new List<object>() { "LERG%", "%7%" };
-                var data = db.Query(sql, myparams);
+                var myparams = new List<object>() { "L%", "%LinkedIn%" };
+                var data = db.Query(sql, myparams).ToList();
                 if (!data.Any())
                 {
                     Assert.Fail();
@@ -479,7 +479,7 @@ ORDER BY [ORDINAL_POSITION]
                 #endregion sql
 
                 //var data = db.QueryToJObjects(sql, 120, "Data%").ToList();
-                var data = db.QueryToJObjects(sql, 120, "LERG%").ToList();
+                var data = db.QueryToJObjects(sql, 120, "L%").ToList();
                 if (!data.Any())
                 {
                     Assert.Fail();
@@ -536,7 +536,7 @@ ORDER BY [ORDINAL_POSITION]
                 #endregion sql
 
                 //var jarr = new JArray(db.QueryToJObjects(sql, 120, "Data%"));
-                var jarr = new JArray(db.QueryToJObjects(sql, 120, "LERG%"));
+                var jarr = new JArray(db.QueryToJObjects(sql, 120, "L%"));
                 var jarrstr = jarr.ToString();
                 if (string.IsNullOrWhiteSpace(jarrstr)) Assert.Fail("no json????");
             }
