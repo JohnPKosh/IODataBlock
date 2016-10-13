@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Data.DbClient.Fluent.Model
 {
-    public class QueryStatement : ObjectBase<QueryStatement>
+    public class QueryObjectBase : ObjectBase<QueryObjectBase>, IQueryObjectBase
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> SelectColumns { get; set; }
@@ -37,27 +37,3 @@ namespace Data.DbClient.Fluent.Model
 
     }
 }
-
-
-/*
-SELECT LinkedInFullName
-	,LinkedInConnections
-	,LinkedInTitle
-	,a.LinkedInCompanyName
-	, COUNT(*) as cnt
-FROM dbo.LinkedInProfile AS a 
-LEFT OUTER JOIN dbo.LinkedInCompany as b 
-ON a.LinkedInCompanyName = b.LinkedInCompanyName
-WHERE LinkedInFullName = 'Jess Gilman' 
-AND LinkedInFullName = 'Jess Gilman' 
-AND a.[CreatedDate] > '2014-10-10 15:24:18' 
-AND a.LinkedInCompanyName = 'T3 Motion'
-GROUP BY LinkedInFullName
-	, LinkedInConnections
-	, LinkedInTitle
-	, a.LinkedInCompanyName
-HAVING COUNT(*) > 0
-ORDER BY LinkedInFullName ASC
-OFFSET 2 ROWS 
-FETCH NEXT 10 ROWS ONLY 
- */

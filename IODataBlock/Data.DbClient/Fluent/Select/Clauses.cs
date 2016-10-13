@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using Business.Common.System;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Model;
 
 namespace Data.DbClient.Fluent.Select
 {
     public interface IWhereClause
     {
+
     }
 
     public abstract class FilterClause
@@ -29,6 +32,17 @@ namespace Data.DbClient.Fluent.Select
             : base(field, compareOperator, compareValue, logicalOperatorType)
         {
         }
+
+        public static implicit operator Having(HavingClause value)
+        {
+            return new Having()
+            {
+                ColumNameOrAggregateFunction = value.FieldName,
+                ComparisonOperator = value.ComparisonOperator,
+                LogicalOperatorType = value.LogicalOperatorType,
+                Value = value.Value
+            };
+        }
     }
 
     public class WhereClause : FilterClause, IWhereClause
@@ -36,6 +50,17 @@ namespace Data.DbClient.Fluent.Select
         public WhereClause(string field, ComparisonOperatorType compareOperator, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
             : base(field, compareOperator, compareValue, logicalOperatorType)
         {
+        }
+
+        public static implicit operator Where(WhereClause value)
+        {
+            return new Where()
+            {
+                FieldName = value.FieldName,
+                ComparisonOperator = value.ComparisonOperator,
+                LogicalOperatorType = value.LogicalOperatorType,
+                Value = value.Value
+            };
         }
     }
 
@@ -69,6 +94,19 @@ namespace Data.DbClient.Fluent.Select
             ToTable = toTableName;
             ToColumn = toColumnName;
         }
+
+        public static implicit operator Join(JoinClause value)
+        {
+            return new Join()
+            {
+                Type = value.JoinType,
+                ComparisonOperator = value.ComparisonOperator,
+                FromColumn = value.FromColumn,
+                FromTable = value.FromTable,
+                ToColumn = value.ToColumn,
+                ToTable = value.ToTable
+            };
+        }
     }
 
     public class OrderClause
@@ -81,6 +119,15 @@ namespace Data.DbClient.Fluent.Select
             Column = column;
             Sorting = sorting;
         }
+
+        public static implicit operator OrderBy(OrderClause value)
+        {
+            return new OrderBy()
+            {
+                Column = value.Column,
+                SortDirection = value.Sorting
+            };
+        }
     }
 
     public class GroupByClause
@@ -91,6 +138,13 @@ namespace Data.DbClient.Fluent.Select
         {
             Column = column;
         }
+
+        // TODO: consider overriding ToString instead
+        public static implicit operator string(GroupByClause value)
+        {
+            return value.Column;
+        }
+
     }
 
     public class TopClause

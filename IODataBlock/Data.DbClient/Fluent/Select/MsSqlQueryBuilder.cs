@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Model;
 
 namespace Data.DbClient.Fluent.Select
 {
@@ -230,6 +231,26 @@ namespace Data.DbClient.Fluent.Select
             }
             
             return query;
+        }
+
+        public IQueryObjectBase GetQueryObject()
+        {
+            // TODO: make language specific implementations here?
+            var o = new QueryObjectBase
+            {
+                SelectColumns = SelectedColumns,
+                Top = TopClause.Quantity,
+                FromTable = SelectedTable,
+                Joins = JoinClauses.Select(x=> (Join)x).ToList(),
+                WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),
+                GroupBy = GroupByClauses.Select(x=>(string)x).ToList(),
+                HavingClauses = HavingClauses.Select(x => (Having)x).ToList(),
+                OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
+                Skip = OffsetClause.Skip,
+                Take = LimitClause.Take
+            };
+
+            return o;
         }
 
         #endregion IQueryBuilder Methods
