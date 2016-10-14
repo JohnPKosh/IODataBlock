@@ -304,5 +304,55 @@ namespace BasicTests.Data
             Assert.IsNotNull(sql);
         }
 
+
+        [TestMethod]
+        public void Build_QueryStatementFromObject_Success()
+        {
+            var q = new QueryObjectBase();
+            q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
+            q.FromTable = "[dbo].[SomeTableName]";
+            q.WhereFilters = new List<Where>();
+            q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+            q.OrderByClauses = new List<OrderBy>();
+            q.OrderByClauses.Add(new OrderBy() { Column = "LinkedInFullName" });
+            q.Skip = 2;
+            q.Take = 10;
+
+            var queryBuilder = new MsSqlQueryBuilder();
+            var sql = q.GetQuery(queryBuilder);
+
+
+            Assert.IsNotNull(sql);
+        }
+
+        [TestMethod]
+        public void CompareQueryBuild_Success()
+        {
+            var queryBuilder = new MsSqlQueryBuilder();
+
+            queryBuilder
+                //.SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
+                //.GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
+                .FromTable("dbo.LinkedInProfile AS a")
+                //.Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                //.WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                //.WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                //.WhereAnd("a.[CreatedDate]", ComparisonOperatorType.GreaterThan, DateTime.Now.AddYears(-2))
+                //.Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
+                //.Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 0)
+                .OrderBy("LinkedInFullName", OrderType.Ascending)
+                .Skip(2)
+                .Take(10)
+                //.Top(100)
+                ;
+
+            
+            var q = queryBuilder.GetQueryObject() as QueryObjectBase;
+            var bsql = queryBuilder.BuildQuery();
+            var sql = q.GetQuery(new MsSqlQueryBuilder());
+
+
+            Assert.AreEqual(bsql,sql);
+        }
     }
 }

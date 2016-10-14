@@ -300,7 +300,7 @@ namespace Data.DbClient.Fluent.Select
 
                 case "DateTime":
                     //return $"CONVERT (DATETIME,'{((DateTime)value).ToString("yyyy-dd-MM")}')";
-                    return $"'{((DateTime)value).ToString("yyyy-dd-MM HH:mm:ss")}'"; // TODO: review this!!!!!
+                    return $"'{((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss")}'"; // TODO: review this!!!!!
 
                 case "SqlLiteral":
                     // ReSharper disable once PossibleNullReferenceException
