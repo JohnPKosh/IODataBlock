@@ -8,7 +8,7 @@ namespace Data.DbClient.Fluent.Select
 {
     /* https://github.com/thoss/select-query-builder*/
 
-    public class DbSqlQueryBuilder : IQueryBuilder
+    public class DbSqlQueryBuilder /*: IQueryBuilder*/
     {
         #region Class Initialization
 

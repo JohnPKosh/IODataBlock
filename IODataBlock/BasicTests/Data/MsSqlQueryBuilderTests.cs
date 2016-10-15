@@ -14,7 +14,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectQueryBuilderTest()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder.FromTable("customers")
             .Join(JoinType.InnerJoin, "regions", "zip", ComparisonOperatorType.Equals, "customers", "zip")
@@ -31,7 +31,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectQueryBuilderTest2()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .FromTable("customers")
@@ -45,7 +45,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectQueryBuilderTest3()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
             .Top(100)
@@ -65,7 +65,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectWhereAnd_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
             .FromTable("[dbo].[LinkedInProfile]")
@@ -79,7 +79,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectColumnsWhereAnd_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
             .SelectColumns("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "LinkedInCompanyName")
@@ -95,7 +95,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectColumnStringWhereAnd_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
             .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
@@ -110,7 +110,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectSkipTakeTop_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]")
@@ -135,7 +135,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectSkipTakeTopJoin_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
@@ -156,7 +156,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectSkipTakeTopJoin02_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
@@ -178,7 +178,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void SelectSkipTakeTopLeftJoin_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("[LinkedInFullName],[LinkedInConnections],[LinkedInTitle],a.[LinkedInCompanyName]")
@@ -201,7 +201,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void GenericSelectSkipTakeTopLeftJoin_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName")
@@ -224,7 +224,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void GenericSelectSkipTakeTopLeftJoinOrderBy_string_IsValid()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
@@ -263,7 +263,7 @@ namespace BasicTests.Data
             JObject o = q;
             var json = o.ToString();
 
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
             queryBuilder.FromTable(q.FromTable);
             foreach (var w in q.WhereFilters)
             {
@@ -279,7 +279,7 @@ namespace BasicTests.Data
         [TestMethod]
         public void Create_QueryObject_Success()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
                 .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
@@ -318,7 +318,7 @@ namespace BasicTests.Data
             q.Skip = 2;
             q.Take = 10;
 
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
             var sql = q.GetQuery(queryBuilder);
 
 
@@ -328,28 +328,28 @@ namespace BasicTests.Data
         [TestMethod]
         public void CompareQueryBuild_Success()
         {
-            var queryBuilder = new MsSqlQueryBuilder();
+            var queryBuilder = new QueryBuilderBase();
 
             queryBuilder
-                //.SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
-                //.GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
+                .SelectColumns("LinkedInFullName,LinkedInConnections,LinkedInTitle,a.LinkedInCompanyName, COUNT(*) as cnt")
+                .GroupBy("LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName")
                 .FromTable("dbo.LinkedInProfile AS a")
-                //.Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
-                //.WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
-                //.WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
-                //.WhereAnd("a.[CreatedDate]", ComparisonOperatorType.GreaterThan, DateTime.Now.AddYears(-2))
-                //.Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
-                //.Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 0)
+                .Join(JoinType.LeftJoin, "dbo.LinkedInCompany as b", "LinkedInCompanyName", ComparisonOperatorType.Equals, "dbo.LinkedInProfile AS a", "LinkedInCompanyName")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("LinkedInFullName", ComparisonOperatorType.Equals, "Jess Gilman")
+                .WhereAnd("a.[CreatedDate]", ComparisonOperatorType.GreaterThan, DateTime.Now.AddYears(-2))
+                .Where("a.LinkedInCompanyName", ComparisonOperatorType.Equals, "T3 Motion")
+                .Having("COUNT(*)", ComparisonOperatorType.GreaterThan, 0)
                 .OrderBy("LinkedInFullName", OrderType.Ascending)
                 .Skip(2)
                 .Take(10)
-                //.Top(100)
+                .Top(100)
                 ;
 
             
-            var q = queryBuilder.GetQueryObject() as QueryObjectBase;
+            var q = queryBuilder.GetQueryObject();
             var bsql = queryBuilder.BuildQuery();
-            var sql = q.GetQuery(new MsSqlQueryBuilder());
+            var sql = q.GetQuery(new QueryBuilderBase());
 
 
             Assert.AreEqual(bsql,sql);

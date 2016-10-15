@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Data.DbClient.Fluent.Model
 {
-    public class QueryObjectBase : ObjectBase<QueryObjectBase>, IQueryObjectBase
+    public class QueryObjectBase : ObjectBase<QueryObjectBase>, IQueryObject
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> SelectColumns { get; set; }
@@ -39,7 +39,7 @@ namespace Data.DbClient.Fluent.Model
         public int? Take { get; set; }
 
         /* TODO: Update to use IQueryBuilder after refactoring - (JKOSH)  */
-        public string GetQuery(MsSqlQueryBuilder builder)
+        public string GetQuery(IQueryBuilder builder)
         {
             builder = builder.FromTable(FromTable);
             builder = SelectColumns != null ? builder.SelectColumns(SelectColumns) : builder.SelectAllColumns();

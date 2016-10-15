@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Data.DbClient.Fluent.Select;
 using Newtonsoft.Json;
 
 namespace Data.DbClient.Fluent.Model
 {
-    public interface IQueryObjectBase
+    public interface IQueryObject
     {
         List<string> SelectColumns { get; set; }
         int? Top { get; set; }
@@ -15,6 +16,7 @@ namespace Data.DbClient.Fluent.Model
         List<OrderBy> OrderByClauses { get; set; }
         int? Skip { get; set; }
         int? Take { get; set; }
+        string GetQuery(IQueryBuilder builder);
         string ToJson(bool indented = false);
         void PopulateFromJson(string value);
         void PopulateFromJson(string value, JsonSerializerSettings settings);

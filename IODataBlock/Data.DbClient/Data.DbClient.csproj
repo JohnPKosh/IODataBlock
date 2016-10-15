@@ -112,7 +112,7 @@
     <Compile Include="Fluent\Enums\OrderType.cs" />
     <Compile Include="Fluent\Enums\SqlLanguageType.cs" />
     <Compile Include="Fluent\Model\Having.cs" />
-    <Compile Include="Fluent\Model\IQueryObjectBase.cs" />
+    <Compile Include="Fluent\Model\IQueryObject.cs" />
     <Compile Include="Fluent\Model\Join.cs" />
     <Compile Include="Fluent\Model\OrderBy.cs" />
     <Compile Include="Fluent\Model\QueryObjectBase.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="Fluent\Select\Clauses.cs" />
     <Compile Include="Fluent\Select\DbSqlQueryBuilder.cs" />
     <Compile Include="Fluent\Select\IQueryBuilder.cs" />
-    <Compile Include="Fluent\Select\MsSqlQueryBuilder.cs" />
+    <Compile Include="Fluent\Select\QueryBuilderBase.cs" />
     <Compile Include="Fluent\Select\SqlLiteral.cs" />
     <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Interfaces\IConnectionConfiguration.cs" />

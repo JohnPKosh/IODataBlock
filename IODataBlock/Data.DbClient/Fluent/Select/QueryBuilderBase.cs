@@ -9,16 +9,16 @@ namespace Data.DbClient.Fluent.Select
 {
     /* https://github.com/thoss/select-query-builder*/
 
-    public class MsSqlQueryBuilder : IQueryBuilder
+    public class QueryBuilderBase : IQueryBuilder
     {
         #region Class Initialization
 
-        public MsSqlQueryBuilder()
+        public QueryBuilderBase()
         {
             //Allcolumns();
         }
 
-        public MsSqlQueryBuilder(SqlLanguageType languageType = SqlLanguageType.SqlServer) : this()
+        public QueryBuilderBase(SqlLanguageType languageType = SqlLanguageType.SqlServer) : this()
         {
             LanguageType = languageType;
         }
@@ -46,25 +46,25 @@ namespace Data.DbClient.Fluent.Select
 
         #region SELECT Fluent Methods
 
-        public MsSqlQueryBuilder SelectAllColumns()
+        public QueryBuilderBase SelectAllColumns()
         {
             //SelectedColumns.Clear();
             SelectedColumns.Add("*");
             return this;
         }
 
-        public MsSqlQueryBuilder Top(int quantity)
+        public QueryBuilderBase Top(int quantity)
         {
             TopClause.Quantity = quantity;
             return this;
         }
 
-        public MsSqlQueryBuilder SelectColumns(params string[] columns)
+        public QueryBuilderBase SelectColumns(params string[] columns)
         {
             return SelectColumns(columns, false);
         }
 
-        public MsSqlQueryBuilder SelectColumns(IEnumerable<string> columns, bool clearExisting = false)
+        public QueryBuilderBase SelectColumns(IEnumerable<string> columns, bool clearExisting = false)
         {
             if (clearExisting) SelectedColumns.Clear();
             foreach (var column in columns)
@@ -74,7 +74,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder SelectColumns(string columnsString, bool clearExisting = false)
+        public QueryBuilderBase SelectColumns(string columnsString, bool clearExisting = false)
         {
             return SelectColumns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
@@ -83,19 +83,19 @@ namespace Data.DbClient.Fluent.Select
 
         #region FROM Fluent Methods
 
-        public MsSqlQueryBuilder FromTable(string table)
+        public QueryBuilderBase FromTable(string table)
         {
             SelectedTable = table;
             return this;
         }
 
-        public MsSqlQueryBuilder Join(JoinClause joinClause)
+        public QueryBuilderBase Join(JoinClause joinClause)
         {
             JoinClauses.Add(joinClause);
             return this;
         }
 
-        public MsSqlQueryBuilder Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
+        public QueryBuilderBase Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
         {
             return Join(new JoinClause(join, toTableName, toColumnName, comparisonOperator, fromTableName, fromColumnName));
         }
@@ -104,23 +104,23 @@ namespace Data.DbClient.Fluent.Select
 
         #region WHERE Fluent Methods
 
-        public MsSqlQueryBuilder Where(IWhereClause whereClause)
+        public QueryBuilderBase Where(IWhereClause whereClause)
         {
             WhereClauses.Add(whereClause);
             return this;
         }
 
-        public MsSqlQueryBuilder Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        public QueryBuilderBase Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, logicalOperatorType));
         }
 
-        public MsSqlQueryBuilder WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public QueryBuilderBase WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public MsSqlQueryBuilder WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public QueryBuilderBase WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
@@ -129,12 +129,12 @@ namespace Data.DbClient.Fluent.Select
 
         #region GROUP BY Fluent Methods
 
-        public MsSqlQueryBuilder GroupBy(params string[] columns)
+        public QueryBuilderBase GroupBy(params string[] columns)
         {
             return GroupBy(columns, false);
         }
 
-        public MsSqlQueryBuilder GroupBy(IEnumerable<string> columns, bool clearExisting = false)
+        public QueryBuilderBase GroupBy(IEnumerable<string> columns, bool clearExisting = false)
         {
             if (clearExisting) GroupByClauses.Clear();
             foreach (var column in columns)
@@ -144,7 +144,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public MsSqlQueryBuilder GroupBy(string columnsString, bool clearExisting = false)
+        public QueryBuilderBase GroupBy(string columnsString, bool clearExisting = false)
         {
             return GroupBy(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
@@ -153,23 +153,23 @@ namespace Data.DbClient.Fluent.Select
 
         #region HAVING Fluent Methods
 
-        public MsSqlQueryBuilder Having(HavingClause havingClause)
+        public QueryBuilderBase Having(HavingClause havingClause)
         {
             HavingClauses.Add(havingClause);
             return this;
         }
 
-        public MsSqlQueryBuilder Having(string columNameOrAggregateFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        public QueryBuilderBase Having(string columNameOrAggregateFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             return Having(new HavingClause(columNameOrAggregateFunction, comparisonOperator, value, logicalOperatorType));
         }
 
-        public MsSqlQueryBuilder HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public QueryBuilderBase HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public MsSqlQueryBuilder HavingOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public QueryBuilderBase HavingOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
@@ -178,13 +178,13 @@ namespace Data.DbClient.Fluent.Select
 
         #region ORDER BY Fluent Methods
 
-        public MsSqlQueryBuilder OrderBy(OrderClause sortClause)
+        public QueryBuilderBase OrderBy(OrderClause sortClause)
         {
             SortClauses.Add(sortClause);
             return this;
         }
 
-        public MsSqlQueryBuilder OrderBy(string column, OrderType sorting = OrderType.Ascending)
+        public QueryBuilderBase OrderBy(string column, OrderType sorting = OrderType.Ascending)
         {
             return OrderBy(new OrderClause(column, sorting));
         }
@@ -193,13 +193,13 @@ namespace Data.DbClient.Fluent.Select
 
         #region SKIP/TAKE (LIMIT/OFFSET) Fluent Methods
 
-        public MsSqlQueryBuilder Take(int take)
+        public QueryBuilderBase Take(int take)
         {
             LimitClause.Take = take;
             return this;
         }
 
-        public MsSqlQueryBuilder Skip(int skip)
+        public QueryBuilderBase Skip(int skip)
         {
             OffsetClause.Skip = skip;
             return this;
@@ -233,7 +233,7 @@ namespace Data.DbClient.Fluent.Select
             return query;
         }
 
-        public IQueryObjectBase GetQueryObject()
+        public IQueryObject GetQueryObject()
         {
             // TODO: make language specific implementations here?
             var o = new QueryObjectBase
