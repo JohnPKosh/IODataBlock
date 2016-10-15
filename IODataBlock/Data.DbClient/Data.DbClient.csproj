@@ -110,12 +110,14 @@
     <Compile Include="Fluent\Enums\JoinType.cs" />
     <Compile Include="Fluent\Enums\LogicalOperatorType.cs" />
     <Compile Include="Fluent\Enums\OrderType.cs" />
+    <Compile Include="Fluent\Enums\SelectColumnType.cs" />
     <Compile Include="Fluent\Enums\SqlLanguageType.cs" />
     <Compile Include="Fluent\Model\Having.cs" />
     <Compile Include="Fluent\Model\IQueryObject.cs" />
     <Compile Include="Fluent\Model\Join.cs" />
     <Compile Include="Fluent\Model\OrderBy.cs" />
     <Compile Include="Fluent\Model\QueryObjectBase.cs" />
+    <Compile Include="Fluent\Model\SelectColumn.cs" />
     <Compile Include="Fluent\Model\Where.cs" />
     <Compile Include="Fluent\Select\Clauses.cs" />
     <Compile Include="Fluent\Select\DbSqlQueryBuilder.cs" />
