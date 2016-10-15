@@ -1,9 +1,9 @@
 ﻿using System;
-using Data.DbClient.Fluent.Select;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
 using Data.DbClient.Fluent.Model;
+using Data.DbClient.Fluent.Select;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
 namespace BasicTests.Data
@@ -61,7 +61,6 @@ namespace BasicTests.Data
             Assert.IsNotNull(sql);
         }
 
-
         [TestMethod]
         public void SelectWhereAnd_string_IsValid()
         {
@@ -90,7 +89,6 @@ namespace BasicTests.Data
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
-
 
         [TestMethod]
         public void SelectColumnStringWhereAnd_string_IsValid()
@@ -122,15 +120,12 @@ namespace BasicTests.Data
                 .Skip(2)
                 .Take(10)
                 .Top(100);
-            
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
 
         // [LinkedInFullName],[LinkedInConnections],[LinkedInTitle],[LinkedInCompanyName]
-
-
 
         [TestMethod]
         public void SelectSkipTakeTopJoin_string_IsValid()
@@ -147,7 +142,6 @@ namespace BasicTests.Data
                 .Skip(2)
                 .Take(10)
                 .Top(100);
-
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -169,7 +163,6 @@ namespace BasicTests.Data
                 .Skip(2)
                 .Take(10)
                 .Top(100);
-
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -193,7 +186,6 @@ namespace BasicTests.Data
                 .Take(10)
                 .Top(100);
 
-
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
         }
@@ -215,7 +207,6 @@ namespace BasicTests.Data
                 .Skip(2)
                 .Take(10)
                 .Top(100);
-
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -241,7 +232,6 @@ namespace BasicTests.Data
                 .Skip(2)
                 .Take(10)
                 .Top(100);
-
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);
@@ -269,7 +259,6 @@ namespace BasicTests.Data
             {
                 queryBuilder = queryBuilder.Where(w.FieldName, w.ComparisonOperator, w.Value, w.LogicalOperatorType);
             }
-
 
             var sql = queryBuilder.BuildQuery();
 
@@ -304,7 +293,6 @@ namespace BasicTests.Data
             Assert.IsNotNull(sql);
         }
 
-
         [TestMethod]
         public void Build_QueryStatementFromObject_Success()
         {
@@ -320,7 +308,6 @@ namespace BasicTests.Data
 
             var queryBuilder = new QueryBuilderBase();
             var sql = q.GetQuery(queryBuilder);
-
 
             Assert.IsNotNull(sql);
         }
@@ -346,13 +333,11 @@ namespace BasicTests.Data
                 .Top(100)
                 ;
 
-            
             var q = queryBuilder.GetQueryObject();
             var bsql = queryBuilder.BuildQuery();
             var sql = q.GetQuery(new QueryBuilderBase());
 
-
-            Assert.AreEqual(bsql,sql);
+            Assert.AreEqual(bsql, sql);
         }
     }
 }
