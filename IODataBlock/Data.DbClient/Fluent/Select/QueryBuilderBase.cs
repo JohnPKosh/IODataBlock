@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Extensions;
 using Data.DbClient.Fluent.Model;
 
 namespace Data.DbClient.Fluent.Select
@@ -32,7 +33,7 @@ namespace Data.DbClient.Fluent.Select
         protected List<string> SelectedColumns = new List<string>();
         protected List<JoinClause> JoinClauses = new List<JoinClause>();
         protected List<OrderClause> SortClauses = new List<OrderClause>();
-        protected List<GroupByClause> GroupByClauses = new List<GroupByClause>();
+        protected List<SchemaObject> GroupByClauses = new List<SchemaObject>();
         protected List<HavingClause> HavingClauses = new List<HavingClause>();
         protected TopClause TopClause = new TopClause(0);
         protected LimitClause LimitClause = new LimitClause(0);
@@ -139,7 +140,7 @@ namespace Data.DbClient.Fluent.Select
             if (clearExisting) GroupByClauses.Clear();
             foreach (var column in columns)
             {
-                GroupByClauses.Add(new GroupByClause(column));
+                GroupByClauses.Add(new SchemaObject(column, null, null, SchemaValueType.Preformatted));
             }
             return this;
         }
@@ -238,12 +239,12 @@ namespace Data.DbClient.Fluent.Select
             // TODO: make language specific implementations here?
             var o = new QueryObjectBase
             {
-                SelectColumns = SelectedColumns.Select(x=> new SelectColumn() {SelectItem = x, ColumnType = SelectColumnType.Preformatted}).ToList(),
+                SelectColumns = SelectedColumns.Select(x=> new SchemaObject() { Value = x, ValueType = SchemaValueType.Preformatted}).ToList(),
                 Top = TopClause.Quantity,
-                FromTable = SelectedTable,
+                FromTable = new SchemaObject(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
                 WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),
-                GroupBy = GroupByClauses.Select(x=>(string)x).ToList(),
+                GroupBy = GroupByClauses.Select(x=>x).ToList(),
                 HavingClauses = HavingClauses.Select(x => (Having)x).ToList(),
                 OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
                 Skip = OffsetClause.Skip,
@@ -332,7 +333,7 @@ namespace Data.DbClient.Fluent.Select
             var query = GroupByClauses.Count > 0 ? "\r\nGROUP BY " : "";
             foreach (var groupByClause in GroupByClauses)
             {
-                query += $"{groupByClause.Column}";
+                query += $"{groupByClause.AsString()}";
                 if (!groupByClause.Equals(GroupByClauses.Last()))
                 {
                     query += "\r\n\t, ";

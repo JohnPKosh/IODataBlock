@@ -14,12 +14,12 @@ namespace Data.DbClient.Fluent.Model
     public class QueryObjectBase : ObjectBase<QueryObjectBase>, IQueryObject
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<SelectColumn> SelectColumns { get; set; }
+        public List<SchemaObject> SelectColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? Top { get; set; }
 
-        public string FromTable { get; set; }
+        public SchemaObject FromTable { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<Join> Joins { get; set; }
@@ -28,7 +28,7 @@ namespace Data.DbClient.Fluent.Model
         public List<Where> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> GroupBy { get; set; }
+        public List<SchemaObject> GroupBy { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<Having> HavingClauses { get; set; }
@@ -42,24 +42,23 @@ namespace Data.DbClient.Fluent.Model
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? Take { get; set; }
 
-        /* TODO: Update to use IQueryBuilder after refactoring - (JKOSH)  */
         public string GetQuery(IQueryBuilder builder)
         {
-            builder = builder.FromTable(FromTable);
+            builder = builder.FromTable(FromTable.AsString());
             builder = SelectColumns != null ? builder.SelectColumns(GetSelectedColumnsStringList(SelectColumns)) : builder.SelectAllColumns();
             if(Top.HasValue) builder = builder.Top(Top.Value);
             if(Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable, j.ToColumn, j.ComparisonOperator, j.FromTable, j.FromColumn));
-            if(WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.FieldName, w.ComparisonOperator, w.Value, w.LogicalOperatorType));
-            if (GroupBy != null) builder = builder.GroupBy(GroupBy);
-            if(HavingClauses != null)builder = HavingClauses.Aggregate(builder, (current, h) => current.Having(h.ColumNameOrAggregateFunction, h.ComparisonOperator, h.Value, h.LogicalOperatorType));
-            if(OrderByClauses != null) builder = OrderByClauses.Aggregate(builder, (current, o) => current.OrderBy(o.Column, o.SortDirection));
+            if(WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.Value, w.LogicalOperatorType));
+            if (GroupBy != null) builder = builder.GroupBy(GroupBy.Select(x=> x.AsString()));
+            if(HavingClauses != null)builder = HavingClauses.Aggregate(builder, (current, h) => current.Having(h.ColumNameOrAggregateFunction.AsString(), h.ComparisonOperator, h.Value, h.LogicalOperatorType));
+            if(OrderByClauses != null) builder = OrderByClauses.Aggregate(builder, (current, o) => current.OrderBy(o.Column.AsString(), o.SortDirection));
             if (Skip.HasValue) builder = builder.Skip(Skip.Value);
             if (Take.HasValue) builder = builder.Take(Take.Value);
 
             return builder.BuildQuery();
         }
 
-        private static IEnumerable<string> GetSelectedColumnsStringList(IEnumerable<SelectColumn> columns, string quotedPrefix = "", string quotedSuffix = "")
+        private static IEnumerable<string> GetSelectedColumnsStringList(IEnumerable<SchemaObject> columns, string quotedPrefix = "", string quotedSuffix = "")
         {
             return columns.Select(x => x.AsString(quotedPrefix, quotedSuffix));
         }

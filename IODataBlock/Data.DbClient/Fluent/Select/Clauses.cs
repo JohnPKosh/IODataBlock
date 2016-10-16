@@ -37,7 +37,7 @@ namespace Data.DbClient.Fluent.Select
         {
             return new Having()
             {
-                ColumNameOrAggregateFunction = value.FieldName,
+                ColumNameOrAggregateFunction = new SchemaObject(value.FieldName, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 Value = value.Value
@@ -56,7 +56,7 @@ namespace Data.DbClient.Fluent.Select
         {
             return new Where()
             {
-                FieldName = value.FieldName,
+                SchemaObject = new SchemaObject(value.FieldName, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 Value = value.Value
@@ -124,7 +124,7 @@ namespace Data.DbClient.Fluent.Select
         {
             return new OrderBy()
             {
-                Column = value.Column,
+                Column = new SchemaObject(value.Column, null, null, SchemaValueType.Preformatted),
                 SortDirection = value.Sorting
             };
         }

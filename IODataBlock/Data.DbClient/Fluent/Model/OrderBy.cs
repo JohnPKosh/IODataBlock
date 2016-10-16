@@ -7,7 +7,7 @@ namespace Data.DbClient.Fluent.Model
 {
     public class OrderBy : ObjectBase<OrderBy>
     {
-        public string Column { get; set; }
+        public SchemaObject Column { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(StringEnumConverter))]

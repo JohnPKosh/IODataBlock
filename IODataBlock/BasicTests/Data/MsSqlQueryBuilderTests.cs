@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Extensions;
 using Data.DbClient.Fluent.Model;
 using Data.DbClient.Fluent.Select;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -240,21 +241,21 @@ namespace BasicTests.Data
         [TestMethod]
         public void Create_QueryStatement_Success()
         {
-            var selectColumns = new List<SelectColumn>();
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInFullName" , ColumnType = SelectColumnType.Column});
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInConnections", ColumnType = SelectColumnType.Column });
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInTitle", ColumnType = SelectColumnType.Column });
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInCompanyName", ColumnType = SelectColumnType.Column, Prefix = "a"});
+            var selectColumns = new List<SchemaObject>();
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInFullName" , ValueType = SchemaValueType.NamedObject});
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInConnections", ValueType = SchemaValueType.NamedObject });
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInTitle", ValueType = SchemaValueType.NamedObject });
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInCompanyName", ValueType = SchemaValueType.NamedObject, PrefixOrSchema = "a"});
 
 
             var q = new QueryObjectBase();
             //q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
             q.SelectColumns = selectColumns;
-            q.FromTable = "[dbo].[SomeTableName]";
+            q.FromTable = new SchemaObject("[dbo].[SomeTableName]", null, null, SchemaValueType.Preformatted);
             q.WhereFilters = new List<Where>();
-            q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
             q.OrderByClauses = new List<OrderBy>();
-            q.OrderByClauses.Add(new OrderBy() { Column = "LinkedInFullName" });
+            q.OrderByClauses.Add(new OrderBy() { Column = new SchemaObject("LinkedInFullName", null, null, SchemaValueType.Preformatted) });
             q.Skip = 2;
             q.Take = 10;
 
@@ -262,10 +263,10 @@ namespace BasicTests.Data
             var json = o.ToString();
 
             var queryBuilder = new QueryBuilderBase();
-            queryBuilder.FromTable(q.FromTable);
+            queryBuilder.FromTable(q.FromTable.AsString());
             foreach (var w in q.WhereFilters)
             {
-                queryBuilder = queryBuilder.Where(w.FieldName, w.ComparisonOperator, w.Value, w.LogicalOperatorType);
+                queryBuilder = queryBuilder.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.Value, w.LogicalOperatorType);
             }
 
             var sql = queryBuilder.BuildQuery();
@@ -304,20 +305,20 @@ namespace BasicTests.Data
         [TestMethod]
         public void Build_QueryStatementFromObject_Success()
         {
-            var selectColumns = new List<SelectColumn>();
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInFullName", ColumnType = SelectColumnType.Column });
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInConnections", ColumnType = SelectColumnType.Column });
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInTitle", ColumnType = SelectColumnType.Column });
-            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInCompanyName", ColumnType = SelectColumnType.Column, Prefix = "a" });
+            var selectColumns = new List<SchemaObject>();
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInFullName", ValueType = SchemaValueType.NamedObject });
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInConnections", ValueType = SchemaValueType.NamedObject });
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInTitle", ValueType = SchemaValueType.NamedObject });
+            selectColumns.Add(new SchemaObject() { Value = "LinkedInCompanyName", ValueType = SchemaValueType.NamedObject, PrefixOrSchema = "a" });
 
             var q = new QueryObjectBase();
             //q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
             q.SelectColumns = selectColumns;
-            q.FromTable = "[dbo].[SomeTableName]";
+            q.FromTable = new SchemaObject("[dbo].[SomeTableName]", null, null, SchemaValueType.Preformatted);
             q.WhereFilters = new List<Where>();
-            q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
             q.OrderByClauses = new List<OrderBy>();
-            q.OrderByClauses.Add(new OrderBy() { Column = "LinkedInFullName" });
+            q.OrderByClauses.Add(new OrderBy() { Column = new SchemaObject("LinkedInFullName", null, null, SchemaValueType.Preformatted) });
             q.Skip = 2;
             q.Take = 10;
 

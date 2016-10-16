@@ -10,26 +10,26 @@ using Newtonsoft.Json.Converters;
 
 namespace Data.DbClient.Fluent.Model
 {
-    public class SelectColumn : ObjectBase<SelectColumn>
+    public class SchemaObject : ObjectBase<SchemaObject>
     {
-        public SelectColumn(string selectItem = null, string prefix = null, string alias = null, SelectColumnType columnType = SelectColumnType.Column)
+        public SchemaObject(string value = null, string prefixOrSchema = null, string alias = null, SchemaValueType valueType = SchemaValueType.NamedObject)
         {
-            SelectItem = selectItem;
-            Prefix = prefix;
+            Value = value;
+            PrefixOrSchema = prefixOrSchema;
             Alias = alias;
-            ColumnType = columnType;
+            ValueType = valueType;
         }
 
-        public string SelectItem { get; set; }
+        public string Value { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Prefix { get; set; }
+        public string PrefixOrSchema { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Alias { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public SelectColumnType ColumnType { get; set; }
+        public SchemaValueType ValueType { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Data.DbClient.Fluent.Model
 {
     public class Where : ObjectBase<Where>
     {
-        public string FieldName { get; set; }
+        public SchemaObject SchemaObject { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ComparisonOperatorType ComparisonOperator { get; set; }

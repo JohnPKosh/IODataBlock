@@ -6,12 +6,12 @@ namespace Data.DbClient.Fluent.Model
 {
     public interface IQueryObject
     {
-        List<SelectColumn> SelectColumns { get; set; }
+        List<SchemaObject> SelectColumns { get; set; }
         int? Top { get; set; }
-        string FromTable { get; set; }
+        SchemaObject FromTable { get; set; }
         List<Join> Joins { get; set; }
         List<Where> WhereFilters { get; set; }
-        List<string> GroupBy { get; set; }
+        List<SchemaObject> GroupBy { get; set; }
         List<Having> HavingClauses { get; set; }
         List<OrderBy> OrderByClauses { get; set; }
         int? Skip { get; set; }

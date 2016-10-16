@@ -7,7 +7,7 @@ namespace Data.DbClient.Fluent.Model
 {
     public class Having : ObjectBase<Having>
     {
-        public string ColumNameOrAggregateFunction { get; set; }
+        public SchemaObject ColumNameOrAggregateFunction { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ComparisonOperatorType ComparisonOperator { get; set; }
