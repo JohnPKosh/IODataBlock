@@ -9,12 +9,12 @@ namespace Data.DbClient.Fluent.Model
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public JoinType Type { get; set; }
-        public string ToTable { get; set; }
-        public string ToColumn { get; set; }
+        public SchemaObject ToTable { get; set; }
+        public SchemaObject ToColumn { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ComparisonOperatorType ComparisonOperator { get; set; }
-        public string FromTable { get; set; }
-        public string FromColumn { get; set; }
+        public SchemaObject FromTable { get; set; }
+        public SchemaObject FromColumn { get; set; }
     }
 }

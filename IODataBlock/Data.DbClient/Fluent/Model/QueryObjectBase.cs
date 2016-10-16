@@ -47,7 +47,7 @@ namespace Data.DbClient.Fluent.Model
             builder = builder.FromTable(FromTable.AsString());
             builder = SelectColumns != null ? builder.SelectColumns(GetSelectedColumnsStringList(SelectColumns)) : builder.SelectAllColumns();
             if(Top.HasValue) builder = builder.Top(Top.Value);
-            if(Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable, j.ToColumn, j.ComparisonOperator, j.FromTable, j.FromColumn));
+            if(Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable.AsString(), j.ToColumn.AsString(), j.ComparisonOperator, j.FromTable.AsString(), j.FromColumn.AsString()));
             if(WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.Value, w.LogicalOperatorType));
             if (GroupBy != null) builder = builder.GroupBy(GroupBy.Select(x=> x.AsString()));
             if(HavingClauses != null)builder = HavingClauses.Aggregate(builder, (current, h) => current.Having(h.ColumNameOrAggregateFunction.AsString(), h.ComparisonOperator, h.Value, h.LogicalOperatorType));
