@@ -6,7 +6,7 @@ namespace Data.DbClient.Fluent.Model
 {
     public interface IQueryObject
     {
-        List<string> SelectColumns { get; set; }
+        List<SelectColumn> SelectColumns { get; set; }
         int? Top { get; set; }
         string FromTable { get; set; }
         List<Join> Joins { get; set; }

@@ -238,7 +238,7 @@ namespace Data.DbClient.Fluent.Select
             // TODO: make language specific implementations here?
             var o = new QueryObjectBase
             {
-                SelectColumns = SelectedColumns,
+                SelectColumns = SelectedColumns.Select(x=> new SelectColumn() {SelectItem = x, ColumnType = SelectColumnType.Preformatted}).ToList(),
                 Top = TopClause.Quantity,
                 FromTable = SelectedTable,
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),

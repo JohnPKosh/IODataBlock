@@ -240,8 +240,16 @@ namespace BasicTests.Data
         [TestMethod]
         public void Create_QueryStatement_Success()
         {
+            var selectColumns = new List<SelectColumn>();
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInFullName" , ColumnType = SelectColumnType.Column});
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInConnections", ColumnType = SelectColumnType.Column });
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInTitle", ColumnType = SelectColumnType.Column });
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInCompanyName", ColumnType = SelectColumnType.Column, Prefix = "a"});
+
+
             var q = new QueryObjectBase();
-            q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
+            //q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
+            q.SelectColumns = selectColumns;
             q.FromTable = "[dbo].[SomeTableName]";
             q.WhereFilters = new List<Where>();
             q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
@@ -296,8 +304,15 @@ namespace BasicTests.Data
         [TestMethod]
         public void Build_QueryStatementFromObject_Success()
         {
+            var selectColumns = new List<SelectColumn>();
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInFullName", ColumnType = SelectColumnType.Column });
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInConnections", ColumnType = SelectColumnType.Column });
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInTitle", ColumnType = SelectColumnType.Column });
+            selectColumns.Add(new SelectColumn() { SelectItem = "LinkedInCompanyName", ColumnType = SelectColumnType.Column, Prefix = "a" });
+
             var q = new QueryObjectBase();
-            q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
+            //q.SelectColumns = new List<string>() { "LinkedInFullName", "LinkedInConnections", "LinkedInTitle", "a.LinkedInCompanyName" };
+            q.SelectColumns = selectColumns;
             q.FromTable = "[dbo].[SomeTableName]";
             q.WhereFilters = new List<Where>();
             q.WhereFilters.Add(new Where() { FieldName = "[SomeID]", ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });

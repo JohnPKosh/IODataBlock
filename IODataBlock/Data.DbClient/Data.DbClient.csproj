@@ -112,6 +112,7 @@
     <Compile Include="Fluent\Enums\OrderType.cs" />
     <Compile Include="Fluent\Enums\SelectColumnType.cs" />
     <Compile Include="Fluent\Enums\SqlLanguageType.cs" />
+    <Compile Include="Fluent\Extensions\SelectColumnExtensions.cs" />
     <Compile Include="Fluent\Model\Having.cs" />
     <Compile Include="Fluent\Model\IQueryObject.cs" />
     <Compile Include="Fluent\Model\Join.cs" />

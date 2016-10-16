@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Business.Common.System;
+using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Extensions;
 using Data.DbClient.Fluent.Select;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
@@ -10,7 +14,7 @@ namespace Data.DbClient.Fluent.Model
     public class QueryObjectBase : ObjectBase<QueryObjectBase>, IQueryObject
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> SelectColumns { get; set; }
+        public List<SelectColumn> SelectColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? Top { get; set; }
@@ -42,7 +46,7 @@ namespace Data.DbClient.Fluent.Model
         public string GetQuery(IQueryBuilder builder)
         {
             builder = builder.FromTable(FromTable);
-            builder = SelectColumns != null ? builder.SelectColumns(SelectColumns) : builder.SelectAllColumns();
+            builder = SelectColumns != null ? builder.SelectColumns(GetSelectedColumnsStringList(SelectColumns)) : builder.SelectAllColumns();
             if(Top.HasValue) builder = builder.Top(Top.Value);
             if(Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable, j.ToColumn, j.ComparisonOperator, j.FromTable, j.FromColumn));
             if(WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.FieldName, w.ComparisonOperator, w.Value, w.LogicalOperatorType));
@@ -54,5 +58,12 @@ namespace Data.DbClient.Fluent.Model
 
             return builder.BuildQuery();
         }
+
+        private static IEnumerable<string> GetSelectedColumnsStringList(IEnumerable<SelectColumn> columns, string quotedPrefix = "", string quotedSuffix = "")
+        {
+            return columns.Select(x => x.AsString(quotedPrefix, quotedSuffix));
+        }
+
+
     }
 }

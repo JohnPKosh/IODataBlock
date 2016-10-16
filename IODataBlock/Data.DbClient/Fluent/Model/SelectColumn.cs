@@ -10,8 +10,16 @@ using Newtonsoft.Json.Converters;
 
 namespace Data.DbClient.Fluent.Model
 {
-    public class SelectColumn : ObjectBase<QueryObjectBase>
+    public class SelectColumn : ObjectBase<SelectColumn>
     {
+        public SelectColumn(string selectItem = null, string prefix = null, string alias = null, SelectColumnType columnType = SelectColumnType.Column)
+        {
+            SelectItem = selectItem;
+            Prefix = prefix;
+            Alias = alias;
+            ColumnType = columnType;
+        }
+
         public string SelectItem { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

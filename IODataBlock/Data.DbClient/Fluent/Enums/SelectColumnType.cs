@@ -13,6 +13,7 @@ namespace Data.DbClient.Fluent.Enums
     {
         Column,
         Function,
-        SubQuery
+        SubQuery,
+        Preformatted
     }
 }
