@@ -253,7 +253,7 @@ namespace BasicTests.Data
             q.SelectColumns = selectColumns;
             q.FromTable = new SchemaObject("[dbo].[SomeTableName]", null, null, SchemaValueType.Preformatted);
             q.WhereFilters = new List<Where>();
-            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, ComparisonValue = -1, LogicalOperatorType = LogicalOperatorType.Or });
             q.OrderByClauses = new List<OrderBy>();
             q.OrderByClauses.Add(new OrderBy() { Column = new SchemaObject("LinkedInFullName", null, null, SchemaValueType.Preformatted) });
             q.Skip = 2;
@@ -266,7 +266,7 @@ namespace BasicTests.Data
             queryBuilder.FromTable(q.FromTable.AsString());
             foreach (var w in q.WhereFilters)
             {
-                queryBuilder = queryBuilder.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.Value, w.LogicalOperatorType);
+                queryBuilder = queryBuilder.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.ComparisonValue, w.LogicalOperatorType);
             }
 
             var sql = queryBuilder.BuildQuery();
@@ -316,7 +316,7 @@ namespace BasicTests.Data
             q.SelectColumns = selectColumns;
             q.FromTable = new SchemaObject("[dbo].[SomeTableName]", null, null, SchemaValueType.Preformatted);
             q.WhereFilters = new List<Where>();
-            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, Value = -1, LogicalOperatorType = LogicalOperatorType.Or });
+            q.WhereFilters.Add(new Where() { SchemaObject = new SchemaObject("[SomeID]", null, null, SchemaValueType.Preformatted), ComparisonOperator = ComparisonOperatorType.GreaterThan, ComparisonValue = -1, LogicalOperatorType = LogicalOperatorType.Or });
             q.OrderByClauses = new List<OrderBy>();
             q.OrderByClauses.Add(new OrderBy() { Column = new SchemaObject("LinkedInFullName", null, null, SchemaValueType.Preformatted) });
             q.Skip = 2;

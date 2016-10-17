@@ -15,6 +15,6 @@ namespace Data.DbClient.Fluent.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public LogicalOperatorType LogicalOperatorType { get; set; }
 
-        public object Value { get; set; }
+        public object ComparisonValue { get; set; }
     }
 }

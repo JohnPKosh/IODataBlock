@@ -17,7 +17,7 @@ namespace Data.DbClient.Fluent.Select
                 SchemaObject = new SchemaObject(value.FieldName, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
-                Value = value.Value
+                ComparisonValue = value.Value
             };
         }
     }

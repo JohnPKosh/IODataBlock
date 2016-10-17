@@ -31,5 +31,10 @@ namespace Data.DbClient.Fluent.Model
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(StringEnumConverter))]
         public SchemaValueType ValueType { get; set; }
+
+        public static explicit operator SchemaObject(string value)
+        {
+            return new SchemaObject(value, null, null, SchemaValueType.Preformatted);
+        }
     }
 }
