@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Interfaces;
 
 namespace Data.DbClient.Fluent.Select
 {

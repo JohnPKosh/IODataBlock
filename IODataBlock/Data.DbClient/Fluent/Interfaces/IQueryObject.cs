@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Data.DbClient.Fluent.Model;
 using Data.DbClient.Fluent.Select;
 using Newtonsoft.Json;
 
-namespace Data.DbClient.Fluent.Model
+namespace Data.DbClient.Fluent.Interfaces
 {
     public interface IQueryObject
     {

@@ -1,4 +1,5 @@
 ﻿using Data.DbClient.Fluent.Enums;
+using Data.DbClient.Fluent.Interfaces;
 using Data.DbClient.Fluent.Model;
 
 namespace Data.DbClient.Fluent.Select

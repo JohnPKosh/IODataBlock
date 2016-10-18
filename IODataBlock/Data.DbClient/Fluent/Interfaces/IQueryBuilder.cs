@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Data.DbClient.Fluent.Enums;
-using Data.DbClient.Fluent.Model;
+using Data.DbClient.Fluent.Select;
 
-namespace Data.DbClient.Fluent.Select
+namespace Data.DbClient.Fluent.Interfaces
 {
     public interface IQueryBuilder
     {

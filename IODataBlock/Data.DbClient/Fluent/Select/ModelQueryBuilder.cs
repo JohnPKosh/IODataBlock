@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Data.DbClient.Fluent.Enums;
 using Data.DbClient.Fluent.Extensions;
 using Data.DbClient.Fluent.Interfaces;
@@ -11,16 +13,16 @@ namespace Data.DbClient.Fluent.Select
 {
     /* https://github.com/thoss/select-query-builder*/
 
-    public class QueryBuilderBase : IQueryBuilder
+    public class ModelQueryBuilder : IModelQueryBuilder
     {
         #region Class Initialization
 
-        public QueryBuilderBase()
+        public ModelQueryBuilder()
         {
             //Allcolumns();
         }
 
-        public QueryBuilderBase(SqlLanguageType languageType = SqlLanguageType.SqlServer) : this()
+        public ModelQueryBuilder(SqlLanguageType languageType = SqlLanguageType.SqlServer) : this()
         {
             LanguageType = languageType;
         }
@@ -48,25 +50,25 @@ namespace Data.DbClient.Fluent.Select
 
         #region SELECT Fluent Methods
 
-        public QueryBuilderBase SelectAllColumns()
+        public ModelQueryBuilder SelectAllColumns()
         {
             //SelectedColumns.Clear();
             SelectedColumns.Add("*");
             return this;
         }
 
-        public QueryBuilderBase Top(int quantity)
+        public ModelQueryBuilder Top(int quantity)
         {
             TopClause.Quantity = quantity;
             return this;
         }
 
-        public QueryBuilderBase SelectColumns(params string[] columns)
+        public ModelQueryBuilder SelectColumns(params string[] columns)
         {
             return SelectColumns(columns, false);
         }
 
-        public QueryBuilderBase SelectColumns(IEnumerable<string> columns, bool clearExisting = false)
+        public ModelQueryBuilder SelectColumns(IEnumerable<string> columns, bool clearExisting = false)
         {
             if (clearExisting) SelectedColumns.Clear();
             foreach (var column in columns)
@@ -76,7 +78,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public QueryBuilderBase SelectColumns(string columnsString, bool clearExisting = false)
+        public ModelQueryBuilder SelectColumns(string columnsString, bool clearExisting = false)
         {
             return SelectColumns(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
@@ -85,19 +87,19 @@ namespace Data.DbClient.Fluent.Select
 
         #region FROM Fluent Methods
 
-        public QueryBuilderBase FromTable(string table)
+        public ModelQueryBuilder FromTable(string table)
         {
             SelectedTable = table;
             return this;
         }
 
-        public QueryBuilderBase Join(JoinClause joinClause)
+        public ModelQueryBuilder Join(JoinClause joinClause)
         {
             JoinClauses.Add(joinClause);
             return this;
         }
 
-        public QueryBuilderBase Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
+        public ModelQueryBuilder Join(JoinType join, string toTableName, string toColumnName, ComparisonOperatorType comparisonOperator, string fromTableName, string fromColumnName)
         {
             return Join(new JoinClause(join, toTableName, toColumnName, comparisonOperator, fromTableName, fromColumnName));
         }
@@ -106,23 +108,23 @@ namespace Data.DbClient.Fluent.Select
 
         #region WHERE Fluent Methods
 
-        public QueryBuilderBase Where(IWhereClause whereClause)
+        public ModelQueryBuilder Where(IWhereClause whereClause)
         {
             WhereClauses.Add(whereClause);
             return this;
         }
 
-        public QueryBuilderBase Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        public ModelQueryBuilder Where(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, logicalOperatorType));
         }
 
-        public QueryBuilderBase WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public ModelQueryBuilder WhereAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public QueryBuilderBase WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public ModelQueryBuilder WhereOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
@@ -131,12 +133,12 @@ namespace Data.DbClient.Fluent.Select
 
         #region GROUP BY Fluent Methods
 
-        public QueryBuilderBase GroupBy(params string[] columns)
+        public ModelQueryBuilder GroupBy(params string[] columns)
         {
             return GroupBy(columns, false);
         }
 
-        public QueryBuilderBase GroupBy(IEnumerable<string> columns, bool clearExisting = false)
+        public ModelQueryBuilder GroupBy(IEnumerable<string> columns, bool clearExisting = false)
         {
             if (clearExisting) GroupByClauses.Clear();
             foreach (var column in columns)
@@ -146,7 +148,7 @@ namespace Data.DbClient.Fluent.Select
             return this;
         }
 
-        public QueryBuilderBase GroupBy(string columnsString, bool clearExisting = false)
+        public ModelQueryBuilder GroupBy(string columnsString, bool clearExisting = false)
         {
             return GroupBy(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), clearExisting);
         }
@@ -155,23 +157,23 @@ namespace Data.DbClient.Fluent.Select
 
         #region HAVING Fluent Methods
 
-        public QueryBuilderBase Having(HavingClause havingClause)
+        public ModelQueryBuilder Having(HavingClause havingClause)
         {
             HavingClauses.Add(havingClause);
             return this;
         }
 
-        public QueryBuilderBase Having(string columNameOrAggregateFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        public ModelQueryBuilder Having(string columNameOrAggregateFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             return Having(new HavingClause(columNameOrAggregateFunction, comparisonOperator, value, logicalOperatorType));
         }
 
-        public QueryBuilderBase HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public ModelQueryBuilder HavingAnd(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.And));
         }
 
-        public QueryBuilderBase HavingOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public ModelQueryBuilder HavingOr(string columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
         {
             return Having(new HavingClause(columNameOrScalarFunction, comparisonOperator, value, LogicalOperatorType.Or));
         }
@@ -180,13 +182,13 @@ namespace Data.DbClient.Fluent.Select
 
         #region ORDER BY Fluent Methods
 
-        public QueryBuilderBase OrderBy(OrderClause sortClause)
+        public ModelQueryBuilder OrderBy(OrderClause sortClause)
         {
             SortClauses.Add(sortClause);
             return this;
         }
 
-        public QueryBuilderBase OrderBy(string column, OrderType sorting = OrderType.Ascending)
+        public ModelQueryBuilder OrderBy(string column, OrderType sorting = OrderType.Ascending)
         {
             return OrderBy(new OrderClause(column, sorting));
         }
@@ -195,17 +197,17 @@ namespace Data.DbClient.Fluent.Select
 
         #region SKIP/TAKE (LIMIT/OFFSET) Fluent Methods
 
-        public QueryBuilderBase Take(int take)
+        public ModelQueryBuilder Take(int take)
         {
             LimitClause.Take = take;
             return this;
         }
 
-        public QueryBuilderBase Skip(int skip)
+        public ModelQueryBuilder Skip(int skip)
         {
             OffsetClause.Skip = skip;
             return this;
-        } 
+        }
 
         #endregion
 
@@ -231,7 +233,7 @@ namespace Data.DbClient.Fluent.Select
                 query += CompileLimitSegment(); /* Append LIMIT BY */
                 query += CompileOffsetSegment(); /* Append OFFSET BY */
             }
-            
+
             return query;
         }
 
@@ -240,12 +242,12 @@ namespace Data.DbClient.Fluent.Select
             // TODO: make language specific implementations here?
             var o = new QueryObjectBase
             {
-                SelectColumns = SelectedColumns.Select(x=> new SchemaObject() { Value = x, ValueType = SchemaValueType.Preformatted}).ToList(),
+                SelectColumns = SelectedColumns.Select(x => new SchemaObject() { Value = x, ValueType = SchemaValueType.Preformatted }).ToList(),
                 Top = TopClause.Quantity,
                 FromTable = new SchemaObject(SelectedTable, null, null, SchemaValueType.Preformatted),
-                Joins = JoinClauses.Select(x=> (Join)x).ToList(),
-                WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),
-                GroupBy = GroupByClauses.Select(x=>x).ToList(),
+                Joins = JoinClauses.Select(x => (Join)x).ToList(),
+                WhereFilters = WhereClauses.Select(x => (Where)(WhereClause)x).ToList(),
+                GroupBy = GroupByClauses.Select(x => x).ToList(),
                 HavingClauses = HavingClauses.Select(x => (Having)x).ToList(),
                 OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
                 Skip = OffsetClause.Skip,
@@ -288,7 +290,7 @@ namespace Data.DbClient.Fluent.Select
 
         private string ApplyJoins(string query)
         {
-            return JoinClauses.Aggregate(query, (current, joinClause) => 
+            return JoinClauses.Aggregate(query, (current, joinClause) =>
             current + $" {GetJoinType(joinClause.JoinType)} {joinClause.ToTable} \r\nON {RemoveTableSchema(GetTableAlias(joinClause.FromTable))}.{joinClause.FromColumn} {GetComparisonOperator(joinClause.ComparisonOperator)} {GetTableAlias(joinClause.ToTable)}.{joinClause.ToColumn}");
         }
 
@@ -299,7 +301,7 @@ namespace Data.DbClient.Fluent.Select
 
         private static string RemoveTableAlias(string tableName)
         {
-            return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(0, tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase)): tableName;
+            return tableName.IndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase) > 0 ? tableName.Substring(0, tableName.LastIndexOf(" AS ", StringComparison.InvariantCultureIgnoreCase)) : tableName;
         }
 
         private static string GetTableAlias(string tableName)

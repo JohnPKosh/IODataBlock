@@ -5,6 +5,7 @@ using System.Text;
 using Business.Common.System;
 using Data.DbClient.Fluent.Enums;
 using Data.DbClient.Fluent.Extensions;
+using Data.DbClient.Fluent.Interfaces;
 using Data.DbClient.Fluent.Select;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;

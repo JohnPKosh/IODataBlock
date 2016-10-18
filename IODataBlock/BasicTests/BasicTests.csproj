@@ -94,7 +94,6 @@
     <Compile Include="Data\DbClientTests.cs" />
     <Compile Include="Data\DbExtensionsTests.cs" />
     <Compile Include="Data\DbQueryBuilderTests.cs" />
-    <Compile Include="Data\DbSqlQueryBuilderTests.cs" />
     <Compile Include="Data\DnInsert.cs" />
     <Compile Include="Data\MsAccessTests.cs" />
     <Compile Include="Data\MsSqlQueryBuilderTests.cs" />
