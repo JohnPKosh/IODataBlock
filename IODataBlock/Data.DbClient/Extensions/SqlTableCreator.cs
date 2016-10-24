@@ -258,6 +258,55 @@ namespace Data.DbClient
             }
         }
 
+        public static string GetMsSqlColumnStringFromClrType(string valueType, bool nullable, int maxStringLength = -1)
+        {
+            var nullsuffix = nullable ? " NULL" : " NOT NULL";
+            var maxlen = maxStringLength < 1 ? -1 : maxStringLength;
+
+            switch (valueType)
+            {
+                case "System.String":
+                    return GetMaxTypeString("NVARCHAR", maxlen) + nullsuffix;
+
+                case "System.Decimal": // temporary
+                    return "NVARCHAR(39)" + nullsuffix;
+
+                case "System.Double":
+                    return "FLOAT" + nullsuffix;
+
+                case "System.Single":
+                    return "REAL" + nullsuffix;
+
+                case "System.Int64":
+                    return "BIGINT" + nullsuffix;
+
+                case "System.Int16":
+                    return "INT" + nullsuffix;
+
+                case "System.Int32":
+                    return "INT" + nullsuffix;
+
+                case "System.DateTime":
+                    return "DATETIME" + nullsuffix;
+
+                case "System.Boolean":
+                    return "BIT" + nullsuffix;
+
+                case "System.Byte":
+                    return "TINYINT" + nullsuffix;
+
+                case "System.Byte[]":
+                    //return GetMaxTypeString("VARBINARY", column.MaxLength);
+                    return "image" + nullsuffix;
+
+                case "System.Guid":
+                    return "UNIQUEIDENTIFIER" + nullsuffix;
+
+                default:
+                    throw new ArgumentException(valueType + " type not implemented.");
+            }
+        }
+
         public static string GetNvarcharTypeString(int columnSize = -1)
         {
             var rv = columnSize == -1 ? "MAX" : columnSize.ToString(CultureInfo.InvariantCulture);
