@@ -10,6 +10,27 @@ namespace Business.Test.Validation
     public class ValidateTn
     {
         [TestMethod]
+        public void FailValidationIfRequired()
+        {
+            var tn = new TnString(null);
+
+            // I can get a list of validation errors...
+            var erMessages = tn.GetValidationMessages();
+            Assert.IsNotNull(erMessages);
+
+            // or I can get full validation results...
+            var errors = new List<ValidationResult>();
+            if (!tn.TryValidate(errors))
+            {
+                foreach (var v in errors)
+                {
+                    Assert.IsNotNull(v);
+                }
+            }
+        }
+
+
+        [TestMethod]
         public void FailValidationIfNotEnoughDigits()
         {
             var tn = new TnString("000000000");
