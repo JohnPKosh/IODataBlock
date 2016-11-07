@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Business.Common.Extensions;
 using Data.DbClient.Fluent.Enums;
 using Data.DbClient.Fluent.Extensions;
 using Data.DbClient.Fluent.Model;
@@ -297,6 +298,7 @@ namespace BasicTests.Data
 
             QueryObjectBase qo = queryBuilder.GetQueryObject() as QueryObjectBase;
             Assert.IsNotNull(qo);
+            qo.WriteJsonToFilePath(@"E:\Junk\QueryObject.json");
 
             var sql = queryBuilder.BuildQuery();
             Assert.IsNotNull(sql);

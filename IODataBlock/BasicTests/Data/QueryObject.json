@@ -1,0 +1,129 @@
+{
+  "SelectColumns": [
+    {
+      "Value": "LinkedInFullName",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "LinkedInConnections",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "LinkedInTitle",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "a.LinkedInCompanyName",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": " COUNT(*) as cnt",
+      "ValueType": "Preformatted"
+    }
+  ],
+  "Top": 100,
+  "FromTable": {
+    "Value": "dbo.LinkedInProfile AS a",
+    "ValueType": "Preformatted"
+  },
+  "Joins": [
+    {
+      "Type": "LeftJoin",
+      "ToTable": {
+        "Value": "dbo.LinkedInCompany as b",
+        "ValueType": "Preformatted"
+      },
+      "ToColumn": {
+        "Value": "LinkedInCompanyName",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "Equals",
+      "FromTable": {
+        "Value": "dbo.LinkedInProfile AS a",
+        "ValueType": "Preformatted"
+      },
+      "FromColumn": {
+        "Value": "LinkedInCompanyName",
+        "ValueType": "Preformatted"
+      }
+    }
+  ],
+  "WhereFilters": [
+    {
+      "SchemaObject": {
+        "Value": "LinkedInFullName",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "Equals",
+      "LogicalOperatorType": "And",
+      "ComparisonValue": "Jess Gilman"
+    },
+    {
+      "SchemaObject": {
+        "Value": "LinkedInFullName",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "Equals",
+      "LogicalOperatorType": "And",
+      "ComparisonValue": "Jess Gilman"
+    },
+    {
+      "SchemaObject": {
+        "Value": "a.[CreatedDate]",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "GreaterThan",
+      "LogicalOperatorType": "And",
+      "ComparisonValue": "2014-11-03T07:18:39.3416794-05:00"
+    },
+    {
+      "SchemaObject": {
+        "Value": "a.LinkedInCompanyName",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "Equals",
+      "LogicalOperatorType": "Or",
+      "ComparisonValue": "T3 Motion"
+    }
+  ],
+  "GroupBy": [
+    {
+      "Value": "LinkedInFullName",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "LinkedInConnections",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "LinkedInTitle",
+      "ValueType": "Preformatted"
+    },
+    {
+      "Value": "a.LinkedInCompanyName",
+      "ValueType": "Preformatted"
+    }
+  ],
+  "HavingClauses": [
+    {
+      "ColumNameOrAggregateFunction": {
+        "Value": "COUNT(*)",
+        "ValueType": "Preformatted"
+      },
+      "ComparisonOperator": "GreaterThan",
+      "LogicalOperatorType": "Or",
+      "ComparisonValue": 0
+    }
+  ],
+  "OrderByClauses": [
+    {
+      "Column": {
+        "Value": "LinkedInFullName",
+        "ValueType": "Preformatted"
+      },
+      "SortDirection": "Ascending"
+    }
+  ],
+  "Skip": 2,
+  "Take": 10
+}

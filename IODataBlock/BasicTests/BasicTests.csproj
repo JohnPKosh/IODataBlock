@@ -163,6 +163,7 @@
     <None Include="Configuration\connectionStrings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Data\QueryObject.json" />
     <None Include="HttpClient\failedFullContactsTest.json" />
     <None Include="HttpClient\output\failedFullContactsTest.json" />
     <None Include="HttpClient\output\failedFullContactsTest01.json" />
