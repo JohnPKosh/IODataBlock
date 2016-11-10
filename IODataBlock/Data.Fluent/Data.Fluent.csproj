@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ISchemaObject.cs" />
     <Compile Include="Enums\ComparisonOperatorType.cs" />
     <Compile Include="Enums\JoinType.cs" />
     <Compile Include="Enums\LogicalOperatorType.cs" />
@@ -56,9 +57,15 @@
     <Compile Include="Interfaces\IWhereClause.cs" />
     <Compile Include="Model\Having.cs" />
     <Compile Include="Model\Join.cs" />
+    <Compile Include="Model\Schema\FilterColumn.cs" />
+    <Compile Include="Model\Schema\FromTable.cs" />
+    <Compile Include="Model\Schema\JoinColumn.cs" />
+    <Compile Include="Model\Schema\JoinTable.cs" />
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Base\QueryObjectBase.cs" />
-    <Compile Include="Model\SchemaObject.cs" />
+    <Compile Include="Base\SchemaObject.cs" />
+    <Compile Include="Model\Schema\OrderByColumn.cs" />
+    <Compile Include="Model\Schema\SelectColumn.cs" />
     <Compile Include="Model\Where.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Select\Filter.cs" />

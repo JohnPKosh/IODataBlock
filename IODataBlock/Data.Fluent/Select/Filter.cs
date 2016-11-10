@@ -1,4 +1,5 @@
 using Business.Common.System;
+using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
 
@@ -13,6 +14,7 @@ namespace Data.Fluent.Select
             ComparisonOperator = comparisonOperatorType;
             ComparisonValue = compareValue;
         }
+
         protected Filter(SchemaObject name, ComparisonOperatorType comparisonOperatorType, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             LogicalOperatorType = logicalOperatorType;

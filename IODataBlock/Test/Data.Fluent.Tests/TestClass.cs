@@ -1,9 +1,12 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Fluent.Base;
+using Data.Fluent.Enums;
 
 namespace Data.Fluent.Tests
 {
@@ -13,7 +16,11 @@ namespace Data.Fluent.Tests
         [Test]
         public void TestMethod()
         {
-            // TODO: Add your test code here
+            var QueryObject = new QueryObjectBase {LanguageType = SqlLanguageType.SqlServer};
+
+            var newo = QueryObject.SelectAll().From("LinkedInProfile");
+            Trace.WriteLine(newo.FromTable.Value);
+
             Assert.Pass("Your first passing test");
         }
     }

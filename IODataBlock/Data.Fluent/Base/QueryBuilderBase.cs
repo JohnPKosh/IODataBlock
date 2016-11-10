@@ -242,7 +242,7 @@ namespace Data.Fluent.Base
             var o = new QueryObjectBase
             {
                 SelectColumns = SelectedColumns.Select(x=> new SchemaObject() { Value = x, ValueType = SchemaValueType.Preformatted}).ToList(),
-                Top = TopClause.Quantity,
+                TopValue = TopClause.Quantity,
                 FromTable = new SchemaObject(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
                 WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),

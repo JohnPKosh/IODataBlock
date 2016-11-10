@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
 

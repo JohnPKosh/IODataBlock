@@ -1,11 +1,12 @@
 ﻿using Business.Common.System;
 using Data.Fluent.Enums;
+using Data.Fluent.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Data.Fluent.Model
+namespace Data.Fluent.Base
 {
-    public class SchemaObject : ObjectBase<SchemaObject>
+    public class SchemaObject : ObjectBase<SchemaObject>, ISchemaObject
     {
         public SchemaObject(string value = null, string prefixOrSchema = null, string alias = null, SchemaValueType valueType = SchemaValueType.NamedObject)
         {
