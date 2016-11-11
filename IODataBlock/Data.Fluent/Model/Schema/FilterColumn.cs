@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Common.System;
+using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Interfaces;
 using Newtonsoft.Json;
@@ -11,31 +12,13 @@ using Newtonsoft.Json.Converters;
 
 namespace Data.Fluent.Model.Schema
 {
-    public class FilterColumn : ObjectBase<FilterColumn>, ISchemaObject
+    public class FilterColumn : SchemaObject
     {
         public FilterColumn(string value = null, string prefixOrSchema = null, string alias = null, SchemaValueType valueType = SchemaValueType.NamedObject)
-        {
-            Value = value;
-            PrefixOrSchema = prefixOrSchema;
-            Alias = alias;
-            ValueType = valueType;
-        }
+            : base(value, prefixOrSchema, alias, valueType, SchemaObjectType.Column) { }
 
-        public string Value { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string PrefixOrSchema { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Alias { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public SchemaValueType ValueType { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public SchemaObjectType ObjectType { get; set; }
+        [JsonIgnore]
+        private new string Alias { get; set; }
 
         public static implicit operator FilterColumn(string value)
         {

@@ -18,7 +18,13 @@ namespace Data.Fluent.Tests
         {
             var QueryObject = new QueryObjectBase {LanguageType = SqlLanguageType.SqlServer};
 
-            var newo = QueryObject.SelectAll().From("LinkedInProfile").Join(JoinType.InnerJoin, "Ids", "Id", ComparisonOperatorType.Equals, "LinkedInProfile", "Id");
+            var newo = QueryObject
+                .SelectAll()
+                .From("LinkedInProfile")
+                .Join(JoinType.InnerJoin, "Ids", "Id", ComparisonOperatorType.Equals, "LinkedInProfile", "Id")
+                .WhereAnd("Id", ComparisonOperatorType.Equals, 12)
+               
+                ;
             Trace.WriteLine(newo.FromTable.Value);
 
             newo.SelectColumns[0].Alias = "fuck";

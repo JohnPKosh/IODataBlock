@@ -246,7 +246,7 @@ namespace Data.Fluent.Base
                 TopValue = TopClause.Quantity,
                 FromTable = new FromTable(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
-                WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),
+                WhereFilters = WhereClauses.Select(x=>(WhereFilter)(WhereClause)x).ToList(),
                 GroupBy = GroupByClauses.Select(x=>x).ToList(),
                 HavingClauses = HavingClauses.Select(x => (Having)x).ToList(),
                 OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
@@ -457,11 +457,11 @@ namespace Data.Fluent.Base
 
             if (filterClause.ComparisonOperator == ComparisonOperatorType.In || filterClause.ComparisonOperator == ComparisonOperatorType.NotIn)
             {
-                return $"{filterClause.Name} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} ({FormatSqlValue(filterClause.ComparisonValue)})";
+                return $"{filterClause.Column} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} ({FormatSqlValue(filterClause.ComparisonValue)})";
             }
             else
             {
-                return $"{filterClause.Name} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} {FormatSqlValue(filterClause.ComparisonValue)}";
+                return $"{filterClause.Column} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} {FormatSqlValue(filterClause.ComparisonValue)}";
             }
         }
 

@@ -2,6 +2,7 @@
 using Data.Fluent.Enums;
 using Data.Fluent.Interfaces;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 
 namespace Data.Fluent.Select
 {
@@ -12,11 +13,11 @@ namespace Data.Fluent.Select
         {
         }
 
-        public static implicit operator Where(WhereClause value)
+        public static implicit operator WhereFilter(WhereClause value)
         {
-            return new Where()
+            return new WhereFilter()
             {
-                SchemaObject = new SchemaObject(value.Name, null, null, SchemaValueType.Preformatted),
+                Column = new FilterColumn(value.Column, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 ComparisonValue = value.ComparisonValue

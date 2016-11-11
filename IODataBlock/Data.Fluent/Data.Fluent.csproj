@@ -67,7 +67,7 @@
     <Compile Include="Base\SchemaObject.cs" />
     <Compile Include="Model\Schema\OrderByColumn.cs" />
     <Compile Include="Model\Schema\SelectColumn.cs" />
-    <Compile Include="Model\Where.cs" />
+    <Compile Include="Model\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Select\Filter.cs" />
     <Compile Include="Select\GroupWhereClause.cs" />

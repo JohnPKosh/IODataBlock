@@ -15,7 +15,7 @@ namespace Data.Fluent.Select
         {
             return new Having()
             {
-                ColumNameOrAggregateFunction = new SchemaObject(value.Name, null, null, SchemaValueType.Preformatted),
+                ColumNameOrAggregateFunction = new SchemaObject(value.Column, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 ComparisonValue = value.ComparisonValue

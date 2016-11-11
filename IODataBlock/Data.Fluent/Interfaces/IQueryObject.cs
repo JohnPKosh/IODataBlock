@@ -27,7 +27,7 @@ namespace Data.Fluent.Interfaces
         List<Join> Joins { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        List<Where> WhereFilters { get; set; }
+        List<WhereFilter> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         List<SchemaObject> GroupBy { get; set; }
@@ -59,16 +59,23 @@ namespace Data.Fluent.Interfaces
 
         #region *** FROM Fluent Methods ***
 
-        IQueryObject From(string table, SchemaValueType valueType = SchemaValueType.Preformatted);
-
         IQueryObject From(FromTable table);
 
         #endregion
 
-        #region *** Join Methods ***
+        #region *** Join Fluent Methods ***
 
         IQueryObject Join(Join join);
         IQueryObject Join(JoinType joinType, JoinTable toTableName, JoinColumn toColumnName, ComparisonOperatorType comparisonOperator, JoinTable fromTableName, JoinColumn fromColumnName);
+
+        #endregion
+
+        #region *** Where Fluent Methods ***
+
+        IQueryObject Where(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or);
+        IQueryObject WhereAnd(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject WhereOr(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject Where(WhereFilter whereFilter);
 
         #endregion
 

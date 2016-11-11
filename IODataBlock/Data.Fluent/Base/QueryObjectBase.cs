@@ -31,7 +31,7 @@ namespace Data.Fluent.Base
         public List<Join> Joins { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<Where> WhereFilters { get; set; }
+        public List<WhereFilter> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<SchemaObject> GroupBy { get; set; }
@@ -94,10 +94,6 @@ namespace Data.Fluent.Base
 
         #region *** FROM Fluent Methods ***
 
-        public IQueryObject From(string table, SchemaValueType valueType = SchemaValueType.Preformatted)
-        {
-            return From(new FromTable() {Value = table, ValueType = valueType});
-        }
         public IQueryObject From(FromTable table)
         {
             FromTable = table;
@@ -106,7 +102,7 @@ namespace Data.Fluent.Base
 
         #endregion
 
-        #region *** Join Methods ***
+        #region *** Join Fluent Methods ***
 
         public IQueryObject Join(Join join)
         {
@@ -130,6 +126,51 @@ namespace Data.Fluent.Base
 
         #endregion
 
+        #region *** Where Fluent Methods ***
+
+        public IQueryObject Where(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value,
+            LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        {
+            return Where(new WhereFilter()
+            {
+                Column = columNameOrScalarFunction,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = logicalOperatorType
+            });
+        }
+
+        public IQueryObject WhereAnd(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Where(new WhereFilter()
+            {
+                Column = columNameOrScalarFunction,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = LogicalOperatorType.And
+            });
+        }
+
+        public IQueryObject WhereOr(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Where(new WhereFilter()
+            {
+                Column = columNameOrScalarFunction,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = LogicalOperatorType.Or
+            });
+        }
+
+        public IQueryObject Where(WhereFilter whereFilter)
+        {
+            if (WhereFilters == null) WhereFilters = new List<WhereFilter>();
+            WhereFilters.Add(whereFilter);
+            return this;
+        }
+
+        #endregion
+
         #region *** Utility Methods ***
 
         public string GetQuery(IQueryBuilder builder)
@@ -138,7 +179,7 @@ namespace Data.Fluent.Base
             builder = SelectColumns != null ? builder.SelectColumns(GetSelectedColumnsStringList(SelectColumns)) : builder.SelectAllColumns();
             if (TopValue.HasValue) builder = builder.Top(TopValue.Value);
             if (Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable.AsString(), j.ToColumn.AsString(), j.ComparisonOperator, j.FromTable.AsString(), j.FromColumn.AsString()));
-            if (WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.SchemaObject.AsString(), w.ComparisonOperator, w.ComparisonValue, w.LogicalOperatorType));
+            if (WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.Column.AsString(), w.ComparisonOperator, w.ComparisonValue, w.LogicalOperatorType));
             if (GroupBy != null) builder = builder.GroupBy(GroupBy.Select(x => x.AsString()));
             if (HavingClauses != null) builder = HavingClauses.Aggregate(builder, (current, h) => current.Having(h.ColumNameOrAggregateFunction.AsString(), h.ComparisonOperator, h.ComparisonValue, h.LogicalOperatorType));
             if (OrderByClauses != null) builder = OrderByClauses.Aggregate(builder, (current, o) => current.OrderBy(o.Column.AsString(), o.SortDirection));
