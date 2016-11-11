@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 using Newtonsoft.Json;
 
 namespace Data.Fluent.Interfaces
@@ -14,13 +15,13 @@ namespace Data.Fluent.Interfaces
         SqlLanguageType LanguageType { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        List<SchemaObject> SelectColumns { get; set; }
+        List<SelectColumn> SelectColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         int? TopValue { get; set; }
 
         [JsonProperty(Required = Required.DisallowNull)]
-        SchemaObject FromTable { get; set; }
+        FromTable FromTable { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         List<Join> Joins { get; set; }
@@ -52,16 +53,22 @@ namespace Data.Fluent.Interfaces
         IQueryObject Select(params string[] columns);
         IQueryObject Select(string columnsString, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false);
         IQueryObject Select(IEnumerable<string> columns, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false);
-        IQueryObject Select(IEnumerable<SchemaObject> columns, bool clearExisting = false);
+        IQueryObject Select(IEnumerable<SelectColumn> columns, bool clearExisting = false);
 
         #endregion
-
 
         #region *** FROM Fluent Methods ***
 
         IQueryObject From(string table, SchemaValueType valueType = SchemaValueType.Preformatted);
 
-        IQueryObject From(SchemaObject table);
+        IQueryObject From(FromTable table);
+
+        #endregion
+
+        #region *** Join Methods ***
+
+        IQueryObject Join(Join join);
+        IQueryObject Join(JoinType joinType, JoinTable toTableName, JoinColumn toColumnName, ComparisonOperatorType comparisonOperator, JoinTable fromTableName, JoinColumn fromColumnName);
 
         #endregion
 

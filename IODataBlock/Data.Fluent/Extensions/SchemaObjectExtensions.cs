@@ -2,13 +2,14 @@
 using System.Text;
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
+using Data.Fluent.Interfaces;
 using Data.Fluent.Model;
 
 namespace Data.Fluent.Extensions
 {
     public static class SchemaObjectExtensions
     {
-        public static string AsString(this SchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
+        public static string AsString(this ISchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
         {
             switch (schemaObject.ValueType)
             {
@@ -25,7 +26,7 @@ namespace Data.Fluent.Extensions
             }
         }
 
-        private static string ConvertToString(SchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
+        private static string ConvertToString(ISchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
         {
             var sb = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(schemaObject.PrefixOrSchema))
@@ -40,7 +41,7 @@ namespace Data.Fluent.Extensions
             return sb.ToString();
         }
 
-        private static string ConvertQueryOrFuntionToString(SchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
+        private static string ConvertQueryOrFuntionToString(ISchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
         {
             var sb = new StringBuilder();
             sb.Append("(");

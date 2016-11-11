@@ -33,6 +33,10 @@ namespace Data.Fluent.Model.Schema
         [JsonConverter(typeof(StringEnumConverter))]
         public SchemaValueType ValueType { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public SchemaObjectType ObjectType { get; set; }
+
         public static implicit operator FilterColumn(string value)
         {
             return new FilterColumn(value, null, null, SchemaValueType.Preformatted);

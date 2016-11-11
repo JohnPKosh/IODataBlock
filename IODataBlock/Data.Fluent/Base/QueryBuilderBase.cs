@@ -6,6 +6,7 @@ using Data.Fluent.Enums;
 using Data.Fluent.Extensions;
 using Data.Fluent.Interfaces;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 using Data.Fluent.Select;
 
 namespace Data.Fluent.Base
@@ -241,9 +242,9 @@ namespace Data.Fluent.Base
             // TODO: make language specific implementations here?
             var o = new QueryObjectBase
             {
-                SelectColumns = SelectedColumns.Select(x=> new SchemaObject() { Value = x, ValueType = SchemaValueType.Preformatted}).ToList(),
+                SelectColumns = SelectedColumns.Select(x=> new SelectColumn() { Value = x, ValueType = SchemaValueType.Preformatted}).ToList(),
                 TopValue = TopClause.Quantity,
-                FromTable = new SchemaObject(SelectedTable, null, null, SchemaValueType.Preformatted),
+                FromTable = new FromTable(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
                 WhereFilters = WhereClauses.Select(x=>(Where)(WhereClause)x).ToList(),
                 GroupBy = GroupByClauses.Select(x=>x).ToList(),

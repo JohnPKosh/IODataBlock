@@ -1,4 +1,5 @@
 ﻿using Business.Common.System;
+using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Interfaces;
 using Newtonsoft.Json;
@@ -6,27 +7,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Data.Fluent.Model.Schema
 {
-    public class JoinTable : ObjectBase<JoinTable>, ISchemaObject
+    public class JoinTable : SchemaObject
     {
         public JoinTable(string value = null, string prefixOrSchema = null, string alias = null, SchemaValueType valueType = SchemaValueType.NamedObject)
-        {
-            Value = value;
-            PrefixOrSchema = prefixOrSchema;
-            Alias = alias;
-            ValueType = valueType;
-        }
-
-        public string Value { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string PrefixOrSchema { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Alias { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public SchemaValueType ValueType { get; set; }
+        : base(value, prefixOrSchema, alias, valueType, SchemaObjectType.Table) { }
 
         public static implicit operator JoinTable(string value)
         {

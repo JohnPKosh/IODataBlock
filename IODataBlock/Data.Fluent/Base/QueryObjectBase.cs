@@ -6,6 +6,7 @@ using Data.Fluent.Enums;
 using Data.Fluent.Extensions;
 using Data.Fluent.Interfaces;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 using Newtonsoft.Json;
 
 namespace Data.Fluent.Base
@@ -18,13 +19,13 @@ namespace Data.Fluent.Base
         public SqlLanguageType LanguageType { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<SchemaObject> SelectColumns { get; set; }
+        public List<SelectColumn> SelectColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? TopValue { get; set; }
 
         [JsonProperty(Required = Required.DisallowNull)]
-        public SchemaObject FromTable { get; set; }
+        public FromTable FromTable { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<Join> Joins { get; set; }
@@ -53,8 +54,8 @@ namespace Data.Fluent.Base
 
         public IQueryObject SelectAll()
         {
-            if(SelectColumns == null)SelectColumns = new List<SchemaObject>();
-            SelectColumns.Add(new SchemaObject() {Value = "*", ValueType = SchemaValueType.Preformatted});
+            if(SelectColumns == null)SelectColumns = new List<SelectColumn>();
+            SelectColumns.Add(new SelectColumn() {Value = "*", ValueType = SchemaValueType.Preformatted});
             return this;
         }
 
@@ -76,10 +77,10 @@ namespace Data.Fluent.Base
 
         public IQueryObject Select(IEnumerable<string> columns, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false)
         {
-            return Select(columns.Select(x => new SchemaObject() {Value = x, ValueType = valueType }));
+            return Select(columns.Select(x => new SelectColumn() {Value = x, ValueType = valueType }));
         }
 
-        public IQueryObject Select(IEnumerable<SchemaObject> columns, bool clearExisting = false)
+        public IQueryObject Select(IEnumerable<SelectColumn> columns, bool clearExisting = false)
         {
             if (clearExisting) SelectColumns.Clear();
             foreach (var column in columns)
@@ -95,12 +96,36 @@ namespace Data.Fluent.Base
 
         public IQueryObject From(string table, SchemaValueType valueType = SchemaValueType.Preformatted)
         {
-            return From(new SchemaObject() {Value = table, ValueType = valueType});
+            return From(new FromTable() {Value = table, ValueType = valueType});
         }
-        public IQueryObject From(SchemaObject table)
+        public IQueryObject From(FromTable table)
         {
             FromTable = table;
             return this;
+        }
+
+        #endregion
+
+        #region *** Join Methods ***
+
+        public IQueryObject Join(Join join)
+        {
+            if (Joins == null) Joins = new List<Join>();
+            Joins.Add(join);
+            return this;
+        }
+
+        public IQueryObject Join(JoinType joinType, JoinTable toTableName, JoinColumn toColumnName, ComparisonOperatorType comparisonOperator, JoinTable fromTableName, JoinColumn fromColumnName)
+        {
+            return Join(new Join()
+            {
+                Type = joinType,
+                ToColumn = toColumnName,
+                ToTable = toTableName,
+                ComparisonOperator = comparisonOperator,
+                FromColumn = fromColumnName,
+                FromTable = fromTableName
+            });
         }
 
         #endregion

@@ -18,8 +18,10 @@ namespace Data.Fluent.Tests
         {
             var QueryObject = new QueryObjectBase {LanguageType = SqlLanguageType.SqlServer};
 
-            var newo = QueryObject.SelectAll().From("LinkedInProfile");
+            var newo = QueryObject.SelectAll().From("LinkedInProfile").Join(JoinType.InnerJoin, "Ids", "Id", ComparisonOperatorType.Equals, "LinkedInProfile", "Id");
             Trace.WriteLine(newo.FromTable.Value);
+
+            newo.SelectColumns[0].Alias = "fuck";
 
             Assert.Pass("Your first passing test");
         }

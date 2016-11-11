@@ -1,6 +1,7 @@
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 
 namespace Data.Fluent.Select
 {
@@ -29,10 +30,10 @@ namespace Data.Fluent.Select
             {
                 Type = value.JoinType,
                 ComparisonOperator = value.ComparisonOperator,
-                FromColumn = new SchemaObject(value.FromColumn, null, null, SchemaValueType.Preformatted),
-                FromTable = new SchemaObject(value.FromTable, null, null, SchemaValueType.Preformatted),
-                ToColumn = new SchemaObject(value.ToColumn, null, null, SchemaValueType.Preformatted),
-                ToTable = new SchemaObject(value.ToTable, null, null, SchemaValueType.Preformatted)
+                FromColumn = new JoinColumn(value.FromColumn, null, SchemaValueType.Preformatted),
+                FromTable = new JoinTable(value.FromTable, null, null, SchemaValueType.Preformatted),
+                ToColumn = new JoinColumn(value.ToColumn, null, SchemaValueType.Preformatted),
+                ToTable = new JoinTable(value.ToTable, null, null, SchemaValueType.Preformatted)
             };
         }
     }

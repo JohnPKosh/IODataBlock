@@ -1,6 +1,7 @@
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 
 namespace Data.Fluent.Select
 {
@@ -19,7 +20,7 @@ namespace Data.Fluent.Select
         {
             return new OrderBy()
             {
-                Column = new SchemaObject(value.Column, null, null, SchemaValueType.Preformatted),
+                Column = new OrderByColumn(value.Column, null, SchemaValueType.Preformatted),
                 SortDirection = value.Sorting
             };
         }

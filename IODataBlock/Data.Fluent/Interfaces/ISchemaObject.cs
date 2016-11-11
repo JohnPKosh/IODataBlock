@@ -18,6 +18,10 @@ namespace Data.Fluent.Interfaces
         [JsonConverter(typeof(StringEnumConverter))]
         SchemaValueType ValueType { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        SchemaObjectType ObjectType { get; set; }
+
         string ToJson(bool indented = false);
         void PopulateFromJson(string value);
         void PopulateFromJson(string value, JsonSerializerSettings settings);
