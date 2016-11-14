@@ -36,7 +36,7 @@ namespace Data.Fluent.Base
         protected List<string> SelectedColumns = new List<string>();
         protected List<JoinClause> JoinClauses = new List<JoinClause>();
         protected List<OrderClause> SortClauses = new List<OrderClause>();
-        protected List<SchemaObject> GroupByClauses = new List<SchemaObject>();
+        protected List<GroupByColumn> GroupByClauses = new List<GroupByColumn>();
         protected List<HavingClause> HavingClauses = new List<HavingClause>();
         protected TopClause TopClause = new TopClause(0);
         protected LimitClause LimitClause = new LimitClause(0);
@@ -143,7 +143,7 @@ namespace Data.Fluent.Base
             if (clearExisting) GroupByClauses.Clear();
             foreach (var column in columns)
             {
-                GroupByClauses.Add(new SchemaObject(column, null, null, SchemaValueType.Preformatted));
+                GroupByClauses.Add(new GroupByColumn(column, null, SchemaValueType.Preformatted));
             }
             return this;
         }
@@ -247,11 +247,11 @@ namespace Data.Fluent.Base
                 FromTable = new FromTable(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
                 WhereFilters = WhereClauses.Select(x=>(WhereFilter)(WhereClause)x).ToList(),
-                GroupBy = GroupByClauses.Select(x=>x).ToList(),
-                HavingClauses = HavingClauses.Select(x => (Having)x).ToList(),
+                GroupByColumns = GroupByClauses.Select(x=>x).ToList(),
+                HavingFilters = HavingClauses.Select(x => (HavingFilter)x).ToList(),
                 OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
-                Skip = OffsetClause.Skip,
-                Take = LimitClause.Take
+                SkipValue = OffsetClause.Skip,
+                TakeValue = LimitClause.Take
             };
 
             return o;

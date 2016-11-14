@@ -1,7 +1,5 @@
 using Business.Common.System;
-using Data.Fluent.Base;
 using Data.Fluent.Enums;
-using Data.Fluent.Model;
 using Data.Fluent.Model.Schema;
 
 namespace Data.Fluent.Select

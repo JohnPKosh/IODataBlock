@@ -1,6 +1,7 @@
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
+using Data.Fluent.Model.Schema;
 
 namespace Data.Fluent.Select
 {
@@ -11,11 +12,11 @@ namespace Data.Fluent.Select
         {
         }
 
-        public static implicit operator Having(HavingClause value)
+        public static implicit operator HavingFilter(HavingClause value)
         {
-            return new Having()
+            return new HavingFilter()
             {
-                ColumNameOrAggregateFunction = new SchemaObject(value.Column, null, null, SchemaValueType.Preformatted),
+                Column = new FilterColumn(value.Column, null, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 ComparisonValue = value.ComparisonValue

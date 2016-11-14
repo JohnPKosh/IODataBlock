@@ -1,14 +1,15 @@
 ﻿using Business.Common.System;
 using Data.Fluent.Base;
 using Data.Fluent.Enums;
+using Data.Fluent.Model.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Data.Fluent.Model
 {
-    public class Having : ObjectBase<Having>
+    public class HavingFilter : ObjectBase<HavingFilter>
     {
-        public SchemaObject ColumNameOrAggregateFunction { get; set; }
+        public FilterColumn Column { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ComparisonOperatorType ComparisonOperator { get; set; }

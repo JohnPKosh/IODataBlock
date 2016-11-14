@@ -1,5 +1,4 @@
 ﻿using Business.Common.System;
-using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model.Schema;
 using Newtonsoft.Json;

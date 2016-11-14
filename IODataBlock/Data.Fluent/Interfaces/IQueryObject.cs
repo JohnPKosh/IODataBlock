@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Data.Fluent.Base;
 using Data.Fluent.Enums;
 using Data.Fluent.Model;
 using Data.Fluent.Model.Schema;
@@ -30,19 +29,19 @@ namespace Data.Fluent.Interfaces
         List<WhereFilter> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        List<SchemaObject> GroupBy { get; set; }
+        List<GroupByColumn> GroupByColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        List<Having> HavingClauses { get; set; }
+        List<HavingFilter> HavingFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         List<OrderBy> OrderByClauses { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        int? Skip { get; set; }
+        int? SkipValue { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        int? Take { get; set; }
+        int? TakeValue { get; set; }
 
         #endregion
 
@@ -72,10 +71,35 @@ namespace Data.Fluent.Interfaces
 
         #region *** Where Fluent Methods ***
 
-        IQueryObject Where(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or);
-        IQueryObject WhereAnd(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value);
-        IQueryObject WhereOr(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject Where(FilterColumn column, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or);
+        IQueryObject WhereAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject WhereOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
         IQueryObject Where(WhereFilter whereFilter);
+
+        #endregion
+
+        #region *** GroupBy Fluent Methods ***
+
+        IQueryObject GroupBy(params string[] columns);
+        IQueryObject GroupBy(string columnsString, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false);
+        IQueryObject GroupBy(IEnumerable<string> columns, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false);
+        IQueryObject GroupBy(IEnumerable<GroupByColumn> columns, bool clearExisting = false);
+
+        #endregion
+
+        #region *** Having Fluent Methods ***
+
+        IQueryObject Having(FilterColumn column, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or);
+        IQueryObject HavingAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject HavingOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
+        IQueryObject Having(HavingFilter havingFilter);
+
+        #endregion
+
+        #region *** SKIP/TAKE (LIMIT/OFFSET) Fluent Methods ***
+
+        IQueryObject Take(int take);
+        IQueryObject Skip(int skip);
 
         #endregion
 

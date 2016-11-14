@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Common.System;
-using Data.Fluent.Base;
+﻿using Data.Fluent.Base;
 using Data.Fluent.Enums;
-using Data.Fluent.Interfaces;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Data.Fluent.Model.Schema
 {

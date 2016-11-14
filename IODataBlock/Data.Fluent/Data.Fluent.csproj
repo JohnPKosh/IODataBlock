@@ -56,10 +56,11 @@
     <Compile Include="Interfaces\IQueryBuilder.cs" />
     <Compile Include="Interfaces\IQueryObject.cs" />
     <Compile Include="Interfaces\IWhereClause.cs" />
-    <Compile Include="Model\Having.cs" />
+    <Compile Include="Model\HavingFilter.cs" />
     <Compile Include="Model\Join.cs" />
     <Compile Include="Model\Schema\FilterColumn.cs" />
     <Compile Include="Model\Schema\FromTable.cs" />
+    <Compile Include="Model\Schema\GroupByColumn.cs" />
     <Compile Include="Model\Schema\JoinColumn.cs" />
     <Compile Include="Model\Schema\JoinTable.cs" />
     <Compile Include="Model\OrderBy.cs" />

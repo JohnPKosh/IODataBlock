@@ -34,19 +34,19 @@ namespace Data.Fluent.Base
         public List<WhereFilter> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<SchemaObject> GroupBy { get; set; }
+        public List<GroupByColumn> GroupByColumns { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<Having> HavingClauses { get; set; }
+        public List<HavingFilter> HavingFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<OrderBy> OrderByClauses { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int? Skip { get; set; }
+        public int? SkipValue { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int? Take { get; set; }
+        public int? TakeValue { get; set; }
 
         #endregion
 
@@ -128,34 +128,34 @@ namespace Data.Fluent.Base
 
         #region *** Where Fluent Methods ***
 
-        public IQueryObject Where(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value,
+        public IQueryObject Where(FilterColumn column, ComparisonOperatorType comparisonOperator, object value,
             LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {
             return Where(new WhereFilter()
             {
-                Column = columNameOrScalarFunction,
+                Column = column,
                 ComparisonOperator = comparisonOperator,
                 ComparisonValue = value,
                 LogicalOperatorType = logicalOperatorType
             });
         }
 
-        public IQueryObject WhereAnd(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public IQueryObject WhereAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereFilter()
             {
-                Column = columNameOrScalarFunction,
+                Column = column,
                 ComparisonOperator = comparisonOperator,
                 ComparisonValue = value,
                 LogicalOperatorType = LogicalOperatorType.And
             });
         }
 
-        public IQueryObject WhereOr(FilterColumn columNameOrScalarFunction, ComparisonOperatorType comparisonOperator, object value)
+        public IQueryObject WhereOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value)
         {
             return Where(new WhereFilter()
             {
-                Column = columNameOrScalarFunction,
+                Column = column,
                 ComparisonOperator = comparisonOperator,
                 ComparisonValue = value,
                 LogicalOperatorType = LogicalOperatorType.Or
@@ -171,6 +171,97 @@ namespace Data.Fluent.Base
 
         #endregion
 
+        #region *** Group By Fluent Methods ***
+
+        public IQueryObject GroupBy(params string[] columns)
+        {
+            return GroupBy(columns, SchemaValueType.Preformatted, false);
+        }
+
+        public IQueryObject GroupBy(string columnsString, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false)
+        {
+            return GroupBy(columnsString.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries), valueType, clearExisting);
+        }
+
+        public IQueryObject GroupBy(IEnumerable<string> columns, SchemaValueType valueType = SchemaValueType.Preformatted, bool clearExisting = false)
+        {
+            return GroupBy(columns.Select(x => new GroupByColumn() { Value = x, ValueType = valueType }));
+        }
+
+        public IQueryObject GroupBy(IEnumerable<GroupByColumn> columns, bool clearExisting = false)
+        {
+            if (clearExisting) GroupByColumns.Clear();
+            foreach (var column in columns)
+            {
+                GroupByColumns.Add(column);
+            }
+            return this;
+        }
+
+        #endregion
+
+        #region *** Having Fluent Methods ***
+
+        public IQueryObject Having(FilterColumn column, ComparisonOperatorType comparisonOperator, object value, 
+            LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
+        {
+            return Having(new HavingFilter()
+            {
+                Column = column,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = logicalOperatorType
+            });
+        }
+
+        public IQueryObject HavingAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Having(new HavingFilter()
+            {
+                Column = column,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = LogicalOperatorType.And
+            });
+        }
+
+        public IQueryObject HavingOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value)
+        {
+            return Having(new HavingFilter()
+            {
+                Column = column,
+                ComparisonOperator = comparisonOperator,
+                ComparisonValue = value,
+                LogicalOperatorType = LogicalOperatorType.Or
+            });
+        }
+
+        public IQueryObject Having(HavingFilter havingFilter)
+        {
+            if (HavingFilters == null) HavingFilters = new List<HavingFilter>();
+            HavingFilters.Add(havingFilter);
+            return this;
+        }
+
+        #endregion
+
+
+        #region *** SKIP/TAKE (LIMIT/OFFSET) Fluent Methods ***
+
+        public IQueryObject Take(int take)
+        {
+            TakeValue = take;
+            return this;
+        }
+
+        public IQueryObject Skip(int skip)
+        {
+            SkipValue = skip;
+            return this;
+        }
+
+        #endregion
+
         #region *** Utility Methods ***
 
         public string GetQuery(IQueryBuilder builder)
@@ -180,11 +271,11 @@ namespace Data.Fluent.Base
             if (TopValue.HasValue) builder = builder.Top(TopValue.Value);
             if (Joins != null) builder = Joins.Aggregate(builder, (current, j) => current.Join(j.Type, j.ToTable.AsString(), j.ToColumn.AsString(), j.ComparisonOperator, j.FromTable.AsString(), j.FromColumn.AsString()));
             if (WhereFilters != null) builder = WhereFilters.Aggregate(builder, (current, w) => current.Where(w.Column.AsString(), w.ComparisonOperator, w.ComparisonValue, w.LogicalOperatorType));
-            if (GroupBy != null) builder = builder.GroupBy(GroupBy.Select(x => x.AsString()));
-            if (HavingClauses != null) builder = HavingClauses.Aggregate(builder, (current, h) => current.Having(h.ColumNameOrAggregateFunction.AsString(), h.ComparisonOperator, h.ComparisonValue, h.LogicalOperatorType));
+            if (GroupByColumns != null) builder = builder.GroupBy(GroupByColumns.Select(x => x.AsString()));
+            if (HavingFilters != null) builder = HavingFilters.Aggregate(builder, (current, h) => current.Having(h.Column.AsString(), h.ComparisonOperator, h.ComparisonValue, h.LogicalOperatorType));
             if (OrderByClauses != null) builder = OrderByClauses.Aggregate(builder, (current, o) => current.OrderBy(o.Column.AsString(), o.SortDirection));
-            if (Skip.HasValue) builder = builder.Skip(Skip.Value);
-            if (Take.HasValue) builder = builder.Take(Take.Value);
+            if (SkipValue.HasValue) builder = builder.Skip(SkipValue.Value);
+            if (TakeValue.HasValue) builder = builder.Take(TakeValue.Value);
 
             return builder.BuildQuery();
         }

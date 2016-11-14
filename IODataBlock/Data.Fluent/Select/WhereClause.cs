@@ -1,5 +1,4 @@
-﻿using Data.Fluent.Base;
-using Data.Fluent.Enums;
+﻿using Data.Fluent.Enums;
 using Data.Fluent.Interfaces;
 using Data.Fluent.Model;
 using Data.Fluent.Model.Schema;
