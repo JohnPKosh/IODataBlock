@@ -31,5 +31,32 @@ namespace Data.Fluent.Tests
 
             Assert.Pass("Your first passing test");
         }
+
+        [Test]
+        public void SimpleQuery()
+        {
+            var QueryObject = new QueryObjectBase { LanguageType = SqlLanguageType.SqlServer };
+
+            var newo = QueryObject
+                .SelectAll()
+                .From("LinkedInProfile")
+                .Join(JoinType.InnerJoin, "Ids", "Id", ComparisonOperatorType.Equals, "LinkedInProfile", "Id")
+                .WhereAnd("Id", ComparisonOperatorType.Equals, 12)
+
+                ;
+
+            var sql = newo.BuildQuery();
+            Assert.IsNotNull(sql);
+
+            Assert.Pass("Your first passing test");
+
+            /*
+                SELECT Data.Fluent.Model.Schema.SelectColumn
+                FROM Data.Fluent.Model.Schema.FromTable 
+                INNER JOIN Data.Fluent.Model.Schema.JoinTable 
+                ON LinkedInProfile.Data.Fluent.Model.Schema.JoinColumn = Ids.Data.Fluent.Model.Schema.JoinColumn
+                WHERE Data.Fluent.Model.Schema.FilterColumn = 12
+             */
+        }
     }
 }

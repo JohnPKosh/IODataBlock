@@ -26,7 +26,7 @@ namespace Data.Fluent.Interfaces
         List<Join> Joins { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        List<WhereFilter> WhereFilters { get; set; }
+        List<IWhereFilter> WhereFilters { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         List<GroupByColumn> GroupByColumns { get; set; }
@@ -105,7 +105,8 @@ namespace Data.Fluent.Interfaces
 
         #region *** Utility Methods ***
 
-        string GetQuery(IQueryBuilder builder);
+        //string GetQuery(IQueryBuilder builder);
+        string BuildQuery();
 
         string ToJson(bool indented = false);
 

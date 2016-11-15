@@ -56,6 +56,9 @@
     <Compile Include="Interfaces\IQueryBuilder.cs" />
     <Compile Include="Interfaces\IQueryObject.cs" />
     <Compile Include="Interfaces\IWhereClause.cs" />
+    <Compile Include="Interfaces\IWhereFilter.cs" />
+    <Compile Include="Model\FilterBase.cs" />
+    <Compile Include="Model\GroupWhereFilter.cs" />
     <Compile Include="Model\HavingFilter.cs" />
     <Compile Include="Model\Join.cs" />
     <Compile Include="Model\Schema\FilterColumn.cs" />

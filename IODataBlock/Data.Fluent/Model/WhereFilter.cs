@@ -1,21 +1,33 @@
 ﻿using Business.Common.System;
 using Data.Fluent.Enums;
+using Data.Fluent.Interfaces;
 using Data.Fluent.Model.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Data.Fluent.Model
 {
-    public class WhereFilter : ObjectBase<WhereFilter>
+    public class WhereFilter : FilterBase, IWhereFilter
     {
-        public FilterColumn Column { get; set; }
+        public WhereFilter() { }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ComparisonOperatorType ComparisonOperator { get; set; }
+        public WhereFilter(FilterColumn column, ComparisonOperatorType comparisonOperatorType, object compareValue, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or) : base(column, comparisonOperatorType, compareValue, logicalOperatorType)
+        {
+            LogicalOperatorType = logicalOperatorType;
+            Column = column;
+            ComparisonOperator = comparisonOperatorType;
+            ComparisonValue = compareValue;
+        }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public LogicalOperatorType LogicalOperatorType { get; set; }
+        //public FilterColumn Column { get; set; }
 
-        public object ComparisonValue { get; set; }
+        //[JsonConverter(typeof(StringEnumConverter))]
+        //public ComparisonOperatorType ComparisonOperator { get; set; }
+
+        //[JsonConverter(typeof(StringEnumConverter))]
+        //public LogicalOperatorType LogicalOperatorType { get; set; }
+
+        //public object ComparisonValue { get; set; }
+
     }
 }

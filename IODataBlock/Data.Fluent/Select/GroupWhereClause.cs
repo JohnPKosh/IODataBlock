@@ -4,7 +4,7 @@ using Data.Fluent.Interfaces;
 
 namespace Data.Fluent.Select
 {
-    public class GroupWhereClause : IWhereClause
+    public class GroupWhereClause : IWhereFilter
     {
         public GroupWhereClause(List<WhereClause> whereClauses, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or)
         {

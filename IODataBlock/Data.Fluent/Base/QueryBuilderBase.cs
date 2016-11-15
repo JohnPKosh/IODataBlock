@@ -246,7 +246,7 @@ namespace Data.Fluent.Base
                 TopValue = TopClause.Quantity,
                 FromTable = new FromTable(SelectedTable, null, null, SchemaValueType.Preformatted),
                 Joins = JoinClauses.Select(x=> (Join)x).ToList(),
-                WhereFilters = WhereClauses.Select(x=>(WhereFilter)(WhereClause)x).ToList(),
+                WhereFilters = WhereClauses.Select(x=>(IWhereFilter)(WhereClause)x).ToList(),
                 GroupByColumns = GroupByClauses.Select(x=>x).ToList(),
                 HavingFilters = HavingClauses.Select(x => (HavingFilter)x).ToList(),
                 OrderByClauses = SortClauses.Select(x => (OrderBy)x).ToList(),
