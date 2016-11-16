@@ -6,15 +6,15 @@ namespace Data.Fluent.Model.Schema
 {
     public class FilterColumn : SchemaObject
     {
-        public FilterColumn(string value = null, string prefixOrSchema = null, string alias = null, SchemaValueType valueType = SchemaValueType.NamedObject)
-            : base(value, prefixOrSchema, alias, valueType, SchemaObjectType.Column) { }
+        public FilterColumn(string value = null, string prefixOrSchema = null, SchemaValueType valueType = SchemaValueType.NamedObject)
+            : base(value, prefixOrSchema, null, valueType, SchemaObjectType.Column) { }
 
         [JsonIgnore]
         private new string Alias { get; set; }
 
         public static implicit operator FilterColumn(string value)
         {
-            return new FilterColumn(value, null, null, SchemaValueType.Preformatted);
+            return new FilterColumn(value, null, SchemaValueType.Preformatted);
         }
 
         public static implicit operator string(FilterColumn value)

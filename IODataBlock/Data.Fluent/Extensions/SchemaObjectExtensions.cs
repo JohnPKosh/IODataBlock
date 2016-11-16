@@ -7,6 +7,23 @@ namespace Data.Fluent.Extensions
 {
     public static class SchemaObjectExtensions
     {
+        public static string AsString(this ISchemaObject schemaObject, SqlLanguageType languageType, bool quotedIdentifiers = true)
+        {
+            switch (languageType)
+            {
+                case SqlLanguageType.SqlServer:
+                    return quotedIdentifiers ? schemaObject.AsString("[", "]") : schemaObject.AsString();
+                case SqlLanguageType.Oracle:
+                    return quotedIdentifiers ? schemaObject.AsString("\"", "\"") : schemaObject.AsString();
+                case SqlLanguageType.PostgreSql:
+                    return quotedIdentifiers ? schemaObject.AsString("\"", "\"") : schemaObject.AsString();
+                case SqlLanguageType.MySql:
+                    return quotedIdentifiers ? schemaObject.AsString("`", "`") : schemaObject.AsString();
+                default:
+                    return quotedIdentifiers ? schemaObject.AsString("\"", "\"") : schemaObject.AsString();
+            }
+        }
+
         public static string AsString(this ISchemaObject schemaObject, string quotedPrefix = "", string quotedSuffix = "")
         {
             switch (schemaObject.ValueType)
@@ -32,6 +49,13 @@ namespace Data.Fluent.Extensions
                 sb.Append(ApplyQuotePrefixAndSuffix(schemaObject.PrefixOrSchema, quotedPrefix, quotedSuffix));
                 sb.Append(".");
             }
+
+            if (schemaObject.Value == "*")
+            {
+                sb.Append(schemaObject.Value);
+                return sb.ToString();
+            }
+
             sb.Append(ApplyQuotePrefixAndSuffix(schemaObject.Value, quotedPrefix, quotedSuffix));
             if (string.IsNullOrWhiteSpace(schemaObject.Alias)) return sb.ToString();
             sb.Append(" AS ");
@@ -65,7 +89,5 @@ namespace Data.Fluent.Extensions
             if (!value.EndsWith(quotedSuffix)) value = $"{value}{quotedSuffix}";
             return value;
         }
-
-
     }
 }

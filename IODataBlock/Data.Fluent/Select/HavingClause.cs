@@ -16,7 +16,7 @@ namespace Data.Fluent.Select
         {
             return new HavingFilter()
             {
-                Column = new FilterColumn(value.Column, null, null, SchemaValueType.Preformatted),
+                Column = new FilterColumn(value.Column, null, SchemaValueType.Preformatted),
                 ComparisonOperator = value.ComparisonOperator,
                 LogicalOperatorType = value.LogicalOperatorType,
                 ComparisonValue = value.ComparisonValue

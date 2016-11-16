@@ -74,7 +74,7 @@ namespace Data.Fluent.Interfaces
         IQueryObject Where(FilterColumn column, ComparisonOperatorType comparisonOperator, object value, LogicalOperatorType logicalOperatorType = LogicalOperatorType.Or);
         IQueryObject WhereAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
         IQueryObject WhereOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
-        IQueryObject Where(WhereFilter whereFilter);
+        IQueryObject Where(IWhereFilter whereFilter);
 
         #endregion
 
@@ -93,6 +93,14 @@ namespace Data.Fluent.Interfaces
         IQueryObject HavingAnd(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
         IQueryObject HavingOr(FilterColumn column, ComparisonOperatorType comparisonOperator, object value);
         IQueryObject Having(HavingFilter havingFilter);
+
+        #endregion
+
+
+        #region *** Order By Fluent Methods ***
+
+        IQueryObject OrderBy(OrderBy orderBy);
+        IQueryObject OrderBy(string column, OrderType sortDirection = OrderType.Ascending, string prefixOrSchema = null, SchemaValueType valueType = SchemaValueType.NamedObject);
 
         #endregion
 

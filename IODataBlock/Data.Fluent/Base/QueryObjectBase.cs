@@ -68,7 +68,7 @@ namespace Data.Fluent.Base
         public IQueryObject SelectAll()
         {
             if(SelectColumns == null)SelectColumns = new List<SelectColumn>();
-            SelectColumns.Add(new SelectColumn() {Value = "*", ValueType = SchemaValueType.Preformatted});
+            SelectColumns.Add(new SelectColumn() {Value = "*", ValueType = SchemaValueType.NamedObject});
             return this;
         }
 
@@ -175,7 +175,7 @@ namespace Data.Fluent.Base
             });
         }
 
-        public IQueryObject Where(WhereFilter whereFilter)
+        public IQueryObject Where(IWhereFilter whereFilter)
         {
             if (WhereFilters == null) WhereFilters = new List<IWhereFilter>();
             WhereFilters.Add(whereFilter);
@@ -254,6 +254,22 @@ namespace Data.Fluent.Base
             if (HavingFilters == null) HavingFilters = new List<HavingFilter>();
             HavingFilters.Add(havingFilter);
             return this;
+        }
+
+        #endregion
+
+        #region *** Order By Fluent Methods ***
+
+        public IQueryObject OrderBy(OrderBy orderBy)
+        {
+            OrderByClauses.Add(orderBy);
+            return this;
+        }
+
+        public IQueryObject OrderBy(string column, OrderType sortDirection = OrderType.Ascending, string prefixOrSchema = null,
+            SchemaValueType valueType = SchemaValueType.NamedObject)
+        {
+            return OrderBy(new OrderBy(column, sortDirection, prefixOrSchema, valueType));
         }
 
         #endregion
@@ -343,7 +359,7 @@ namespace Data.Fluent.Base
                 TopValue = 0;
                 if (!OrderByClauses.Any())
                 {
-                    OrderByClauses.Add(new OrderBy("1"));
+                    OrderByClauses.Add(new OrderBy("1", valueType:SchemaValueType.Preformatted));
                 }
             }
             var query = $"SELECT{(TopValue.HasValue && TopValue.Value > 0 ? $" TOP {TopValue.Value} " : " ")}{GetSelectedColumnString()}{CompileFromSegment()}";
@@ -352,18 +368,18 @@ namespace Data.Fluent.Base
 
         private string GetSelectedColumnString()
         {
-            return string.Join("\r\n\t,", SelectColumns);
+            return string.Join("\r\n\t,", SelectColumns.Select(x=>x.AsString(LanguageType)));
         }
 
         private string CompileFromSegment()
         {
-            return $"\r\nFROM {FromTable}";
+            return $"\r\nFROM {FromTable.AsString(LanguageType)}";
         }
 
         private string ApplyJoins(string query)
         {
             return Joins.Aggregate(query, (current, joinClause) =>
-            current + $" {GetJoinType(joinClause.Type)} {joinClause.ToTable} \r\nON {RemoveTableSchema(GetTableAlias(joinClause.FromTable))}.{joinClause.FromColumn} {GetComparisonOperator(joinClause.ComparisonOperator)} {GetTableAlias(joinClause.ToTable)}.{joinClause.ToColumn}");
+            current + $" {GetJoinType(joinClause.Type)} {joinClause.ToTable.AsString(LanguageType)} \r\nON {RemoveTableSchema(GetTableAlias(joinClause.FromTable.AsString(LanguageType)))}.{joinClause.FromColumn.AsString(LanguageType)} {GetComparisonOperator(joinClause.ComparisonOperator)} {GetTableAlias(joinClause.ToTable.AsString(LanguageType))}.{joinClause.ToColumn.AsString(LanguageType)}");
         }
 
         private static string RemoveTableSchema(string tableName)
@@ -409,7 +425,7 @@ namespace Data.Fluent.Base
             if (GroupByColumns == null) return query;
             foreach (var groupByClause in GroupByColumns)
             {
-                query += $"{groupByClause.AsString()}";
+                query += $"{groupByClause.AsString(LanguageType)}";
                 if (!groupByClause.Equals(GroupByColumns.Last()))
                 {
                     query += "\r\n\t, ";
@@ -432,7 +448,7 @@ namespace Data.Fluent.Base
             /* TODO: Fix the logic here for correct formatting - (JKOSH)  */
             foreach (var sortClause in OrderByClauses)
             {
-                query += $"{sortClause.Column} {GetSortingType(sortClause.SortDirection)}";
+                query += $"{sortClause.Column.AsString(LanguageType)} {GetSortingType(sortClause.SortDirection)}";
                 if (!sortClause.Equals(OrderByClauses.Last()))
                 {
                     query += ", ";
@@ -491,6 +507,7 @@ namespace Data.Fluent.Base
             switch (value.GetType().Name)
             {
                 case "String":
+                    if (StringValueIsAggregate((string) value)) return (string) value;
                     return "'" + ((string)value).Replace("'", "''") + "'";
 
                 case "Boolean":
@@ -512,7 +529,24 @@ namespace Data.Fluent.Base
             }
         }
 
-        private static string GetFilterStatement<T>(List<T> filterClauses, bool ignoreCheckLastClause = false)
+        private static bool StringValueIsAggregate(string value)
+        {
+            return value.ToUpper().StartsWith("AVG(") ||
+                   value.ToUpper().StartsWith("MIN(") ||
+                   value.ToUpper().StartsWith("CHECKSUM_AGG(") ||
+                   value.ToUpper().StartsWith("SUM(") ||
+                   value.ToUpper().StartsWith("COUNT(") ||
+                   value.ToUpper().StartsWith("STDEV(") ||
+                   value.ToUpper().StartsWith("COUNT_BIG(") ||
+                   value.ToUpper().StartsWith("STDEVP(") ||
+                   value.ToUpper().StartsWith("GROUPING(") ||
+                   value.ToUpper().StartsWith("VAR(") ||
+                   value.ToUpper().StartsWith("GROUPING_ID(") ||
+                   value.ToUpper().StartsWith("VARP(") ||
+                   value.ToUpper().StartsWith("MAX(");
+        }
+
+        private string GetFilterStatement<T>(List<T> filterClauses, bool ignoreCheckLastClause = false)
             where T : FilterBase
         {
             var output = "";
@@ -527,16 +561,16 @@ namespace Data.Fluent.Base
             return output;
         }
 
-        private static string GetComparisonClause(FilterBase filterClause)
+        private string GetComparisonClause(FilterBase filterClause)
         {
 
             if (filterClause.ComparisonOperator == ComparisonOperatorType.In || filterClause.ComparisonOperator == ComparisonOperatorType.NotIn)
             {
-                return $"{filterClause.Column} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} ({FormatSqlValue(filterClause.ComparisonValue)})";
+                return $"{filterClause.Column.AsString(LanguageType)} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} ({FormatSqlValue(filterClause.ComparisonValue)})";
             }
             else
             {
-                return $"{filterClause.Column} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} {FormatSqlValue(filterClause.ComparisonValue)}";
+                return $"{filterClause.Column.AsString(LanguageType)} {GetComparisonOperator(filterClause.ComparisonOperator, filterClause.ComparisonValue == null)} {FormatSqlValue(filterClause.ComparisonValue)}";
             }
         }
 
